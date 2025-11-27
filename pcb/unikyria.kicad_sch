@@ -1653,254 +1653,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Jumper:SolderJumper_3_Open"
-			(pin_names
-				(offset 0)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom no)
-			(on_board yes)
-			(property "Reference" "JP"
-				(at -2.54 -2.54 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "SolderJumper_3_Open"
-				(at 0 2.794 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "~"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" "Solder Jumper, 3-pole, open"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_keywords" "Solder Jumper SPDT"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "ki_fp_filters" "SolderJumper*Open*"
-				(at 0 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "SolderJumper_3_Open_0_1"
-				(polyline
-					(pts
-						(xy -2.54 0) (xy -2.032 0)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.016 1.016) (xy -1.016 -1.016)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(arc
-					(start -1.016 -1.016)
-					(mid -2.0276 0)
-					(end -1.016 1.016)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(arc
-					(start -1.016 -1.016)
-					(mid -2.0276 0)
-					(end -1.016 1.016)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(rectangle
-					(start -0.508 1.016)
-					(end 0.508 -1.016)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 -1.27) (xy 0 -1.016)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(arc
-					(start 1.016 1.016)
-					(mid 2.0276 0)
-					(end 1.016 -1.016)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(arc
-					(start 1.016 1.016)
-					(mid 2.0276 0)
-					(end 1.016 -1.016)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(polyline
-					(pts
-						(xy 1.016 1.016) (xy 1.016 -1.016)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 2.54 0) (xy 2.032 0)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "SolderJumper_3_Open_1_1"
-				(pin passive line
-					(at -5.08 0 0)
-					(length 2.54)
-					(name "A"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -3.81 90)
-					(length 2.54)
-					(name "C"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 5.08 0 180)
-					(length 2.54)
-					(name "B"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "Switch:SW_Push"
 			(pin_numbers
 				(hide yes)
@@ -3050,6 +2802,24 @@
 		)
 	)
 	(junction
+		(at 77.47 152.4)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "07abe47f-88a8-418e-8741-0ffea2807de5")
+	)
+	(junction
+		(at 139.7 160.02)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "081c5e59-984a-4412-847d-c4c378aba92a")
+	)
+	(junction
+		(at 142.24 133.35)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "08c72689-85df-4616-a7af-8d7a36c07672")
+	)
+	(junction
 		(at 142.24 140.97)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3068,10 +2838,40 @@
 		(uuid "2c7649d9-300e-48fb-b833-4748673d6c8c")
 	)
 	(junction
+		(at 77.47 100.33)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2cc360a5-bda4-4342-84d9-09d8c19e0c65")
+	)
+	(junction
+		(at 184.15 140.97)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2f2339a7-403d-4a3f-90fc-7685c18944cf")
+	)
+	(junction
+		(at 120.65 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "3ada6e6f-64a2-4257-9cfc-b30391a92064")
+	)
+	(junction
+		(at 77.47 160.02)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "50c1239a-484f-4b15-9f8b-0ad7e6048b7d")
+	)
+	(junction
 		(at 157.48 113.03)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "54b56bb5-5e3b-489d-a561-48af31d18583")
+	)
+	(junction
+		(at 118.11 120.65)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "56ef3691-f909-4c4e-9ac0-ce6efdf96f06")
 	)
 	(junction
 		(at 99.06 160.02)
@@ -3086,16 +2886,70 @@
 		(uuid "596648fb-2dd1-46b5-b350-4f1573a7bcd5")
 	)
 	(junction
+		(at 118.11 160.02)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5d465ecf-9264-4bf3-a77e-b847422f67cc")
+	)
+	(junction
+		(at 139.7 120.65)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5e9b4e05-16ac-4ef0-b806-07ffbd542a29")
+	)
+	(junction
+		(at 118.11 140.97)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5f5614b4-63c8-4ac7-b0a4-57d0528ee6f1")
+	)
+	(junction
+		(at 142.24 113.03)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "60280f44-cabc-487f-bf8a-e158a50b4c71")
+	)
+	(junction
+		(at 77.47 133.35)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "61553fba-648c-478b-9df6-77ba18a2bf48")
+	)
+	(junction
+		(at 162.56 140.97)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "621e4ec5-76c1-441e-ad64-7ca0a3268b45")
+	)
+	(junction
 		(at 92.71 113.03)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "661e5ea1-2478-4e39-bd32-83e630ceb38b")
 	)
 	(junction
+		(at 165.1 113.03)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "66da26fe-a287-4451-b991-33f0a8392d08")
+	)
+	(junction
 		(at 157.48 133.35)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "67b947d6-9943-4352-a49e-81034ca44ebd")
+	)
+	(junction
+		(at 96.52 160.02)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "683309b8-caff-4b2c-8982-28a447635c1a")
+	)
+	(junction
+		(at 165.1 152.4)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "68763192-8659-4b0f-b13e-1f484656c649")
 	)
 	(junction
 		(at 180.34 113.03)
@@ -3108,6 +2962,18 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "6d4f0c13-9c3f-435d-8f03-7bd85adfcb7b")
+	)
+	(junction
+		(at 96.52 140.97)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6eb15722-b827-4568-84d4-78737b0afbff")
+	)
+	(junction
+		(at 165.1 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "718fa12e-b3c0-4b80-bdf6-5c81118a8bcb")
 	)
 	(junction
 		(at 120.65 120.65)
@@ -3134,6 +3000,12 @@
 		(uuid "7fbef918-30a9-485f-9cca-81a078172087")
 	)
 	(junction
+		(at 184.15 160.02)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8531c4f5-29d3-4304-b5c0-af8e8c08887d")
+	)
+	(junction
 		(at 92.71 133.35)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3158,10 +3030,28 @@
 		(uuid "9283e383-f7d6-4ede-a2df-0d21ae25d8a4")
 	)
 	(junction
+		(at 120.65 152.4)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "95bbf786-b8a1-4ddc-99dd-1bc3b21d9ba8")
+	)
+	(junction
 		(at 120.65 160.02)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "95d8cd72-7472-4c7f-8145-abed1517278b")
+	)
+	(junction
+		(at 99.06 152.4)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "96f5f995-facf-4f4b-ad55-160694bae66a")
+	)
+	(junction
+		(at 77.47 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9b44950f-e723-446d-afce-8b22f8c83ac0")
 	)
 	(junction
 		(at 120.65 140.97)
@@ -3170,10 +3060,88 @@
 		(uuid "9cea75c8-83bc-40f6-ac9a-ea15f9ce3834")
 	)
 	(junction
+		(at 120.65 133.35)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9ffe37a4-c21d-426d-9994-c5d6e94a7231")
+	)
+	(junction
+		(at 96.52 100.33)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a0389291-1959-4bf8-abb3-f6c463f20bbd")
+	)
+	(junction
+		(at 99.06 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a4a6247d-7d8f-42ce-bb42-2e47376e0673")
+	)
+	(junction
+		(at 77.47 140.97)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a500fa58-c4de-41e0-ad76-8c0f8156e375")
+	)
+	(junction
+		(at 99.06 133.35)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a64f4509-be47-4322-afbb-b1075068cc68")
+	)
+	(junction
+		(at 142.24 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a8f903d7-aeee-4e12-a057-86c0b7e946cf")
+	)
+	(junction
+		(at 77.47 113.03)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "acab005b-db12-48de-ae13-f8a6d3a325f7")
+	)
+	(junction
 		(at 99.06 120.65)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "aec33cf6-611b-4ebd-b1a9-9b002e61f9d7")
+	)
+	(junction
+		(at 162.56 100.33)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b49801f6-0bec-4c01-88e8-88e8b898c6f4")
+	)
+	(junction
+		(at 184.15 100.33)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "bca9b209-76c2-49bd-a3fb-ff98fb2a79bd")
+	)
+	(junction
+		(at 139.7 100.33)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "be04bd03-7c38-420b-8f89-72166a75918c")
+	)
+	(junction
+		(at 96.52 120.65)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "beb2bb2a-b021-44d1-9f33-bd173037f424")
+	)
+	(junction
+		(at 162.56 120.65)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "bf5b462a-e8d6-40e5-bab5-c1bbfffdd48c")
+	)
+	(junction
+		(at 186.69 133.35)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c480ed0f-a53f-4f5f-9631-49db5af24976")
 	)
 	(junction
 		(at 114.3 113.03)
@@ -3182,10 +3150,52 @@
 		(uuid "cbadaafd-d0e8-4745-8c45-cf0b9e3b02e0")
 	)
 	(junction
+		(at 77.47 120.65)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "cda750fe-2887-4ee1-a2f6-79a1eb38fb9f")
+	)
+	(junction
+		(at 139.7 140.97)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "cf6ea9cf-f416-423d-b588-c9add71ae0a6")
+	)
+	(junction
 		(at 114.3 133.35)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "d25a522f-244e-4100-af81-53817ecab140")
+	)
+	(junction
+		(at 118.11 100.33)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "dab7d0b9-c183-4c55-8179-4c6df2e82fbf")
+	)
+	(junction
+		(at 99.06 113.03)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "dcb60624-7a29-4209-8b00-6d363171233d")
+	)
+	(junction
+		(at 165.1 133.35)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ddc3bf62-74ab-48ab-ad8e-e5d31a6fb06e")
+	)
+	(junction
+		(at 186.69 113.03)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ddd3d773-63b1-4e5d-989c-3e78ba652e98")
+	)
+	(junction
+		(at 184.15 120.65)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "de4eee56-cce3-4117-b51c-497c7106740a")
 	)
 	(junction
 		(at 99.06 100.33)
@@ -3200,6 +3210,12 @@
 		(uuid "e0af9d0a-83ca-4cf9-913a-e3f46db3fb68")
 	)
 	(junction
+		(at 162.56 160.02)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e33425cc-3406-4e10-9422-1cbcb12965eb")
+	)
+	(junction
 		(at 165.1 140.97)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3212,6 +3228,30 @@
 		(uuid "e841eabe-68ba-4559-ad92-260f592776d6")
 	)
 	(junction
+		(at 142.24 152.4)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "ec755cda-ca25-44bd-8f99-31ff35459534")
+	)
+	(junction
+		(at 186.69 152.4)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "eda2ce6a-29e3-46dd-8e83-20347b67c880")
+	)
+	(junction
+		(at 120.65 113.03)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "edca2ebb-52c5-462f-a5a0-da562fc35aef")
+	)
+	(junction
+		(at 186.69 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "f5f1557b-5f4e-4576-b3eb-524cb0b07588")
+	)
+	(junction
 		(at 135.89 113.03)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3222,7 +3262,7 @@
 		(uuid "1ebda769-beef-477d-84ec-9bc5a13bb4d2")
 	)
 	(no_connect
-		(at 102.87 19.05)
+		(at 106.68 58.42)
 		(uuid "588d609d-4bba-4b68-bc26-be0a6cd2a3a5")
 	)
 	(no_connect
@@ -3230,15 +3270,15 @@
 		(uuid "687b5320-b323-41ca-8d92-561937d3ba63")
 	)
 	(no_connect
-		(at 125.73 54.61)
+		(at 142.24 35.56)
 		(uuid "6d976998-c5c3-4bf3-8dab-42bde7cc2e8e")
 	)
 	(no_connect
-		(at 105.41 19.05)
+		(at 106.68 55.88)
 		(uuid "73754adb-6f5d-41e5-a4e5-cc87e4249e6a")
 	)
 	(no_connect
-		(at 107.95 54.61)
+		(at 142.24 53.34)
 		(uuid "7c6c52f1-a244-462a-a25e-48dd518eb8cd")
 	)
 	(no_connect
@@ -3250,48 +3290,138 @@
 		(uuid "81d79035-03fa-4d14-8888-8a80bf4adff8")
 	)
 	(no_connect
-		(at 128.27 19.05)
+		(at 106.68 33.02)
 		(uuid "8289c498-06bb-40a6-9cf9-c868597eacdd")
 	)
 	(no_connect
-		(at 110.49 54.61)
+		(at 142.24 50.8)
 		(uuid "9eab2363-fb4c-4318-afc7-d2fe9468403d")
 	)
 	(no_connect
-		(at 105.41 54.61)
+		(at 142.24 55.88)
 		(uuid "aab46eb8-8232-4bef-afd9-90de454a4333")
 	)
 	(no_connect
-		(at 107.95 19.05)
+		(at 106.68 53.34)
 		(uuid "b5eb62e3-105e-4bc3-9fe8-dec3a8bdc169")
 	)
 	(no_connect
-		(at 128.27 54.61)
+		(at 142.24 33.02)
 		(uuid "b8450b75-ef90-4ce0-a70a-0dd7135a42e0")
 	)
 	(no_connect
-		(at 102.87 54.61)
+		(at 142.24 58.42)
 		(uuid "bc843b5e-d380-4680-b8a2-78177f20f896")
 	)
 	(wire
 		(pts
-			(xy 208.28 30.48) (xy 210.82 30.48)
+			(xy 96.52 160.02) (xy 99.06 160.02)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "068a20bc-eb26-490f-93ec-3d667dba0a1e")
+		(uuid "021edcdd-fe2f-4669-9416-5a62a712459d")
 	)
 	(wire
 		(pts
-			(xy 210.82 40.64) (xy 220.98 40.64)
+			(xy 74.93 133.35) (xy 77.47 133.35)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "15f84aeb-f574-496e-8ed9-031f366a8a60")
+		(uuid "03dbdfd1-cf36-44df-a2b0-52c2735a96f4")
+	)
+	(wire
+		(pts
+			(xy 139.7 120.65) (xy 142.24 120.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0459e0a7-1145-4bfd-a56d-65e900373c81")
+	)
+	(wire
+		(pts
+			(xy 96.52 133.35) (xy 99.06 133.35)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "090ce90e-bf0b-47cf-b328-fbbc45331406")
+	)
+	(wire
+		(pts
+			(xy 118.11 152.4) (xy 120.65 152.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "09ff84c8-30c7-4434-a106-1d805ed7ca87")
+	)
+	(wire
+		(pts
+			(xy 139.7 113.03) (xy 142.24 113.03)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0e267c77-b88b-4e1b-acfa-db666711a9c5")
+	)
+	(wire
+		(pts
+			(xy 162.56 92.71) (xy 165.1 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0ee5e4d9-dd2a-473f-836d-05a50e4ab831")
+	)
+	(wire
+		(pts
+			(xy 184.15 160.02) (xy 186.69 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "18f1b65b-b3b4-4936-9944-9f61cafd1639")
+	)
+	(wire
+		(pts
+			(xy 184.15 133.35) (xy 186.69 133.35)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "198065f1-f717-422a-8360-cdf45d53658d")
+	)
+	(wire
+		(pts
+			(xy 139.7 133.35) (xy 142.24 133.35)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1a1cf18b-cbf9-42fe-8e3c-362bb229e950")
+	)
+	(wire
+		(pts
+			(xy 74.93 160.02) (xy 77.47 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1acac91e-924f-4166-9edf-71d34fd3efd4")
 	)
 	(wire
 		(pts
@@ -3305,17 +3435,47 @@
 	)
 	(wire
 		(pts
-			(xy 143.51 19.05) (xy 143.51 16.51)
+			(xy 139.7 100.33) (xy 142.24 100.33)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "2d6c1297-f519-4fbe-919d-f2a3de1b1001")
+		(uuid "1d8ec157-703f-4e36-950b-41e5485cae18")
 	)
 	(wire
 		(pts
-			(xy 77.47 100.33) (xy 99.06 100.33)
+			(xy 96.52 100.33) (xy 99.06 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2d20af36-5d87-4d64-9521-23a836bddc2b")
+	)
+	(wire
+		(pts
+			(xy 162.56 140.97) (xy 165.1 140.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "32fc147b-e2e2-4b1b-a24d-71d0bad9660f")
+	)
+	(wire
+		(pts
+			(xy 162.56 160.02) (xy 165.1 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "347c5bee-7b99-4225-9df7-a6e87e19195f")
+	)
+	(wire
+		(pts
+			(xy 77.47 100.33) (xy 96.52 100.33)
 		)
 		(stroke
 			(width 0)
@@ -3325,43 +3485,23 @@
 	)
 	(wire
 		(pts
-			(xy 123.19 13.97) (xy 123.19 3.81)
+			(xy 162.56 152.4) (xy 165.1 152.4)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "3b4878b1-c072-4293-aa5d-fdc84f38684a")
+		(uuid "3a9ab6c3-8620-4ec3-994b-9d3e84be52c4")
 	)
 	(wire
 		(pts
-			(xy 142.24 140.97) (xy 165.1 140.97)
+			(xy 142.24 140.97) (xy 162.56 140.97)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "3caa0f9d-a1ae-48da-a138-8ba5778ddaca")
-	)
-	(wire
-		(pts
-			(xy 120.65 16.51) (xy 101.6 16.51)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3d573701-fdca-406a-b395-692910ae536e")
-	)
-	(wire
-		(pts
-			(xy 146.05 16.51) (xy 146.05 3.81)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3f445a7f-99a3-4342-94d4-c7e53a6c9bce")
 	)
 	(wire
 		(pts
@@ -3385,7 +3525,7 @@
 	)
 	(wire
 		(pts
-			(xy 77.47 120.65) (xy 99.06 120.65)
+			(xy 77.47 120.65) (xy 96.52 120.65)
 		)
 		(stroke
 			(width 0)
@@ -3395,7 +3535,7 @@
 	)
 	(wire
 		(pts
-			(xy 165.1 160.02) (xy 186.69 160.02)
+			(xy 165.1 160.02) (xy 184.15 160.02)
 		)
 		(stroke
 			(width 0)
@@ -3405,7 +3545,7 @@
 	)
 	(wire
 		(pts
-			(xy 99.06 160.02) (xy 120.65 160.02)
+			(xy 99.06 160.02) (xy 118.11 160.02)
 		)
 		(stroke
 			(width 0)
@@ -3415,13 +3555,13 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 13.97) (xy 123.19 13.97)
+			(xy 96.52 152.4) (xy 99.06 152.4)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "558e6053-07c0-418a-9bb2-4568c2734157")
+		(uuid "4cfa02fb-2fe2-4354-8f91-aa3f4d2d544c")
 	)
 	(wire
 		(pts
@@ -3435,6 +3575,16 @@
 	)
 	(wire
 		(pts
+			(xy 162.56 133.35) (xy 165.1 133.35)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "596e7772-6d7d-4242-a13c-e97773b36d6a")
+	)
+	(wire
+		(pts
 			(xy 114.3 92.71) (xy 114.3 113.03)
 		)
 		(stroke
@@ -3445,23 +3595,83 @@
 	)
 	(wire
 		(pts
-			(xy 125.73 19.05) (xy 125.73 13.97)
+			(xy 118.11 133.35) (xy 120.65 133.35)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "5e47d0c9-d577-4981-bfb3-5ae6cfe3f81a")
+		(uuid "5a453b05-a0ef-4ce3-a5df-4e4730549d96")
 	)
 	(wire
 		(pts
-			(xy 165.1 120.65) (xy 186.69 120.65)
+			(xy 184.15 100.33) (xy 186.69 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5b477d41-644a-4b98-9f1b-6997065f1971")
+	)
+	(wire
+		(pts
+			(xy 165.1 120.65) (xy 184.15 120.65)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "5ff4c16d-a55f-49ec-b649-ae131a987471")
+	)
+	(wire
+		(pts
+			(xy 74.93 92.71) (xy 77.47 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "60d08dd1-5250-4286-85f5-4875d871583f")
+	)
+	(wire
+		(pts
+			(xy 139.7 140.97) (xy 142.24 140.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "63dfaf6e-1867-46df-afa5-962aed3bacb7")
+	)
+	(wire
+		(pts
+			(xy 184.15 152.4) (xy 186.69 152.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "66ef7fcf-6d4f-4097-b05f-ed307277f259")
+	)
+	(wire
+		(pts
+			(xy 96.52 140.97) (xy 99.06 140.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "670a51c8-8581-47b8-9e6c-f6b0995a3922")
+	)
+	(wire
+		(pts
+			(xy 74.93 140.97) (xy 77.47 140.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6945c368-22f8-4200-92dd-21bb5882ed20")
 	)
 	(wire
 		(pts
@@ -3482,6 +3692,96 @@
 			(type default)
 		)
 		(uuid "6b5d2f85-7207-4e26-aaf1-a158b8af33ef")
+	)
+	(wire
+		(pts
+			(xy 74.93 113.03) (xy 77.47 113.03)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6d112819-b280-4028-873e-132f21c71a27")
+	)
+	(wire
+		(pts
+			(xy 96.52 120.65) (xy 99.06 120.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6d4b0303-c2f7-41f3-a374-34f565244ba2")
+	)
+	(wire
+		(pts
+			(xy 74.93 100.33) (xy 77.47 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6d4d6b19-5108-47ff-b4cf-a5b31dd42254")
+	)
+	(wire
+		(pts
+			(xy 162.56 113.03) (xy 165.1 113.03)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6f58e53a-a364-4452-a132-009d0a842746")
+	)
+	(wire
+		(pts
+			(xy 184.15 140.97) (xy 186.69 140.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6fc54b1a-b106-4818-866c-3eb4c967926d")
+	)
+	(wire
+		(pts
+			(xy 118.11 120.65) (xy 120.65 120.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7350523f-1c93-4664-8639-a13aa7891dd2")
+	)
+	(wire
+		(pts
+			(xy 139.7 152.4) (xy 142.24 152.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7382b59d-6f4c-4e50-bceb-5e66e5a04f70")
+	)
+	(wire
+		(pts
+			(xy 162.56 100.33) (xy 165.1 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "787ccb06-0efd-45a9-a148-3e95b4b2e3e9")
+	)
+	(wire
+		(pts
+			(xy 139.7 160.02) (xy 142.24 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7aedc136-879d-4203-90fa-8ffb071e082e")
 	)
 	(wire
 		(pts
@@ -3515,7 +3815,7 @@
 	)
 	(wire
 		(pts
-			(xy 142.24 100.33) (xy 165.1 100.33)
+			(xy 142.24 100.33) (xy 162.56 100.33)
 		)
 		(stroke
 			(width 0)
@@ -3525,7 +3825,7 @@
 	)
 	(wire
 		(pts
-			(xy 99.06 140.97) (xy 120.65 140.97)
+			(xy 99.06 140.97) (xy 118.11 140.97)
 		)
 		(stroke
 			(width 0)
@@ -3535,7 +3835,17 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 140.97) (xy 142.24 140.97)
+			(xy 74.93 120.65) (xy 77.47 120.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "855eb3df-7f6c-4ecc-8c91-9cc8b2255682")
+	)
+	(wire
+		(pts
+			(xy 120.65 140.97) (xy 139.7 140.97)
 		)
 		(stroke
 			(width 0)
@@ -3555,7 +3865,7 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 160.02) (xy 142.24 160.02)
+			(xy 120.65 160.02) (xy 139.7 160.02)
 		)
 		(stroke
 			(width 0)
@@ -3565,7 +3875,7 @@
 	)
 	(wire
 		(pts
-			(xy 165.1 140.97) (xy 186.69 140.97)
+			(xy 165.1 140.97) (xy 184.15 140.97)
 		)
 		(stroke
 			(width 0)
@@ -3585,13 +3895,33 @@
 	)
 	(wire
 		(pts
-			(xy 77.47 140.97) (xy 99.06 140.97)
+			(xy 118.11 140.97) (xy 120.65 140.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "963df776-8ca6-45e9-af00-b8b1a1a154da")
+	)
+	(wire
+		(pts
+			(xy 77.47 140.97) (xy 96.52 140.97)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "9661a764-c46c-4872-981b-a42e67ef6acb")
+	)
+	(wire
+		(pts
+			(xy 139.7 92.71) (xy 142.24 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "99a86b9d-f312-4725-b5c2-466492bfea6d")
 	)
 	(wire
 		(pts
@@ -3605,23 +3935,13 @@
 	)
 	(wire
 		(pts
-			(xy 99.06 120.65) (xy 120.65 120.65)
+			(xy 99.06 120.65) (xy 118.11 120.65)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "a0946adc-4274-4e25-a3ea-983d59317cb5")
-	)
-	(wire
-		(pts
-			(xy 143.51 16.51) (xy 146.05 16.51)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a096f3c0-7283-4b27-a867-fb7df56e1a63")
 	)
 	(wire
 		(pts
@@ -3635,23 +3955,53 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 19.05) (xy 120.65 16.51)
+			(xy 118.11 113.03) (xy 120.65 113.03)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "abd4ce2d-7117-4ec1-aa04-2c87ff9e03e1")
+		(uuid "ab427908-dd20-4db7-9528-0d78841f7645")
 	)
 	(wire
 		(pts
-			(xy 120.65 100.33) (xy 142.24 100.33)
+			(xy 184.15 92.71) (xy 186.69 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ac3c3e80-ac91-4746-bea5-20d73ae0cccf")
+	)
+	(wire
+		(pts
+			(xy 120.65 100.33) (xy 139.7 100.33)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "b2780ffc-f68e-4963-be8d-204d3f3aa342")
+	)
+	(wire
+		(pts
+			(xy 184.15 120.65) (xy 186.69 120.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b3132176-3679-418e-91e2-b9c890ed1022")
+	)
+	(wire
+		(pts
+			(xy 74.93 152.4) (xy 77.47 152.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b98ef96b-735f-4fdf-bbee-34cfc52ca657")
 	)
 	(wire
 		(pts
@@ -3665,7 +4015,7 @@
 	)
 	(wire
 		(pts
-			(xy 142.24 120.65) (xy 165.1 120.65)
+			(xy 142.24 120.65) (xy 162.56 120.65)
 		)
 		(stroke
 			(width 0)
@@ -3675,17 +4025,17 @@
 	)
 	(wire
 		(pts
-			(xy 208.28 8.89) (xy 220.98 8.89)
+			(xy 184.15 113.03) (xy 186.69 113.03)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "c6ed4835-734c-4482-89ad-acfcf80b1f78")
+		(uuid "ca1ca173-2033-43c8-aaf4-95bbec795555")
 	)
 	(wire
 		(pts
-			(xy 165.1 100.33) (xy 186.69 100.33)
+			(xy 165.1 100.33) (xy 184.15 100.33)
 		)
 		(stroke
 			(width 0)
@@ -3715,17 +4065,17 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 16.51) (xy 101.6 3.81)
+			(xy 118.11 92.71) (xy 120.65 92.71)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d7506a9f-30b6-4370-8362-a47a4a7f1776")
+		(uuid "d5951635-3ce3-4d5e-9db1-4c42e7a0b9bd")
 	)
 	(wire
 		(pts
-			(xy 142.24 160.02) (xy 165.1 160.02)
+			(xy 142.24 160.02) (xy 162.56 160.02)
 		)
 		(stroke
 			(width 0)
@@ -3735,7 +4085,17 @@
 	)
 	(wire
 		(pts
-			(xy 99.06 100.33) (xy 120.65 100.33)
+			(xy 96.52 92.71) (xy 99.06 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dfcc0409-8fe8-4f79-bd56-b8d82663e6ad")
+	)
+	(wire
+		(pts
+			(xy 99.06 100.33) (xy 118.11 100.33)
 		)
 		(stroke
 			(width 0)
@@ -3745,23 +4105,23 @@
 	)
 	(wire
 		(pts
-			(xy 220.98 43.18) (xy 210.82 43.18)
+			(xy 96.52 113.03) (xy 99.06 113.03)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e3b35c74-a435-421e-9d15-e26b13869852")
+		(uuid "e3dff819-634d-4ecf-83d6-22092ac0e225")
 	)
 	(wire
 		(pts
-			(xy 210.82 50.8) (xy 208.28 50.8)
+			(xy 118.11 160.02) (xy 120.65 160.02)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e4186530-5ed4-47f9-adc6-3e62d5a0dd84")
+		(uuid "e5394fa6-a1a8-4511-9bf6-66e6d2beab55")
 	)
 	(wire
 		(pts
@@ -3775,7 +4135,27 @@
 	)
 	(wire
 		(pts
-			(xy 77.47 160.02) (xy 99.06 160.02)
+			(xy 118.11 100.33) (xy 120.65 100.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e661e266-2ba0-4336-a006-8767e8b52f86")
+	)
+	(wire
+		(pts
+			(xy 162.56 120.65) (xy 165.1 120.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e6f5ea78-3475-43e6-9bca-b446599e0f58")
+	)
+	(wire
+		(pts
+			(xy 77.47 160.02) (xy 96.52 160.02)
 		)
 		(stroke
 			(width 0)
@@ -3795,43 +4175,13 @@
 	)
 	(wire
 		(pts
-			(xy 120.65 120.65) (xy 142.24 120.65)
+			(xy 120.65 120.65) (xy 139.7 120.65)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "f5f06ba0-7b02-4a53-a54f-2d94cefa9784")
-	)
-	(wire
-		(pts
-			(xy 220.98 8.89) (xy 220.98 35.56)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f92f3906-79a0-4709-b345-e03de26d7197")
-	)
-	(wire
-		(pts
-			(xy 210.82 30.48) (xy 210.82 40.64)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "fdfcea67-ef36-4b94-8807-8fc21bb236fb")
-	)
-	(wire
-		(pts
-			(xy 210.82 43.18) (xy 210.82 50.8)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "fff6ed1a-a4e8-4a1c-8984-95ddccd9bff2")
 	)
 	(label "MISO"
 		(at 220.98 50.8 180)
@@ -3842,6 +4192,16 @@
 			(justify right bottom)
 		)
 		(uuid "027cadab-064f-4767-b6b4-627378b1b8ea")
+	)
+	(label "INT1"
+		(at 220.98 40.64 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "0a4971c9-229b-476b-b53f-b2c4e2452ee2")
 	)
 	(label "INT1"
 		(at 41.91 30.48 180)
@@ -3864,12 +4224,12 @@
 		(uuid "1124962a-6c4f-4456-b118-8d4c6c01224e")
 	)
 	(label "C5"
-		(at 130.81 54.61 270)
+		(at 142.24 30.48 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right bottom)
+			(justify left bottom)
 		)
 		(uuid "1273eae7-2ccd-449f-8c40-f083f8d7bcef")
 	)
@@ -3894,12 +4254,12 @@
 		(uuid "16a49f61-bdad-41d4-8c59-c8db548895b3")
 	)
 	(label "R2"
-		(at 115.57 54.61 270)
+		(at 142.24 45.72 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right bottom)
+			(justify left bottom)
 		)
 		(uuid "16e3c888-3064-4e46-acf8-2e69adfc2030")
 	)
@@ -3934,12 +4294,12 @@
 		(uuid "20fb2034-46db-472a-bd08-26becc7440ec")
 	)
 	(label "C2"
-		(at 138.43 54.61 270)
+		(at 142.24 22.86 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right bottom)
+			(justify left bottom)
 		)
 		(uuid "296f52e8-2bfc-44f5-9427-ec8beb417118")
 	)
@@ -3952,6 +4312,16 @@
 			(justify left bottom)
 		)
 		(uuid "2ae57e80-8e6a-466b-b43c-50b0e444eeaf")
+	)
+	(label "CS0"
+		(at 106.68 17.78 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "2b208c6a-10c7-43d7-afa3-bc945ec84513")
 	)
 	(label "MISO"
 		(at 59.69 35.56 0)
@@ -3974,12 +4344,12 @@
 		(uuid "2e032b9f-86a7-44ff-ac10-186c75e5baea")
 	)
 	(label "C4"
-		(at 133.35 54.61 270)
+		(at 142.24 27.94 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right bottom)
+			(justify left bottom)
 		)
 		(uuid "32cc5eb3-3a98-4719-8d5c-580a5299c5a9")
 	)
@@ -3993,35 +4363,15 @@
 		)
 		(uuid "36cb3622-b0a1-4f2f-a66a-e9b89c8bf6b7")
 	)
-	(label "INT2"
-		(at 128.27 0 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "379d0a9c-52e8-401f-93ef-b47ebefce52b")
-	)
 	(label "MISO"
-		(at 135.89 19.05 90)
+		(at 106.68 25.4 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left bottom)
+			(justify right bottom)
 		)
 		(uuid "38a0c34c-0f66-4659-99f6-3491e9c797a3")
-	)
-	(label "CS1"
-		(at 204.47 45.72 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "40409984-3c39-4c19-bcaa-61b0497179f8")
 	)
 	(label "CS2"
 		(at 223.52 91.44 180)
@@ -4033,16 +4383,6 @@
 		)
 		(uuid "41bbea9d-f85a-4edd-a3fe-d31762c24896")
 	)
-	(label "INT3"
-		(at 204.47 35.56 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "45b2e77e-64fe-4716-8f57-173c2f12e589")
-	)
 	(label "RST3"
 		(at 223.52 104.14 180)
 		(effects
@@ -4052,6 +4392,16 @@
 			(justify right bottom)
 		)
 		(uuid "45f40236-5e2d-40fd-9e10-1333f782860a")
+	)
+	(label "RST0"
+		(at 106.68 40.64 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "4ddd2d56-374b-440d-8845-26547025916b")
 	)
 	(label "RST1"
 		(at 59.69 27.94 0)
@@ -4072,16 +4422,6 @@
 			(justify right bottom)
 		)
 		(uuid "5700031a-a0aa-4319-b0ba-8b46f3e7afcd")
-	)
-	(label "RST0"
-		(at 96.52 0 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "589e65ef-799c-4453-93a6-254f41fe48b2")
 	)
 	(label "RST3"
 		(at 59.69 22.86 0)
@@ -4124,12 +4464,12 @@
 		(uuid "70eae3da-22d5-448a-8842-c6d6d0875412")
 	)
 	(label "RST1"
-		(at 204.47 3.81 90)
+		(at 220.98 35.56 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left bottom)
+			(justify right bottom)
 		)
 		(uuid "7137da08-4f91-450c-a169-efe544a35929")
 	)
@@ -4143,15 +4483,15 @@
 		)
 		(uuid "73454f06-dac4-4b28-91a0-989a29d4ea03")
 	)
-	(label "INT1"
-		(at 204.47 25.4 90)
+	(label "INT0"
+		(at 106.68 35.56 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left bottom)
+			(justify right bottom)
 		)
-		(uuid "87f59357-eed7-48e1-9830-494d2a339999")
+		(uuid "7dce372e-a0ff-47c4-8188-31273a711bb8")
 	)
 	(label "MISO"
 		(at 223.52 83.82 180)
@@ -4164,12 +4504,12 @@
 		(uuid "9029274c-bafd-4ad1-9ed4-f7aa41bb9e4b")
 	)
 	(label "R3"
-		(at 113.03 54.61 270)
+		(at 142.24 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right bottom)
+			(justify left bottom)
 		)
 		(uuid "961c4fb1-7f95-4694-a05a-507d06041b9c")
 	)
@@ -4193,23 +4533,13 @@
 		)
 		(uuid "a15a1883-6510-4961-bfaf-2c7916c9bbb5")
 	)
-	(label "CS0"
-		(at 140.97 0 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "a386303f-74e2-468b-bf7f-42c44b96fc03")
-	)
 	(label "C0"
-		(at 143.51 54.61 270)
+		(at 142.24 17.78 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right bottom)
+			(justify left bottom)
 		)
 		(uuid "a4b3073b-c5bc-4e93-89ba-a89bc376b0e9")
 	)
@@ -4254,54 +4584,34 @@
 		(uuid "b436e5a9-5d32-4fab-becd-1d04888d0d7e")
 	)
 	(label "R0"
-		(at 120.65 54.61 270)
+		(at 142.24 40.64 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify right bottom)
+			(justify left bottom)
 		)
 		(uuid "b8209df7-6d14-45d0-a90b-1ebfc9213c5c")
 	)
 	(label "MOSI"
-		(at 138.43 19.05 90)
+		(at 106.68 22.86 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
-			(justify left bottom)
+			(justify right bottom)
 		)
 		(uuid "be0a2dc0-35c9-4748-a897-2b23c7d9c4ff")
 	)
-	(label "RST3"
-		(at 204.47 13.97 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "c0b96666-5a6c-4cf7-964a-e21078a97ab7")
-	)
 	(label "C1"
-		(at 140.97 54.61 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "c36b9091-013a-4d2e-9f6e-6601506ef9d9")
-	)
-	(label "CS2"
-		(at 151.13 0 0)
+		(at 142.24 20.32 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "c4ef7977-8fd1-4ff6-aa5e-d975f8e23e4c")
+		(uuid "c36b9091-013a-4d2e-9f6e-6601506ef9d9")
 	)
 	(label "RST0"
 		(at 59.69 30.48 0)
@@ -4314,34 +4624,24 @@
 		(uuid "c634b50c-d2f1-4f1a-8dd5-0af7825baef7")
 	)
 	(label "R1"
-		(at 118.11 54.61 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "c7defc06-f976-45c5-95a5-1f3588c89dc2")
-	)
-	(label "C3"
-		(at 135.89 54.61 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "c9a8e65b-2025-435b-800d-1a6c316da4f3")
-	)
-	(label "RST2"
-		(at 106.68 0 0)
+		(at 142.24 43.18 0)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify left bottom)
 		)
-		(uuid "d7fa1a67-dd87-4159-ad2a-82b7074ec2fe")
+		(uuid "c7defc06-f976-45c5-95a5-1f3588c89dc2")
+	)
+	(label "C3"
+		(at 142.24 25.4 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "c9a8e65b-2025-435b-800d-1a6c316da4f3")
 	)
 	(label "CS2"
 		(at 41.91 22.86 180)
@@ -4363,6 +4663,16 @@
 		)
 		(uuid "ddcea9ed-3e7d-4bac-b708-d863f8cd8c23")
 	)
+	(label "CS1"
+		(at 220.98 43.18 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "e04f8a9a-1f30-46ce-b8fc-0460c8ddb77b")
+	)
 	(label "INT2"
 		(at 223.52 96.52 180)
 		(effects
@@ -4382,16 +4692,6 @@
 			(justify right bottom)
 		)
 		(uuid "e6449c57-7f29-4b11-9a6b-dac8bdedb55b")
-	)
-	(label "INT0"
-		(at 118.11 0 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right bottom)
-		)
-		(uuid "e9bcebac-495d-4f7e-80e7-7f85117695a4")
 	)
 	(label "RST2"
 		(at 223.52 101.6 180)
@@ -4413,23 +4713,13 @@
 		)
 		(uuid "ee7bb17c-edb2-4853-b1a5-554814197365")
 	)
-	(label "CS3"
-		(at 204.47 55.88 270)
+	(label "SCLK"
+		(at 106.68 20.32 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right bottom)
-		)
-		(uuid "ef3b0418-7701-41a1-858e-50b084856c9b")
-	)
-	(label "SCLK"
-		(at 140.97 19.05 90)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
 		)
 		(uuid "ef98543f-cc53-4da6-92d0-a871a47994e9")
 	)
@@ -4463,7 +4753,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0009a3dc-1c1e-4fc0-b756-ccffaa6d4014")
-		(property "Reference" "D14"
+		(property "Reference" "D21"
 			(at 101.6 135.8899 90)
 			(effects
 				(font
@@ -4535,7 +4825,183 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D14")
+					(reference "D21")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 74.93 137.16 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "02c9f4dc-5377-421c-bd2f-72385b665a89")
+		(property "Reference" "D20B1"
+			(at 77.47 135.8899 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 77.47 138.4299 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 79.375 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 74.93 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 74.93 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 74.93 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 74.93 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "04abbde1-2e55-4609-b038-c497f42906bc")
+		)
+		(pin "2"
+			(uuid "dcd93461-1098-4101-9bbf-fafe0676fad0")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D20B1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 139.7 137.16 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0476e68c-9183-4bb0-a083-a712e8287a90")
+		(property "Reference" "D23B1"
+			(at 142.24 135.8899 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 142.24 138.4299 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 144.145 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 139.7 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 139.7 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 139.7 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 139.7 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0758f475-be44-4c0e-8628-182c45b3edf6")
+		)
+		(pin "2"
+			(uuid "f5b628ca-0e29-4758-8e63-bd48f2ccdf34")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D23B1")
 					(unit 1)
 				)
 			)
@@ -4543,7 +5009,7 @@
 	)
 	(symbol
 		(lib_id "power:+3.3V")
-		(at 151.13 36.83 270)
+		(at 124.46 10.16 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -4552,7 +5018,7 @@
 		(fields_autoplaced yes)
 		(uuid "0539aa7e-efbe-4126-a5d5-f45c4d41e1be")
 		(property "Reference" "#PWR06"
-			(at 147.32 36.83 0)
+			(at 124.46 13.97 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4561,7 +5027,7 @@
 			)
 		)
 		(property "Value" "+3.3V"
-			(at 154.94 36.8299 90)
+			(at 124.4599 6.35 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4570,7 +5036,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 151.13 36.83 0)
+			(at 124.46 10.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4579,7 +5045,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 151.13 36.83 0)
+			(at 124.46 10.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4588,7 +5054,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3.3V\""
-			(at 151.13 36.83 0)
+			(at 124.46 10.16 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4618,8 +5084,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0993f333-770d-49cf-a1ca-7541936fb3a2")
-		(property "Reference" "SW21"
-			(at 128.27 144.78 0)
+		(property "Reference" "SWL32"
+			(at 128.27 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4627,15 +5093,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 128.27 147.32 0)
+			(at 128.27 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 128.27 152.4 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 128.27 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4668,7 +5134,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW21")
+					(reference "SWL32")
 					(unit 1)
 				)
 			)
@@ -4684,8 +5150,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0b2e76b6-c11c-4147-8969-5685f43678e0")
-		(property "Reference" "SW16"
-			(at 149.86 125.73 0)
+		(property "Reference" "SWL23"
+			(at 149.86 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4693,15 +5159,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 149.86 128.27 0)
+			(at 149.86 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 149.86 133.35 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 149.86 128.27 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4734,7 +5200,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW16")
+					(reference "SWL23")
 					(unit 1)
 				)
 			)
@@ -4744,14 +5210,14 @@
 		(lib_id "kbd:SW_PUSH")
 		(at 194.31 92.71 0)
 		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0c06360d-e755-4920-aeac-7e435bfce293")
-		(property "Reference" "SW6"
-			(at 194.31 85.09 0)
+		(property "Reference" "SWL05"
+			(at 194.31 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4759,15 +5225,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 194.31 87.63 0)
+			(at 194.31 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 194.31 92.71 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 194.31 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -4800,7 +5266,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW6")
+					(reference "SWL05")
 					(unit 1)
 				)
 			)
@@ -4810,13 +5276,13 @@
 		(lib_id "Diode:1N4148WT")
 		(at 77.47 156.21 90)
 		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0c2baf0c-fbe2-4948-9f04-85b7e612c8cc")
-		(property "Reference" "D19"
+		(property "Reference" "D30"
 			(at 80.01 154.9399 90)
 			(effects
 				(font
@@ -4888,7 +5354,95 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D19")
+					(reference "D30")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 118.11 116.84 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0da40274-3728-4666-a8de-eae4b710d709")
+		(property "Reference" "D12B1"
+			(at 120.65 115.5699 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 120.65 118.1099 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 122.555 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 118.11 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 118.11 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 118.11 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 118.11 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "58d8e81a-8633-45e7-91b4-2fc398f87e39")
+		)
+		(pin "2"
+			(uuid "78191390-b13b-450d-aaa6-3adb7189daff")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D12B1")
 					(unit 1)
 				)
 			)
@@ -4904,7 +5458,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0f25b7c9-c86d-4902-8f54-c1476d582ab0")
-		(property "Reference" "D8"
+		(property "Reference" "D11"
 			(at 101.6 115.5699 90)
 			(effects
 				(font
@@ -4976,7 +5530,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D8")
+					(reference "D11")
 					(unit 1)
 				)
 			)
@@ -4992,7 +5546,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1175b452-4fa1-4803-80af-20a8b8175614")
-		(property "Reference" "D22"
+		(property "Reference" "D33"
 			(at 144.78 154.9399 90)
 			(effects
 				(font
@@ -5064,7 +5618,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D22")
+					(reference "D33")
 					(unit 1)
 				)
 			)
@@ -5080,7 +5634,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "147097df-f842-4590-9d34-4e90a00dfe9b")
-		(property "Reference" "D23"
+		(property "Reference" "D34"
 			(at 167.64 154.9399 90)
 			(effects
 				(font
@@ -5152,7 +5706,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D23")
+					(reference "D34")
 					(unit 1)
 				)
 			)
@@ -5168,8 +5722,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "19531ee2-0379-4be1-a8c3-a2d2131866fb")
-		(property "Reference" "SW5"
-			(at 172.72 85.09 0)
+		(property "Reference" "SWL04"
+			(at 172.72 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5177,15 +5731,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 172.72 87.63 0)
+			(at 172.72 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 172.72 92.71 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 172.72 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5218,7 +5772,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW5")
+					(reference "SWL04")
 					(unit 1)
 				)
 			)
@@ -5301,8 +5855,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2985cf51-83f7-45ff-992a-8d5c8c3f4ed6")
-		(property "Reference" "SW22"
-			(at 149.86 144.78 0)
+		(property "Reference" "SWL33"
+			(at 149.86 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5310,15 +5864,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 149.86 147.32 0)
+			(at 149.86 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 149.86 152.4 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 149.86 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5351,7 +5905,95 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW22")
+					(reference "SWL33")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 139.7 116.84 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2a30eb44-5ca1-44b7-94e7-5eb9664ed815")
+		(property "Reference" "D13B1"
+			(at 142.24 115.5699 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 142.24 118.1099 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 144.145 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 139.7 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c65fd4b9-7723-4b0a-99f3-a0a0f485692e")
+		)
+		(pin "2"
+			(uuid "bff9959a-3d52-4f50-9b7f-a85515dd22ea")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D13B1")
 					(unit 1)
 				)
 			)
@@ -5367,8 +6009,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2dbbece5-4002-4021-8183-779a46f58d9f")
-		(property "Reference" "SW13"
-			(at 85.09 125.73 0)
+		(property "Reference" "SWL20"
+			(at 85.09 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5376,15 +6018,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 85.09 128.27 0)
+			(at 85.09 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 85.09 133.35 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 85.09 128.27 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5417,7 +6059,95 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW13")
+					(reference "SWL20")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 139.7 156.21 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2f1f1a5d-5e33-42d2-b37e-b70ed8837938")
+		(property "Reference" "D33B1"
+			(at 142.24 154.9399 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 142.24 157.4799 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 144.145 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 139.7 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 139.7 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 139.7 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 139.7 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3eb07de7-0e58-461e-92ea-d003ba1aa686")
+		)
+		(pin "2"
+			(uuid "162e5e96-6351-4106-88a3-869851325185")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D33B1")
 					(unit 1)
 				)
 			)
@@ -5427,14 +6157,14 @@
 		(lib_id "kbd:SW_PUSH")
 		(at 85.09 152.4 0)
 		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "36f3b31e-5c08-4e96-9df6-c668a37825c7")
-		(property "Reference" "SW19"
-			(at 85.09 144.78 0)
+		(property "Reference" "SWL30"
+			(at 85.09 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5442,15 +6172,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 85.09 147.32 0)
+			(at 85.09 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 85.09 152.4 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 85.09 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5483,7 +6213,95 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW19")
+					(reference "SWL30")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 162.56 156.21 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "38115751-6827-4991-b606-a8ae46ce758a")
+		(property "Reference" "D34B1"
+			(at 165.1 154.9399 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 165.1 157.4799 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 167.005 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 162.56 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 162.56 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 162.56 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 162.56 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e420651c-5db4-4af8-9b60-639217514e21")
+		)
+		(pin "2"
+			(uuid "61407fb5-2467-468a-b222-854cf88ab861")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D34B1")
 					(unit 1)
 				)
 			)
@@ -5499,8 +6317,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "38c78cc5-6d1e-4962-852c-6dfb0a08961a")
-		(property "Reference" "SW9"
-			(at 128.27 105.41 0)
+		(property "Reference" "SWL12"
+			(at 128.27 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5508,15 +6326,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 128.27 107.95 0)
+			(at 128.27 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 128.27 113.03 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 128.27 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5549,7 +6367,95 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW9")
+					(reference "SWL12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 118.11 156.21 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3946cc78-7df9-4bff-a06b-ab8fb6df481a")
+		(property "Reference" "D32B1"
+			(at 120.65 154.9399 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 120.65 157.4799 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 122.555 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 118.11 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 118.11 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 118.11 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 118.11 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "7e287bea-8dc5-437e-ab13-e00300c1c009")
+		)
+		(pin "2"
+			(uuid "cf340553-4b18-436f-a64f-0aed6d8e6e2f")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D32B1")
 					(unit 1)
 				)
 			)
@@ -5565,25 +6471,24 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "3bf97b0b-60ec-4819-9816-1b4fe1b31d8b")
-		(property "Reference" "SW4"
+		(property "Reference" "SWL03"
+			(at 149.86 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "SW_PUSH"
 			(at 149.86 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(hide yes)
 			)
 		)
-		(property "Value" "SW_PUSH"
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
 			(at 149.86 87.63 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 149.86 92.71 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5616,7 +6521,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW4")
+					(reference "SWL03")
 					(unit 1)
 				)
 			)
@@ -5624,7 +6529,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 95.25 36.83 270)
+		(at 124.46 66.04 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -5633,7 +6538,7 @@
 		(fields_autoplaced yes)
 		(uuid "3decdd9e-5eb5-447e-b6b5-900abed802ec")
 		(property "Reference" "#PWR04"
-			(at 88.9 36.83 0)
+			(at 124.46 72.39 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5642,7 +6547,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 91.44 36.8299 90)
+			(at 124.4599 69.85 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5651,7 +6556,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 95.25 36.83 0)
+			(at 124.46 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5660,7 +6565,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 95.25 36.83 0)
+			(at 124.46 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5669,7 +6574,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 95.25 36.83 0)
+			(at 124.46 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5684,77 +6589,6 @@
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
 					(reference "#PWR04")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Jumper:SolderJumper_3_Open")
-		(at 101.6 0 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "42983588-55a0-418c-a637-22ac15193b50")
-		(property "Reference" "JP1"
-			(at 101.6 -5.08 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "SolderJumper_3_Open"
-			(at 101.6 -2.54 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Jumper:SolderJumper-3_P2.0mm_Open_TrianglePad1.0x1.5mm"
-			(at 101.6 0 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 101.6 0 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Solder Jumper, 3-pole, open"
-			(at 101.6 0 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "8eb1fd5a-806d-48e5-806e-176d6749f6bd")
-		)
-		(pin "3"
-			(uuid "5b8d01de-181a-4ffb-9751-01aa9e0a61ef")
-		)
-		(pin "2"
-			(uuid "e372a6c9-b228-4845-82a4-8879c8e8b6cb")
-		)
-		(instances
-			(project ""
-				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "JP1")
 					(unit 1)
 				)
 			)
@@ -5837,7 +6671,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4b4d1018-aa78-4d8f-9938-0e7b1aac3f9e")
-		(property "Reference" "D5"
+		(property "Reference" "D04"
 			(at 167.64 95.2499 90)
 			(effects
 				(font
@@ -5909,7 +6743,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D5")
+					(reference "D04")
 					(unit 1)
 				)
 			)
@@ -5925,8 +6759,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "4bb4b037-58ab-4083-a628-c87cb2410d40")
-		(property "Reference" "SW14"
-			(at 106.68 125.73 0)
+		(property "Reference" "SWL21"
+			(at 106.68 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5934,15 +6768,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 106.68 128.27 0)
+			(at 106.68 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 106.68 133.35 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 106.68 128.27 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -5975,7 +6809,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW14")
+					(reference "SWL21")
 					(unit 1)
 				)
 			)
@@ -5991,7 +6825,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "503726a0-8f54-47ed-bf21-b4cc1e4292b5")
-		(property "Reference" "JST_PH_INTC1"
+		(property "Reference" "JST_PH_INTC_L1"
 			(at 231.14 93.9799 0)
 			(effects
 				(font
@@ -6075,7 +6909,7 @@
 		(instances
 			(project ""
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "JST_PH_INTC1")
+					(reference "JST_PH_INTC_L1")
 					(unit 1)
 				)
 			)
@@ -6159,8 +6993,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5cb4ffa7-46b7-4c65-86af-11e839353b47")
-		(property "Reference" "SW2"
-			(at 106.68 85.09 0)
+		(property "Reference" "SWL01"
+			(at 106.68 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6168,15 +7002,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 106.68 87.63 0)
+			(at 106.68 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 106.68 92.71 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 106.68 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6209,7 +7043,95 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW2")
+					(reference "SWL01")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 74.93 156.21 90)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5dcb51b8-39f6-42c9-9b83-86c46270886a")
+		(property "Reference" "D30B1"
+			(at 77.47 154.9399 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 77.47 157.4799 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 79.375 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 74.93 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 74.93 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 74.93 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 74.93 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4e6f799a-43b6-4aeb-9cee-74d4135c4f60")
+		)
+		(pin "2"
+			(uuid "e5c733f9-94d5-4435-9806-2105894702f8")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D30B1")
 					(unit 1)
 				)
 			)
@@ -6225,7 +7147,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5dcc48ba-559f-43c6-b2cc-4ec1223f868e")
-		(property "Reference" "D2"
+		(property "Reference" "D01"
 			(at 101.6 95.2499 90)
 			(effects
 				(font
@@ -6297,7 +7219,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D2")
+					(reference "D01")
 					(unit 1)
 				)
 			)
@@ -6313,7 +7235,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5e01d79a-c62a-4fcd-826a-ffec338bdf89")
-		(property "Reference" "D17"
+		(property "Reference" "D24"
 			(at 167.64 135.8899 90)
 			(effects
 				(font
@@ -6385,7 +7307,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D17")
+					(reference "D24")
 					(unit 1)
 				)
 			)
@@ -6447,7 +7369,7 @@
 			)
 		)
 		(pin "1"
-			(uuid "e5255be0-5a82-4256-8c5f-3a3d30194462")
+			(uuid "e5255be0-5a82-4256-8c5f-3a3d30194463")
 		)
 		(instances
 			(project ""
@@ -6468,8 +7390,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5eedd4e9-608c-4b87-b005-9e630a9b833c")
-		(property "Reference" "SW20"
-			(at 106.68 144.78 0)
+		(property "Reference" "SWL31"
+			(at 106.68 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6477,15 +7399,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 106.68 147.32 0)
+			(at 106.68 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 106.68 152.4 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 106.68 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6518,7 +7440,95 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW20")
+					(reference "SWL31")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 74.93 96.52 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "60d6e156-30ec-46db-923a-542a259526ff")
+		(property "Reference" "D00B1"
+			(at 77.47 95.2499 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 77.47 97.7899 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 79.375 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 74.93 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 74.93 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 74.93 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 74.93 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "459537b7-f6c3-4700-810d-62b09c380446")
+		)
+		(pin "2"
+			(uuid "e3bf3b49-1e7c-4fbf-9924-2a8273550503")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D00B1")
 					(unit 1)
 				)
 			)
@@ -6534,8 +7544,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "62d0cd10-c7dc-4058-a04c-358de3fc2592")
-		(property "Reference" "SW24"
-			(at 194.31 144.78 0)
+		(property "Reference" "SWL35"
+			(at 194.31 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6543,15 +7553,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 194.31 147.32 0)
+			(at 194.31 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 194.31 152.4 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 194.31 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6584,7 +7594,95 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW24")
+					(reference "SWL35")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 74.93 116.84 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "65ad5ca1-5156-406f-99db-17e57bdcd155")
+		(property "Reference" "D10B1"
+			(at 77.47 115.5699 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 77.47 118.1099 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 79.375 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 74.93 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 74.93 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 74.93 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 74.93 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "cc469e6f-9511-44cc-bc85-472f76298391")
+		)
+		(pin "2"
+			(uuid "10b20778-65b7-44b3-b75a-e8025cbd2511")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D10B1")
 					(unit 1)
 				)
 			)
@@ -6658,77 +7756,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Jumper:SolderJumper_3_Open")
-		(at 123.19 0 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "690c31a1-46a9-4a9c-93de-8112e35ac354")
-		(property "Reference" "JP2"
-			(at 123.19 -5.08 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "SolderJumper_3_Open"
-			(at 123.19 -2.54 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Jumper:SolderJumper-3_P2.0mm_Open_TrianglePad1.0x1.5mm"
-			(at 123.19 0 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 123.19 0 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Solder Jumper, 3-pole, open"
-			(at 123.19 0 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "8eb1fd5a-806d-48e5-806e-176d6749f6bd")
-		)
-		(pin "3"
-			(uuid "5b8d01de-181a-4ffb-9751-01aa9e0a61ef")
-		)
-		(pin "2"
-			(uuid "e372a6c9-b228-4845-82a4-8879c8e8b6cb")
-		)
-		(instances
-			(project ""
-				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "JP2")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Diode:1N4148WT")
 		(at 142.24 116.84 90)
 		(unit 1)
@@ -6738,7 +7765,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "69e30f78-aa27-40e8-bcd5-09d6313eb12b")
-		(property "Reference" "D10"
+		(property "Reference" "D13"
 			(at 144.78 115.5699 90)
 			(effects
 				(font
@@ -6810,7 +7837,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D10")
+					(reference "D13")
 					(unit 1)
 				)
 			)
@@ -6826,7 +7853,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "6d545e2f-a696-4219-9bee-ae35e1644621")
-		(property "Reference" "D3"
+		(property "Reference" "D02"
 			(at 123.19 95.2499 90)
 			(effects
 				(font
@@ -6898,7 +7925,95 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D3")
+					(reference "D02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 96.52 96.52 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "6fa61ded-1922-4118-b385-7e077856a2a7")
+		(property "Reference" "D01B1"
+			(at 99.06 95.2499 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 99.06 97.7899 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 100.965 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 96.52 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 96.52 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 96.52 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 96.52 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "445133ba-de04-42c8-b903-3aaa5a9db740")
+		)
+		(pin "2"
+			(uuid "58e357dd-7a06-400a-9bc8-5184aaaf7de8")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D01B1")
 					(unit 1)
 				)
 			)
@@ -6914,7 +8029,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "73b4e0c7-e609-4c68-8fb8-77c2106f24cc")
-		(property "Reference" "SW3"
+		(property "Reference" "SWL02"
 			(at 128.27 85.09 0)
 			(effects
 				(font
@@ -6930,7 +8045,7 @@
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
 			(at 128.27 92.71 0)
 			(effects
 				(font
@@ -6964,7 +8079,183 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW3")
+					(reference "SWL02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 184.15 96.52 90)
+		(unit 1)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "745066b4-b93b-4728-b1a4-51230c8d7e69")
+		(property "Reference" "D05B1"
+			(at 186.69 95.2499 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 186.69 97.7899 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 188.595 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 184.15 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 184.15 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 184.15 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 184.15 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "32061f87-7c55-4eb0-b113-6c5b5a8b496b")
+		)
+		(pin "2"
+			(uuid "b5828505-2af7-44b5-94d0-c86300b4d0af")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D05B1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 162.56 96.52 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "79ba005e-de84-4196-bf4c-9ff3c106146e")
+		(property "Reference" "D04B1"
+			(at 165.1 95.2499 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 165.1 97.7899 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 167.005 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 162.56 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 162.56 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 162.56 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 162.56 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2500389d-bd16-41c5-86b4-52a09e922718")
+		)
+		(pin "2"
+			(uuid "0cbac1d3-64e6-4475-af8b-5992a5186e46")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D04B1")
 					(unit 1)
 				)
 			)
@@ -6980,8 +8271,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "79f5eecd-5323-4589-8165-96768ee60a8f")
-		(property "Reference" "SW12"
-			(at 194.31 105.41 0)
+		(property "Reference" "SWL15"
+			(at 194.31 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6989,15 +8280,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 194.31 107.95 0)
+			(at 194.31 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 194.31 113.03 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 194.31 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7030,7 +8321,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW12")
+					(reference "SWL15")
 					(unit 1)
 				)
 			)
@@ -7046,7 +8337,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7d484bca-c3f1-45d0-8109-b75ac1e54f78")
-		(property "Reference" "D12"
+		(property "Reference" "D15"
 			(at 189.23 115.5699 90)
 			(effects
 				(font
@@ -7118,7 +8409,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D12")
+					(reference "D15")
 					(unit 1)
 				)
 			)
@@ -7126,7 +8417,7 @@
 	)
 	(symbol
 		(lib_id "Interface_Expansion:MCP23S17_SO")
-		(at 123.19 36.83 270)
+		(at 124.46 38.1 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7134,8 +8425,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7fe5be38-c0c2-42d7-89e0-28b79f787686")
-		(property "Reference" "U2"
-			(at 154.94 30.4098 90)
+		(property "Reference" "MCP_L1"
+			(at 118.0398 6.35 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7143,7 +8434,7 @@
 			)
 		)
 		(property "Value" "MCP23S17_SO"
-			(at 154.94 32.9498 90)
+			(at 120.5798 6.35 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7151,7 +8442,7 @@
 			)
 		)
 		(property "Footprint" "Package_SO:SOIC-28W_7.5x17.9mm_P1.27mm"
-			(at 97.79 41.91 0)
+			(at 129.54 63.5 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7161,7 +8452,7 @@
 			)
 		)
 		(property "Datasheet" "http://ww1.microchip.com/downloads/en/DeviceDoc/20001952C.pdf"
-			(at 95.25 41.91 0)
+			(at 129.54 66.04 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7171,7 +8462,7 @@
 			)
 		)
 		(property "Description" "16-bit I/O expander, SPI, interrupts, w pull-ups, SOIC-28"
-			(at 123.19 36.83 0)
+			(at 124.46 38.1 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7266,7 +8557,95 @@
 		(instances
 			(project ""
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "U2")
+					(reference "MCP_L1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 162.56 116.84 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8182de7b-562c-46e3-9c27-4ca4c871bf65")
+		(property "Reference" "D14B1"
+			(at 165.1 115.5699 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 165.1 118.1099 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 167.005 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 162.56 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 162.56 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 162.56 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 162.56 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d42339a9-06c4-40d7-8b2e-aeb980a356b2")
+		)
+		(pin "2"
+			(uuid "292c006e-1979-4453-9dcf-4a43ffd73729")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D14B1")
 					(unit 1)
 				)
 			)
@@ -7350,8 +8729,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "84df1e7b-6fdd-480b-963f-354237d4e997")
-		(property "Reference" "SW1"
-			(at 85.09 85.09 0)
+		(property "Reference" "SWL00"
+			(at 85.09 82.55 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7359,15 +8738,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 85.09 87.63 0)
+			(at 85.09 85.09 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 85.09 92.71 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 85.09 87.63 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7400,7 +8779,7 @@
 		(instances
 			(project ""
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW1")
+					(reference "SWL00")
 					(unit 1)
 				)
 			)
@@ -7416,7 +8795,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "85fce1ad-eafc-4a9c-8838-ac0997a9dd0b")
-		(property "Reference" "D21"
+		(property "Reference" "D32"
 			(at 123.19 154.9399 90)
 			(effects
 				(font
@@ -7488,7 +8867,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D21")
+					(reference "D32")
 					(unit 1)
 				)
 			)
@@ -7571,7 +8950,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "8b97a0c8-1ba8-478f-ad24-709c17c41788")
-		(property "Reference" "D7"
+		(property "Reference" "D10"
 			(at 80.01 115.5699 90)
 			(effects
 				(font
@@ -7643,7 +9022,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D7")
+					(reference "D10")
 					(unit 1)
 				)
 			)
@@ -7726,7 +9105,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "8e68286a-e290-4eb0-801b-62eb536677f1")
-		(property "Reference" "D24"
+		(property "Reference" "D35"
 			(at 189.23 154.9399 90)
 			(effects
 				(font
@@ -7798,7 +9177,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D24")
+					(reference "D35")
 					(unit 1)
 				)
 			)
@@ -7881,7 +9260,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9c8b86e4-8343-473c-bf43-7c0aa212ce55")
-		(property "Reference" "D4"
+		(property "Reference" "D03"
 			(at 144.78 95.2499 90)
 			(effects
 				(font
@@ -7953,7 +9332,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D4")
+					(reference "D03")
 					(unit 1)
 				)
 			)
@@ -8108,8 +9487,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9e980b73-46d6-4d9b-af46-9d1cdf3be906")
-		(property "Reference" "SW11"
-			(at 172.72 105.41 0)
+		(property "Reference" "SWL14"
+			(at 172.72 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8117,15 +9496,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 172.72 107.95 0)
+			(at 172.72 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 172.72 113.03 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 172.72 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8158,7 +9537,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW11")
+					(reference "SWL14")
 					(unit 1)
 				)
 			)
@@ -8174,8 +9553,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9eb18d4c-3ebd-41bb-8b79-b6375858f176")
-		(property "Reference" "SW17"
-			(at 172.72 125.73 0)
+		(property "Reference" "SWL24"
+			(at 172.72 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8183,15 +9562,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 172.72 128.27 0)
+			(at 172.72 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 172.72 133.35 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 172.72 128.27 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8224,7 +9603,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW17")
+					(reference "SWL24")
 					(unit 1)
 				)
 			)
@@ -8292,80 +9671,6 @@
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
 					(reference "#PWR012")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Jumper:SolderJumper_3_Open")
-		(at 204.47 50.8 90)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "a9dcf7bd-ad26-4da4-bc65-f458ab89d18f")
-		(property "Reference" "JP5"
-			(at 201.93 52.0701 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "SolderJumper_3_Open"
-			(at 201.93 49.5301 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Jumper:SolderJumper-3_P2.0mm_Open_TrianglePad1.0x1.5mm"
-			(at 204.47 50.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 204.47 50.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Solder Jumper, 3-pole, open"
-			(at 204.47 50.8 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "1b2e6be8-804f-4d36-b2cd-6e007bda00d7")
-		)
-		(pin "3"
-			(uuid "8257cbc6-0a40-47de-a551-d07886ef2072")
-		)
-		(pin "2"
-			(uuid "b34d892b-ca04-4731-a9dc-24cd218b147d")
-		)
-		(instances
-			(project "unikyria"
-				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "JP5")
 					(unit 1)
 				)
 			)
@@ -8448,7 +9753,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ad6eca70-8919-4807-bbda-6de89ec54e65")
-		(property "Reference" "D16"
+		(property "Reference" "D23"
 			(at 144.78 135.8899 90)
 			(effects
 				(font
@@ -8520,7 +9825,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D16")
+					(reference "D23")
 					(unit 1)
 				)
 			)
@@ -8536,8 +9841,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ae0632cf-b409-45af-bf86-0a7c9512524f")
-		(property "Reference" "SW18"
-			(at 194.31 125.73 0)
+		(property "Reference" "SWL25"
+			(at 194.31 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8545,15 +9850,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 194.31 128.27 0)
+			(at 194.31 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 194.31 133.35 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 194.31 128.27 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8586,7 +9891,95 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW18")
+					(reference "SWL25")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 139.7 96.52 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b3779b9a-2d6d-4e88-baf3-727de00b21e1")
+		(property "Reference" "D03B1"
+			(at 142.24 95.2499 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 142.24 97.7899 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 144.145 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 139.7 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 139.7 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 139.7 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 139.7 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "dc68687c-6d04-4a5a-8318-b3a815d0949e")
+		)
+		(pin "2"
+			(uuid "117ac24a-cdea-4574-89a1-a34bdc0cb91c")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D03B1")
 					(unit 1)
 				)
 			)
@@ -8602,7 +9995,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b5e3451b-bfbd-468c-b633-3ad714d80964")
-		(property "Reference" "D18"
+		(property "Reference" "D25"
 			(at 189.23 135.8899 90)
 			(effects
 				(font
@@ -8674,7 +10067,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D18")
+					(reference "D25")
 					(unit 1)
 				)
 			)
@@ -8690,7 +10083,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b6092bc7-4631-4164-ad6e-3ef7f8e6d8d7")
-		(property "Reference" "D20"
+		(property "Reference" "D31"
 			(at 101.6 154.9399 90)
 			(effects
 				(font
@@ -8762,7 +10155,95 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D20")
+					(reference "D31")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 184.15 137.16 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b6a7308a-3a2f-4e53-b17d-ed0caa2f54f5")
+		(property "Reference" "D25B1"
+			(at 186.69 135.8899 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 186.69 138.4299 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 188.595 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 184.15 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 184.15 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 184.15 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 184.15 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "713ac47d-17d9-44b2-8128-bd538f80bda4")
+		)
+		(pin "2"
+			(uuid "e2614bbd-0759-40cf-a546-718c82b8adc3")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D25B1")
 					(unit 1)
 				)
 			)
@@ -8778,8 +10259,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b6af8a9e-1099-4145-a330-2331a0254b7f")
-		(property "Reference" "SW8"
-			(at 106.68 105.41 0)
+		(property "Reference" "SWL11"
+			(at 106.68 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8787,15 +10268,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 106.68 107.95 0)
+			(at 106.68 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 106.68 113.03 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 106.68 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -8828,7 +10309,271 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW8")
+					(reference "SWL11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 96.52 137.16 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b80d9251-5e6d-4b5c-a5ff-06c03bb4ce45")
+		(property "Reference" "D21B1"
+			(at 99.06 135.8899 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 99.06 138.4299 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 100.965 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 96.52 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 96.52 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 96.52 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 96.52 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c86523dd-89dc-4564-a76b-5d6bbba9dc40")
+		)
+		(pin "2"
+			(uuid "22e87ba5-d214-4a62-909b-7c338a3f16e6")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D21B1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 184.15 156.21 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "baccd395-56a5-4dbb-8123-a0a9ad0f7511")
+		(property "Reference" "D35B1"
+			(at 186.69 154.9399 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 186.69 157.4799 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 188.595 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 184.15 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 184.15 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 184.15 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 184.15 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "67bb7762-fbb1-4df2-8d46-85138327079f")
+		)
+		(pin "2"
+			(uuid "4de03dac-a160-42e8-a95d-745a5ebc30bb")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D35B1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 118.11 96.52 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "bd578bfa-9292-4f5a-bbb9-3242bab0f8ef")
+		(property "Reference" "D02B1"
+			(at 120.65 95.2499 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 120.65 97.7899 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 122.555 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 118.11 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 118.11 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 118.11 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 118.11 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9b571d1a-71d2-41ba-adf9-c85fbd29d724")
+		)
+		(pin "2"
+			(uuid "4912c485-13ca-435a-8b6d-997acc48eec0")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D02B1")
 					(unit 1)
 				)
 			)
@@ -8902,80 +10647,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Jumper:SolderJumper_3_Open")
-		(at 204.47 30.48 90)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "c25a91d8-397c-4f90-85f9-7da6748d9ad9")
-		(property "Reference" "JP4"
-			(at 201.93 31.7501 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "SolderJumper_3_Open"
-			(at 201.93 29.2101 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Jumper:SolderJumper-3_P2.0mm_Open_TrianglePad1.0x1.5mm"
-			(at 204.47 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 204.47 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Solder Jumper, 3-pole, open"
-			(at 204.47 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "a6051ae1-c7ee-4378-afe6-f1d2c9ddfb99")
-		)
-		(pin "3"
-			(uuid "f18cb27b-223b-4e70-9962-c917fd3a084e")
-		)
-		(pin "2"
-			(uuid "c2dfef53-eec3-41fb-b0bb-2bd752ea8fca")
-		)
-		(instances
-			(project "unikyria"
-				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "JP4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Connector_Generic:Conn_01x08")
 		(at 226.06 45.72 0)
 		(mirror x)
@@ -8986,25 +10657,23 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c784003a-e3d1-4044-b661-ef35484fe92b")
-		(property "Reference" "H_PAW0"
-			(at 228.6 45.7201 0)
+		(property "Reference" "H_PAW_L1"
+			(at 226.06 29.21 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
 		(property "Value" "Conn_01x08"
-			(at 228.6 43.1801 0)
+			(at 226.06 31.75 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
-				(justify left)
 			)
 		)
-		(property "Footprint" "Connector_PinHeader_1.00mm:PinHeader_1x08_P1.00mm_Horizontal"
+		(property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Horizontal"
 			(at 226.06 45.72 0)
 			(effects
 				(font
@@ -9058,7 +10727,7 @@
 		(instances
 			(project ""
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "H_PAW0")
+					(reference "H_PAW_L1")
 					(unit 1)
 				)
 			)
@@ -9135,13 +10804,13 @@
 		(lib_id "Diode:1N4148WT")
 		(at 186.69 96.52 90)
 		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cc118c6f-5dd0-46df-9df7-1bd4c18b30d7")
-		(property "Reference" "D6"
+		(property "Reference" "D05"
 			(at 189.23 95.2499 90)
 			(effects
 				(font
@@ -9213,7 +10882,95 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D6")
+					(reference "D05")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 96.52 156.21 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "cd2a3482-5929-457a-a794-c7dab2c1aa98")
+		(property "Reference" "D31B1"
+			(at 99.06 154.9399 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 99.06 157.4799 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 100.965 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 96.52 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 96.52 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 96.52 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 96.52 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9e9e29f3-a4d4-458d-b3f0-6c83816091f5")
+		)
+		(pin "2"
+			(uuid "8cfa4bf8-e18b-48be-9ccc-201d500aafd6")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D31B1")
 					(unit 1)
 				)
 			)
@@ -9229,7 +10986,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cd63cb92-976a-44fe-8285-71b5bd53be4d")
-		(property "Reference" "D9"
+		(property "Reference" "D12"
 			(at 123.19 115.5699 90)
 			(effects
 				(font
@@ -9301,7 +11058,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D9")
+					(reference "D12")
 					(unit 1)
 				)
 			)
@@ -9317,8 +11074,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cff16103-6ef0-49d9-b5b0-90b5f45bd963")
-		(property "Reference" "SW7"
-			(at 85.09 105.41 0)
+		(property "Reference" "SWL10"
+			(at 85.09 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9326,15 +11083,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 85.09 107.95 0)
+			(at 85.09 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 85.09 113.03 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 85.09 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -9367,78 +11124,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW7")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Jumper:SolderJumper_3_Open")
-		(at 146.05 0 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "d3effbe7-efe6-4f71-8900-071df201e854")
-		(property "Reference" "JP3"
-			(at 146.05 -5.08 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "SolderJumper_3_Open"
-			(at 146.05 -2.54 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Jumper:SolderJumper-3_P2.0mm_Open_TrianglePad1.0x1.5mm"
-			(at 146.05 0 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 146.05 0 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Solder Jumper, 3-pole, open"
-			(at 146.05 0 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "8eb1fd5a-806d-48e5-806e-176d6749f6bd")
-		)
-		(pin "3"
-			(uuid "5b8d01de-181a-4ffb-9751-01aa9e0a61ef")
-		)
-		(pin "2"
-			(uuid "e372a6c9-b228-4845-82a4-8879c8e8b6cb")
-		)
-		(instances
-			(project ""
-				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "JP3")
+					(reference "SWL10")
 					(unit 1)
 				)
 			)
@@ -9513,80 +11199,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Jumper:SolderJumper_3_Open")
-		(at 204.47 8.89 90)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom no)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "d674ec12-a2f3-4140-b6c9-904c14c2d3f6")
-		(property "Reference" "JP6"
-			(at 201.93 10.1601 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "SolderJumper_3_Open"
-			(at 201.93 7.6201 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Jumper:SolderJumper-3_P2.0mm_Open_TrianglePad1.0x1.5mm"
-			(at 204.47 8.89 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 204.47 8.89 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Solder Jumper, 3-pole, open"
-			(at 204.47 8.89 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "1"
-			(uuid "903b57be-8591-4c11-8fed-1cc77e66187c")
-		)
-		(pin "3"
-			(uuid "c6e7dff2-c7d2-4d2a-9c30-901fee966dca")
-		)
-		(pin "2"
-			(uuid "0b366b91-9c50-4784-bf49-5eb511cce741")
-		)
-		(instances
-			(project "unikyria"
-				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "JP6")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Diode:1N4148WT")
 		(at 165.1 116.84 90)
 		(unit 1)
@@ -9596,7 +11208,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "dc1a434a-b947-4245-a5f7-47016f050f0d")
-		(property "Reference" "D11"
+		(property "Reference" "D14"
 			(at 167.64 115.5699 90)
 			(effects
 				(font
@@ -9668,7 +11280,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D11")
+					(reference "D14")
 					(unit 1)
 				)
 			)
@@ -9684,7 +11296,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e0d236d7-4d52-4081-8098-d6fea1576989")
-		(property "Reference" "D15"
+		(property "Reference" "D22"
 			(at 123.19 135.8899 90)
 			(effects
 				(font
@@ -9756,7 +11368,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D15")
+					(reference "D22")
 					(unit 1)
 				)
 			)
@@ -9772,7 +11384,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e18e9313-b309-4fe8-b81a-578b06ea6acb")
-		(property "Reference" "D13"
+		(property "Reference" "D20"
 			(at 80.01 135.8899 90)
 			(effects
 				(font
@@ -9844,7 +11456,95 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D13")
+					(reference "D20")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 184.15 116.84 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e4c89375-46b0-49e3-b4d3-6e19788b7802")
+		(property "Reference" "D15B1"
+			(at 186.69 115.5699 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 186.69 118.1099 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 188.595 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 184.15 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 184.15 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 184.15 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 184.15 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d801521e-9ae8-4502-a54b-4786b96c10da")
+		)
+		(pin "2"
+			(uuid "54935fd0-b248-46f1-9cd3-dda49a93cb29")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D15B1")
 					(unit 1)
 				)
 			)
@@ -9860,7 +11560,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "edcd4c59-a6a3-4594-b4c4-f3dc15971f9f")
-		(property "Reference" "D1"
+		(property "Reference" "D00"
 			(at 80.01 95.2499 90)
 			(effects
 				(font
@@ -9932,7 +11632,183 @@
 		(instances
 			(project ""
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "D1")
+					(reference "D00")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 96.52 116.84 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ee910d7e-28f7-4cd9-b5e2-6c9a3a4867d7")
+		(property "Reference" "D11B1"
+			(at 99.06 115.5699 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 99.06 118.1099 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 100.965 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 96.52 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 96.52 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 96.52 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 96.52 116.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d95389d7-f22c-4a3b-ba49-df215663350f")
+		)
+		(pin "2"
+			(uuid "fa3b62d1-7959-40c0-a836-7170956d4dcc")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D11B1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 162.56 137.16 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "eeabb372-d8bc-4420-9929-2a8288ca55a8")
+		(property "Reference" "D24B1"
+			(at 165.1 135.8899 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 165.1 138.4299 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 167.005 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 162.56 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 162.56 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 162.56 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 162.56 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "72e8dafb-8fc2-487e-8254-c84b5d66e652")
+		)
+		(pin "2"
+			(uuid "e987ed11-1ff5-485b-9246-a3306c0f9af7")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D24B1")
 					(unit 1)
 				)
 			)
@@ -10083,8 +11959,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f3cd7bd5-d56f-4c8b-84e7-e6bd9d2de6b9")
-		(property "Reference" "SW10"
-			(at 149.86 105.41 0)
+		(property "Reference" "SWL13"
+			(at 149.86 102.87 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10092,15 +11968,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 149.86 107.95 0)
+			(at 149.86 105.41 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 149.86 113.03 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 149.86 107.95 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10133,7 +12009,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW10")
+					(reference "SWL13")
 					(unit 1)
 				)
 			)
@@ -10149,8 +12025,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f48c7270-f4f8-45f0-bcc1-5b3482b225df")
-		(property "Reference" "SW15"
-			(at 128.27 125.73 0)
+		(property "Reference" "SWL22"
+			(at 128.27 123.19 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10158,15 +12034,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 128.27 128.27 0)
+			(at 128.27 125.73 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 128.27 133.35 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 128.27 128.27 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10199,7 +12075,95 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW15")
+					(reference "SWL22")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Diode:1N4148WT")
+		(at 118.11 137.16 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f82a87f3-99ed-42ba-99c2-622fc9578e01")
+		(property "Reference" "D22B1"
+			(at 120.65 135.8899 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "1N4148WT"
+			(at 120.65 138.4299 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Diode_SMD:D_SOD-523"
+			(at 122.555 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.diodes.com/assets/Datasheets/ds30396.pdf"
+			(at 118.11 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "75V 0.15A Fast switching Diode, SOD-523"
+			(at 118.11 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Device" "D"
+			(at 118.11 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Sim.Pins" "1=K 2=A"
+			(at 118.11 137.16 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "15b86d7b-ae1e-4cde-a3b9-0b14c2744507")
+		)
+		(pin "2"
+			(uuid "055ad044-f1ae-4704-9954-22df0c4b5c31")
+		)
+		(instances
+			(project "unikyria"
+				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
+					(reference "D22B1")
 					(unit 1)
 				)
 			)
@@ -10215,8 +12179,8 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ffe0ffdd-b621-433b-a805-554942533b1c")
-		(property "Reference" "SW23"
-			(at 172.72 144.78 0)
+		(property "Reference" "SWL34"
+			(at 172.72 142.24 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10224,15 +12188,15 @@
 			)
 		)
 		(property "Value" "SW_PUSH"
-			(at 172.72 147.32 0)
+			(at 172.72 144.78 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 			)
 		)
-		(property "Footprint" "footprints:CherryMX_Choc_Hotswap"
-			(at 172.72 152.4 0)
+		(property "Footprint" "footprints:ChocV1_V2_Hotswap_18mm"
+			(at 172.72 147.32 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10265,7 +12229,7 @@
 		(instances
 			(project "unikyria"
 				(path "/26a97c99-35f4-4f78-b476-5903ac1a39a1"
-					(reference "SW23")
+					(reference "SWL34")
 					(unit 1)
 				)
 			)
@@ -10281,11 +12245,11 @@
 		(file
 			(name "blank.kicad_wks")
 			(type worksheet)
-			(data |KLUv/SD7ZQQAAsgaGYDNA8CouYdotAAhABw02XLjc/EqN3NyxgKsRdbiU//rAdVnFreSHfXFGs98
-				pZ04MCAd84lPTd2JA8CuK79P9cO1WIOi7yuB4s1n63vS04Ges/UN27SXSDCzEMjA0erXtgQXa7eZ
-				ZmIg3sAMIBAigXwpF4sMnMTFdKNA05rfwqs9mHjibmEjm50=|
+			(data |KLUv/SDtTQQA8kcaGHDNA0DI0YHeJkZJsFFVHWPECK8T+nf7Ruut19T/Wjj1lcRtZEY9sbORjzTz
+				BIaRKX941NSZJ0BmPfl9qd8ptZzn+0ZINNlsfT9aMk5jtv60TTtxar2BmQMgAoxWv7Yhp9ZdInlM
+				wxcXCyAQIoF8eJTajUPCXqolYFHFD/FgziWduMYHggI=|
 			)
-			(checksum "2F3C472006645EB6C95C96139C80022F")
+			(checksum "00BCE598336E5951A5D0C187D2E96FE2")
 		)
 	)
 )
