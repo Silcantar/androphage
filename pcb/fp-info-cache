@@ -1,4 +1,4 @@
-26924395334994612
+26936567082340034
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -106481,7 +106481,7 @@ ChocV1_V2_Hotswap_18mm
 
 
 0
-6
+7
 2
 footprints
 D3_SMD
@@ -106764,6 +106764,13 @@ SW_Hole_TH
 4
 1
 footprints
+Seeeduino XIAO-MOUDLE14P-2.54-21X17.8MM
+
+
+0
+20
+20
+footprints
 StripLED_1side
 
 
@@ -106784,6 +106791,13 @@ StripLED_rev
 0
 6
 3
+footprints
+XIAO-nRF52840-SMD
+
+
+0
+22
+22
 footprints
 YS-SK6812MINI-E
 
@@ -106903,3 +106917,38 @@ waffle
 0
 0
 0
+unikyria
+HDMI_Breakout
+
+
+0
+20
+19
+unikyria
+MCP23S17_Breakout
+
+
+0
+28
+28
+unikyria
+MCP23017_Breakout
+
+
+0
+30
+26
+unikyria
+PGA2350
+Pimoroni PGA2350
+
+0
+64
+59
+unikyria
+USB_Hub
+
+
+0
+24
+12
