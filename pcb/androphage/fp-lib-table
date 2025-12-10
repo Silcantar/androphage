@@ -1,5 +1,0 @@
-(fp_lib_table
-  (version 7)
-  (lib (name "footprints")(type "KiCad")(uri "/home/joshua/Repositories/unikyria/pcb/footprints")(options "")(descr ""))
-  (lib (name "vik")(type "KiCad")(uri "/home/joshua/Repositories/unikyria/vik/kicad/vik.pretty")(options "")(descr ""))
-)
