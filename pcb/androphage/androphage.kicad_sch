@@ -1,0 +1,117 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "75763295-000b-439c-b3ba-6692a992e76d")
+	(paper "A4")
+	(lib_symbols)
+	(sheet
+		(at 3.81 3.81)
+		(size 107.95 76.2)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "7233f052-0da8-43b3-b7e1-d3095ca93bd9")
+		(property "Sheetname" "Left"
+			(at 3.81 3.0984 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Left.kicad_sch"
+			(at 3.81 80.5946 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "unikyria"
+				(path "/75763295-000b-439c-b3ba-6692a992e76d"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 120.65 3.81)
+		(size 115.57 74.93)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "aad3d27c-8610-4c87-8f5b-6dc765b1204f")
+		(property "Sheetname" "Right"
+			(at 120.65 3.0984 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Right.kicad_sch"
+			(at 120.65 79.3246 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Field2" ""
+			(at 120.65 3.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "unikyria"
+				(path "/75763295-000b-439c-b3ba-6692a992e76d"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+	(embedded_files
+		(file
+			(name "blank.kicad_wks")
+			(type worksheet)
+			(data |KLUv/SDtTQQA8kcaGHDNA0DI0YHeJkZJsFFVHWPECK8T+nf7Ruut19T/Wjj1lcRtZEY9sbORjzTz
+				BIaRKX941NSZJ0BmPfl9qd8ptZzn+0ZINNlsfT9aMk5jtv60TTtxar2BmQMgAoxWv7Yhp9ZdInlM
+				wxcXCyAQIoF8eJTajUPCXqolYFHFD/FgziWduMYHggI=|
+			)
+			(checksum "00BCE598336E5951A5D0C187D2E96FE2")
+		)
+	)
+)
