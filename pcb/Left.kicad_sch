@@ -2432,10 +2432,6 @@
 		(uuid "7fa92444-0034-4924-aeeb-a404b51f4229")
 	)
 	(no_connect
-		(at 151.13 31.75)
-		(uuid "b3c0ec2a-6f52-4d40-bd07-6bc4eac33ec9")
-	)
-	(no_connect
 		(at 31.75 49.53)
 		(uuid "c10efbb4-8a04-4d76-8323-65b7ad520e6b")
 	)
@@ -3233,7 +3229,7 @@
 		)
 		(uuid "54fbe7b9-0577-4898-af4b-94f6bd7eae53")
 	)
-	(label "GP1"
+	(label "PWRSAV"
 		(at 67.31 49.53 0)
 		(effects
 			(font
@@ -3313,7 +3309,7 @@
 		)
 		(uuid "6cbc7217-6178-4943-8b3e-87a62027a5d2")
 	)
-	(label "GP1"
+	(label "PWRSAV"
 		(at 207.01 76.2 180)
 		(effects
 			(font
@@ -3612,6 +3608,16 @@
 			(justify left bottom)
 		)
 		(uuid "d5cf679e-1f46-403c-b50d-5ac9e348a498")
+	)
+	(label "PWRSAV"
+		(at 151.13 31.75 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "dce300f5-2fe6-4013-8dac-7b96df65c0a9")
 	)
 	(label "MISO"
 		(at 31.75 36.83 180)
@@ -5760,7 +5766,7 @@
 				)
 			)
 		)
-		(property "Value" "8K"
+		(property "Value" "8K2"
 			(at 111.76 40.64 90)
 			(effects
 				(font

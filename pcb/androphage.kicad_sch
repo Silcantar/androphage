@@ -40,7 +40,7 @@
 			)
 		)
 		(instances
-			(project "unikyria"
+			(project "androphage"
 				(path "/75763295-000b-439c-b3ba-6692a992e76d"
 					(page "2")
 				)
@@ -90,9 +90,59 @@
 			)
 		)
 		(instances
-			(project "unikyria"
+			(project "androphage"
 				(path "/75763295-000b-439c-b3ba-6692a992e76d"
 					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 5.08 90.17)
+		(size 106.68 63.5)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0.0000)
+		)
+		(uuid "d20343ac-ac94-4039-ab6a-01a77d599710")
+		(property "Sheetname" "Xiao_VIK_Hat"
+			(at 5.08 89.4584 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "Xiao_VIK_Hat.kicad_sch"
+			(at 5.08 154.2546 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Field2" ""
+			(at 5.08 90.17 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "androphage"
+				(path "/75763295-000b-439c-b3ba-6692a992e76d"
+					(page "4")
 				)
 			)
 		)
