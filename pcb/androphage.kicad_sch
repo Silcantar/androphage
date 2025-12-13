@@ -6,8 +6,8 @@
 	(paper "A4")
 	(lib_symbols)
 	(sheet
-		(at 3.81 3.81)
-		(size 107.95 76.2)
+		(at 130.81 16.51)
+		(size 115.57 82.55)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -20,9 +20,9 @@
 		(fill
 			(color 0 0 0 0.0000)
 		)
-		(uuid "7233f052-0da8-43b3-b7e1-d3095ca93bd9")
-		(property "Sheetname" "Left"
-			(at 3.81 3.0984 0)
+		(uuid "18386b93-7601-4bc0-a8db-bc033a21e8a9")
+		(property "Sheetname" "Right_Switches"
+			(at 130.81 15.7984 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -30,8 +30,8 @@
 				(justify left bottom)
 			)
 		)
-		(property "Sheetfile" "Left.kicad_sch"
-			(at 3.81 80.5946 0)
+		(property "Sheetfile" "Right_Switches.kicad_sch"
+			(at 130.81 99.6446 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -42,14 +42,14 @@
 		(instances
 			(project "androphage"
 				(path "/75763295-000b-439c-b3ba-6692a992e76d"
-					(page "2")
+					(page "5")
 				)
 			)
 		)
 	)
 	(sheet
-		(at 120.65 3.81)
-		(size 115.57 74.93)
+		(at 16.51 16.51)
+		(size 106.68 82.55)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
@@ -62,9 +62,9 @@
 		(fill
 			(color 0 0 0 0.0000)
 		)
-		(uuid "aad3d27c-8610-4c87-8f5b-6dc765b1204f")
-		(property "Sheetname" "Right"
-			(at 120.65 3.0984 0)
+		(uuid "fc1295e8-7526-4972-b122-639ecfdc5d5d")
+		(property "Sheetname" "Left_Switches"
+			(at 16.51 15.7984 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -72,71 +72,13 @@
 				(justify left bottom)
 			)
 		)
-		(property "Sheetfile" "Right.kicad_sch"
-			(at 120.65 79.3246 0)
+		(property "Sheetfile" "Left_Switches.kicad_sch"
+			(at 16.51 99.6446 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left top)
-			)
-		)
-		(property "Field2" ""
-			(at 120.65 3.81 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(instances
-			(project "androphage"
-				(path "/75763295-000b-439c-b3ba-6692a992e76d"
-					(page "3")
-				)
-			)
-		)
-	)
-	(sheet
-		(at 5.08 90.17)
-		(size 106.68 63.5)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(stroke
-			(width 0.1524)
-			(type solid)
-		)
-		(fill
-			(color 0 0 0 0.0000)
-		)
-		(uuid "d20343ac-ac94-4039-ab6a-01a77d599710")
-		(property "Sheetname" "Xiao_VIK_Hat"
-			(at 5.08 89.4584 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left bottom)
-			)
-		)
-		(property "Sheetfile" "Xiao_VIK_Hat.kicad_sch"
-			(at 5.08 154.2546 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left top)
-			)
-		)
-		(property "Field2" ""
-			(at 5.08 90.17 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
 			)
 		)
 		(instances

@@ -1,4 +1,4 @@
-26952754889145460
+26938924972846579
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -106468,7 +106468,7 @@ ChocV1_V2_Hotswap
 
 0
 5
-2
+3
 footprints
 ChocV1_V2_Hotswap_1.5u
 
@@ -106953,6 +106953,13 @@ vik-keyboard-throughole
 12
 12
 vik
+vik-keyboard-throughole-2.2mm
+
+
+0
+12
+12
+vik
 vik-logo-large
 
 
@@ -107010,6 +107017,13 @@ vik-module-mounting-small
 1
 vik
 vik-module-throughole
+
+
+0
+12
+12
+vik
+vik-module-throughole-2.2mm
 
 
 0

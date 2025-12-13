@@ -100,7 +100,7 @@
         "skew_out_of_range": "error",
         "solder_mask_bridge": "error",
         "starved_thermal": "error",
-        "text_height": "warning",
+        "text_height": "ignore",
         "text_on_edge_cuts": "error",
         "text_thickness": "warning",
         "through_hole_pad_without_hole": "error",
@@ -615,16 +615,12 @@
       "Root"
     ],
     [
-      "7233f052-0da8-43b3-b7e1-d3095ca93bd9",
-      "Left"
+      "fc1295e8-7526-4972-b122-639ecfdc5d5d",
+      "Left_Switches"
     ],
     [
-      "aad3d27c-8610-4c87-8f5b-6dc765b1204f",
-      "Right"
-    ],
-    [
-      "d20343ac-ac94-4039-ab6a-01a77d599710",
-      "Xiao_VIK_Hat"
+      "18386b93-7601-4bc0-a8db-bc033a21e8a9",
+      "Right_Switches"
     ]
   ],
   "text_variables": {}
