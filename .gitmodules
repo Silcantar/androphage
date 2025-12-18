@@ -1,3 +1,4 @@
 [submodule "pcb/vik"]
 	path = pcb/vik
-	url = https://github.com/sadekbaroudi/vik.git
+	url = https://github.com/Silcantar/vik.git
+	branch = dev
