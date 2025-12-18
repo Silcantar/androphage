@@ -1,0 +1,41 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "6 Column": {
+            "Index_count": "4",
+            "Inner_count": "3",
+            "Key_Spacing": "Choc",
+            "Middle_count": "4",
+            "Outer_count": "3",
+            "Thumb_cluster_angle": "10",
+            "Thumb_cluster_radius": "6.75",
+            "Thumb_column_counts": "[2, 1]",
+            "Thumb_column_offsets": "[0, 0]",
+            "Top_plate_thickness": "1.6000000000000001"
+        },
+        "5 Column": {
+            "Angle": "15",
+            "Index_count": "4",
+            "Index_offset": "0",
+            "Inner_count": "3",
+            "Inner_offset": "1",
+            "Key_Spacing": "Choc",
+            "Length": "70",
+            "Middle_count": "4",
+            "Middle_offset": "0.5",
+            "Outer_count": "0",
+            "Outer_offset": "0.5",
+            "Pinky_count": "3",
+            "Pinky_offset": "0.5",
+            "Ring_count": "4",
+            "Ring_offset": "0",
+            "Switch_plate_edge": "2",
+            "Test_clearance": "false",
+            "Thumb_cluster_angle": "10",
+            "Thumb_cluster_radius": "6.5",
+            "Thumb_column_counts": "[2, 1]",
+            "Thumb_column_offsets": "[0, 0]",
+            "Top_plate_thickness": "1.6000000000000001"
+        }
+    }
+}
