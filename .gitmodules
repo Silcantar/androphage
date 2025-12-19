@@ -2,3 +2,6 @@
 	path = pcb/vik
 	url = https://github.com/Silcantar/vik.git
 	branch = dev
+[submodule "cad/BOSL"]
+	path = cad/BOSL
+	url = https://github.com/BelfrySCAD/BOSL2.git
