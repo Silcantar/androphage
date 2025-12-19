@@ -3,5 +3,5 @@
 	url = https://github.com/Silcantar/vik.git
 	branch = dev
 [submodule "cad/BOSL"]
-	path = cad/BOSL
+	path = cad/BOSL2
 	url = https://github.com/BelfrySCAD/BOSL2.git
