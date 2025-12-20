@@ -80,29 +80,38 @@ Column = object ( [
 
 /*				Bottom Plate				*/
 
-BottomPlate_edge = SwitchPlate_edge + CaseFrame_thickness;
+Plate_Bottom_edge = Plate_Switch_edge + CaseFrame_thickness;
 
-BottomPlate = object ( [
-	[ "edge",				BottomPlate_edge			],
-	[ "thickness",	BottomPlate_thickness	],
+Plate_Bottom = object ( [
+	[ "edge",				Plate_Bottom_edge			],
+	[ "thickness",	Plate_Bottom_thickness	],
 ] );
 
 /*				Switch Plate				*/
 
-SwitchPlate_thickness = Key_MXspacing ? 1.6 : 1.2;
+Plate_Switch_thickness = Key_MXspacing ? 1.6 : 1.2;
 
-SwitchPlate = object ( [
-	[	"edge",				SwitchPlate_edge			],
-	[	"thickness", SwitchPlate_thickness	],
+Plate_Switch = object ( [
+	[	"edge",				Plate_Switch_edge			],
+	[	"thickness", Plate_Switch_thickness	],
 ] );
 
 /*				Top Plate				*/
 
-TopPlate_edge			= SwitchPlate_edge + CaseFrame_thickness;
+Plate_Top_edge			= Plate_Switch_edge + CaseFrame_thickness;
 
-TopPlate = object ( [
-	[ "edge",				TopPlate_edge				],
-	[ "thickness",	TopPlate_thickness	],
+Plate_Top = object ( [
+	[ "edge",				Plate_Top_edge				],
+	[ "thickness",	Plate_Top_thickness	],
+] );
+
+Plate = object ( [
+	[ "Bottom",	Plate_Bottom									],
+	[ "Switch",	Plate_Switch									],
+	[ "Top",		Plate_Top											],
+	[ "backArcRadius",	Plate_backArcRadius		],
+	[ "frontArcRadius",	Plate_frontArcRadius	],
+	[ "outerArcRadius",	Plate_outerArcRadius	],
 ] );
 
 /*				Case Frame				*/
@@ -114,4 +123,9 @@ CaseFrame = object ( [
 Hinge = object ( [
 	[ "angle",		Hinge_angle		],
 	[ "length",		Hinge_length	],
+] );
+
+Trackball = object ( [
+	["diameter", Trackball_diameter],
+	["position", Trackball_position],
 ] );

@@ -5,9 +5,9 @@
 |																																							|
 |	Length Unit:	millimeter																										|
 |	Angle Unit:		degree																												|
-|	x-axis name:	"width"																												|
-|	y-axis name:	"depth"																												|
-|	z-axis name:	"height"																											|
+|	x-axis name:	"width" 	/	"inner"	- "outer"																	|
+|	y-axis name:	"depth" 	/	"front"	- "back"																	|
+|	z-axis name:	"height"	/	"top"		- "bottom"																|
 |																																							|
 \*****************************************************************************/
 
@@ -67,12 +67,19 @@ Column_outer_offset	= 0.5;	//[-1:0.125:2]
 
 /* [Plates] */
 // Top plate thickness.
-TopPlate_thickness = 1.6; //[1.0:0.2:2.0]
+Plate_Top_thickness = 1.6; //[1.0:0.2:2.0]
 
 // Distance from keys to edge of switch plate.
-SwitchPlate_edge	= 2; //[1:5]
+Plate_Switch_edge	= 2; //[1:5]
 
-BottomPlate_thickness = 1.6;	//[1:0.2:2]
+Plate_Bottom_thickness = 1.6;	//[1:0.2:2]
+
+// Radius of the arc at the bottom of the keyboard.
+Plate_frontArcRadius = 20;	//[10:50]
+// Radius of the arc at the top of the keyboard.
+Plate_backArcRadius = 90;	//[50:200]
+// Radius of the arc at the lower outside corner of the keyboard.
+Plate_outerArcRadius = 20;	//[10:50]
 
 /* [Case Frame] */
 CaseFrame_thickness = 3; //[1:5]
@@ -82,6 +89,12 @@ CaseFrame_thickness = 3; //[1:5]
 Hinge_length	= 110;	//[50:1:200]
 // Hinge Angle (double this for the angle between the halves)
 Hinge_angle	= 15;	//[0:1:45]
+
+/* [Trackball] */
+// Trackball diameter
+Trackball_diameter = 35; //[25:1:50]
+// Trackball position
+Trackball_position = 80; //[0:200]
 
 include <androphage_objects.scad>
 
