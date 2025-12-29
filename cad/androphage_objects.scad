@@ -10,6 +10,7 @@ Key_spacing = [Key_MXspacing ? 19 : 18, Key_MXspacing ? 19 : 17, 0];
 
 Key = object ( [
 	[	"clearance",			Key_clearance			],
+	[ "height",					Key_height				],
 	[	"MXspacing",			Key_MXspacing			],
 	[	"spacing",				Key_spacing				],
 	[	"testClearance",	Key_testClearance	],
@@ -93,7 +94,7 @@ Plate_Switch_thickness = Key_MXspacing ? 1.6 : 1.2;
 
 Plate_Switch = object ( [
 	[	"edge",				Plate_Switch_edge			],
-	[	"thickness", Plate_Switch_thickness	],
+	[	"thickness",	Plate_Switch_thickness	],
 ] );
 
 /*				Top Plate				*/
@@ -120,12 +121,28 @@ CaseFrame = object ( [
 	[ "thickness",	CaseFrame_thickness	],
 ] );
 
+Halves = object ( [
+	[ "angles", Halves_angles ],
+] );
+
 Hinge = object ( [
-	[ "angle",		Hinge_angle		],
 	[ "length",		Hinge_length	],
 ] );
 
 Trackball = object ( [
-	["diameter", Trackball_diameter],
-	["position", Trackball_position],
+	[ "diameter",		Trackball_diameter		],
+	[ "position",		Trackball_position		],
+	[ "sensorSize",	Trackball_sensorSize	],
+] );
+
+Dimensions = object ( [
+	[ "Key",				Key				],
+	[ "Switch",			Switch		],
+	[ "Cluster",		Cluster		],
+	[ "Column",			Column		],
+	[ "Plate",			Plate			],
+	[ "CaseFrame",	CaseFrame	],
+	[ "Halves",			Halves		],
+	[ "Hinge",			Hinge			],
+	[ "Trackball",	Trackball	],
 ] );

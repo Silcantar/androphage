@@ -22,6 +22,7 @@ Switch_type = "Choc"; //[Choc, MX]
 /* [Keys] */
 // Space between keycaps.
 Key_clearance = 0.5; //[0:0.1:1]
+Key_height = 16; //[10:30]
 
 // Test clearance between keycaps and case.
 Key_testClearance	= false;
@@ -77,7 +78,7 @@ Plate_Bottom_thickness = 1.6;	//[1:0.2:2]
 // Radius of the arc at the bottom of the keyboard.
 Plate_frontArcRadius = 20;	//[10:50]
 // Radius of the arc at the top of the keyboard.
-Plate_backArcRadius = 90;	//[50:200]
+Plate_backArcRadius = 120;	//[50:200]
 // Radius of the arc at the lower outside corner of the keyboard.
 Plate_outerArcRadius = 20;	//[10:50]
 
@@ -86,15 +87,22 @@ CaseFrame_thickness = 3; //[1:5]
 
 /* [Hinge] */
 // Hinge Length
-Hinge_length	= 110;	//[50:1:200]
-// Hinge Angle (double this for the angle between the halves)
-Hinge_angle	= 15;	//[0:1:45]
+Hinge_length	= 90;	//[50:1:200]
+
+
+// Halves Angles
+Halves_angles	= [0, 5, 15];	//[-45:45]
 
 /* [Trackball] */
 // Trackball diameter
 Trackball_diameter = 35; //[25:1:50]
 // Trackball position
 Trackball_position = 80; //[0:200]
+
+Trackball_sensorSize = [ 22, 23.5, 10 ]; //[0:30]
+
+Color_primary = [ 0.2, 0.2, 0.2, 1.0]; //[0.0:0.1:1.0]
+Color_secondary = [ 0.5, 0.3, 0.8, 1.0];  //[0.0:0.1:1.0]
 
 include <androphage_objects.scad>
 

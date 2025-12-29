@@ -15,20 +15,37 @@ use <components/switch_plate.scad>
 
 use <components/top_plate.scad>
 
+use <components/trackball.scad>
+
 use <components/trackball_sensor.scad>
 
-switch_plate ( Cluster, Column, Hinge, Key, Plate, Switch );
+// rotate ( [ 0, 0, Dimensions.Halves.angles.z ] ) {
+color ( Color_primary ) {
+		switch_plate ( Dimensions );
+	}
 
-translate ([0, 0, -10]) {
-	rotate ([0, -5, 0]) {
-		color ("green", 1.0) {
-			bottom_plate ( Cluster, Column, Hinge, Key, Plate );
+	translate ([ 0, 0, -10 ]) {
+		// rotate ( [ 0, -Dimensions.Halves.angles.y, 0 ] ) {
+			color ( Color_primary ) {
+				bottom_plate ( Dimensions );
+			}
+		// }
+	}
+
+
+	translate ( [ 0, 0, Dimensions.Key.height ] ) {
+		color ( Color_primary ) {
+			top_plate ( Dimensions );
 		}
 	}
+// }
+
+!color (Color_secondary){
+	center_block ( Dimensions );
 }
 
-translate ([0, 0, 16]) {
-	color ("red", 1.0) {
-		top_plate ( Cluster, Column, Hinge, Key, Plate, Switch, Trackball );
+* translate ( [ -70, 26, 16 ] ) {
+	color ( Color_secondary ) {
+		trackball ( Dimensions );
 	}
 }

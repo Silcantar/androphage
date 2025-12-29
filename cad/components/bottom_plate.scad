@@ -7,10 +7,12 @@ include <../androphage_globals.scad>
 
 use <plate_sketch.scad>
 
-module bottom_plate ( cluster, column, hinge, key, plate ) {
-	linear_extrude (height = plate.Bottom.thickness) {
-		offset (delta = plate.Bottom.edge) {
-			plate_sketch ( cluster, column, hinge, key, plate );
+module bottom_plate ( dimensions ) {
+	linear_extrude (height = dimensions.Plate.Bottom.thickness) {
+		scale ( [cos ( dimensions.Halves.angles.y ), 1, 1 ] ) {
+			offset (delta = dimensions.Plate.Bottom.edge) {
+				plate_sketch ( dimensions );
+			}
 		}
 	}
 }
