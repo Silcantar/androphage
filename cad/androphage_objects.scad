@@ -1,7 +1,7 @@
-/*****************************************************************************\
-|								Create parameter objects for Androphage keyboard.							|
-|													Copyright 2025 Joshua Lucas 												|
-\*****************************************************************************/
+/*******************************************************************************\
+|					Create parameter objects for Androphage keyboard.			|
+|							Copyright 2025 Joshua Lucas 						|
+\*******************************************************************************/
 
 /*				Keys				*/
 
@@ -9,18 +9,18 @@ Key_MXspacing = (Switch_type == "MX") ? true : false;
 Key_spacing = [Key_MXspacing ? 19 : 18, Key_MXspacing ? 19 : 17, 0];
 
 Key = object ( [
-	[	"clearance",			Key_clearance			],
-	[ "height",					Key_height				],
-	[	"MXspacing",			Key_MXspacing			],
-	[	"spacing",				Key_spacing				],
-	[	"testClearance",	Key_testClearance	],
+	[ "clearance",		Key_clearance		],
+	[ "height",			Key_height			],
+	[ "MXspacing",		Key_MXspacing		],
+	[ "spacing",		Key_spacing			],
+	[ "testClearance",	Key_testClearance	],
 ] );
 
 /*				Switches				*/
 
 Switch_size = [
 	Key_testClearance ? Key_spacing.x - Key_clearance : 14,
-	Key_testClearance ? Key_spacing.y - Key_clearance: 14,
+	Key_testClearance ? Key_spacing.y - Key_clearance : 14,
 ];
 
 Switch = object ( [
@@ -34,11 +34,11 @@ Switch = object ( [
 Cluster_radiusmm = Cluster_radius * Key_spacing.y;
 
 Cluster = object ( [
-	[	"angle",					Cluster_angle					],
+	[	"angle",			Cluster_angle			],
 	[	"columnCounts",		Cluster_columnCounts	],
 	[	"columnOffsets",	Cluster_columnOffsets	],
-	[	"radius",					Cluster_radius				],
-	[	"radiusmm",				Cluster_radiusmm			],
+	[	"radius",			Cluster_radius			],
+	[	"radiusmm",			Cluster_radiusmm		],
 ] );
 
 /*				Columns				*/
@@ -73,9 +73,9 @@ Column_offsets_init = [
 Column_offsets	= [ for (i = [0:Column_last]) Column_offsets_init[i] ];
 
 Column = object ( [
-	[ "count",		Column_count		],
-	[ "counts",		Column_counts		],
-	[ "last", 		Column_last			],
+	[ "count",		Column_count	],
+	[ "counts",		Column_counts	],
+	[ "last", 		Column_last		],
 	[ "offsets",	Column_offsets	],
 ] );
 
@@ -84,8 +84,9 @@ Column = object ( [
 Plate_Bottom_edge = Plate_Switch_edge + CaseFrame_thickness;
 
 Plate_Bottom = object ( [
-	[ "edge",				Plate_Bottom_edge			],
+	[ "edge",		Plate_Bottom_edge		],
 	[ "thickness",	Plate_Bottom_thickness	],
+	[ "clearance",	Plate_Bottom_clearance	],
 ] );
 
 /*				Switch Plate				*/
@@ -93,23 +94,23 @@ Plate_Bottom = object ( [
 Plate_Switch_thickness = Key_MXspacing ? 1.6 : 1.2;
 
 Plate_Switch = object ( [
-	[	"edge",				Plate_Switch_edge			],
-	[	"thickness",	Plate_Switch_thickness	],
+	[ "edge",		Plate_Switch_edge		],
+	[ "thickness",	Plate_Switch_thickness	],
 ] );
 
 /*				Top Plate				*/
 
-Plate_Top_edge			= Plate_Switch_edge + CaseFrame_thickness;
+Plate_Top_edge = Plate_Switch_edge + CaseFrame_thickness;
 
 Plate_Top = object ( [
-	[ "edge",				Plate_Top_edge				],
+	[ "edge",		Plate_Top_edge		],
 	[ "thickness",	Plate_Top_thickness	],
 ] );
 
 Plate = object ( [
-	[ "Bottom",	Plate_Bottom									],
-	[ "Switch",	Plate_Switch									],
-	[ "Top",		Plate_Top											],
+	[ "Bottom",			Plate_Bottom			],
+	[ "Switch",			Plate_Switch			],
+	[ "Top",			Plate_Top				],
 	[ "backArcRadius",	Plate_backArcRadius		],
 	[ "frontArcRadius",	Plate_frontArcRadius	],
 	[ "outerArcRadius",	Plate_outerArcRadius	],
@@ -121,6 +122,10 @@ CaseFrame = object ( [
 	[ "thickness",	CaseFrame_thickness	],
 ] );
 
+CenterBlock = object ( [
+	[ "width",	CenterBlock_width	],
+] );
+
 Halves = object ( [
 	[ "angles", Halves_angles ],
 ] );
@@ -129,20 +134,27 @@ Hinge = object ( [
 	[ "length",		Hinge_length	],
 ] );
 
+Trackball_Sensor = object ( [
+	[ "size",	Trackball_Sensor_Size	],
+	[ "angle",	Trackball_Sensor_Angle	],
+
+] );
+
 Trackball = object ( [
-	[ "diameter",		Trackball_diameter		],
-	[ "position",		Trackball_position		],
-	[ "sensorSize",	Trackball_sensorSize	],
+	[ "diameter",	Trackball_diameter	],
+	[ "position",	Trackball_position	],
+	[ "Sensor",		Trackball_Sensor	],
 ] );
 
 Dimensions = object ( [
-	[ "Key",				Key				],
+	[ "Key",			Key			],
 	[ "Switch",			Switch		],
+	[ "CenterBlock",	CenterBlock	],
 	[ "Cluster",		Cluster		],
 	[ "Column",			Column		],
-	[ "Plate",			Plate			],
-	[ "CaseFrame",	CaseFrame	],
+	[ "Plate",			Plate		],
+	[ "CaseFrame",		CaseFrame	],
 	[ "Halves",			Halves		],
-	[ "Hinge",			Hinge			],
-	[ "Trackball",	Trackball	],
+	[ "Hinge",			Hinge		],
+	[ "Trackball",		Trackball	],
 ] );

@@ -1,15 +1,15 @@
-/*****************************************************************************\
-|																																							|
-|											Parameters for Androphage keyboard.											|
-|													Copyright 2025 Joshua Lucas 												|
-|																																							|
-|	Length Unit:	millimeter																										|
-|	Angle Unit:		degree																												|
-|	x-axis name:	"width" 	/	"inner"	- "outer"																	|
-|	y-axis name:	"depth" 	/	"front"	- "back"																	|
-|	z-axis name:	"height"	/	"top"		- "bottom"																|
-|																																							|
-\*****************************************************************************/
+/*******************************************************************************\
+|																				|
+|							Parameters for Androphage keyboard.					|
+|								Copyright 2025 Joshua Lucas 					|
+|																				|
+|	Length Unit:	millimeter													|
+|	Angle Unit:		degree														|
+|	x-axis name:	"width" 	/	"inner"	- "outer"							|
+|	y-axis name:	"depth" 	/	"front"	- "back"							|
+|	z-axis name:	"height"	/	"top"		- "bottom"						|
+|																				|
+\*******************************************************************************/
 
 include <androphage_globals.scad>
 
@@ -74,6 +74,7 @@ Plate_Top_thickness = 1.6; //[1.0:0.2:2.0]
 Plate_Switch_edge	= 2; //[1:5]
 
 Plate_Bottom_thickness = 1.6;	//[1:0.2:2]
+Plate_Bottom_clearance = 5; //[1:10]
 
 // Radius of the arc at the bottom of the keyboard.
 Plate_frontArcRadius = 20;	//[10:50]
@@ -85,10 +86,12 @@ Plate_outerArcRadius = 20;	//[10:50]
 /* [Case Frame] */
 CaseFrame_thickness = 3; //[1:5]
 
+/* [Center Block] */
+CenterBlock_width = 20; //[1:50]
+
 /* [Hinge] */
 // Hinge Length
 Hinge_length	= 90;	//[50:1:200]
-
 
 // Halves Angles
 Halves_angles	= [0, 5, 15];	//[-45:45]
@@ -97,12 +100,15 @@ Halves_angles	= [0, 5, 15];	//[-45:45]
 // Trackball diameter
 Trackball_diameter = 35; //[25:1:50]
 // Trackball position
-Trackball_position = 80; //[0:200]
+Trackball_position = 60; //[0:200]
+// Trackball sensor size
+Trackball_Sensor_Size = [ 22, 23.5, 10 ]; //[0:30]
+// Trackball sensor angle
+Trackball_Sensor_Angle = 60; //[30:5:90]
 
-Trackball_sensorSize = [ 22, 23.5, 10 ]; //[0:30]
-
-Color_primary = [ 0.2, 0.2, 0.2, 1.0]; //[0.0:0.1:1.0]
-Color_secondary = [ 0.5, 0.3, 0.8, 1.0];  //[0.0:0.1:1.0]
+/* [Colors] */
+Color_primary = [ 0.20, 0.20, 0.20, 1.00 ]; //[0.0:0.01:1.0]
+Color_secondary = [ 0.50, 0.30, 0.80, 1.00 ];  //[0.0:0.01:1.0]
 
 include <androphage_objects.scad>
 

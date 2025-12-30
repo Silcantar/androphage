@@ -1,7 +1,7 @@
-/*****************************************************************************\
-|									Outline of plates for Androphage keyboard.									|
-|													Copyright 2025 Joshua Lucas 												|
-\*****************************************************************************/
+/*******************************************************************************\
+|					Outline of plates for Androphage keyboard.					|
+|							Copyright 2025 Joshua Lucas 						|
+\*******************************************************************************/
 
 include <../androphage_globals.scad>
 
@@ -69,7 +69,7 @@ function _point4 ( dimensions ) = _point5 ( dimensions ) + (
 ];
 
 function plate_sketch_points ( dimensions ) =
-	let (itk = _inner_thumb_key (dimensions) )
+	let ( itk = _inner_thumb_key (dimensions) )
 	[
 		_point0 ( dimensions ),
 		_point1 ( dimensions ),
@@ -78,6 +78,13 @@ function plate_sketch_points ( dimensions ) =
 		_point4 ( dimensions ),
 		_point5 ( dimensions ),
 		itk.bottomPoint,
+	];
+
+function bottom_center_point ( dimensions ) =
+	plate_sketch_points ( dimensions ) [5]
+	+ dimensions.Plate.frontArcRadius * [
+		sin ( dimensions.Halves.angles.z ),
+		cos ( dimensions.Halves.angles.z )
 	];
 
 module plate_sketch ( dimensions ) {
@@ -159,7 +166,7 @@ module _place_trackball ( dimensions ) {
 	];
 
 	translate (
-		startPoint
+		bottom_center_point( dimensions )
 		 + dimensions.Trackball.position * [
 			sin(dimensions.Halves.angles.z),
 			cos(dimensions.Halves.angles.z)
