@@ -1,6 +1,6 @@
 /*****************************************************************************\
 |												Top plate for Androphage keyboard.										|
-|													Copyright 2025 Joshua Lucas 												|
+|													Copyright 2026 Joshua Lucas 												|
 \*****************************************************************************/
 
 include <../androphage_globals.scad>
@@ -31,3 +31,7 @@ module top_plate ( dimensions ) {
 		}
 	}
 }
+
+use <../androphage.scad>
+
+top_plate ( Dimensions() );

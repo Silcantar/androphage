@@ -1,6 +1,6 @@
 /*******************************************************************************\
 |							Assembly of Androphage keyboard.					|
-|							Copyright 2025 Joshua Lucas 						|
+|							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
 use <components/bottom_plate.scad>
@@ -10,6 +10,8 @@ use <components/case_frame.scad>
 use <components/center_block.scad>
 
 use <components/magnetic_connector.scad>
+
+use <components/pcb.scad>
 
 use <components/plate_sketch.scad>
 
@@ -21,10 +23,23 @@ use <components/trackball.scad>
 
 use <components/trackball_sensor.scad>
 
+/*				PCB				*/
+translate ( [ 0, 0, Dimensions.Plate.Bottom.clearance + Switch.height.legs ] ) {
+	color ( Color_secondary ) {
+		pcb ( Dimensions );
+	}
+}
+
 /*				Switch Plate				*/
-translate ( [ 0, 0, Dimensions.Plate.Bottom.clearance ] ) {
-	color ( Color_primary ) {
-		switch_plate ( Dimensions );
+if ( Dimensions.Plate.Switch.present ) {
+	translate ( [ 0, 0, (
+			Dimensions.Plate.Bottom.clearance
+			+ Switch.height.legs
+			+ Switch.height.lower
+	) ] ) {
+		color ( Color_primary ) {
+			switch_plate ( Dimensions );
+		}
 	}
 }
 
@@ -51,7 +66,14 @@ plateSketchPoints = plate_sketch_points ( Dimensions );
 /*				Center Block				*/
 translate (
 	concat (
-		bottom_center_point ( Dimensions ),
+		(
+			bottom_center_point ( Dimensions )
+			+ Dimensions.Plate.Top.edge
+			* [
+				 - cos ( Dimensions.Halves.angles.z ),
+				 sin ( Dimensions.Halves.angles.z )
+			]
+		),
 		[ Dimensions.Plate.Bottom.thickness ]
 	)
 ) {
@@ -63,7 +85,7 @@ translate (
 }
 
 /*				Trackball				*/
-translate ( [ -70, 26, 16 ] ) {
+translate ( [ -60, 42, 20 ] ) {
 	color ( Color_secondary ) {
 		trackball ( Dimensions );
 	}

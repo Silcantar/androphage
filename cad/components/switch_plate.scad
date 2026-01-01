@@ -1,7 +1,7 @@
-/*****************************************************************************\
-|											Switch plate for Androphage keyboard.										|
-|													Copyright 2025 Joshua Lucas 												|
-\*****************************************************************************/
+/*******************************************************************************\
+|						Switch plate for Androphage keyboard.					|
+|							Copyright 2026 Joshua Lucas 						|
+\*******************************************************************************/
 
 include <../androphage_globals.scad>
 
@@ -20,3 +20,7 @@ module switch_plate ( dimensions ) {
 		};
 	}
 }
+
+use <../androphage.scad>
+
+switch_plate ( Dimensions() );

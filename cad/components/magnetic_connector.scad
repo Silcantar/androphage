@@ -1,8 +1,12 @@
 /*****************************************************************************\
 |									Magnetic Connector for Androphage keyboard.									|
-|													Copyright 2025 Joshua Lucas 												|
+|													Copyright 2026 Joshua Lucas 												|
 \*****************************************************************************/
 
-module _magnetic_connector () {
+module magnetic_connector () {
 
 }
+
+use <../androphage.scad>
+
+magnetic_connector ( Dimensions() );

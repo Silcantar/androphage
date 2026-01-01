@@ -1,20 +1,8 @@
 /*******************************************************************************\
+|						Deprecated, combined with androphage.scad				|
 |					Create parameter objects for Androphage keyboard.			|
-|							Copyright 2025 Joshua Lucas 						|
+|							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
-
-/*				Keys				*/
-
-Key_MXspacing = (Switch_type == "MX") ? true : false;
-Key_spacing = [Key_MXspacing ? 19 : 18, Key_MXspacing ? 19 : 17, 0];
-
-Key = object ( [
-	[ "clearance",		Key_clearance		],
-	[ "height",			Key_height			],
-	[ "MXspacing",		Key_MXspacing		],
-	[ "spacing",		Key_spacing			],
-	[ "testClearance",	Key_testClearance	],
-] );
 
 /*				Switches				*/
 
@@ -23,10 +11,45 @@ Switch_size = [
 	Key_testClearance ? Key_spacing.y - Key_clearance : 14,
 ];
 
+Switch_height = object ( [
+	[ "total",	(Switch_type == "mx") ? 14.9 : 11.0	],
+	[ "upper",	(Switch_type == "mx") ? 6.6 : 5.8	], // Excludes MX stem.
+	[ "lower",	(Switch_type == "mx") ? 5.0 : 2.2	],
+	[ "legs",	(Switch_type == "mx") ? 3.3 : 3.0	],
+] );
+
 Switch = object ( [
-	[	"radius",	Switch_radius	],
-	[	"size",		Switch_size		],
-	[	"type",		Switch_type		],
+	[ "height",	Switch_height	],
+	[ "radius",	Switch_radius	],
+	[ "size",	Switch_size		],
+	[ "type",	Switch_type		],
+] );
+
+/*				Keycaps				*/
+
+keycapHeight = object ( [
+	[ "cherry",	11	],
+	[ "dsa",	8	],
+	[ "lamé",	6.5	],
+	[ "mbk",	2.6	],
+] );
+
+Keycap = object ( [
+	[ "height",	keycapHeight[Keycap_type]	],
+	[ "type",	Keycap_type					],
+] );
+
+/*				Keys				*/
+
+Key_MXspacing = (Switch_type == "mx") ? true : false;
+Key_spacing = [Key_MXspacing ? 19 : 18, Key_MXspacing ? 19 : 17, 0];
+
+Key = object ( [
+	[ "clearance",		Key_clearance		],
+	[ "height",			Switch.height.upper + Keycap.height	],
+	[ "MXspacing",		Key_MXspacing		],
+	[ "spacing",		Key_spacing			],
+	[ "testClearance",	Key_testClearance	],
 ] );
 
 /*				Thumb Cluster				*/
@@ -79,6 +102,12 @@ Column = object ( [
 	[ "offsets",	Column_offsets	],
 ] );
 
+/*				PCB				*/
+
+PCB = object ( [
+	[ "thickness",	PCB_thickness	],
+] );
+
 /*				Bottom Plate				*/
 
 Plate_Bottom_edge = Plate_Switch_edge + CaseFrame_thickness;
@@ -95,6 +124,7 @@ Plate_Switch_thickness = Key_MXspacing ? 1.6 : 1.2;
 
 Plate_Switch = object ( [
 	[ "edge",		Plate_Switch_edge		],
+	[ "present",	Plate_Switch_present	],
 	[ "thickness",	Plate_Switch_thickness	],
 ] );
 
@@ -147,14 +177,18 @@ Trackball = object ( [
 ] );
 
 Dimensions = object ( [
-	[ "Key",			Key			],
-	[ "Switch",			Switch		],
+	[ "CaseFrame",		CaseFrame	],
 	[ "CenterBlock",	CenterBlock	],
 	[ "Cluster",		Cluster		],
 	[ "Column",			Column		],
-	[ "Plate",			Plate		],
-	[ "CaseFrame",		CaseFrame	],
 	[ "Halves",			Halves		],
 	[ "Hinge",			Hinge		],
+	[ "Key",			Key			],
+	[ "Keycap",			Keycap		],
+	[ "PCB",			PCB			],
+	[ "Plate",			Plate		],
+	[ "Switch",			Switch		],
 	[ "Trackball",		Trackball	],
 ] );
+
+function Dimensions () = Dimensions;

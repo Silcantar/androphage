@@ -1,6 +1,6 @@
 /*****************************************************************************\
 |									Global definitions for Androphage keyboard.									|
-|													Copyright 2025 Joshua Lucas 												|
+|													Copyright 2026 Joshua Lucas 												|
 \*****************************************************************************/
 
 function last (vector) = len(vector) - 1;

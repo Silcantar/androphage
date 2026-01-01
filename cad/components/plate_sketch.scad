@@ -1,6 +1,6 @@
 /*******************************************************************************\
 |					Outline of plates for Androphage keyboard.					|
-|							Copyright 2025 Joshua Lucas 						|
+|							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
 include <../androphage_globals.scad>
@@ -176,6 +176,13 @@ module _place_trackball ( dimensions ) {
 			sin(dimensions.Halves.angles.z)
 		]
 	) {
-		circle (d = dimensions.Trackball.diameter);
+		circle (d = (
+			dimensions.Trackball.diameter
+			+ 2 * dimensions.Trackball.clearance
+		));
 	}
 }
+
+use <../androphage.scad>
+
+plate_sketch ( Dimensions() );
