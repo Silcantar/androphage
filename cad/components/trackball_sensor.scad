@@ -3,34 +3,44 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../androphage_globals.scad>
+use <../androphage.scad>
 
-module trackball_sensor ( dimensions ) {
-	cube (
-		[
-			dimensions.Trackball.Sensor.size.x,
-			dimensions.Trackball.Sensor.size.y,
-			dimensions.PCB.thickness
-		],
-		center = true
+module trackball_sensor ( ) {
+
+	// Focal point of the sensor
+	# sphere ( d = 1 );
+
+	cylinder (
+		d = Dimensions().Trackball.Sensor.holeSize,
+		h = Dimensions().Trackball.Sensor.clearance
 	);
 
-	translate ( [
-		( dimensions.Trackball.Sensor.size.x - 15 ) / 2,
-		0,
-		2
-	] ) {
-		cube (
-			[
-				15,
-				10,
-				dimensions.Trackball.Sensor.size.z
-			],
-			center = true
-		);
+	translate (
+		Dimensions().Trackball.Sensor.PCBsize / 2
+		- Dimensions().Trackball.Sensor.opticalCenter
+	) {
+		color ( Color().secondary ) {
+			cube ( Dimensions().Trackball.Sensor.PCBsize, center = true );
+		}
+
+		translate ( [ 0, 0, (
+			Dimensions().Trackball.Sensor.PCBsize.z
+			+ Dimensions().Trackball.Sensor.size.z
+		) / 2 ] ) {
+			color ( Color().primary ) {
+				cube ( Dimensions().Trackball.Sensor.size, center = true);
+			}
+		}
+
+		translate ( [ 0, 0, -(
+			Dimensions().Trackball.Sensor.PCBsize.z
+			+ Dimensions().Trackball.Sensor.lensSize.z
+		) / 2 ] ) {
+			color ( Color().clear ) {
+				cube ( Dimensions().Trackball.Sensor.lensSize, center = true );
+			}
+		}
 	}
 }
 
-use <../androphage.scad>
-
-trackball_sensor ( Dimensions() );
+trackball_sensor (  );

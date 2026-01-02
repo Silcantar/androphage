@@ -3,24 +3,22 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../androphage_globals.scad>
+use <../androphage.scad>
 
 use <plate_sketch.scad>
 
-module switch_plate ( dimensions ) {
-	linear_extrude (height = dimensions.Plate.Switch.thickness) {
+module switch_plate ( ) {
+	linear_extrude (height = Dimensions().Plate.Switch.thickness) {
 		difference () {
-			offset ( delta = dimensions.Plate.Switch.edge ) {
-				plate_sketch ( dimensions );
+			offset ( delta = Dimensions().Plate.Switch.edge ) {
+				plate_sketch ( );
 			}
 
-			_place_finger_switches ( dimensions );
+			_place_finger_switches ( );
 
-			_place_thumb_switches ( dimensions );
+			_place_thumb_switches ( );
 		};
 	}
 }
 
-use <../androphage.scad>
-
-switch_plate ( Dimensions() );
+switch_plate ( );

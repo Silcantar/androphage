@@ -3,149 +3,149 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../androphage_globals.scad>
+use <../androphage.scad>
 
-function _inner_thumb_key ( dimensions ) =
+function _inner_thumb_key ( ) =
 	let (
-		itk_angle = len(dimensions.Cluster.columnCounts) * dimensions.Cluster.angle,
+		itk_angle = len(Dimensions().Cluster.columnCounts) * Dimensions().Cluster.angle,
 		itk_coords = [
-			-dimensions.Cluster.radiusmm * sin(itk_angle),
-			dimensions.Cluster.radiusmm * (cos(itk_angle) - 1)
+			-Dimensions().Cluster.radiusmm * sin(itk_angle),
+			Dimensions().Cluster.radiusmm * (cos(itk_angle) - 1)
 		]
 	)
 	object( [
 		["angle", itk_angle],
 		["coords", itk_coords],
 		["bottomPoint", [
-			itk_coords.x + (dimensions.Key.spacing.y / 2) * sin(itk_angle),
-			itk_coords.y - (dimensions.Key.spacing.y / 2) * (cos(itk_angle))
+			itk_coords.x + (Dimensions().Key.spacing.y / 2) * sin(itk_angle),
+			itk_coords.y - (Dimensions().Key.spacing.y / 2) * (cos(itk_angle))
 		] ],
 	] );
 
 // Bottom center
-function _point0 ( dimensions ) = [
+function _point0 ( ) = [
 	0,
-	-dimensions.Key.spacing.y * (0.5 - min(dimensions.Column.offsets))
+	-Dimensions().Key.spacing.y * (0.5 - min(Dimensions().Column.offsets))
 ];
 
 // Bottom right
-function _point1 ( dimensions ) = _point0 ( dimensions ) + [
-	(len(dimensions.Column.counts) - 1.5) * dimensions.Key.spacing.x,
+function _point1 ( ) = _point0 ( ) + [
+	(len(Dimensions().Column.counts) - 1.5) * Dimensions().Key.spacing.x,
 	0
 ];
 
 // Top right
-function _point2 ( dimensions ) = _point1 ( dimensions ) + [
+function _point2 ( ) = _point1 ( ) + [
 	0,
 	(
-		dimensions.Column.counts[pinky]
-		+ dimensions.Column.offsets[pinky]
-	) * dimensions.Key.spacing.y
+		Dimensions().Column.counts [ finger().pinky ]
+		+ Dimensions().Column.offsets [ finger().pinky ]
+	) * Dimensions().Key.spacing.y
 ];
 
 // Top center
-function _point3 ( dimensions ) = [
-	(middle - 1) * dimensions.Key.spacing.x,
-	dimensions.Column.counts[middle] * dimensions.Key.spacing.x
+function _point3 ( ) = [
+	(finger().middle - 1) * Dimensions().Key.spacing.x,
+	Dimensions().Column.counts[finger().middle] * Dimensions().Key.spacing.x
 ];
 
-function _point5 (dimensions) =
-	let (itk = _inner_thumb_key (dimensions) )
+function _point5 ( ) =
+	let ( itk = _inner_thumb_key ( ) )
 	itk.bottomPoint + (
-		dimensions.Plate.frontArcRadius
-		+ dimensions.Key.spacing.x / 2
+		Dimensions().Plate.frontArcRadius
+		+ Dimensions().Key.spacing.x / 2
 	) * [
 		-cos(itk.angle),
 		-sin(itk.angle)
 	];
 
-function _point4 ( dimensions ) = _point5 ( dimensions ) + (
-	dimensions.Plate.frontArcRadius
-	+ dimensions.Hinge.length
-	+ dimensions.Plate.backArcRadius
+function _point4 ( ) = _point5 ( ) + (
+	Dimensions().Plate.frontArcRadius
+	+ Dimensions().Hinge.length
+	+ Dimensions().Plate.backArcRadius
 ) * [
-	sin(dimensions.Halves.angles.z),
-	cos(dimensions.Halves.angles.z)
+	sin(Dimensions().Halves.angles.z),
+	cos(Dimensions().Halves.angles.z)
 ];
 
-function plate_sketch_points ( dimensions ) =
-	let ( itk = _inner_thumb_key (dimensions) )
+function plate_sketch_points ( ) =
+	let ( itk = _inner_thumb_key ( ) )
 	[
-		_point0 ( dimensions ),
-		_point1 ( dimensions ),
-		_point2 ( dimensions ),
-		_point3 ( dimensions ),
-		_point4 ( dimensions ),
-		_point5 ( dimensions ),
+		_point0 ( ),
+		_point1 ( ),
+		_point2 ( ),
+		_point3 ( ),
+		_point4 ( ),
+		_point5 ( ),
 		itk.bottomPoint,
 	];
 
-function bottom_center_point ( dimensions ) =
-	plate_sketch_points ( dimensions ) [5]
-	+ dimensions.Plate.frontArcRadius * [
-		sin ( dimensions.Halves.angles.z ),
-		cos ( dimensions.Halves.angles.z )
+function bottom_center_point ( ) =
+	plate_sketch_points ( ) [5]
+	+ Dimensions().Plate.frontArcRadius * [
+		sin ( Dimensions().Halves.angles.z ),
+		cos ( Dimensions().Halves.angles.z )
 	];
 
-module plate_sketch ( dimensions ) {
-	points = plate_sketch_points ( dimensions );
+module plate_sketch ( ) {
+	points = plate_sketch_points ( );
 
 	difference () {
 		polygon ( points );
 		translate ( [
 			0,
-			-dimensions.Cluster.radiusmm
-			+ dimensions.Key.spacing.y * min(dimensions.Column.offsets),
+			-Dimensions().Cluster.radiusmm
+			+ Dimensions().Key.spacing.y * min(Dimensions().Column.offsets),
 			0
 		] ) {
-			circle ((dimensions.Cluster.radius-0.5) * dimensions.Key.spacing.y);
+			circle ((Dimensions().Cluster.radius-0.5) * Dimensions().Key.spacing.y);
 		}
 		translate ( points [ 4 ] ) {
-			circle (dimensions.Plate.backArcRadius);
+			circle (Dimensions().Plate.backArcRadius);
 		}
 		translate ( points [ 5 ] ) {
-			circle (dimensions.Plate.frontArcRadius);
+			circle (Dimensions().Plate.frontArcRadius);
 		}
 		translate ( points [ 1 ] + [
 			0,
-			dimensions.Column.offsets[pinky] * dimensions.Key.spacing.y
-			- dimensions.Plate.outerArcRadius
+			Dimensions().Column.offsets[finger().pinky] * Dimensions().Key.spacing.y
+			- Dimensions().Plate.outerArcRadius
 		] ) {
-			circle (dimensions.Plate.outerArcRadius);
+			circle (Dimensions().Plate.outerArcRadius);
 		}
 	}
 }
 
-module _switch_hole( dimensions ) {
-	offset (dimensions.Switch.radius) {
-		offset (-dimensions.Switch.radius) {
-			square( dimensions.Switch.size, center = true );
+module _switch_hole ( size = Dimensions().Switch.size ) {
+	offset (Dimensions().Switch.radius) {
+		offset (-Dimensions().Switch.radius) {
+			square ( size, center = true );
 		}
 	}
 }
 
-module _place_finger_switches ( dimensions ) {
+module _place_finger_switches ( size = Dimensions().Switch.size ) {
 	for (
-		i = [ 0 : dimensions.Column.last ],
-		j = [ 0 : dimensions.Column.counts[i] - 1 ]
+		i = [ 0 : Dimensions().Column.last ],
+		j = [ 0 : Dimensions().Column.counts[i] - 1 ]
 	) {
 		translate ( [
-			(i - 1) * dimensions.Key.spacing.x,
-			(dimensions.Column.offsets[i] + j) * dimensions.Key.spacing.y
+			(i - 1) * Dimensions().Key.spacing.x,
+			(Dimensions().Column.offsets[i] + j) * Dimensions().Key.spacing.y
 		] ) {
-			_switch_hole ( dimensions );
+			_switch_hole ( size = size );
 		};
 	}
 }
 
-module _place_thumb_switches ( dimensions ) {
-	for (i = [0:len(dimensions.Cluster.columnCounts) -1 ]) {
-		translate ([0, - dimensions.Cluster.radiusmm, 0]) {
-			rotate ((i + 1) * dimensions.Cluster.angle) {
-				translate ([0, dimensions.Cluster.radiusmm, 0]) {
-					for (j = [0 : dimensions.Cluster.columnCounts[i] - 1]) {
-						translate ([0, j * dimensions.Key.spacing.y, 0]) {
-							_switch_hole ( dimensions );
+module _place_thumb_switches ( size = Dimensions().Switch.size ) {
+	for (i = [0:len(Dimensions().Cluster.columnCounts) -1 ]) {
+		translate ([0, - Dimensions().Cluster.radiusmm, 0]) {
+			rotate ((i + 1) * Dimensions().Cluster.angle) {
+				translate ([0, Dimensions().Cluster.radiusmm, 0]) {
+					for (j = [0 : Dimensions().Cluster.columnCounts[i] - 1]) {
+						translate ([0, j * Dimensions().Key.spacing.y, 0]) {
+							_switch_hole ( size = size );
 						}
 					}
 				}
@@ -154,35 +154,33 @@ module _place_thumb_switches ( dimensions ) {
 	}
 }
 
-module _place_trackball ( dimensions ) {
-	InnerThumbKey = _inner_thumb_key ( dimensions );
+module _place_trackball ( ) {
+	InnerThumbKey = _inner_thumb_key ( );
 
 	startPoint = InnerThumbKey.bottomPoint + (
-		dimensions.Plate.frontArcRadius
-		+ dimensions.Key.spacing.x / 2
+		Dimensions().Plate.frontArcRadius
+		+ Dimensions().Key.spacing.x / 2
 	) * [
 		-cos(InnerThumbKey.angle),
 		-sin(InnerThumbKey.angle)
 	];
 
 	translate (
-		bottom_center_point( dimensions )
-		 + dimensions.Trackball.position * [
-			sin(dimensions.Halves.angles.z),
-			cos(dimensions.Halves.angles.z)
+		bottom_center_point( )
+		 + Dimensions().Trackball.position * [
+			sin(Dimensions().Halves.angles.z),
+			cos(Dimensions().Halves.angles.z)
 		]
-		 + dimensions.Plate.Top.edge * [
-			-cos(dimensions.Halves.angles.z),
-			sin(dimensions.Halves.angles.z)
+		 + Dimensions().Plate.Top.edge * [
+			-cos(Dimensions().Halves.angles.z),
+			sin(Dimensions().Halves.angles.z)
 		]
 	) {
 		circle (d = (
-			dimensions.Trackball.diameter
-			+ 2 * dimensions.Trackball.clearance
+			Dimensions().Trackball.diameter
+			+ 2 * Dimensions().Trackball.clearance
 		));
 	}
 }
 
-use <../androphage.scad>
-
-plate_sketch ( Dimensions() );
+plate_sketch ( );

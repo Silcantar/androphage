@@ -1,14 +1,12 @@
-/*****************************************************************************\
-|											Trackball for Androphage keyboard.											|
-|													Copyright 2026 Joshua Lucas 												|
-\*****************************************************************************/
-
-include <../androphage_globals.scad>
-
-module trackball ( dimensions ) {
-	sphere ( dimensions.Trackball.diameter / 2 );
-}
+/*******************************************************************************\
+|						Trackball for Androphage keyboard.						|
+|							Copyright 2026 Joshua Lucas 						|
+\*******************************************************************************/
 
 use <../androphage.scad>
 
-trackball ( Dimensions() );
+module trackball ( ) {
+	sphere ( Dimensions().Trackball.diameter / 2 );
+}
+
+trackball (  );

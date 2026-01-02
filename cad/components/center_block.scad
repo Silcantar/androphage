@@ -3,39 +3,39 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../androphage_globals.scad>
+$fa = 1;
+$fs = 0.1;
 
-module center_block ( dimensions ) {
+use <../androphage.scad>
+
+use <trackball_sensor.scad>
+
+module center_block ( ) {
 	difference () {
+		// Main Body
 		cube ( [
-			dimensions.CenterBlock.width,
-			dimensions.Hinge.length,
+			Dimensions().CenterBlock.width,
+			Dimensions().Hinge.length,
 			(
-				dimensions.Key.height
-				+ dimensions.Plate.Bottom.clearance
-				- dimensions.Plate.Top.thickness
+				Dimensions().Key.height
+				+ Dimensions().Plate.Bottom.clearance
+				- Dimensions().Plate.Top.thickness
 			) ] );
 
-		translate ( [
-			20,
-			(
-				dimensions.Trackball.position
-				- dimensions.Trackball.Sensor.size.y / 2
-			),
-			0
-		] ) {
-			rotate ( [ 0, -dimensions.Trackball.Sensor.angle, 0 ] ) {
-				cube ( dimensions.Trackball.Sensor.size );
+		// Subtract Trackball + clearance.
+		translate ( [ 0, 60, 19 ] ) {
+			sphere ( d = (
+				Dimensions().Trackball.diameter
+				+ 2 * Dimensions().Trackball.clearance
+			) );
+
+			rotate ( [ 0, 180 - Dimensions().Trackball.Sensor.angle, 0 ] ) {
+				translate ( [ 0, 0, Dimensions().Trackball.diameter / 2 ] ) {
+					# trackball_sensor ();
+				}
 			}
 		}
 	}
 }
 
-use <../androphage.scad>
-use <trackball.scad>
-
-center_block ( Dimensions () );
-
-translate ( [ 0, 60, 18 ] ) {
-	# trackball ( Dimensions () );
-}
+center_block ( );

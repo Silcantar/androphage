@@ -11,7 +11,21 @@
 |																				|
 \*******************************************************************************/
 
-include <androphage_globals.scad>
+function last (vector) = len(vector) - 1;
+
+/* [Hidden] */
+$fa = 1;
+$fs = 0.1;
+
+// "Enum" of fingers/columns.
+function finger () = object (
+	inner	= 0,
+	index	= 1,
+	middle	= 2,
+	ring	= 3,
+	pinky	= 4,
+	outer	= 5,
+);
 
 /* [Switches] */
 // Radius for corners of switch openings in the switch plate.
@@ -109,14 +123,47 @@ Trackball_diameter = 35;	//[25:1:50]
 Trackball_position = 60;	//[0:200]
 // Trackball clearance
 Trackball_clearance = 1;	//[0:0.1:2]
-// Trackball sensor size
-Trackball_Sensor_Size = [ 22, 23.5, 10 ]; //[0:30]
+
+/* [Trackball Sensor] */
+// Trackball sensor PCB size
+Trackball_Sensor_PCBsize = [ 16, 25 ]; //[0:30]
+Trackball_Sensor_size = [ 10.9, 16.2, 1.65 ];
+Trackball_Sensor_lensSize = [ 8.6, 16.96, 3.4 ];
+Trackball_Sensor_clearance = 2.4;
+Trackball_Sensor_holeSize = 8;
 // Trackball sensor angle
-Trackball_Sensor_Angle = 60; //[30:5:90]
+Trackball_Sensor_angle = 60; //[30:5:90]
+// Trackball sensor optical center coords
+Trackball_Sensor_opticalCenter = [
+	7.85,
+	15.32,
+	-Trackball_Sensor_lensSize.z
+		- Trackball_Sensor_clearance
+];
+
+/* [Trackball BTU] */
+// Trackball BTU main diameter
+Trackball_BTU_D1	= 7.5;
+// Trackball BTU upper ring diameter
+Trackball_BTU_D		= 9;
+// Trackball BTU main height
+Trackball_BTU_L		= 4;
+// Trackball BTU upper ring height
+Trackball_BTU_H		= 1;
+// Trackball BTU ball height
+Trackball_BTU_L1	= 1.1;
+// Trackball BTU ball diameter
+Trackball_BTU_d		= 4;
 
 /* [Colors] */
 Color_primary = [ 0.20, 0.20, 0.20, 1.00 ]; //[0.0:0.01:1.0]
 Color_secondary = [ 0.50, 0.30, 0.80, 1.00 ];  //[0.0:0.01:1.0]
+
+function Color () = object ( [
+	[ "primary",	Color_primary	],
+	[ "secondary",	Color_secondary	],
+	[ "clear",		[ 1.0, 1.0, 1.0, 0.2 ] ],
+] );
 
 /*				Switches				*/
 
@@ -156,7 +203,7 @@ Keycap = object ( [
 /*				Keys				*/
 
 Key_MXspacing = (Switch_type == "mx") ? true : false;
-Key_spacing = [Key_MXspacing ? 19 : 18, Key_MXspacing ? 19 : 17, 0];
+Key_spacing = [Key_MXspacing ? 19 : 18, Key_MXspacing ? 19 : 17 ];
 
 Key = object ( [
 	[ "clearance",		Key_clearance		],
@@ -279,9 +326,22 @@ Hinge = object ( [
 ] );
 
 Trackball_Sensor = object ( [
-	[ "size",	Trackball_Sensor_Size	],
-	[ "angle",	Trackball_Sensor_Angle	],
+	[ "PCBsize",		concat ( Trackball_Sensor_PCBsize, PCB_thickness )	],
+	[ "size",			Trackball_Sensor_size			],
+	[ "lensSize",		Trackball_Sensor_lensSize		],
+	[ "clearance",		Trackball_Sensor_clearance		],
+	[ "holeSize",		Trackball_Sensor_holeSize		],
+	[ "angle",			Trackball_Sensor_angle			],
+	[ "opticalCenter",	Trackball_Sensor_opticalCenter	],
+] );
 
+Trackball_BTU = object ( [
+	[ "D1",	Trackball_BTU_D1	],
+	[ "D",	Trackball_BTU_D		],
+	[ "L",	Trackball_BTU_L		],
+	[ "H",	Trackball_BTU_H		],
+	[ "L1",	Trackball_BTU_L1	],
+	[ "d",	Trackball_BTU_d		],
 ] );
 
 Trackball = object ( [
@@ -289,6 +349,7 @@ Trackball = object ( [
 	[ "diameter",	Trackball_diameter	],
 	[ "position",	Trackball_position	],
 	[ "Sensor",		Trackball_Sensor	],
+	[ "BTU",		Trackball_BTU		],
 ] );
 
 Dimensions = object ( [
@@ -306,6 +367,8 @@ Dimensions = object ( [
 	[ "Trackball",		Trackball	],
 ] );
 
-function Dimensions () = Dimensions;
+function Dimensions ( ) = Dimensions;
 
-include <androphage_assembly.scad>
+use <androphage_assembly.scad>
+
+androphage_assembly ( );

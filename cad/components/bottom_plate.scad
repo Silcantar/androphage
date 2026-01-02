@@ -3,20 +3,18 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../androphage_globals.scad>
+use <../androphage.scad>
 
 use <plate_sketch.scad>
 
-module bottom_plate ( dimensions ) {
-	linear_extrude (height = dimensions.Plate.Bottom.thickness) {
-		// scale ( [cos ( dimensions.Halves.angles.y ), 1, 1 ] ) {
-			offset (delta = dimensions.Plate.Bottom.edge) {
-				plate_sketch ( dimensions );
+module bottom_plate ( ) {
+	linear_extrude (height = Dimensions().Plate.Bottom.thickness) {
+		// scale ( [cos ( Dimensions().Halves.angles.y ), 1, 1 ] ) {
+			offset (delta = Dimensions().Plate.Bottom.edge) {
+				plate_sketch ( );
 			}
 		// }
 	}
 }
 
-use <../androphage.scad>
-
-bottom_plate ( Dimensions() );
+bottom_plate ( );

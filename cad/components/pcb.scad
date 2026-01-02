@@ -3,20 +3,18 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../androphage_globals.scad>
+use <../androphage.scad>
 
 use <plate_sketch.scad>
 
-module pcb ( dimensions ) {
-	linear_extrude (height = dimensions.PCB.thickness) {
+module pcb ( ) {
+	linear_extrude (height = Dimensions().PCB.thickness) {
 		difference () {
-			offset ( delta = dimensions.Plate.Switch.edge ) {
-				plate_sketch ( dimensions );
+			offset ( delta = Dimensions().Plate.Switch.edge ) {
+				plate_sketch ( );
 			}
 		};
 	}
 }
 
-use <../androphage.scad>
-
-pcb ( Dimensions() );
+pcb ( );

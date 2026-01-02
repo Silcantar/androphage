@@ -3,12 +3,10 @@
 |													Copyright 2026 Joshua Lucas 												|
 \*****************************************************************************/
 
-include <../androphage_globals.scad>
+use <../androphage.scad>
 
 module case_frame () {
 
 }
 
-use <../androphage.scad>
-
-case_frame ( Dimensions() );
+case_frame ( );
