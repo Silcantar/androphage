@@ -3,6 +3,9 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
+$fa = 1;
+$fs = 0.1;
+
 use <../androphage.scad>
 
 function _inner_thumb_key ( ) =
@@ -22,34 +25,43 @@ function _inner_thumb_key ( ) =
 		] ],
 	] );
 
-// Bottom center
-function _point0 ( ) = [
-	0,
-	-Dimensions().Key.spacing.y * (0.5 - min(Dimensions().Column.offsets))
-];
+// Front middle
+function _front_middle_point ( ) = (
+	[
+		0,
+		-Dimensions().Key.spacing.y * (0.5 - min(Dimensions().Column.offsets))
+	]
+);
 
-// Bottom right
-function _point1 ( ) = _point0 ( ) + [
-	(len(Dimensions().Column.counts) - 1.5) * Dimensions().Key.spacing.x,
-	0
-];
+// Front outer
+function _front_outer_point ( ) = (
+	_front_middle_point ( ) + [
+		(len(Dimensions().Column.counts) - 1.5) * Dimensions().Key.spacing.x,
+		0
+	]
+);
 
-// Top right
-function _point2 ( ) = _point1 ( ) + [
-	0,
-	(
-		Dimensions().Column.counts [ finger().pinky ]
-		+ Dimensions().Column.offsets [ finger().pinky ]
-	) * Dimensions().Key.spacing.y
-];
+// Back outer
+function _back_outer_point ( ) = (
+	_front_outer_point ( ) + [
+		0,
+		(
+			Dimensions().Column.counts [ finger().pinky ]
+			+ Dimensions().Column.offsets [ finger().pinky ]
+		) * Dimensions().Key.spacing.y
+	]
+);
 
-// Top center
-function _point3 ( ) = [
-	(finger().middle - 1) * Dimensions().Key.spacing.x,
-	Dimensions().Column.counts[finger().middle] * Dimensions().Key.spacing.x
-];
+// Back middle
+function _back_middle_point ( ) = (
+	[
+		(finger().middle - 1) * Dimensions().Key.spacing.x,
+		Dimensions().Column.counts[finger().middle] * Dimensions().Key.spacing.x
+	]
+);
 
-function _point5 ( ) =
+// The center of the front arc.
+function _front_arc_center ( ) = (
 	let ( itk = _inner_thumb_key ( ) )
 	itk.bottomPoint + (
 		Dimensions().Plate.frontArcRadius
@@ -57,38 +69,73 @@ function _point5 ( ) =
 	) * [
 		-cos(itk.angle),
 		-sin(itk.angle)
-	];
+	]
+);
 
-function _point4 ( ) = _point5 ( ) + (
-	Dimensions().Plate.frontArcRadius
-	+ Dimensions().Hinge.length
-	+ Dimensions().Plate.backArcRadius
-) * [
-	sin(Dimensions().Halves.angles.z),
-	cos(Dimensions().Halves.angles.z)
-];
+// The center of the back arc.
+function _back_arc_center ( ) = (
+	_front_arc_center ( )
+	+ (
+		Dimensions().Plate.frontArcRadius
+		+ Dimensions().Hinge.length
+		+ Dimensions().Plate.backArcRadius
+	) * [
+		sin(Dimensions().Halves.angles.z),
+		cos(Dimensions().Halves.angles.z)
+	]
+);
 
-function plate_sketch_points ( ) =
-	let ( itk = _inner_thumb_key ( ) )
-	[
-		_point0 ( ),
-		_point1 ( ),
-		_point2 ( ),
-		_point3 ( ),
-		_point4 ( ),
-		_point5 ( ),
-		itk.bottomPoint,
-	];
-
-function bottom_center_point ( ) =
-	plate_sketch_points ( ) [5]
+function _front_outer_center_point ( ) = (
+	_front_arc_center ( )
 	+ Dimensions().Plate.frontArcRadius * [
 		sin ( Dimensions().Halves.angles.z ),
 		cos ( Dimensions().Halves.angles.z )
-	];
+	]
+);
 
-module plate_sketch ( ) {
-	points = plate_sketch_points ( );
+// The point at the front of the hinge between the halves.
+function front_center_point ( zpos ) = (
+	_front_outer_center_point ( )
+	+ zpos * sin ( Dimensions().Halves.angles.y ) * [
+		-cos ( Dimensions().Halves.angles.z ),
+		sin ( Dimensions().Halves.angles.z )
+	]
+);
+
+function back_center_point ( zpos ) = (
+	front_center_point ( zpos )
+	+ Dimensions().Hinge.length * [
+		sin ( Dimensions().Halves.angles.z ),
+		cos ( Dimensions().Halves.angles.z )
+	]
+);
+
+function _back_outer_center_point ( ) = (
+	_back_arc_center ( )
+	+ Dimensions().Plate.backArcRadius * [
+		-sin ( Dimensions().Halves.angles.z ),
+		-cos ( Dimensions().Halves.angles.z )
+	]
+);
+
+function plate_sketch_points ( zpos ) = (
+	[
+		_front_middle_point ( ),
+		_front_outer_point ( ),
+		_back_outer_point ( ),
+		_back_middle_point ( ),
+		_back_arc_center ( ),
+		_back_outer_center_point (),
+		back_center_point ( zpos ),
+		front_center_point ( zpos ),
+		_front_outer_center_point ( ),
+		_front_arc_center ( ),
+		_inner_thumb_key().bottomPoint,
+	]
+);
+
+module plate_sketch ( zpos = 0 ) {
+	points = plate_sketch_points ( zpos );
 
 	difference () {
 		polygon ( points );
@@ -100,10 +147,10 @@ module plate_sketch ( ) {
 		] ) {
 			circle ((Dimensions().Cluster.radius-0.5) * Dimensions().Key.spacing.y);
 		}
-		translate ( points [ 4 ] ) {
+		translate ( _back_arc_center ( ) ) {
 			circle (Dimensions().Plate.backArcRadius);
 		}
-		translate ( points [ 5 ] ) {
+		translate ( _front_arc_center ( ) ) {
 			circle (Dimensions().Plate.frontArcRadius);
 		}
 		translate ( points [ 1 ] + [
@@ -124,7 +171,7 @@ module _switch_hole ( size = Dimensions().Switch.size ) {
 	}
 }
 
-module _place_finger_switches ( size = Dimensions().Switch.size ) {
+module place_finger_switches ( size = Dimensions().Switch.size ) {
 	for (
 		i = [ 0 : Dimensions().Column.last ],
 		j = [ 0 : Dimensions().Column.counts[i] - 1 ]
@@ -138,7 +185,7 @@ module _place_finger_switches ( size = Dimensions().Switch.size ) {
 	}
 }
 
-module _place_thumb_switches ( size = Dimensions().Switch.size ) {
+module place_thumb_switches ( size = Dimensions().Switch.size ) {
 	for (i = [0:len(Dimensions().Cluster.columnCounts) -1 ]) {
 		translate ([0, - Dimensions().Cluster.radiusmm, 0]) {
 			rotate ((i + 1) * Dimensions().Cluster.angle) {
@@ -154,33 +201,41 @@ module _place_thumb_switches ( size = Dimensions().Switch.size ) {
 	}
 }
 
-module _place_trackball ( ) {
-	InnerThumbKey = _inner_thumb_key ( );
+function trackball_point ( zpos, edge ) = (
+	front_center_point ( zpos )
+		+ Dimensions().Trackball.position.y * [
+		sin ( Dimensions().Halves.angles.z ),
+		cos ( Dimensions().Halves.angles.z )
+	]
+		+ edge * [
+		-cos ( Dimensions().Halves.angles.z ),
+		sin ( Dimensions().Halves.angles.z )
+	]
+);
 
-	startPoint = InnerThumbKey.bottomPoint + (
-		Dimensions().Plate.frontArcRadius
-		+ Dimensions().Key.spacing.x / 2
-	) * [
-		-cos(InnerThumbKey.angle),
-		-sin(InnerThumbKey.angle)
-	];
-
-	translate (
-		bottom_center_point( )
-		 + Dimensions().Trackball.position * [
-			sin(Dimensions().Halves.angles.z),
-			cos(Dimensions().Halves.angles.z)
-		]
-		 + Dimensions().Plate.Top.edge * [
-			-cos(Dimensions().Halves.angles.z),
-			sin(Dimensions().Halves.angles.z)
-		]
-	) {
+module place_trackball ( zpos, edge ) {
+	translate ( trackball_point ( zpos, edge ) ) {
 		circle (d = (
 			Dimensions().Trackball.diameter
 			+ 2 * Dimensions().Trackball.clearance
-		));
+		) );
 	}
 }
 
-plate_sketch ( );
+module place_plate ( zpos ) {
+	rotate ( [ 0, Dimensions().Halves.angles.y, 0 ] ) {
+		rotate ( [ 0, 0, Dimensions().Halves.angles.z ] ) {
+			translate ( -front_center_point ( zpos ) ) {
+				children();
+			}
+		}
+	}
+}
+
+zpos = 0;
+edge = 0;
+
+plate_sketch ( zpos = zpos );
+# _place_finger_switches ( );
+# place_thumb_switches ( );
+# _place_trackball ( zpos = zpos, edge = edge );

@@ -57,40 +57,30 @@ module androphage_assembly ( ) {
 	translate ( [
 		0,
 		0,
-		Dimensions().Key.height + Dimensions().Plate.Bottom.clearance
+		(
+			Dimensions().Plate.Bottom.thickness
+			+ Dimensions().Plate.Bottom.clearance
+			+ Dimensions().PCB.thickness
+			+ Dimensions().Key.height
+			//- Dimensions().Plate.Top.thickness
+		)
 	] ) {
 		color ( Color().primary ) {
 			top_plate ( );
 		}
 	}
 
-	plateSketchPoints = plate_sketch_points ( );
-
-	/*				Center Block				*/
-	translate (
-		concat (
-			(
-				bottom_center_point ( )
-				+ Dimensions().Plate.Top.edge
-				* [
-					- cos ( Dimensions().Halves.angles.z ),
-					sin ( Dimensions().Halves.angles.z )
-				]
-			),
-			[ Dimensions().Plate.Bottom.thickness ]
-		)
-	) {
-		rotate ( [ 0, 0, -Dimensions().Halves.angles.z ] ) {
-			color ( Color().secondary ){
-				center_block ( );
-			}
+	/*				Center Block & Trackball				*/
+	translate ( [ 0, 0, Dimensions().Plate.Bottom.thickness ] ) {
+		color ( Color().secondary ){
+			center_block ( );
 		}
-	}
 
 	/*				Trackball				*/
-	translate ( [ -60, 42, 20 ] ) {
-		color ( Color().secondary ) {
-			trackball ( );
+		translate ( Dimensions().Trackball.position ) {
+			color ( Color().secondary ) {
+				trackball ( centers = true );
+			}
 		}
 	}
 }

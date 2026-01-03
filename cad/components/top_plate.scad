@@ -7,21 +7,21 @@ use <../androphage.scad>
 
 use <plate_sketch.scad>
 
-module top_plate ( ) {
-	linear_extrude (height = Dimensions().Plate.Top.thickness) {
-		difference () {
-			offset ( delta = Dimensions().Plate.Top.edge ) {
-				plate_sketch ( );
-			}
+module top_plate ( zpos = 18 ) {
+	place_plate ( zpos ){
+		linear_extrude (height = Dimensions().Plate.Top.thickness) {
+			difference () {
+				plate_sketch ( zpos );
 
-			_place_trackball ( );
+				* place_trackball ( );
 
-			offset (-0.5) {
-				offset (1) {
-					offset (delta = -3) {
-						offset (delta = 3) {
-							_place_finger_switches ( size = Dimensions().Key.spacing );
-							_place_thumb_switches ( size = Dimensions().Key.spacing );
+				* offset (-0.5) {
+					offset (1) {
+						offset (delta = -3) {
+							offset (delta = 3) {
+								place_finger_switches ( size = Dimensions().Key.spacing );
+								place_thumb_switches ( size = Dimensions().Key.spacing );
+							}
 						}
 					}
 				}

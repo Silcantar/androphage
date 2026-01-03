@@ -5,9 +5,14 @@
 |																				|
 |	Length Unit:	millimeter													|
 |	Angle Unit:		degree														|
-|	x-axis name:	"width" 	/	"inner"	- "outer"							|
-|	y-axis name:	"depth" 	/	"front"	- "back"							|
-|	z-axis name:	"height"	/	"top"	- "bottom"							|
+|																				|
+|	* Terminology *																|
+|		x-axis name:	"width" 	/	"inner"	- "outer"						|
+|		y-axis name:	"depth" 	/	"front"	- "back"						|
+|		z-axis name:	"height"	/	"top"	- "bottom"						|
+|																				|
+|		"center": between the halves.											|
+|		"middle": in the middle of a given half (i.e. near the middle finger).	|
 |																				|
 \*******************************************************************************/
 
@@ -91,7 +96,7 @@ Plate_Switch_edge		= 2; //[1:5]
 Plate_Switch_present	= true;
 
 Plate_Bottom_thickness = 1.6;	//[1:0.2:2]
-Plate_Bottom_clearance = 5; //[1:10]
+Plate_Bottom_clearance = 2; //[1:10]
 
 // Radius of the arc at the front of the keyboard.
 Plate_frontArcRadius = 20;	//[10:50]
@@ -107,7 +112,7 @@ PCB_thickness = 1.6;	//[1:0.2:2]
 CaseFrame_thickness = 3; //[1:5]
 
 /* [Center Block] */
-CenterBlock_width = 20; //[1:50]
+CenterBlock_width = 25; //[1:50]
 
 /* [Hinge] */
 // Hinge Length
@@ -120,7 +125,7 @@ Halves_angles	= [0, 5, 15];	//[-45:45]
 // Trackball diameter
 Trackball_diameter = 35;	//[25:1:50]
 // Trackball position
-Trackball_position = 60;	//[0:200]
+Trackball_position_y = 60;	//[0:200]
 // Trackball clearance
 Trackball_clearance = 1;	//[0:0.1:2]
 
@@ -163,6 +168,7 @@ function Color () = object ( [
 	[ "primary",	Color_primary	],
 	[ "secondary",	Color_secondary	],
 	[ "clear",		[ 1.0, 1.0, 1.0, 0.2 ] ],
+	[ "cut",		[ 1.0, 1.0, 0.0, 0.2 ] ],
 ] );
 
 /*				Switches				*/
@@ -207,7 +213,11 @@ Key_spacing = [Key_MXspacing ? 19 : 18, Key_MXspacing ? 19 : 17 ];
 
 Key = object ( [
 	[ "clearance",		Key_clearance		],
-	[ "height",			Switch.height.upper + Keycap.height	],
+	[ "height", (
+		Switch.height.lower
+		+ Switch.height.upper
+		+ Keycap.height
+	) ],
 	[ "MXspacing",		Key_MXspacing		],
 	[ "spacing",		Key_spacing			],
 	[ "testClearance",	Key_testClearance	],
@@ -347,7 +357,19 @@ Trackball_BTU = object ( [
 Trackball = object ( [
 	[ "clearance",	Trackball_clearance	],
 	[ "diameter",	Trackball_diameter	],
-	[ "position",	Trackball_position	],
+	[
+		"position",
+		[
+			0,
+			Trackball_position_y,
+			(
+				Plate.Bottom.thickness
+				+ Plate.Bottom.clearance
+				+ PCB.thickness
+				+ Key.height
+			)
+		]
+	],
 	[ "Sensor",		Trackball_Sensor	],
 	[ "BTU",		Trackball_BTU		],
 ] );

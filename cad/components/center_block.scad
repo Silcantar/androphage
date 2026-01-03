@@ -10,6 +10,10 @@ use <../androphage.scad>
 
 use <trackball_sensor.scad>
 
+use <trackball.scad>
+
+use <btu.scad>
+
 module center_block ( ) {
 	difference () {
 		// Main Body
@@ -17,13 +21,17 @@ module center_block ( ) {
 			Dimensions().CenterBlock.width,
 			Dimensions().Hinge.length,
 			(
-				Dimensions().Key.height
-				+ Dimensions().Plate.Bottom.clearance
-				- Dimensions().Plate.Top.thickness
+				Dimensions().Plate.Bottom.clearance
+				+ Dimensions().PCB.thickness
+				+ Dimensions().Key.height
+
+				//- Dimensions().Plate.Top.thickness
 			) ] );
 
+		* echo ( Dimensions().Trackball.position.z );
+
 		// Subtract Trackball + clearance.
-		translate ( [ 0, 60, 19 ] ) {
+		translate ( Dimensions().Trackball.position ) {
 			sphere ( d = (
 				Dimensions().Trackball.diameter
 				+ 2 * Dimensions().Trackball.clearance
@@ -31,11 +39,22 @@ module center_block ( ) {
 
 			rotate ( [ 0, 180 - Dimensions().Trackball.Sensor.angle, 0 ] ) {
 				translate ( [ 0, 0, Dimensions().Trackball.diameter / 2 ] ) {
-					# trackball_sensor ();
+					trackball_sensor ( include_cut = true );
+				}
+			}
+
+			for ( zrot = [ -45, -135 ] ) {
+				rotate ( [ 0, 0, zrot ] ) {
+					rotate ( [ 45, 0, 0 ] ) {
+						translate ( [ 0, 0, -Dimensions().Trackball.diameter / 2 ] ) {
+							btu ( include_cut = true );
+						}
+					}
 				}
 			}
 		}
 	}
 }
 
+color ( "white" )
 center_block ( );

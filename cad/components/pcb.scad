@@ -7,13 +7,15 @@ use <../androphage.scad>
 
 use <plate_sketch.scad>
 
-module pcb ( ) {
-	linear_extrude (height = Dimensions().PCB.thickness) {
-		difference () {
-			offset ( delta = Dimensions().Plate.Switch.edge ) {
-				plate_sketch ( );
-			}
-		};
+module pcb ( zpos = 7 ) {
+	place_plate ( zpos ) {
+		linear_extrude (height = Dimensions().PCB.thickness) {
+			difference () {
+				// offset ( delta = Dimensions().Plate.Switch.edge ) {
+					plate_sketch ( zpos );
+				// }
+			};
+		}
 	}
 }
 

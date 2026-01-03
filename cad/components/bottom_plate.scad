@@ -7,13 +7,13 @@ use <../androphage.scad>
 
 use <plate_sketch.scad>
 
-module bottom_plate ( ) {
-	linear_extrude (height = Dimensions().Plate.Bottom.thickness) {
-		// scale ( [cos ( Dimensions().Halves.angles.y ), 1, 1 ] ) {
-			offset (delta = Dimensions().Plate.Bottom.edge) {
-				plate_sketch ( );
-			}
-		// }
+module bottom_plate ( zpos = 0 ) {
+	place_plate ( zpos ) {
+		linear_extrude (height = Dimensions().Plate.Bottom.thickness) {
+			//offset (delta = Dimensions().Plate.Bottom.edge) {
+				plate_sketch ( zpos );
+			//}
+		}
 	}
 }
 
