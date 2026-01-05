@@ -15,9 +15,31 @@ use <trackball.scad>
 use <btu.scad>
 
 module center_block ( ) {
+	height = (
+		Dimensions().Plate.Bottom.clearance
+		+ Dimensions().PCB.thickness
+		+ Dimensions().Key.height
+	);
+
+	width = Dimensions().CenterBlock.width * cos ( Dimensions().Halves.angles.y );
+
+	skew = Dimensions().CenterBlock.width * sin ( Dimensions().Halves.angles.y );
+
+	wall_section = [
+		[ 0, 0 ],
+		[ 0, -height ],
+		[ width, -height + skew ],
+		[ width, skew ],
+	];
+
 	difference () {
+		rotate ( [-90, 0, 0] ) {
+			linear_extrude ( Dimensions().Hinge.length ) {
+				polygon ( wall_section );
+			}
+		}
 		// Main Body
-		cube ( [
+		*cube ( [
 			Dimensions().CenterBlock.width,
 			Dimensions().Hinge.length,
 			(
@@ -27,8 +49,6 @@ module center_block ( ) {
 
 				//- Dimensions().Plate.Top.thickness
 			) ] );
-
-		* echo ( Dimensions().Trackball.position.z );
 
 		// Subtract Trackball + clearance.
 		translate ( Dimensions().Trackball.position ) {

@@ -11,11 +11,11 @@ module top_plate ( zpos = 18 ) {
 	place_plate ( zpos ){
 		linear_extrude (height = Dimensions().Plate.Top.thickness) {
 			difference () {
-				plate_sketch ( zpos );
+				plate_sketch ( zpos = zpos, edge = Dimensions().Plate.Top.edge );
 
-				* place_trackball ( );
+				place_trackball ( );
 
-				* offset (-0.5) {
+				offset (-0.5) {
 					offset (1) {
 						offset (delta = -3) {
 							offset (delta = 3) {

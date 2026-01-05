@@ -27,21 +27,17 @@ use <components/trackball_sensor.scad>
 
 module androphage_assembly ( ) {
 	/*				PCB				*/
-	translate ( [ 0, 0, Dimensions().Plate.Bottom.clearance + Dimensions().Switch.height.legs ] ) {
+	translate ( Dimensions().PCB.position ) {
 		color ( Color().secondary ) {
-			pcb ( );
+			pcb ( zpos = Dimensions().PCB.position.z );
 		}
 	}
 
 	/*				Switch Plate				*/
 	if ( Dimensions().Plate.Switch.present ) {
-		translate ( [ 0, 0, (
-				Dimensions().Plate.Bottom.clearance
-				+ Dimensions().Switch.height.legs
-				+ Dimensions().Switch.height.lower
-		) ] ) {
+		translate ( Dimensions().Plate.Switch.position ) {
 			color ( Color().primary ) {
-				switch_plate ( );
+				switch_plate ( zpos = Dimensions().Plate.Switch.position.z );
 			}
 		}
 	}
@@ -54,19 +50,9 @@ module androphage_assembly ( ) {
 	}
 
 	/*				Top Plate				*/
-	translate ( [
-		0,
-		0,
-		(
-			Dimensions().Plate.Bottom.thickness
-			+ Dimensions().Plate.Bottom.clearance
-			+ Dimensions().PCB.thickness
-			+ Dimensions().Key.height
-			//- Dimensions().Plate.Top.thickness
-		)
-	] ) {
+	translate ( Dimensions().Plate.Top.position ) {
 		color ( Color().primary ) {
-			top_plate ( );
+			top_plate ( zpos = Dimensions().Plate.Top.position.z );
 		}
 	}
 
@@ -79,7 +65,7 @@ module androphage_assembly ( ) {
 	/*				Trackball				*/
 		translate ( Dimensions().Trackball.position ) {
 			color ( Color().secondary ) {
-				trackball ( centers = true );
+				trackball ( centers = false );
 			}
 		}
 	}

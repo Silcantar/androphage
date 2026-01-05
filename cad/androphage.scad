@@ -41,7 +41,7 @@ Switch_type = "choc"; //[choc, mx]
 /* [Keys] */
 // Space between keycaps.
 Key_clearance = 0.5; //[0:0.1:1]
-Key_height = 16; //[10:30]
+//Key_height = 16; //[10:30]
 
 Keycap_type = "lamé"; //[ "cherry", "dsa", "lamé", "mbk", ]
 
@@ -99,7 +99,7 @@ Plate_Bottom_thickness = 1.6;	//[1:0.2:2]
 Plate_Bottom_clearance = 2; //[1:10]
 
 // Radius of the arc at the front of the keyboard.
-Plate_frontArcRadius = 20;	//[10:50]
+Plate_centerArcRadius = 20;	//[10:50]
 // Radius of the arc at the back of the keyboard.
 Plate_backArcRadius = 120;	//[50:200]
 // Radius of the arc at the front outer corner of the keyboard.
@@ -210,14 +210,15 @@ Keycap = object ( [
 
 Key_MXspacing = (Switch_type == "mx") ? true : false;
 Key_spacing = [Key_MXspacing ? 19 : 18, Key_MXspacing ? 19 : 17 ];
+Key_height = (
+	Switch.height.lower
+	+ Switch.height.upper
+	+ Keycap.height
+);
 
 Key = object ( [
 	[ "clearance",		Key_clearance		],
-	[ "height", (
-		Switch.height.lower
-		+ Switch.height.upper
-		+ Keycap.height
-	) ],
+	[ "height", 		Key_height			],
 	[ "MXspacing",		Key_MXspacing		],
 	[ "spacing",		Key_spacing			],
 	[ "testClearance",	Key_testClearance	],
@@ -274,9 +275,15 @@ Column = object ( [
 ] );
 
 /*				PCB				*/
+PCB_position = [
+	0,
+	0,
+	Plate_Bottom_clearance + Switch.height.legs
+];
 
 PCB = object ( [
 	[ "thickness",	PCB_thickness	],
+	[ "position",	PCB_position	],
 ] );
 
 /*				Bottom Plate				*/
@@ -293,28 +300,54 @@ Plate_Bottom = object ( [
 
 Plate_Switch_thickness = Key_MXspacing ? 1.6 : 1.2;
 
+Plate_Switch_position = [
+	0,
+	0,
+	(
+		Plate_Bottom_clearance
+		+ Switch.height.legs
+		+ Switch.height.lower
+	)
+];
+
 Plate_Switch = object ( [
 	[ "edge",		Plate_Switch_edge		],
 	[ "present",	Plate_Switch_present	],
 	[ "thickness",	Plate_Switch_thickness	],
+	[ "position",	Plate_Switch_position	],
 ] );
 
 /*				Top Plate				*/
 
 Plate_Top_edge = Plate_Switch_edge + CaseFrame_thickness;
 
+Plate_Top_position = [
+	0,
+	0,
+	(
+		Plate_Bottom_thickness
+		+ Plate_Bottom_clearance
+		+ PCB_thickness
+		+ Key_height
+	)
+];
+
 Plate_Top = object ( [
 	[ "edge",		Plate_Top_edge		],
 	[ "thickness",	Plate_Top_thickness	],
+	[ "position",	Plate_Top_position	],
 ] );
 
+Plate_frontArcRadius = ( Cluster_radius - 0.5 ) * Key_spacing.y;
+
 Plate = object ( [
-	[ "Bottom",			Plate_Bottom			],
-	[ "Switch",			Plate_Switch			],
-	[ "Top",			Plate_Top				],
-	[ "backArcRadius",	Plate_backArcRadius		],
-	[ "frontArcRadius",	Plate_frontArcRadius	],
-	[ "outerArcRadius",	Plate_outerArcRadius	],
+	[ "Bottom",				Plate_Bottom			],
+	[ "Switch",				Plate_Switch			],
+	[ "Top",				Plate_Top				],
+	[ "backArcRadius",		Plate_backArcRadius		],
+	[ "centerArcRadius",	Plate_centerArcRadius	],
+	[ "frontArcRadius",		Plate_frontArcRadius	],
+	[ "outerArcRadius",		Plate_outerArcRadius	],
 ] );
 
 /*				Case Frame				*/
