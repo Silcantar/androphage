@@ -57,11 +57,13 @@ module center_block ( ) {
 }
 
 module _inner_wall ( ) {
-	cube ( [ 
-		Dimensions().CenterBlock.wallThickness,
-		Dimensions().Hinge.length,
-		Dimensions().CenterBlock.height
-	] );
+	translate ( [ 0, -Dimensions().Plate.Top.edge ] ) {
+		cube ( [
+			Dimensions().CenterBlock.wallThickness,
+			Dimensions().Hinge.length + 2 * Dimensions().Plate.Top.edge,
+			Dimensions().CenterBlock.height
+		] );
+	}
 }
 
 module _sensor_holder ( ) {
@@ -69,33 +71,33 @@ module _sensor_holder ( ) {
 		height = 15,
 		width = 5,
 		hblock_size = [
-			width, 
-			Dimensions().Trackball.Sensor.PCBsize.y + Dimensions().CenterBlock.wallThickness, 
-			height 
+			width,
+			Dimensions().Trackball.Sensor.PCBsize.y + Dimensions().CenterBlock.wallThickness,
+			height
 		],
-		vblock_size = [ 
-			Dimensions().Trackball.Sensor.PCBsize.x + Dimensions().CenterBlock.wallThickness, 
-			width, 
-			height 
+		vblock_size = [
+			Dimensions().Trackball.Sensor.PCBsize.x + Dimensions().CenterBlock.wallThickness,
+			width,
+			height
 		],
 		rot_offset = (
-			-height / 2 
-			+ Dimensions().Trackball.diameter / 2 
-			+ Dimensions().Trackball.Sensor.clearance 
+			-height / 2
+			+ Dimensions().Trackball.diameter / 2
+			+ Dimensions().Trackball.Sensor.clearance
 			+ Dimensions().Trackball.Sensor.lensSize.z
 			+ Dimensions().Trackball.Sensor.PCBsize.z
 		),
 	) {
 		translate ( Dimensions ().Trackball.position ) {
 			rotate ( [ 0, 180 - Dimensions().Trackball.Sensor.angle, 0 ] ) {
-				translate ( 
+				translate (
 					v_mul(
 						(
-							Dimensions().Trackball.Sensor.PCBsize / 2 
+							Dimensions().Trackball.Sensor.PCBsize / 2
 							- Dimensions().Trackball.Sensor.opticalCenter
-						), 
-						[1, 1, 0] 
-					) + 
+						),
+						[1, 1, 0]
+					) +
 					[ 0, 0, rot_offset ]
 				) {
 					cube ( hblock_size, center = true );
@@ -108,10 +110,10 @@ module _sensor_holder ( ) {
 
 module _trackball_case ( ) {
 	diameter = (
-		Dimensions().Trackball.diameter 
+		Dimensions().Trackball.diameter
 		+ 2 * (
-			Dimensions().Trackball.clearance 
-			+ Dimensions().CenterBlock.wallThickness 
+			Dimensions().Trackball.clearance
+			+ Dimensions().CenterBlock.wallThickness
 		)
 	);
 

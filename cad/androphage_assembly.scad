@@ -57,7 +57,7 @@ module androphage_assembly ( ) {
 	}
 
 	/*				Center Block & Trackball				*/
-	translate ( [ 0, 0, Dimensions().Plate.Bottom.thickness ] ) {
+	//translate ( [ 0, 0, Dimensions().Plate.Bottom.thickness ] ) {
 		color ( Color().secondary ){
 			center_block ( );
 		}
@@ -68,5 +68,5 @@ module androphage_assembly ( ) {
 				trackball ( centers = false );
 			}
 		}
-	}
+	//}
 }
