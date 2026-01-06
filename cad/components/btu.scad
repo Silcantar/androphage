@@ -3,8 +3,7 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-$fa = 1;
-$fs = 0.1;
+include <../androphage_globals.scad>
 
 use <../androphage.scad>
 
@@ -16,7 +15,7 @@ module btu ( include_cut = false ) {
 	) ] ) {
 		cylinder (
 			d = Dimensions().Trackball.BTU.D1,
-			h = Dimensions().Trackball.BTU.L,
+			h = Dimensions().Trackball.BTU.L + eps,
 		);
 	}
 
@@ -26,7 +25,7 @@ module btu ( include_cut = false ) {
 	) ] ){
 		cylinder (
 			d = Dimensions().Trackball.BTU.D,
-			h = Dimensions().Trackball.BTU.H,
+			h = Dimensions().Trackball.BTU.H + eps,
 		);
 	}
 
@@ -39,7 +38,7 @@ module btu ( include_cut = false ) {
 			color ( Color().cut )
 			cylinder (
 				d = Dimensions().Trackball.BTU.D,
-				h = 10,
+				h = 10 + eps,
 			);
 		}
 	}

@@ -3,6 +3,8 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
+include <../androphage_globals.scad>
+
 use <../androphage.scad>
 
 module trackball_sensor ( include_cut = false ) {
@@ -37,7 +39,7 @@ module trackball_sensor ( include_cut = false ) {
 				+ Dimensions().Trackball.Sensor.lensSize.z
 			) / 2 ] ) {
 				color ( Color().clear ) {
-					cube ( Dimensions().Trackball.Sensor.lensSize, center = true );
+					cube ( Dimensions().Trackball.Sensor.lensSize + [ 0, 0, eps ], center = true );
 				}
 			}
 		}
@@ -46,7 +48,7 @@ module trackball_sensor ( include_cut = false ) {
 			color ( Color().cut ){
 				cylinder (
 					d = Dimensions().Trackball.Sensor.holeSize,
-					h = Dimensions().Trackball.Sensor.clearance
+					h = Dimensions().Trackball.Sensor.clearance + eps
 				);
 
 				translate (
@@ -57,6 +59,7 @@ module trackball_sensor ( include_cut = false ) {
 						0,
 						Dimensions().Trackball.Sensor.clearance
 						+ Sensor.lensSize.z
+						- eps
 					]
 				) {
 					cube (
@@ -73,4 +76,4 @@ module trackball_sensor ( include_cut = false ) {
 	}
 }
 
-trackball_sensor ( include_cut = false );
+trackball_sensor ( include_cut = true );

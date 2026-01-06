@@ -16,11 +16,7 @@
 |																				|
 \*******************************************************************************/
 
-function last (vector) = len(vector) - 1;
-
-/* [Hidden] */
-$fa = 1;
-$fs = 0.1;
+include <androphage_globals.scad>
 
 // "Enum" of fingers/columns.
 function finger () = object (
@@ -113,6 +109,7 @@ CaseFrame_thickness = 3; //[1:5]
 
 /* [Center Block] */
 CenterBlock_width = 25; //[1:50]
+CenterBlock_wallThickness = 2; //[1:50]
 
 /* [Hinge] */
 // Hinge Length
@@ -142,8 +139,10 @@ Trackball_Sensor_angle = 60; //[30:5:90]
 Trackball_Sensor_opticalCenter = [
 	7.85,
 	15.32,
-	-Trackball_Sensor_lensSize.z
+	(
+		-Trackball_Sensor_lensSize.z
 		- Trackball_Sensor_clearance
+	)
 ];
 
 /* [Trackball BTU] */
@@ -356,8 +355,17 @@ CaseFrame = object ( [
 	[ "thickness",	CaseFrame_thickness	],
 ] );
 
+CenterBlock_height = (
+		Plate_Bottom_clearance 
+	+	PCB_thickness 
+	+	Key_height 
+	-	Plate_Top_thickness
+);
+
 CenterBlock = object ( [
-	[ "width",	CenterBlock_width	],
+	[ "width",			CenterBlock_width			],
+	[ "wallThickness",	CenterBlock_wallThickness	],
+	[ "height",			CenterBlock_height			],
 ] );
 
 Halves = object ( [
