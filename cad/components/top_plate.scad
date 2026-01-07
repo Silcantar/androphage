@@ -8,19 +8,19 @@ use <../androphage.scad>
 use <plate_sketch.scad>
 
 module top_plate ( zpos = 18 ) {
-	place_plate ( zpos ){
-		linear_extrude (height = Dimensions().Plate.Top.thickness) {
+	place_plate ( zpos ) {
+		linear_extrude ( height = TopPlate_thickness() ) {
 			difference () {
-				plate_sketch ( zpos = zpos, edge = Dimensions().Plate.Top.edge );
+				plate_sketch ( zpos = zpos, edge = TopPlate_edge() );
 
-				place_trackball ( );
+				place_trackball( zpos = zpos );
 
 				offset (-0.5) {
 					offset (1) {
 						offset (delta = -3) {
 							offset (delta = 3) {
-								place_finger_switches ( size = Dimensions().Key.spacing );
-								place_thumb_switches ( size = Dimensions().Key.spacing );
+								place_finger_switches ( size = Key_spacing() );
+								place_thumb_switches ( size = Key_spacing() );
 							}
 						}
 					}
@@ -30,4 +30,4 @@ module top_plate ( zpos = 18 ) {
 	}
 }
 
-top_plate ( );
+top_plate();

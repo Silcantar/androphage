@@ -9,9 +9,9 @@ use <plate_sketch.scad>
 
 module pcb ( zpos = 7 ) {
 	place_plate ( zpos ) {
-		linear_extrude (height = Dimensions().PCB.thickness) {
+		linear_extrude ( height = PCB_thickness() ) {
 			difference () {
-				// offset ( delta = Dimensions().Plate.Switch.edge ) {
+				// offset ( delta = SwitchPlate_edge ) {
 					plate_sketch ( zpos );
 				// }
 			};
@@ -19,4 +19,4 @@ module pcb ( zpos = 7 ) {
 	}
 }
 
-pcb ( );
+pcb();

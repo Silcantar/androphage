@@ -9,4 +9,4 @@ module case_frame () {
 
 }
 
-case_frame ( );
+case_frame();

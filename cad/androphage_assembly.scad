@@ -3,6 +3,8 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
+include <androphage_globals.scad>
+
 use <androphage.scad>
 
 use <components/bottom_plate.scad>
@@ -25,46 +27,46 @@ use <components/trackball.scad>
 
 use <components/trackball_sensor.scad>
 
-module androphage_assembly ( ) {
+module androphage_assembly() {
 	/*				PCB				*/
-	translate ( Dimensions().PCB.position ) {
-		color ( Color().secondary ) {
-			pcb ( zpos = Dimensions().PCB.position.z );
+	translate ( PCB_position() ) {
+		color ( Color_secondary() ) {
+			pcb ( zpos = PCB_position().z );
 		}
 	}
 
 	/*				Switch Plate				*/
-	if ( Dimensions().Plate.Switch.present ) {
-		translate ( Dimensions().Plate.Switch.position ) {
-			color ( Color().primary ) {
-				switch_plate ( zpos = Dimensions().Plate.Switch.position.z );
+	if ( SwitchPlate_present() ) {
+		translate ( SwitchPlate_position() ) {
+			color ( Color_primary() ) {
+				switch_plate ( zpos = SwitchPlate_position().z );
 			}
 		}
 	}
 
 	/*				Bottom Plate				*/
 	translate ( [ 0, 0, 0 ] ) {
-		color ( Color().primary ) {
-			bottom_plate ( );
+		color ( Color_primary() ) {
+			bottom_plate();
 		}
 	}
 
 	/*				Top Plate				*/
-	translate ( Dimensions().Plate.Top.position ) {
-		color ( Color().primary ) {
-			top_plate ( zpos = Dimensions().Plate.Top.position.z );
+	translate ( TopPlate_position() ) {
+		color ( Color_primary() ) {
+			top_plate ( zpos = TopPlate_position().z );
 		}
 	}
 
 	/*				Center Block & Trackball				*/
-	//translate ( [ 0, 0, Dimensions().Plate.Bottom.thickness ] ) {
-		color ( Color().secondary ){
-			center_block ( );
+	//translate ( [ 0, 0, BottomPlate_thickness ] ) {
+		color ( Color_secondary() ){
+			center_block();
 		}
 
 	/*				Trackball				*/
-		translate ( Dimensions().Trackball.position ) {
-			color ( Color().secondary ) {
+		translate ( Trackball_position() ) {
+			color ( Color_secondary() ) {
 				trackball ( centers = false );
 			}
 		}

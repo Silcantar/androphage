@@ -10,6 +10,14 @@ $fs = 0.1;
 // Very small amount.
 eps = 0.01;
 
+// "Enum" of fingers/columns.
+inner	= 0;
+index	= 1;
+middle	= 2;
+ring	= 3;
+pinky	= 4;
+outer	= 5;
+
 // Get the index of the last member of a vector.
 function last ( vector ) = len ( vector ) - 1;
 

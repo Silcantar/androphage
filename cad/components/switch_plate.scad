@@ -9,18 +9,16 @@ use <plate_sketch.scad>
 
 module switch_plate ( zpos = 10 ) {
 	place_plate ( zpos ) {
-		linear_extrude (height = Dimensions().Plate.Switch.thickness) {
+		linear_extrude ( height = SwitchPlate_thickness() ) {
 			difference () {
-				//offset ( delta = Dimensions().Plate.Switch.edge ) {
-					plate_sketch ( zpos );
-				//}
+				plate_sketch ( zpos );
 
-				place_finger_switches ( );
+				place_finger_switches();
 
-				place_thumb_switches ( );
+				place_thumb_switches();
 			};
 		}
 	}
 }
 
-switch_plate ( );
+switch_plate();

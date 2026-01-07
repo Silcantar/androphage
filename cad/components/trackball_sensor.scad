@@ -9,68 +9,65 @@ use <../androphage.scad>
 
 module trackball_sensor ( include_cut = false ) {
 
-	let ( Sensor = Dimensions().Trackball.Sensor ) {
+	// Focal point of the sensor
+	* sphere ( d = 1 );
 
-		// Focal point of the sensor
-		* sphere ( d = 1 );
+	translate (
+		Trackball_Sensor_PCBsize() / 2
+		- Trackball_Sensor_opticalCenter()
+	) {
+		// PCB
+		color ( Color_secondary() ) {
+			cube ( Trackball_Sensor_PCBsize(), center = true );
+		}
 
-		translate (
-			Dimensions().Trackball.Sensor.PCBsize / 2
-			- Dimensions().Trackball.Sensor.opticalCenter
-		) {
-			// PCB
-			color ( Color().secondary ) {
-				cube ( Dimensions().Trackball.Sensor.PCBsize, center = true );
-			}
-
-			// Sensor
-			translate ( [ 0, 0, (
-				Dimensions().Trackball.Sensor.PCBsize.z
-				+ Dimensions().Trackball.Sensor.size.z
-			) / 2 ] ) {
-				color ( Color().primary ) {
-					cube ( Dimensions().Trackball.Sensor.size, center = true);
-				}
-			}
-
-			// Lens
-			translate ( [ 0, 0, -(
-				Dimensions().Trackball.Sensor.PCBsize.z
-				+ Dimensions().Trackball.Sensor.lensSize.z
-			) / 2 ] ) {
-				color ( Color().clear ) {
-					cube ( Dimensions().Trackball.Sensor.lensSize + [ 0, 0, eps ], center = true );
-				}
+		// Sensor
+		translate ( [ 0, 0, (
+			Trackball_Sensor_PCBsize().z
+			+ Trackball_Sensor_size().z
+		) / 2 ] ) {
+			color ( Color_primary() ) {
+				cube ( Trackball_Sensor_size(), center = true);
 			}
 		}
 
-		if ( include_cut ) {
-			color ( Color().cut ){
-				cylinder (
-					d = Dimensions().Trackball.Sensor.holeSize,
-					h = Dimensions().Trackball.Sensor.clearance + eps
-				);
+		// Lens
+		translate ( [ 0, 0, -(
+			Trackball_Sensor_PCBsize().z
+			+ Trackball_Sensor_lensSize().z
+		) / 2 ] ) {
+			color ( Color_clear() ) {
+				cube ( Trackball_Sensor_lensSize() + [ 0, 0, eps ], center = true );
+			}
+		}
+	}
 
-				translate (
-					Dimensions().Trackball.Sensor.PCBsize / 2
-					- Dimensions().Trackball.Sensor.opticalCenter
-					+ [
-						0,
-						0,
-						Dimensions().Trackball.Sensor.clearance
-						+ Sensor.lensSize.z
-						- eps
-					]
-				) {
-					cube (
-						[
-							Dimensions().Trackball.Sensor.PCBsize.x,
-							Dimensions().Trackball.Sensor.PCBsize.y,
-							10
-						],
-						center = true
-					);
-				}
+	if ( include_cut ) {
+		color ( Color_cut() ){
+			cylinder (
+				d = Trackball_Sensor_holeSize(),
+				h = Trackball_Sensor_clearance() + eps
+			);
+
+			translate (
+				Trackball_Sensor_PCBsize() / 2
+				- Trackball_Sensor_opticalCenter()
+				+ [
+					0,
+					0,
+					Trackball_Sensor_clearance()
+					+ Trackball_Sensor_lensSize().z
+					- eps
+				]
+			) {
+				cube (
+					[
+						Trackball_Sensor_PCBsize().x,
+						Trackball_Sensor_PCBsize().y,
+						10
+					],
+					center = true
+				);
 			}
 		}
 	}

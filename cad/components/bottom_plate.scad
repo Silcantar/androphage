@@ -9,10 +9,10 @@ use <plate_sketch.scad>
 
 module bottom_plate ( zpos = 0 ) {
 	place_plate ( zpos ) {
-		linear_extrude (height = Dimensions().Plate.Bottom.thickness) {
-			plate_sketch ( zpos = zpos, edge = Dimensions().Plate.Bottom.edge );
+		linear_extrude (height = BottomPlate_thickness() ) {
+			plate_sketch ( zpos = zpos, edge = BottomPlate_edge() );
 		}
 	}
 }
 
-bottom_plate ( );
+bottom_plate();

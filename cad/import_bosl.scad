@@ -1,12 +1,11 @@
 /*******************************************************************************\
-|					Magnetic Connector for Androphage keyboard.					|
+|					Import the necessary libraries from BOSL2. 					|
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-use <../androphage.scad>
+// Suppress the warning about not importing the STD library.
+BOSL2_NO_STD_WARNING = true;
 
-module magnetic_connector () {
+include <BOSL2/utility.scad>
 
-}
-
-magnetic_connector();
+include <BOSL2/vectors.scad>

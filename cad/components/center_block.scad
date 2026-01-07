@@ -5,9 +5,7 @@
 
 include <../androphage_globals.scad>
 
-use <../BOSL2/utility.scad>
-
-use <../BOSL2/vectors.scad>
+use <../import_bosl.scad>
 
 use <../androphage.scad>
 
@@ -17,109 +15,101 @@ use <trackball.scad>
 
 use <btu.scad>
 
-module center_block ( ) {
+// Test
+center_block();
+
+module center_block() {
 
 	difference () {
 		// Main Body
 		union () {
-			_trackball_case ( );
+			_center_wall();
 
-			_sensor_holder ( );
+			_sensor_holder();
 
-			_inner_wall ( );
+			_trackball_case();
 		}
 
-		// Move the trackball components into position
-		translate ( Dimensions().Trackball.position ) {
-			// Subtract Trackball + clearance.
-			sphere ( d = (
-				Dimensions().Trackball.diameter
-				+ 2 * Dimensions().Trackball.clearance
-			) );
+		#_btus();
 
-			// Trackball sensor board
-			rotate ( [ 0, 180 - Dimensions().Trackball.Sensor.angle, 0 ] ) {
-				translate ( [ 0, 0, Dimensions().Trackball.diameter / 2 ] ) {
-					trackball_sensor ( include_cut = true );
-				}
-			}
+		_plates ();
 
-			// BTUs
-			for ( zrot = [ -45, -135 ] ) {
-				rotate ( [ 45, 0, zrot ] ) {
-					translate ( [ 0, 0, -Dimensions().Trackball.diameter / 2 ] ) {
-						btu ( include_cut = true );
-					}
-				}
-			}
-		}
+		_sensor();
+
+		_trackball();
 	}
 }
 
-module _inner_wall ( ) {
-	translate ( [ 0, -Dimensions().Plate.Top.edge ] ) {
+/*******************************************************************************\
+|								Additive Features								|
+\*******************************************************************************/
+
+module _center_wall() {
+	translate ( [ 0, -TopPlate_edge() ] ) {
 		cube ( [
-			Dimensions().CenterBlock.wallThickness,
-			Dimensions().Hinge.length + 2 * Dimensions().Plate.Top.edge,
-			Dimensions().CenterBlock.height
+			CenterBlock_wallThickness(),
+			Hinge_length() + 2 * TopPlate_edge(),
+			CenterBlock_height()
 		] );
 	}
 }
 
-module _sensor_holder ( ) {
-	let (
-		height = 15,
-		width = 5,
-		hblock_size = [
-			width,
-			Dimensions().Trackball.Sensor.PCBsize.y + Dimensions().CenterBlock.wallThickness,
-			height
-		],
-		vblock_size = [
-			Dimensions().Trackball.Sensor.PCBsize.x + Dimensions().CenterBlock.wallThickness,
-			width,
-			height
-		],
-		rot_offset = (
-			-height / 2
-			+ Dimensions().Trackball.diameter / 2
-			+ Dimensions().Trackball.Sensor.clearance
-			+ Dimensions().Trackball.Sensor.lensSize.z
-			+ Dimensions().Trackball.Sensor.PCBsize.z
-		),
-	) {
-		translate ( Dimensions ().Trackball.position ) {
-			rotate ( [ 0, 180 - Dimensions().Trackball.Sensor.angle, 0 ] ) {
-				translate (
-					v_mul(
-						(
-							Dimensions().Trackball.Sensor.PCBsize / 2
-							- Dimensions().Trackball.Sensor.opticalCenter
-						),
-						[1, 1, 0]
-					) +
-					[ 0, 0, rot_offset ]
-				) {
-					cube ( hblock_size, center = true );
-					cube ( vblock_size, center = true );
-				}
+module _sensor_holder() {
+	height = 15;
+
+	width = 5;
+
+	hblock_size = [
+		width,
+		Trackball_Sensor_PCBsize().y + CenterBlock_wallThickness(),
+		height
+	];
+
+	vblock_size = [
+		Trackball_Sensor_PCBsize().x + CenterBlock_wallThickness(),
+		width,
+		height
+	];
+
+	rot_offset = (
+		-height / 2
+		+ Trackball_diameter() / 2
+		+ Trackball_Sensor_clearance()
+		+ Trackball_Sensor_lensSize().z
+		+ Trackball_Sensor_PCBsize().z
+	);
+
+	translate ( Trackball_position() ) {
+		rotate ( [ 0, 180 - Trackball_Sensor_angle(), 0 ] ) {
+			translate (
+				v_mul(
+					(
+						Trackball_Sensor_PCBsize() / 2
+						- Trackball_Sensor_opticalCenter()
+					),
+					[1, 1, 0]
+				) +
+				[ 0, 0, rot_offset ]
+			) {
+				cube ( hblock_size, center = true );
+				cube ( vblock_size, center = true );
 			}
 		}
 	}
 }
 
-module _trackball_case ( ) {
+module _trackball_case() {
 	diameter = (
-		Dimensions().Trackball.diameter
+		Trackball_diameter()
 		+ 2 * (
-			Dimensions().Trackball.clearance
-			+ Dimensions().CenterBlock.wallThickness
+			Trackball_clearance()
+			+ CenterBlock_wallThickness()
 		)
 	);
 
-	translate ( Dimensions().Trackball.position ) {
+	translate ( Trackball_position() ) {
 		rotate ( [ 90, 0, 0 ] ) { rotate ( [ 0, 0, -90 ] ) {
-			rotate_extrude ( angle = 90 - Dimensions().Halves.angles.y ) {
+			rotate_extrude ( angle = 90 - Halves_angles().y ) {
 				difference () {
 					circle ( d = diameter );
 
@@ -132,6 +122,56 @@ module _trackball_case ( ) {
 	}
 }
 
-//color ( "white" )
-center_block ( );
-//trackball_case ( );
+/*******************************************************************************\
+|								Subtractive Features							|
+\*******************************************************************************/
+
+module _btus ( ) {
+	translate ( Trackball_position() ) {
+		// BTUs
+		for ( zrot = [ -45, -135 ] ) {
+			rotate ( [ 45, 0, zrot ] ) {
+				translate ( [ 0, 0, -Trackball_diameter() / 2 ] ) {
+					btu ( include_cut = true );
+				}
+			}
+		}
+	}
+}
+
+module _plates ( ) {
+	side = 200;
+	zpos1 = [ CenterBlock_height(), BottomPlate_thickness() ];
+	zpos2 = [ 0, -side ];
+	for ( i = [ 0 : 1 ] ) {
+		translate ( [ 0, -side / 2, zpos1[i] ] ) {
+			rotate ( [ 0, Halves_angles().y, 0 ] ) {
+				translate ( [ 0, 0, zpos2[i] ] ) {
+					cube ( side );
+				}
+			}
+		}
+	}
+}
+
+module _sensor ( ) {
+	translate ( Trackball_position() ) {
+
+		// Trackball sensor board
+		rotate ( [ 0, 180 - Trackball_Sensor_angle(), 0 ] ) {
+			translate ( [ 0, 0, Trackball_diameter() / 2 ] ) {
+				trackball_sensor ( include_cut = true );
+			}
+		}
+	}
+}
+
+module _trackball ( ) {
+	translate ( Trackball_position() ) {
+		// Subtract Trackball + clearance.
+		sphere ( d = (
+			Trackball_diameter()
+			+ 2 * Trackball_clearance()
+		) );
+	}
+}
