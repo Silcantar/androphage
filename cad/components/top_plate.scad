@@ -3,28 +3,27 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-use <../androphage.scad>
+include <../androphage_globals.scad>
 
 use <plate_sketch.scad>
 
-module top_plate ( zpos = 18 ) {
+module top_plate (
+	edge		= TopPlate_edge,
+	innerRadius	= TopPlate_innerRadius,
+	spacing		= Key_spacing,
+	thickness	= TopPlate_thickness,
+	zpos		= 18
+) {
 	place_plate ( zpos ) {
-		linear_extrude ( height = TopPlate_thickness() ) {
+		linear_extrude ( height = thickness ) {
 			difference () {
-				plate_sketch ( zpos = zpos, edge = TopPlate_edge() );
+				plate_sketch ( zpos = zpos, edge = edge );
 
 				place_trackball( zpos = zpos );
 
-				offset (-0.5) {
-					offset (1) {
-						offset (delta = -3) {
-							offset (delta = 3) {
-								place_finger_switches ( size = Key_spacing() );
-								place_thumb_switches ( size = Key_spacing() );
-							}
-						}
-					}
-				}
+				// TODO: make these offsets more rational.
+				place_finger_switches ( radius = innerRadius, size = spacing );
+				place_thumb_switches ( radius = innerRadius, size = spacing );
 			}
 		}
 	}

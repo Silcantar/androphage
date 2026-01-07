@@ -3,13 +3,16 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-use <../androphage.scad>
+include <../androphage_globals.scad>
 
 use <plate_sketch.scad>
 
-module switch_plate ( zpos = 10 ) {
+module switch_plate (
+	thickness	= SwitchPlate_thickness,
+	zpos = 10
+) {
 	place_plate ( zpos ) {
-		linear_extrude ( height = SwitchPlate_thickness() ) {
+		linear_extrude ( height = thickness ) {
 			difference () {
 				plate_sketch ( zpos );
 

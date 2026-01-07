@@ -3,17 +3,18 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-use <../androphage.scad>
+include <../androphage_globals.scad>
 
 use <plate_sketch.scad>
 
-module pcb ( zpos = 7 ) {
+module pcb (
+	thickness	= PCB_thickness,
+	zpos		= 7
+) {
 	place_plate ( zpos ) {
-		linear_extrude ( height = PCB_thickness() ) {
+		linear_extrude ( height = thickness ) {
 			difference () {
-				// offset ( delta = SwitchPlate_edge ) {
-					plate_sketch ( zpos );
-				// }
+				plate_sketch ( zpos );
 			};
 		}
 	}
