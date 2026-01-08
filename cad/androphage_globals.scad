@@ -25,8 +25,11 @@
 |																				|
 \*******************************************************************************/
 
+//include <BOSL2/std.scad>
+// include <BOSL2/vectors.scad>
+
 /* [Hidden] */
-ANDROPHAGE_MAIN = true;
+ANDROPHAGE_GLOBALS = true;
 
 // Rendering parameters.
 $fa = $preview ? 10 : 1;
@@ -166,6 +169,7 @@ Column_offsets	= [ for ( i = [ 0 : Column_last ] ) _Column_offsets_init [ i ] ];
 |									Fasteners									|
 \*******************************************************************************/
 
+/* [Screws] */
 // M2 screw shaft major diameter.
 Screw_diameter = 2;
 
@@ -175,6 +179,7 @@ Screw_headDiameter = 4;
 // Screw countersink angle.
 Screw_headAngle = 90;
 
+/* [Heat-set Inserts] */
 // Heat-sink insert outer diameter.
 Insert_diameter = 3;
 
@@ -458,6 +463,21 @@ PCB_position = [
 	0,
 	0,
 	BottomPlate_clearance + Switch_height_legs
+];
+
+CenterScrews_x = TopPlate_edge - Screw_diameter;
+
+Screw1_y = (
+	+ Trackball_position_y
+	- Trackball_diameter / 2
+	- Trackball_clearance
+	- Screw_diameter * 2
+);
+
+Screw_positions = [
+	[ CenterScrews_x,	0,				0 ],
+	[ CenterScrews_x,	Screw1_y,		0 ],
+	[ CenterScrews_x,	Hinge_length,	0 ],
 ];
 
 SwitchPlate_position = [

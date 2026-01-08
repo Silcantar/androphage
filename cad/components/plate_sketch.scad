@@ -263,13 +263,13 @@ module place_trackball ( zpos = 0 ) {
 }
 
 module place_plate ( zpos = 0 ) {
-	rotate ( [ 0, Halves_angles.y, 0 ] ) {
+	// rotate ( [ 0, Halves_angles.y, 0 ] ) {
 		rotate ( [ 0, 0, Halves_angles.z ] ) {
 			translate ( -front_center_point ( zpos ) ) {
 				children();
 			}
 		}
-	}
+	//}
 }
 
 // Approximate actual values of these parameters.

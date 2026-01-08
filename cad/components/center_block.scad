@@ -5,7 +5,8 @@
 
 include <../androphage_globals.scad>
 
-use <../import/vectors.scad>
+include <../BOSL2/std.scad>
+include <../BOSL2/vectors.scad>
 
 use <trackball_sensor.scad>
 
@@ -16,33 +17,68 @@ use <btu.scad>
 use <magnetic_connector.scad>
 
 // Test
-center_block ();
+center_block ( test = false );
 
-module center_block () {
+module center_block ( test = false ) {
+	// Put a cube with a corner at the origin so we can measure from it.
+	if ( test ) {
+		cube ();
+	}
+
 	difference () {
 		// Main Body
 		union () {
-			_center_wall();
+			if ( test ){
+				#_center_wall();
+			} else {
+				_center_wall();
+			}
 
 			_sensor_holder();
 
 			_trackball_case();
 
-			_screw_boss();
+			for ( pos = Screw_positions ) {
+				translate ( pos ) {
+					if ( test ) {
+						#_screw_boss();
+					} else {
+						_screw_boss();
+					}
+				}
+			}
+
+			// Test insert hole placement.
+			if ( test ) {
+				for ( pos = Screw_positions ) {
+					translate ( pos + [ 0, 0, -pos.x * sin ( Halves_angles.y ) ] ) {
+						color ( "green" ) {
+							_insert_holes();
+						}
+					}
+				}
+			}
 		}
 
 		_btus();
 
-		translate ( [ 0, 0, 0 ] ) {
-			#_insert_holes();
+		if ( ! test ) {
+			for ( pos = Screw_positions ) {
+				translate ( pos + [ 0, 0, -pos.x * sin ( Halves_angles.y ) ] ) {
+					_insert_holes();
+				}
+			}
 		}
 
 		translate ( MagCon_position ) {
 			magnetic_connector ( include_cut = true );
 		}
 
-		_plates();
-
+		if ( test ) {
+			%_plates();
+		} else{
+			_plates();
+		}
 		_sensor();
 
 		_trackball();
@@ -62,26 +98,50 @@ module _center_wall (
 	bottomPlate_thickness		= BottomPlate_thickness,
 	halves_angles				= Halves_angles
 ) {
-	translate ( [ 0, -topPlate_edge ] ) {
+	translate ( [ -eps, -topPlate_edge ] ) {
 		difference () {
 			// Main body
 			cube ( [
-				centerBlock_wallThickness + centerBlock_ribSize.y,
+				centerBlock_wallThickness + centerBlock_ribSize.y + eps,
 				hinge_length + 2 * topPlate_edge,
 				centerBlock_height
 			] );
 
 			// Subtract the part that is not the ribs.
-			translate ( [ 
+			translate ( [
 				centerBlock_wallThickness,
 				centerBlock_ribSize.x,
 				bottomPlate_thickness + centerBlock_ribSize.x - centerBlock_wallThickness * sin ( halves_angles.y )
 			] ) {
 				cube ( [
-					centerBlock_ribSize.y + eps,
+					centerBlock_ribSize.y + 2 * eps,
 					hinge_length + 2 * topPlate_edge - 2 * centerBlock_ribSize.x,
 					centerBlock_height - bottomPlate_thickness - 2 * centerBlock_ribSize.x
 				] );
+			}
+		}
+	}
+}
+
+module _screw_boss (
+	bottomPlate_thickness		= BottomPlate_thickness,
+	centerBlock_height			= CenterBlock_height,
+	centerBlock_wallThickness	= CenterBlock_wallThickness,
+	halves_angles				= Halves_angles,
+	insert_holeDiameter			= Insert_holeDiameter,
+	insert_wallThickness		= Insert_wallThickness
+) {
+	d = insert_holeDiameter + 2 * insert_wallThickness;
+	h = 2 * centerBlock_height;
+
+	translate ( [ 0, 0, bottomPlate_thickness ] ) {
+		rotate ( [ 0, -halves_angles.y, 180 ] ) {
+			translate ( [ 0, 0, -h / 4 ] ) {
+				cylinder ( d = d, h = h );
+
+				translate ( [ 0, -d / 2, 0 ] ) {
+					cube ( [ d, d, h ] );
+				}
 			}
 		}
 	}
@@ -158,8 +218,8 @@ module _trackball_case (
 
 	translate ( trackball_position ) {
 		rotate ( [ 90, 0, 0 ] ) { rotate ( [ 0, 0, -90 ] ) {
-			// Extruding 90 degrees is fine because we're going to cut this 
-			// feature using the _plates feature anyway and extruding the 
+			// Extruding 90 degrees is fine because we're going to cut this
+			// feature using the _plates feature anyway and extruding the
 			// proper angle causes z-fighting.
 			rotate_extrude ( angle = 90 ) {
 				difference () {
@@ -194,7 +254,7 @@ module _btus (
 	}
 }
 
-module _insert_holes ( 
+module _insert_holes (
 	bottomPlate_thickness	= BottomPlate_thickness,
 	centerBlock_height		= CenterBlock_height,
 	halves_angles			= Halves_angles,
@@ -202,18 +262,18 @@ module _insert_holes (
 	insert_holeDiameter		= Insert_holeDiameter,
 	insert_wallThickness	= Insert_wallThickness,
 ) {
-	translate ( [ insert_holeDiameter / 1 + insert_wallThickness, 0, 0 ] ){
+	translate ( [ 0, 0, bottomPlate_thickness ] ) {
 		rotate ( [ 0, halves_angles.y, 0 ] ) {
-			for ( zpos = [ 
-				bottomPlate_thickness, 
-				centerBlock_height - insert_holeDepth,
+			for ( zpos = [
+				-eps, //( bottomPlate_thickness - eps ) *  cos ( halves_angles.y ),
+				( centerBlock_height - insert_holeDepth - bottomPlate_thickness + eps ) * ( cos ( halves_angles.y ) ),
 			] ){
-				translate ( [ 
-					0, 
-					0, 
-					zpos 
+				translate ( [
+					0,
+					0,
+					zpos
 				] ) {
-					cylinder ( d = insert_holeDiameter, h = insert_holeDepth );
+					cylinder ( d = insert_holeDiameter, h = insert_holeDepth + eps );
 				}
 			}
 		}
@@ -237,26 +297,8 @@ module _plates (
 			}
 		}
 	}
-}
-
-module _screw_boss (
-	centerBlock_height			= CenterBlock_height,
-	centerBlock_wallThickness	= CenterBlock_wallThickness,
-	halves_angles				= Halves_angles,
-	insert_holeDiameter			= Insert_holeDiameter,
-	insert_wallThickness		= Insert_wallThickness
-) {
-	d = insert_holeDiameter + 2 * insert_wallThickness;
-	h = 2 * centerBlock_height;
-
-	translate ( [ d / 2, 0, 0 ] ) {
-		rotate ( [ 0, -halves_angles.y, 180 ] ) {
-			cylinder ( d = d, h = h );
-
-			translate ( [ 0, -d / 2, 0 ] ) {
-				cube ( [ d, d, h ] );
-			}
-		}
+	translate ( [ -side, -side / 2, 0 ] ) {
+		cube ( side );
 	}
 }
 
