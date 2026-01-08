@@ -78,10 +78,13 @@ CaseFrame_thickness = 3; //[1:5]
 CenterBlock_visible = true;
 
 // Width of the center block
-CenterBlock_width = 25; //[1:50]
+// CenterBlock_width = 25; //[1:50]
+
+// Width and height of the strengthening ribs of the center block.
+CenterBlock_ribSize = [ 2, 2 ]; //[1:5]
 
 // Thickness of the center wall
-CenterBlock_wallThickness = 2; //[1:50]
+CenterBlock_wallThickness = 2; //[1:10]
 
 /*******************************************************************************\
 |									Colors										|
@@ -160,6 +163,31 @@ _Column_offsets_init = [
 Column_offsets	= [ for ( i = [ 0 : Column_last ] ) _Column_offsets_init [ i ] ];
 
 /*******************************************************************************\
+|									Fasteners									|
+\*******************************************************************************/
+
+// M2 screw shaft major diameter.
+Screw_diameter = 2;
+
+// M2 screw head diameter.
+Screw_headDiameter = 4;
+
+// Screw countersink angle.
+Screw_headAngle = 90;
+
+// Heat-sink insert outer diameter.
+Insert_diameter = 3;
+
+// Heat-sink insert height.
+Insert_height = 3;
+
+Insert_holeDiameter = 2.8;
+
+Insert_holeDepth = 4;
+
+Insert_wallThickness = 1.5;
+
+/*******************************************************************************\
 |									Halves										|
 \*******************************************************************************/
 
@@ -207,14 +235,18 @@ Keycap_height = (
 	( Keycap_type == "mbk"		) ? 2.6	: 11
 );
 
-// 	[
-// 		[ "cherry",	11	],
-// 		[ "dsa",	8	],
-// 		[ "lamé",	6.5	],
-// 		[ "mbk",	2.6	],
-// 	],
-// 	Keycap_type
-//  );
+/*******************************************************************************\
+|								Magnetic Connector								|
+\*******************************************************************************/
+
+// Size of the main body of the magnetic connector.
+MagCon_size			= [ 4.7, 26.5, 6.0 ];
+
+// Size of the lip around the magnetic connector.
+MagCon_lip			= [ 1.0, 28.5, 8.0 ];
+
+// Distance between the lip and the face of the connector.
+MagCon_lipOffset	= 1.0;
 
 /*******************************************************************************\
 |									PCBs										|
@@ -418,6 +450,9 @@ CenterBlock_height = (
 	+	PCB_thickness
 	+	Key_height
 );
+
+// Position of the connector relative to the Center Block.
+MagCon_position		= [ 0, 20, ( CenterBlock_height + BottomPlate_thickness) / 2 ];
 
 PCB_position = [
 	0,
