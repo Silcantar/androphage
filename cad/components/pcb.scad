@@ -12,11 +12,12 @@ module pcb (
 	zpos		= 7
 ) {
 	place_plate ( zpos ) {
-		linear_extrude ( height = thickness ) {
-			difference () {
-				plate_sketch ( zpos );
-			};
-		}
+		difference () {
+			plate_sketch (
+				thickness = thickness,
+				zpos = zpos,
+			);
+		};
 	}
 }
 

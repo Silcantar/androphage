@@ -7,31 +7,29 @@ include <../androphage_globals.scad>
 
 use <plate_sketch.scad>
 
-use <screw.scad>
+use <../library/screw.scad>
 
 module bottom_plate (
 	edge		= BottomPlate_edge,
+	outerRadius	= Plate_outerRadius,
 	thickness	= BottomPlate_thickness,
 	zpos		= 0
 ) {
-	difference () {
-		place_plate ( zpos ) {
-			linear_extrude (height = thickness ) {
-				plate_sketch ( zpos = zpos, edge = edge );
-			}
-		}
+	place_plate ( zpos ) {
+		translate ( [ 0, 0, thickness * cos ( Halves_angles.y ) ] ){
+			mirror ( [ 0, 0, 1 ]) {
+				difference () {
+					plate_sketch (
+						edge		= edge,
+						radius		= outerRadius,
+						thickness	= thickness,
+						zpos		= zpos,
+					);
 
-		rotate ( [ 0, Halves_angles.y, 0 ] ){
-			for ( pos = Screw_positions ) {
-				translate ( pos + [ zpos * sin ( Halves_angles.y ), 0, -eps ] ) {
-					rotate ( [ 180, 0, 0 ] ){
-						screw (
-							diameter	= Screw_diameter,
-							length		= 2,
-							head		= "flat",
-							drive		= "none",
-						);
-					}
+					place_screws (
+						thickness	= thickness,
+						zpos		= zpos,
+					);
 				}
 			}
 		}

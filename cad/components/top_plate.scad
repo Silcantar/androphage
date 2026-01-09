@@ -5,50 +5,57 @@
 
 include <../androphage_globals.scad>
 
-use <screw.scad>
-
 use <plate_sketch.scad>
 
-top_plate();
+top_plate( zpos = 0 );
 
 module top_plate (
 	edge		= TopPlate_edge,
 	innerRadius	= TopPlate_innerRadius,
+	outerRadius = Plate_outerRadius,
 	spacing		= Key_spacing,
 	thickness	= TopPlate_thickness,
-	zpos		= 0
+	zpos		= CenterBlock_height,
 ) {
 	difference () {
 		place_plate ( zpos ) {
-			linear_extrude ( height = thickness ) {
-				difference () {
-					plate_sketch ( zpos = zpos, edge = edge );
+			difference () {
+				// Main body.
+				plate_sketch (
+					thickness = thickness,
+					edge	= edge,
+					radius	= outerRadius,
+					zpos	= zpos,
+				);
 
-					place_trackball( zpos = zpos );
-
-					// TODO: make these offsets more rational.
-					// offset ( innerRadius ) {
-					// 	offset ( -innerRadius ) {
-						fillet2d ( innerRadius ) {
-							place_finger_switches ( radius = 0, size = spacing );
-							place_thumb_switches ( radius = 0, size = spacing, connect = true );
-						}
-					// 	}
-					// }
-				}
-			}
-		}
-
-		rotate ( [ 0, Halves_angles.y, 0 ] ){
-			for ( pos = Screw_positions ) {
-				translate ( pos + [ zpos * sin ( Halves_angles.y ), 0, thickness + eps ] ) {
-					screw (
-						diameter	= Screw_diameter,
-						length		= 2,
-						head		= "flat",
-						drive		= "none",
+				// Subtract trackball cutout.
+				translate ( [ 0, 0, -eps ] ) {
+					place_trackball (
+						thickness = thickness + 2 * eps,
+						zpos = zpos,
 					);
+
+					// Subtract key cutout.
+					linear_extrude ( h = thickness + 2 * eps ){
+						fillet2d ( innerRadius ) {
+							place_switches (
+								connect = true,
+								cutout	= 2 * edge,
+								radius	= 0,
+								size	= spacing,
+							);
+						}
+
+						if ( LED_present ) {
+							place_led_holes ( shape = LED_holeShape );
+						}
+					}
 				}
+
+				place_screws (
+					thickness	= thickness,
+					zpos		= zpos,
+				);
 			}
 		}
 	}

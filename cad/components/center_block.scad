@@ -8,80 +8,85 @@ include <../androphage_globals.scad>
 // include <../BOSL2/std.scad>
 // include <../BOSL2/vectors.scad>
 
-use <trackball_sensor.scad>
-
-use <trackball.scad>
-
 use <btu.scad>
 
 use <magnetic_connector.scad>
 
-// Test
-rotate ( [ 0, -90, 0 ] )
-center_block ( test = false );
+use <plate_sketch.scad>
 
-module center_block ( test = false ) {
+use <trackball_sensor.scad>
+
+use <trackball.scad>
+
+use <../library/screw.scad>
+
+// Test
+$test = false;
+
+center_block ();
+
+module center_block () {
 	// Put a cube with a corner at the origin so we can measure from it.
-	if ( test ) {
-		cube ();
-	}
+	ct() { nothing(); cube(); }
 
 	difference () {
 		// Main Body
 		union () {
-			if ( test ){
-				#_center_wall();
-			} else {
-				_center_wall();
-			}
+			ch() _center_wall();
 
 			_pcb_shelf ();
 
 			_sensor_holder();
 
-			for ( i = [ 0 : CenterBlock_screwCount - 1 ] ) {
-				translate ( Screw_positions[i] ) {
-					if ( test ) {
-						#_screw_boss();
-					} else {
-						_screw_boss();
-					}
-				}
+			_place_insert_holes () {
+				ch() _screw_boss();
 			}
 
 			_trackball_case();
 
 			// Test insert hole placement.
-			if ( test ) {
-				for ( i = [ 0 : CenterBlock_screwCount - 1 ] ) {
-					translate ( Screw_positions[i] + [ 0, 0, -pos.x * sin ( Halves_angles.y ) ] ) {
-						color ( "green" ) {
-							_insert_holes();
-						}
+			ct () {
+				nothing ();
+
+				_place_insert_holes () {
+					color ( "green" ) {
+						_insert_holes();
 					}
 				}
 			}
 		}
 
+		// Subtract the openings for the trackball BTUs.
 		_btus();
 
-		if ( ! test ) {
-			for ( pos = Screw_positions ) {
-				translate ( pos + [ 0, 0, -pos.x * sin ( Halves_angles.y ) ] ) {
-					_insert_holes();
+		// Subtract the holes for the heat-set inserts.
+		ct () {
+			_place_insert_holes () {
+				_insert_holes();
+			}
+		}
+
+		// Subtract the opening for the magnetic connector.
+		translate ( MagCon_position ) {
+			magnetic_connector ( include_cut = true );
+
+
+			// Holes for magnetic connector screws.
+			for ( ypos = ( 0.5 * MagCon_lip.y + Screw_diameter) * [ 1, -1 ] ) {
+				translate ( [ -eps, ypos, 0 ] ) {
+					rotate ( [ 0, -90, 0 ] ) {
+						screw (
+							diameter	= Screw_diameter,
+							length		= 5,
+							head		= "flat",
+						);
+					}
 				}
 			}
 		}
 
-		translate ( MagCon_position ) {
-			magnetic_connector ( include_cut = true );
-		}
+		cb() _plates();
 
-		if ( test ) {
-			%_plates();
-		} else{
-			_plates();
-		}
 		_sensor();
 
 		_trackball();
@@ -96,7 +101,7 @@ module _center_wall (
 	centerBlock_height			= CenterBlock_height,
 	centerBlock_ribSize			= CenterBlock_ribSize,
 	centerBlock_wallThickness	= CenterBlock_wallThickness,
-	hinge_length				= Hinge_length,
+	hinge_size					= Hinge_size,
 	topPlate_edge				= TopPlate_edge,
 	bottomPlate_thickness		= BottomPlate_thickness,
 	halves_angles				= Halves_angles
@@ -106,7 +111,7 @@ module _center_wall (
 			// Main body
 			cube ( [
 				centerBlock_wallThickness + centerBlock_ribSize.y + eps,
-				hinge_length + 2 * topPlate_edge,
+				hinge_size.y + 2 * topPlate_edge,
 				centerBlock_height
 			] );
 
@@ -114,12 +119,20 @@ module _center_wall (
 			translate ( [
 				centerBlock_wallThickness,
 				centerBlock_ribSize.x,
-				bottomPlate_thickness + centerBlock_ribSize.x - centerBlock_wallThickness * sin ( halves_angles.y )
+				(
+					bottomPlate_thickness
+					+ centerBlock_ribSize.x
+					- centerBlock_wallThickness * sin ( halves_angles.y )
+				),
 			] ) {
 				cube ( [
 					centerBlock_ribSize.y + 2 * eps,
-					hinge_length + 2 * topPlate_edge - 2 * centerBlock_ribSize.x,
-					centerBlock_height - bottomPlate_thickness - 2 * centerBlock_ribSize.x
+					hinge_size.y + 2 * topPlate_edge - 2 * centerBlock_ribSize.x,
+					(
+						centerBlock_height
+						- bottomPlate_thickness
+						- 2 * centerBlock_ribSize.x
+					)
 				] );
 			}
 		}
@@ -130,11 +143,11 @@ module _pcb_shelf (
 	bottomPlate_clearance	= BottomPlate_clearance,
 	bottomPlate_thickness	= BottomPlate_thickness,
 	halves_angles			= Halves_angles,
-	hinge_length			= Hinge_length,
+	hinge_size				= Hinge_size,
 ) {
 	translate ( [ 0, 0, bottomPlate_thickness - eps ] ) {
 		rotate ( [ 0, halves_angles.y, 0 ] ) {
-			cube ( [ 5, hinge_length, bottomPlate_clearance + eps ] );
+			cube ( [ 5, hinge_size.y, bottomPlate_clearance + eps ] );
 		}
 	}
 }
@@ -281,17 +294,38 @@ module _insert_holes (
 	translate ( [ 0, 0, bottomPlate_thickness ] ) {
 		rotate ( [ 0, halves_angles.y, 0 ] ) {
 			for ( zpos = [
-				-eps, //( bottomPlate_thickness - eps ) *  cos ( halves_angles.y ),
-				( centerBlock_height - insert_holeDepth - bottomPlate_thickness + eps ) * ( cos ( halves_angles.y ) ),
+				-eps,
+				(
+					centerBlock_height
+					- insert_holeDepth
+					- bottomPlate_thickness
+					+ eps
+				) * ( cos ( halves_angles.y ) ),
+
 			] ){
 				translate ( [
 					0,
 					0,
 					zpos
 				] ) {
-					cylinder ( d = insert_holeDiameter, h = insert_holeDepth + eps );
+					cylinder (
+						d = insert_holeDiameter,
+						h = insert_holeDepth + eps
+					);
 				}
 			}
+		}
+	}
+}
+
+module _place_insert_holes (  ) {
+	for ( i = [ 0 : CenterBlock_screwCount - 1 ] ) {
+		translate ( screw_positions_translated()[i] + [
+			0,
+			0,
+			-screw_positions_translated()[i].x * sin ( Halves_angles.y )
+		] ) {
+			children();
 		}
 	}
 }

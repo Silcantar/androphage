@@ -32,6 +32,9 @@ ANDROPHAGE_GLOBALS = true;
 $fa = $preview ? 10 : 1;
 $fs = $preview ? 1	: 0.1;
 
+// Test boolean.
+$test = false;
+
 // Very small amount.
 eps = 0.01;
 
@@ -42,6 +45,8 @@ middle	= 2;
 ring	= 3;
 pinky	= 4;
 outer	= 5;
+
+include <library/screw_globals.scad>
 
 /*******************************************************************************\
 |								Global Functions								|
@@ -59,15 +64,79 @@ function dictionary ( keyvals, key ) = [
 ][0];
 
 // Element-wise vector multiplication.
-function v_mul ( v1, v2 ) = [ 
+function v_mul ( v1, v2 ) = [
 	for ( i = [ 0 : min ( last(v1), last(v2) ) ] ) (
 		v1[i] * v2[i]
 	)
 ];
 
+function rot2d ( angle ) = [
+	[ cos(angle),	-sin(angle)	],
+	[ sin(angle),	cos(angle)	],
+];
+
+// Axis "enum".
+x = "x";
+y = "y";
+z = "z";
+
+// 3d rotation matrix.
+function rot3d ( angles ) = let (
+	a = angles.z,
+	b = angles.y,
+	c = angles.x
+) [
+	[
+		cos(a) * cos(b),
+		cos(a) * sin(b) * sin(c) - sin(a) * cos(c),
+		cos(a) * sin(b) * cos(c) - sin(a) * sin(c),
+	],
+	[
+		sin(a) * cos(b),
+		sin(a) * sin(b) * sin(c) + cos(a) * cos(c),
+		sin(a) * sin(b) * cos(c) - cos(a) * sin(c),
+	],
+	[
+		-sin(b),
+		cos(b) * sin(c),
+		cos(b) * cos(c),
+	],
+];
+
 /*******************************************************************************\
 |								Global Modules									|
 \*******************************************************************************/
+
+// Conditional background
+module cb ( cond = $test ) {
+	ct ( $test ) {
+		children(0);
+
+		%children(0);
+	}
+}
+
+// Conditional highlight
+module ch ( cond = $test ) {
+	ct ( $test ) {
+		children(0);
+
+		#children(0);
+	}
+}
+
+// Conditional test
+module ct ( cond = $test ) {
+	if ( cond ) {
+		if ( $children >= 2 ) {
+			children(1);
+		}
+	} else {
+		children(0);
+	}
+}
+
+module nothing () {}
 
 module fillet2d ( radius, outerFirst = true ) {
 	coeff = outerFirst ? 1 : -1;
@@ -116,13 +185,19 @@ CenterBlock_wallThickness = 2; //[1:10]
 \*******************************************************************************/
 
 /* [Colors] */
-// Primary color for the keyboard components.
+// Primary color for the keyboard components (Black).
 Color_primary = [ 0.20, 0.20, 0.20, 1.00 ]; //[0.0:0.01:1.0]
 
-// Secondary color for the keyboard components.
+// Secondary color for the keyboard components (Purple).
 Color_secondary = [ 0.50, 0.30, 0.80, 1.00 ];  //[0.0:0.01:1.0]
 
+// Tertiary color for keyboard components (Copper).
+Color_tertiary = [ 0.56, 0.34, 0.18, 1.00 ];
+
+// Color for transparent plastic (Transparent white).
 Color_clear = [ 1.0, 1.0, 1.0, 0.2 ];
+
+// Color for displaying cutting bodies (Transparent yellow).
 Color_cut = [ 1.0, 1.0, 0.0, 0.2 ];
 
 /*******************************************************************************\
@@ -131,17 +206,17 @@ Color_cut = [ 1.0, 1.0, 0.0, 0.2 ];
 
 /* [Column Key Counts] */
 // Number of keys in the inner index finger column.
-Column_inner_count		= 3;	//[1:4]
+Column_inner_count	= 3;	//[1:4]
 // Number of keys in the index finger column.
-Column_index_count		= 4;	//[1:5]
+Column_index_count	= 4;	//[1:5]
 // Number of keys in the middle finger column.
 Column_middle_count	= 4;	//[1:5]
 // Number of keys in the ring finger column.
-Column_ring_count		= 4;	//[1:5]
+Column_ring_count	= 4;	//[1:5]
 // Number of keys in the pinky finger column.
-Column_pinky_count		= 3;	//[1:5]
+Column_pinky_count	= 3;	//[1:5]
 // Number of keys in the outer pinky finger column.
-Column_outer_count		= 0;	//[0:5]
+Column_outer_count	= 0;	//[0:5]
 
 _Column_counts_init = [
 	Column_inner_count,
@@ -164,7 +239,7 @@ Column_counts = [ for ( i = [ 0 : Column_last ] ) _Column_counts_init[i] ];
 
 /* [Column Offsets] */
 // Distance that keys in the inner index finger column are offset depthward.
-Column_inner_offset	= 1;	//[1:0.125:2]
+Column_inner_offset		= 1;	//[1:0.125:2]
 // Distance that keys in the index finger column are offset depthward.
 Column_index_offset		= 0;	//[-1:0.125:2]
 // Distance that keys in the middle finger column are offset depthward.
@@ -172,9 +247,9 @@ Column_middle_offset	= 0.5;	//[-1:0.125:2]
 // Distance that keys in the ring finger column are offset depthward.
 Column_ring_offset		= 0;	//[-1:0.125:2]
 // Distance that keys in the pinky finger column are offset depthward.
-Column_pinky_offset	= 0.5;	//[-1:0.125:2]
+Column_pinky_offset		= 0.5;	//[-1:0.125:2]
 // Distance that keys in the outer pinky finger column are offset depthward.
-Column_outer_offset	= 0.5;	//[-1:0.125:2]
+Column_outer_offset		= 0.5;	//[-1:0.125:2]
 
 _Column_offsets_init = [
 	Column_inner_offset,
@@ -185,7 +260,9 @@ _Column_offsets_init = [
 	Column_outer_offset,
 ];
 
-Column_offsets	= [ for ( i = [ 0 : Column_last ] ) _Column_offsets_init [ i ] ];
+Column_offsets = [ for ( i = [ 0 : Column_last ] ) _Column_offsets_init [ i ] ];
+
+Column_cutouts = [ 0, 1, 0, 0, 0 ];
 
 /*******************************************************************************\
 |									Fasteners									|
@@ -201,6 +278,9 @@ Screw_headDiameter = 4;
 // Screw countersink angle.
 Screw_headAngle = 90;
 
+// Distance screws are inset from the plate edge.
+Screw_offset = 3;
+
 /* [Heat-set Inserts] */
 // Heat-sink insert outer diameter.
 Insert_diameter = 3;
@@ -212,7 +292,7 @@ Insert_holeDiameter = 2.8;
 
 Insert_holeDepth = 4;
 
-Insert_wallThickness = 1.5;
+Insert_wallThickness = 1.6;
 
 /*******************************************************************************\
 |									Halves										|
@@ -230,8 +310,11 @@ Halves_angles	= [0, 5, 15];	//[-45:45]
 // Show the hinge.
 Hinge_visible = true;
 
-// Hinge Length
-Hinge_length	= 90;	//[50:1:200]
+// Diameter of hinge pivot.
+Hinge_diameter = 3;
+
+// Hinge dimensions [ width, length, leaf thickness ].
+Hinge_size	= [ (27 - Hinge_diameter) / 2, 90, 1 ];	//[50:1:200]
 
 /*******************************************************************************\
 |									Keys										|
@@ -261,6 +344,68 @@ Keycap_height = (
 	( Keycap_type == "lamé"		) ? 6.5	:
 	( Keycap_type == "mbk"		) ? 2.6	: 11
 );
+
+Keycap_path = "klp_lame_keycaps/STL/Choc Stem + Choc Size/Choc_Stem_Choc_Size_";
+
+// Styles for KLP Lamé keycaps.
+Keycap_saddle = false;
+normal	= Keycap_saddle ? "Saddle"			: "Normal";
+tilted	= Keycap_saddle ? "Saddle_Tilted"	: "Normal_Tilted";
+homing	= Keycap_saddle ? "Saddle_Homing"	: "Normal_Homing";
+thumb	= Keycap_saddle ? "Saddle"			: "Thumb";
+
+// Should the frontmost key in the index column be pressed by the thumb?
+five_thumb_keys = true;
+
+Keycap_style = [
+	// [ Style, Rotated? ]
+	// Inner Column, back -> front
+	[ tilted, 0 ],
+	[ normal, 0 ],
+	[ tilted, 1 ],
+	// Index Column
+	[ tilted, 0 ],
+	[ homing, 0 ],
+	[ tilted, 1 ],
+	// This key can go to the index or thumb:
+	five_thumb_keys ? [ thumb, 0 ] : [ tilted, 1 ],
+	// Middle Column
+	[ tilted, 0 ],
+	[ normal, 0 ],
+	[ normal, 1 ],
+	[ tilted, 1 ],
+	// Ring Column
+	[ tilted, 0 ],
+	[ normal, 0 ],
+	[ normal, 1 ],
+	[ tilted, 1 ],
+	// Pinky Column
+	[ tilted, 0 ],
+	[ normal, 0 ],
+	[ tilted, 1 ],
+	// Thumb Keys, inside -> outside
+	[ thumb, 0 ],
+	[ tilted, 0 ],
+	[ thumb, 0 ],
+	[ thumb, 0 ],
+];
+
+/*******************************************************************************\
+|									LEDs										|
+\*******************************************************************************/
+
+/* [LEDs] */
+LED_present = true;
+
+LED_count = 4;
+
+LED_holeShape = "square";
+
+LED_holeSize = [ 3, 3 ];
+
+LED_holeSpacing = [ 4.5, 0 ];
+
+LED_position_y = 13;
 
 /*******************************************************************************\
 |								Magnetic Connector								|
@@ -314,11 +459,12 @@ SwitchPlate_edge		= 2; //[1:5]
 // Show the Top Plate.
 TopPlate_visible = true;
 
-// Top plate thickness.
+// Top plate thickness. 1.6 mm is the minimum for anodizing at SendCutSend.
 TopPlate_thickness = 1.6; //[1.0:0.2:2.0]
 
 TopPlate_edge = SwitchPlate_edge + CaseFrame_thickness;
 
+// Fillet radius for the cutout in the top plate.
 TopPlate_innerRadius = 2; //[0.0:0.1:5.0]
 
 /* [Plates Common] */
@@ -331,6 +477,9 @@ Plate_backArcRadius = 120;	//[50:200]
 
 // Radius of the arc at the front outer corner of the keyboard.
 Plate_outerArcRadius = 20;	//[10:50]
+
+// Fillet radius for the outside corners of the plates.
+Plate_outerRadius = 3;
 
 /*******************************************************************************\
 |									Switches									|
@@ -367,6 +516,8 @@ Cluster_columnOffsets	= [0, 0, 0];	//[0:0.125:1]
 
 // This drives the spacing between the thumb keys.
 Cluster_radius	= 6.5; //[0:0.25:10]
+
+Cluster_cutouts = [ 1, 1, 1 ];
 
 /*******************************************************************************\
 |									Trackball									|
@@ -452,6 +603,14 @@ Trackball_BTU_d		= 4;
 Key_MXspacing = ( Switch_type == "mx" ) ? true : false;
 Key_spacing = Key_MXspacing ? [19, 19] : [18, 17];
 
+Column_connectors = [
+	[ Key_spacing.x, 90 + Cluster_angle ],
+	[ 0, 0 ],
+	[ 0, 0 ],
+	[ 0, 0 ],
+	[ 0, 0 ],
+];
+
 BottomPlate_edge = SwitchPlate_edge + CaseFrame_thickness;
 
 SwitchPlate_thickness = Key_MXspacing ? 1.6 : 1.2;
@@ -478,29 +637,32 @@ CenterBlock_height = (
 	+	Key_height
 );
 
+LED_position = [
+	Key_spacing.x - ( LED_count - 1 ) * LED_holeSpacing.x / 2,
+	Key_spacing.y / 2 - LED_position_y,
+	0
+];
+
 // Position of the connector relative to the Center Block.
-MagCon_position		= [ 0, 20, ( CenterBlock_height + BottomPlate_thickness) / 2 ];
+MagCon_position		= [
+	0,
+	19.5,
+	(
+		+ BottomPlate_thickness
+		+ BottomPlate_clearance
+		+ 5
+	)
+];
 
 PCB_position = [
 	0,
 	0,
-	BottomPlate_thickness + BottomPlate_clearance 
+	BottomPlate_thickness + BottomPlate_clearance
 ];
+
+Keycap_position_z = PCB_position.z + Switch_height_lower + Switch_height_upper;
 
 CenterScrews_x = TopPlate_edge - Screw_diameter;
-
-Screw1_y = (
-	+ Trackball_position_y
-	- Trackball_diameter / 2
-	- Trackball_clearance
-	- Screw_diameter * 2
-);
-
-Screw_positions = [
-	[ CenterScrews_x,	0,				0 ],
-	[ CenterScrews_x,	Screw1_y,		0 ],
-	[ CenterScrews_x,	Hinge_length,	0 ],
-];
 
 SwitchPlate_position = PCB_position + [ 0, 0, Switch_height_lower ];
 
@@ -508,7 +670,7 @@ TopPlate_position = [
 	0,
 	0,
 	(
-		BottomPlate_thickness
+		+ BottomPlate_thickness
 		+ BottomPlate_clearance
 		+ PCB_thickness
 		+ Key_height
