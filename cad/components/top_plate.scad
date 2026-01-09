@@ -27,24 +27,28 @@ module top_plate (
 					place_trackball( zpos = zpos );
 
 					// TODO: make these offsets more rational.
-					offset ( innerRadius ) {
-						offset ( -innerRadius ) {
+					// offset ( innerRadius ) {
+					// 	offset ( -innerRadius ) {
+						fillet2d ( innerRadius ) {
 							place_finger_switches ( radius = 0, size = spacing );
-							place_thumb_switches ( radius = 0, size = spacing );
+							place_thumb_switches ( radius = 0, size = spacing, connect = true );
 						}
-					}
+					// 	}
+					// }
 				}
 			}
 		}
 
-		for ( pos = Screw_positions ) {
-			translate ( pos + [ 0, 0, thickness + eps ] ) {
-				screw (
-					diameter	= Screw_diameter,
-					length		= 2,
-					head		= "flat",
-					drive		= "none",
-				);
+		rotate ( [ 0, Halves_angles.y, 0 ] ){
+			for ( pos = Screw_positions ) {
+				translate ( pos + [ zpos * sin ( Halves_angles.y ), 0, thickness + eps ] ) {
+					screw (
+						diameter	= Screw_diameter,
+						length		= 2,
+						head		= "flat",
+						drive		= "none",
+					);
+				}
 			}
 		}
 	}

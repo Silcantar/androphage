@@ -25,9 +25,6 @@
 |																				|
 \*******************************************************************************/
 
-//include <BOSL2/std.scad>
-// include <BOSL2/vectors.scad>
-
 /* [Hidden] */
 ANDROPHAGE_GLOBALS = true;
 
@@ -58,8 +55,30 @@ function last ( vector ) = len ( vector ) - 1;
 // If there are duplicate keys in the list, only the value for the first key
 // will be returned.
 function dictionary ( keyvals, key ) = [
-	for ( i = keyvals ) if (i[0] == key) i[1]
+	for ( i = keyvals ) if ( i[0] == key ) i[1]
 ][0];
+
+// Element-wise vector multiplication.
+function v_mul ( v1, v2 ) = [ 
+	for ( i = [ 0 : min ( last(v1), last(v2) ) ] ) (
+		v1[i] * v2[i]
+	)
+];
+
+/*******************************************************************************\
+|								Global Modules									|
+\*******************************************************************************/
+
+module fillet2d ( radius, outerFirst = true ) {
+	coeff = outerFirst ? 1 : -1;
+	offset ( coeff * radius ) {
+		offset ( -2 * coeff * radius ) {
+			offset ( coeff * radius ) {
+				children();
+			}
+		}
+	}
+}
 
 /*******************************************************************************\
 |									Case Frame									|
@@ -85,6 +104,9 @@ CenterBlock_visible = true;
 
 // Width and height of the strengthening ribs of the center block.
 CenterBlock_ribSize = [ 2, 2 ]; //[1:5]
+
+// Number of screws that screw into the top and bottom of the center block.
+CenterBlock_screwCount = 3;
 
 // Thickness of the center wall
 CenterBlock_wallThickness = 2; //[1:10]
@@ -279,14 +301,14 @@ BottomPlate_thickness = 1.6;	//[1:0.2:2]
 BottomPlate_clearance = 3; //[1:10]
 
 /* [Switch Plate] */
+// Specify whether a switch plate will be used.
+SwitchPlate_present	= false;
+
 // Show the switch plate.
 SwitchPlate_visible = true;
 
 // Distance from keys to edge of switch plate.
 SwitchPlate_edge		= 2; //[1:5]
-
-// Specify whether a switch plate will be used.
-SwitchPlate_present	= true;
 
 /* [Top Plate] */
 // Show the Top Plate.
@@ -462,7 +484,7 @@ MagCon_position		= [ 0, 20, ( CenterBlock_height + BottomPlate_thickness) / 2 ];
 PCB_position = [
 	0,
 	0,
-	BottomPlate_clearance + Switch_height_legs
+	BottomPlate_thickness + BottomPlate_clearance 
 ];
 
 CenterScrews_x = TopPlate_edge - Screw_diameter;
@@ -480,15 +502,7 @@ Screw_positions = [
 	[ CenterScrews_x,	Hinge_length,	0 ],
 ];
 
-SwitchPlate_position = [
-	0,
-	0,
-	(
-		BottomPlate_clearance
-		+ Switch_height_legs
-		+ Switch_height_lower
-	)
-];
+SwitchPlate_position = PCB_position + [ 0, 0, Switch_height_lower ];
 
 TopPlate_position = [
 	0,

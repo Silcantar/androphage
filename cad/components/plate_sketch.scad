@@ -200,7 +200,9 @@ module plate_sketch ( zpos = 0, edge = 0 ) {
 
 module _switch_hole (
 	radius	= Switch_radius,
-	size	= Switch_size
+	size	= Switch_size,
+	angle_l	= 0,
+	angle_r = 0,
 ) {
 	offset ( radius ) {
 		offset ( -radius ) {
@@ -209,9 +211,29 @@ module _switch_hole (
 	}
 }
 
+module _switch_hole_connector (
+	//width = 0,
+	angle	= Cluster_angle,
+	radius	= Key_spacing.y,
+) {
+	difference () {
+		circle ( r = radius );
+
+		xpos = [ -4 * radius, 0 ];
+		angle_multiplier = [ 0, -1 ];
+		for ( i = [ 0 : 1 ] ) {
+			rotate ( [ 0, 0, angle * angle_multiplier[i] ] ) {
+				translate ( [ xpos[i], -2 * radius ] ) {
+					square ( 4 * radius );
+				}
+			}
+		}
+	}
+}
+
 module place_finger_switches (
 	radius	= Switch_radius,
-	size	= Switch_size
+	size	= Switch_size,
 ) {
 	for (
 		i = [ 0 : Column_last ],
@@ -227,8 +249,9 @@ module place_finger_switches (
 }
 
 module place_thumb_switches (
+	connect	= false,
 	radius	= Switch_radius,
-	size = Switch_size
+	size	= Switch_size,
 ) {
 	for ( i = [ 0 : len ( Cluster_columnCounts ) - 1 ] ) {
 		translate ([0, - Cluster_radius_mm, 0]) {
@@ -237,9 +260,23 @@ module place_thumb_switches (
 					for ( j = [ 0 : Cluster_columnCounts[i] - 1 ] ) {
 						translate ( [ 0, j * Key_spacing.y, 0 ] ) {
 							_switch_hole ( radius = radius, size = size );
+
+							if ( connect && j == 0 ) {
+								translate ( v_mul ( size, [ 0.5, -0.5 ] ) ){
+									_switch_hole_connector();
+								}
+							}
 						}
 					}
 				}
+			}
+		}
+	}
+	
+	if ( connect ) {
+		translate ( v_mul ( Key_spacing, [ -0.5, 0.5 ] ) ) {
+			rotate ( [ 0, 0, 90 + Cluster_angle ]) {
+				_switch_hole_connector ( radius = Key_spacing.x );
 			}
 		}
 	}
@@ -263,13 +300,13 @@ module place_trackball ( zpos = 0 ) {
 }
 
 module place_plate ( zpos = 0 ) {
-	// rotate ( [ 0, Halves_angles.y, 0 ] ) {
+	rotate ( [ 0, Halves_angles.y, 0 ] ) {
 		rotate ( [ 0, 0, Halves_angles.z ] ) {
 			translate ( -front_center_point ( zpos ) ) {
 				children();
 			}
 		}
-	//}
+	}
 }
 
 // Approximate actual values of these parameters.

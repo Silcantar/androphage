@@ -5,8 +5,8 @@
 
 include <../androphage_globals.scad>
 
-include <../BOSL2/std.scad>
-include <../BOSL2/vectors.scad>
+// include <../BOSL2/std.scad>
+// include <../BOSL2/vectors.scad>
 
 use <trackball_sensor.scad>
 
@@ -17,6 +17,7 @@ use <btu.scad>
 use <magnetic_connector.scad>
 
 // Test
+rotate ( [ 0, -90, 0 ] )
 center_block ( test = false );
 
 module center_block ( test = false ) {
@@ -34,12 +35,12 @@ module center_block ( test = false ) {
 				_center_wall();
 			}
 
+			_pcb_shelf ();
+
 			_sensor_holder();
 
-			_trackball_case();
-
-			for ( pos = Screw_positions ) {
-				translate ( pos ) {
+			for ( i = [ 0 : CenterBlock_screwCount - 1 ] ) {
+				translate ( Screw_positions[i] ) {
 					if ( test ) {
 						#_screw_boss();
 					} else {
@@ -48,10 +49,12 @@ module center_block ( test = false ) {
 				}
 			}
 
+			_trackball_case();
+
 			// Test insert hole placement.
 			if ( test ) {
-				for ( pos = Screw_positions ) {
-					translate ( pos + [ 0, 0, -pos.x * sin ( Halves_angles.y ) ] ) {
+				for ( i = [ 0 : CenterBlock_screwCount - 1 ] ) {
+					translate ( Screw_positions[i] + [ 0, 0, -pos.x * sin ( Halves_angles.y ) ] ) {
 						color ( "green" ) {
 							_insert_holes();
 						}
@@ -119,6 +122,19 @@ module _center_wall (
 					centerBlock_height - bottomPlate_thickness - 2 * centerBlock_ribSize.x
 				] );
 			}
+		}
+	}
+}
+
+module _pcb_shelf (
+	bottomPlate_clearance	= BottomPlate_clearance,
+	bottomPlate_thickness	= BottomPlate_thickness,
+	halves_angles			= Halves_angles,
+	hinge_length			= Hinge_length,
+) {
+	translate ( [ 0, 0, bottomPlate_thickness - eps ] ) {
+		rotate ( [ 0, halves_angles.y, 0 ] ) {
+			cube ( [ 5, hinge_length, bottomPlate_clearance + eps ] );
 		}
 	}
 }
@@ -285,20 +301,20 @@ module _plates (
 	centerBlock_height		= CenterBlock_height,
 	bottomPlate_thickness	= BottomPlate_thickness
 ) {
-	side = 200;
+	size = [ 30, 150, 30 ];
 	zpos1 = [ centerBlock_height, bottomPlate_thickness ];
-	zpos2 = [ 0, -side ];
+	zpos2 = [ 0, -size.z ];
 	for ( i = [ 0 : 1 ] ) {
-		translate ( [ 0, -side / 2, zpos1[i] ] ) {
+		translate ( [ 0, -size.y / 2, zpos1[i] ] ) {
 			rotate ( [ 0, halves_angles.y, 0 ] ) {
-				translate ( [ -side / 2, 0, zpos2[i] ] ) {
-					cube ( side );
+				translate ( [ -size.x / 4, size.y / 4, zpos2[i] ] ) {
+					cube ( size );
 				}
 			}
 		}
 	}
-	translate ( [ -side, -side / 2, 0 ] ) {
-		cube ( side );
+	translate ( [ -size.x, -size.y / 4, 0 ] ) {
+		cube ( size );
 	}
 }
 
