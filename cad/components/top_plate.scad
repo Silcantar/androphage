@@ -5,7 +5,7 @@
 
 include <../androphage_globals.scad>
 
-use <plate_sketch.scad>
+use <plates_common.scad>
 
 top_plate( zpos = 0 );
 
@@ -21,7 +21,7 @@ module top_plate (
 		place_plate ( zpos ) {
 			difference () {
 				// Main body.
-				plate_sketch (
+				plates_common (
 					thickness = thickness,
 					edge	= edge,
 					radius	= outerRadius,

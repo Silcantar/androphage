@@ -13,13 +13,13 @@ use <components/case_frame.scad>
 
 use <components/center_block.scad>
 
-use <components/choc_switch.scad>
+use <components/keys.scad>
 
 use <components/magnetic_connector.scad>
 
 use <components/pcb.scad>
 
-use <components/plate_sketch.scad>
+use <components/plates_common.scad>
 
 use <components/switch_plate.scad>
 
@@ -30,15 +30,23 @@ use <components/trackball.scad>
 use <components/trackball_sensor.scad>
 
 // Keycap_visible = false;
-BottomPlate_visible = false;
-TopPlate_visible = false;
-Trackball_visible = false;
+// BottomPlate_visible = false;
+// TopPlate_visible = false;
+// Trackball_visible = false;
 
-// Switch_travel = Switch_maxTravel * ( 0.5 * sin ( 360 * $t ) + 0.5 );
-
-// render () {
+translate ( -Trackball_position ) {
 	androphage_assembly();
-// }
+	mirror ( [ 1, 0, 0 ] ) {
+		androphage_assembly();
+	}
+}
+
+translate ( [ 0, 0, -35 ] ) {
+	color ( Color_tertiary ) {
+		cube ( [ 300, 200, 1 ], center = true );
+	}
+}
+
 
 module androphage_assembly() {
 	/*				PCB				*/
@@ -86,9 +94,7 @@ module androphage_assembly() {
 	/*				Trackball				*/
 	if ( Trackball_visible ) {
 		translate ( Trackball_position ) {
-			color ( Color_secondary ) {
-				trackball ( centers = false );
-			}
+			trackball ( centers = false );
 		}
 	}
 
@@ -110,28 +116,5 @@ module androphage_assembly() {
 		}
 	}
 
-	key_pos = key_positions();
-
-	place_plate () {
-		for ( i = [ 0 : last ( key_pos ) ] ) {
-			let ( p = key_pos[i] ) {
-				translate ( [ p.x, p.y, 0 ] ){
-					rotate ( p[2][0] + Keycap_style[i][1] * 180 ) {
-						if ( Switch_visible ) {
-							translate ( [ 0, 0, Switch_position_z ] ) {
-								choc_switch ( travel = Switch_travel );
-							}
-						}
-						if ( Keycap_visible ) {
-							translate ( [ 0, 0, Keycap_position_z ] ) {
-								color ( Color_secondary ) {
-									import ( str ( Keycap_path, Keycap_style[i][0], ".stl" ) );
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+	keys();
 }

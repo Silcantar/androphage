@@ -11,7 +11,7 @@ use <../library/screw.scad>
 test_zpos = 360 * $t % 20;
 test_edge = 360 * $t % 5;
 
-plate_sketch (
+plates_common (
 	edge	 	= test_edge,
 	thickness	= 0.5,
 	zpos		= test_zpos,
@@ -188,7 +188,7 @@ function _back_arc_inner_end() = (
 	]
 );
 
-function plate_sketch_points ( zpos = 0 ) = [
+function plates_common_points ( zpos = 0 ) = [
 	_front_middle_point(),
 	_front_outer_point(),
 	_back_outer_point(),
@@ -201,13 +201,13 @@ function plate_sketch_points ( zpos = 0 ) = [
 	_front_arc_inner_end (),
 ];
 
-module plate_sketch (
+module plates_common (
 	thickness,
 	edge = 0,
 	radius = 0,
 	zpos = 0,
 ) {
-	points = plate_sketch_points ( zpos = zpos );
+	points = plates_common_points ( zpos = zpos );
 
 	linear_extrude ( h = thickness ){
 		difference() {

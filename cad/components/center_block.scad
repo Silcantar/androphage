@@ -12,7 +12,7 @@ use <btu.scad>
 
 use <magnetic_connector.scad>
 
-use <plate_sketch.scad>
+use <plates_common.scad>
 
 use <trackball_sensor.scad>
 
@@ -336,7 +336,7 @@ module _plates (
 	centerBlock_height		= CenterBlock_height,
 	bottomPlate_thickness	= BottomPlate_thickness
 ) {
-	size = [ 30, 150, 30 ];
+	size = [ 40, 150, 30 ];
 	zpos1 = [ centerBlock_height, bottomPlate_thickness ];
 	zpos2 = [ 0, -size.z ];
 	for ( i = [ 0 : 1 ] ) {

@@ -5,7 +5,7 @@
 
 include <../androphage_globals.scad>
 
-use <plate_sketch.scad>
+use <plates_common.scad>
 
 module pcb (
 	thickness	= PCB_thickness,
@@ -13,7 +13,7 @@ module pcb (
 ) {
 	place_plate ( zpos ) {
 		difference () {
-			plate_sketch (
+			plates_common (
 				thickness = thickness,
 				zpos = zpos,
 			);

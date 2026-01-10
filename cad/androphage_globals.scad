@@ -192,7 +192,7 @@ Color_primary = [ 0.20, 0.20, 0.20, 1.00 ]; //[0.0:0.01:1.0]
 Color_secondary = [ 0.50, 0.30, 0.80, 1.0 ];  //[0.0:0.01:1.0]
 
 // Tertiary color for keyboard components (Copper).
-Color_tertiary = [ 0.56, 0.34, 0.18, 1.00 ];
+Color_tertiary = [ 0.62, 0.36, 0.18, 1.00 ];
 
 // Color for transparent plastic (Transparent white).
 Color_clear = [ 1.0, 1.0, 1.0, 0.2 ];
@@ -343,7 +343,7 @@ Keycap_type = "lamé"; //[ "cherry", "dsa", "lamé", "mbk", ]
 Keycap_height = (
 	( Keycap_type == "cherry"	) ? 11	:
 	( Keycap_type == "dsa"		) ? 8	:
-	( Keycap_type == "lamé"		) ? 6.5	:
+	( Keycap_type == "lamé"		) ? 6.5	: //6.5
 	( Keycap_type == "mbk"		) ? 2.6	: 11
 );
 
@@ -362,34 +362,35 @@ five_thumb_keys = true;
 Keycap_style = [
 	// [ Style, Rotated? ]
 	// Inner Column, back -> front
-	[ tilted, 1 ],
-	[ normal, 0 ],
-	[ tilted, 0 ],
+	[ tilted, 1, Color_primary ],
+	[ normal, 0, Color_secondary ],
+	[ tilted, 0, Color_primary ],
 	// Index Column
 	// This key can go to the index or thumb:
-	five_thumb_keys ? [ thumb, 0 ] : [ tilted, 1 ],
-	[ tilted, 1 ],
-	[ homing, 0 ],
-	[ tilted, 0 ],
+	five_thumb_keys ? [ thumb, 0, Color_primary ] : [ tilted, 1, Color_primary ],
+	five_thumb_keys ? [ tilted, 1, Color_primary ] : [ normal, 1, Color_primary ],
+	// [ tilted, 1 ],
+	[ homing, 0, Color_secondary ],
+	[ tilted, 0, Color_primary ],
 	// Middle Column
-	[ tilted, 1 ],
-	[ normal, 1 ],
-	[ normal, 0 ],
-	[ tilted, 0 ],
+	[ tilted, 1, Color_primary ],
+	[ normal, 1, Color_primary ],
+	[ normal, 0, Color_secondary ],
+	[ tilted, 0, Color_primary ],
 	// Ring Column
-	[ tilted, 1 ],
-	[ normal, 1 ],
-	[ normal, 0 ],
-	[ tilted, 0 ],
+	[ tilted, 1, Color_primary ],
+	[ normal, 1, Color_primary ],
+	[ normal, 0, Color_secondary ],
+	[ tilted, 0, Color_primary ],
 	// Pinky Column
-	[ tilted, 1 ],
-	[ normal, 0 ],
-	[ tilted, 0 ],
+	[ tilted, 1, Color_primary ],
+	[ normal, 0, Color_secondary ],
+	[ tilted, 0, Color_primary ],
 	// Thumb Keys, inside -> outside
-	[ thumb, 0 ],
-	[ thumb, 0 ],
-	[ tilted, 0 ],
-	[ thumb, 0 ],
+	[ thumb, 0, Color_primary ],
+	[ thumb, 0, Color_secondary ],
+	[ tilted, 0, Color_secondary ],
+	[ thumb, 0, Color_primary ],
 ];
 
 /*******************************************************************************\
@@ -715,10 +716,8 @@ TopPlate_position = [
 ];
 
 Trackball_position_z = (
-	BottomPlate_thickness
-	+ BottomPlate_clearance
-	+ PCB_thickness
-	+ Key_height
+	+ TopPlate_position.z
+	+ TopPlate_thickness
 );
 
 Trackball_position = [

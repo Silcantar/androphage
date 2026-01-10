@@ -10,8 +10,10 @@ module trackball (
 	diameter	= Trackball_diameter,
 	color		= Color_secondary
 ) {
-	sphere ( d = diameter );
-
+	color ( color ) {
+		sphere ( d = diameter );
+	}
+	
 	if ( centers ) {
 		color ( "green", 0.5 ) {
 			for ( r = [ [ 0, 0, 0 ], [ 90, 0, 0 ], [ 0, 90, 0 ] ]) {

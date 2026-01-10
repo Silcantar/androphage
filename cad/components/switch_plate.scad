@@ -5,7 +5,7 @@
 
 include <../androphage_globals.scad>
 
-use <plate_sketch.scad>
+use <plates_common.scad>
 
 module switch_plate (
 	thickness	= SwitchPlate_thickness,
@@ -13,7 +13,7 @@ module switch_plate (
 ) {
 	place_plate ( zpos ) {
 		difference () {
-			plate_sketch ( 
+			plates_common ( 
 				thickness	= thickness,
 				zpos		= zpos,
 			);

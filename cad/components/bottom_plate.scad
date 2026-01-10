@@ -5,7 +5,7 @@
 
 include <../androphage_globals.scad>
 
-use <plate_sketch.scad>
+use <plates_common.scad>
 
 use <../library/screw.scad>
 
@@ -19,7 +19,7 @@ module bottom_plate (
 		translate ( [ 0, 0, thickness * cos ( Halves_angles.y ) ] ){
 			mirror ( [ 0, 0, 1 ]) {
 				difference () {
-					plate_sketch (
+					plates_common (
 						edge		= edge,
 						radius		= outerRadius,
 						thickness	= thickness,
