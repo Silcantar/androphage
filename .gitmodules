@@ -2,9 +2,6 @@
 	path = pcb/vik
 	url = https://github.com/Silcantar/vik.git
 	branch = dev
-[submodule "cad/BOSL"]
-	path = cad/BOSL2
-	url = https://github.com/BelfrySCAD/BOSL2.git
 [submodule "cad/klp_lame_keycaps"]
 	path = cad/klp_lame_keycaps
 	url = https://github.com/braindefender/KLP-Lame-Keycaps.git
