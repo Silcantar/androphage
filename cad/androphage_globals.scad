@@ -189,7 +189,7 @@ CenterBlock_wallThickness = 2; //[1:10]
 Color_primary = [ 0.20, 0.20, 0.20, 1.00 ]; //[0.0:0.01:1.0]
 
 // Secondary color for the keyboard components (Purple).
-Color_secondary = [ 0.50, 0.30, 0.80, 1.00 ];  //[0.0:0.01:1.0]
+Color_secondary = [ 0.50, 0.30, 0.80, 1.0 ];  //[0.0:0.01:1.0]
 
 // Tertiary color for keyboard components (Copper).
 Color_tertiary = [ 0.56, 0.34, 0.18, 1.00 ];
@@ -199,6 +199,8 @@ Color_clear = [ 1.0, 1.0, 1.0, 0.2 ];
 
 // Color for displaying cutting bodies (Transparent yellow).
 Color_cut = [ 1.0, 1.0, 0.0, 0.2 ];
+
+Color_steel = [ 0.5, 0.5, 0.5, 1.0 ];
 
 /*******************************************************************************\
 |									Columns										|
@@ -360,33 +362,33 @@ five_thumb_keys = true;
 Keycap_style = [
 	// [ Style, Rotated? ]
 	// Inner Column, back -> front
-	[ tilted, 0 ],
+	[ tilted, 1 ],
 	[ normal, 0 ],
-	[ tilted, 1 ],
-	// Index Column
 	[ tilted, 0 ],
-	[ homing, 0 ],
-	[ tilted, 1 ],
+	// Index Column
 	// This key can go to the index or thumb:
 	five_thumb_keys ? [ thumb, 0 ] : [ tilted, 1 ],
+	[ tilted, 1 ],
+	[ homing, 0 ],
+	[ tilted, 0 ],
 	// Middle Column
-	[ tilted, 0 ],
-	[ normal, 0 ],
-	[ normal, 1 ],
 	[ tilted, 1 ],
+	[ normal, 1 ],
+	[ normal, 0 ],
+	[ tilted, 0 ],
 	// Ring Column
-	[ tilted, 0 ],
-	[ normal, 0 ],
+	[ tilted, 1 ],
 	[ normal, 1 ],
-	[ tilted, 1 ],
-	// Pinky Column
-	[ tilted, 0 ],
 	[ normal, 0 ],
+	[ tilted, 0 ],
+	// Pinky Column
 	[ tilted, 1 ],
+	[ normal, 0 ],
+	[ tilted, 0 ],
 	// Thumb Keys, inside -> outside
 	[ thumb, 0 ],
-	[ tilted, 0 ],
 	[ thumb, 0 ],
+	[ tilted, 0 ],
 	[ thumb, 0 ],
 ];
 
@@ -410,6 +412,8 @@ LED_position_y = 13;
 /*******************************************************************************\
 |								Magnetic Connector								|
 \*******************************************************************************/
+
+MagCon_visible = true;
 
 // Size of the main body of the magnetic connector.
 MagCon_size			= [ 4.7, 26.5, 6.0 ];
@@ -447,10 +451,10 @@ BottomPlate_clearance = 3; //[1:10]
 
 /* [Switch Plate] */
 // Specify whether a switch plate will be used.
-SwitchPlate_present	= false;
+SwitchPlate_present	= true;
 
 // Show the switch plate.
-SwitchPlate_visible = true;
+SwitchPlate_visible = false;
 
 // Distance from keys to edge of switch plate.
 SwitchPlate_edge		= 2; //[1:5]
@@ -492,12 +496,37 @@ Switch_visible = true;
 // Radius for corners of switch openings in the switch plate.
 Switch_radius = 0.5;	//[0:0.1:1]
 
-Switch_type = "choc"; //["choc","mx"]
+switch_chocv1	= "chocv1";
+switch_chocv2	= "chocv2";
+switch_mx		= "mx";
+
+Switch_type = switch_chocv1;
+
+$choc_version = ( Switch_type == switch_chocv1 ) ? 1 : 2;
 
 Switch_size = Key_testClearance ? [
 	Key_spacing.x - Key_clearance,
 	Key_spacing.y - Key_clearance
 ] : [ 14, 14 ];
+
+Switch_travel = 0;
+Switch_maxTravel = 3.3;
+
+switch_red		= 0;
+switch_blue		= 1;
+switch_brown	= 2;
+switch_prored	= 3;
+switch_pink		= 4;
+switch_robin	= 5;
+switch_sunset	= 6;
+switch_twilight	= 7;
+switch_nocturnal= 8;
+switch_sunrise	= 9;
+switch_bokeh	= 10;
+
+Switch_colorScheme = switch_sunset; // [0: Red, 1: Blue, 2: Brown, 3: Pro Red, 4: Pink, 5: Robin, 6: Sunset, 7: Twilight, 8: Nocturnal, 9: Sunrise, 10: Bokeh]
+$color_scheme = Switch_colorScheme;
+
 
 /*******************************************************************************\
 |								Thumb Cluster									|
@@ -660,11 +689,19 @@ PCB_position = [
 	BottomPlate_thickness + BottomPlate_clearance
 ];
 
-Keycap_position_z = PCB_position.z + Switch_height_lower + Switch_height_upper;
+Switch_position_z = PCB_position.z + PCB_thickness;
+
+Keycap_position_z = (
+	+ PCB_position.z 
+	+ Switch_height_lower 
+	+ Switch_height_upper 
+	- Switch_travel 
+	// - Switch_maxTravel
+);
 
 CenterScrews_x = TopPlate_edge - Screw_diameter;
 
-SwitchPlate_position = PCB_position + [ 0, 0, Switch_height_lower ];
+SwitchPlate_position = PCB_position + [ 0, 0, PCB_thickness + Switch_height_lower - SwitchPlate_thickness ];
 
 TopPlate_position = [
 	0,

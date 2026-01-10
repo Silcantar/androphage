@@ -57,7 +57,7 @@ module center_block () {
 		}
 
 		// Subtract the openings for the trackball BTUs.
-		_btus();
+		place_btus ( include_cut = true, );
 
 		// Subtract the holes for the heat-set inserts.
 		ct () {
@@ -87,7 +87,7 @@ module center_block () {
 
 		cb() _plates();
 
-		_sensor();
+		place_sensor ( include_cut = true, );
 
 		_trackball();
 	}
@@ -267,7 +267,8 @@ module _trackball_case (
 |								Subtractive Features							|
 \*******************************************************************************/
 
-module _btus (
+module place_btus (
+	include_cut = false,
 	trackball_diameter	= Trackball_diameter,
 	trackball_position	= Trackball_position,
 ) {
@@ -276,7 +277,7 @@ module _btus (
 		for ( zrot = [ -45, -135 ] ) {
 			rotate ( [ 45, 0, zrot ] ) {
 				translate ( [ 0, 0, -trackball_diameter / 2 ] ) {
-					btu ( include_cut = true );
+					btu ( include_cut = include_cut );
 				}
 			}
 		}
@@ -352,7 +353,8 @@ module _plates (
 	}
 }
 
-module _sensor (
+module place_sensor (
+	include_cut = false,
 	trackball_sensor_angle	= Trackball_Sensor_angle,
 	trackball_diameter		= Trackball_diameter,
 	trackball_position		= Trackball_position
@@ -362,7 +364,7 @@ module _sensor (
 		// Trackball sensor board
 		rotate ( [ 0, 180 - trackball_sensor_angle, 0 ] ) {
 			translate ( [ 0, 0, trackball_diameter / 2 ] ) {
-				trackball_sensor ( include_cut = true );
+				trackball_sensor ( include_cut = include_cut );
 			}
 		}
 	}

@@ -12,15 +12,19 @@ module switch_plate (
 	zpos = 10
 ) {
 	place_plate ( zpos ) {
-		linear_extrude ( height = thickness ) {
-			difference () {
-				plate_sketch ( zpos );
+		difference () {
+			plate_sketch ( 
+				thickness	= thickness,
+				zpos		= zpos,
+			);
 
-				place_finger_switches();
 
-				place_thumb_switches();
-			};
-		}
+			// Subtract key cutout.
+			linear_extrude ( h = thickness + 2 * eps ){
+				place_switches();
+			}
+		};
+		
 	}
 }
 
