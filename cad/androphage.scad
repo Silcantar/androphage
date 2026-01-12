@@ -41,7 +41,8 @@ translate ( -Trackball_position ) {
 	}
 }
 
-translate ( [ 0, 0, -35 ] ) {
+// Desk
+translate ( [ 0, 0, -40 ] ) {
 	color ( Color_tertiary ) {
 		cube ( [ 300, 200, 1 ], center = true );
 	}

@@ -302,7 +302,7 @@ Insert_wallThickness = 1.6;
 
 /* [Halves] */
 // Halves Angles
-Halves_angles	= [0, 5, 15];	//[-45:45]
+Halves_angles	= [0, 7, 15];	//[-45:45]
 
 /*******************************************************************************\
 |									Hinge										|
@@ -500,10 +500,9 @@ Switch_radius = 0.5;	//[0:0.1:1]
 switch_chocv1	= "chocv1";
 switch_chocv2	= "chocv2";
 switch_mx		= "mx";
+switch_glp		= "glp"; // That's Gateron Low Profile (KS-33).
 
 Switch_type = switch_chocv1;
-
-$choc_version = ( Switch_type == switch_chocv1 ) ? 1 : 2;
 
 Switch_size = Key_testClearance ? [
 	Key_spacing.x - Key_clearance,
@@ -513,6 +512,7 @@ Switch_size = Key_testClearance ? [
 Switch_travel = 0;
 Switch_maxTravel = 3.3;
 
+// Enum of Choc V1 color schemes. 
 switch_red		= 0;
 switch_blue		= 1;
 switch_brown	= 2;
@@ -524,6 +524,9 @@ switch_twilight	= 7;
 switch_nocturnal= 8;
 switch_sunrise	= 9;
 switch_bokeh	= 10;
+
+// Variables used by choc_switch.scad.
+$choc_version = ( Switch_type == switch_chocv1 ) ? 1 : 2;
 
 Switch_colorScheme = switch_sunset; // [0: Red, 1: Blue, 2: Brown, 3: Pro Red, 4: Pink, 5: Robin, 6: Sunset, 7: Twilight, 8: Nocturnal, 9: Sunrise, 10: Bokeh]
 $color_scheme = Switch_colorScheme;
