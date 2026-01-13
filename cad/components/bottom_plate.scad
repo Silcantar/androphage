@@ -9,31 +9,39 @@ use <plates_common.scad>
 
 use <../library/screw.scad>
 
+bottom_plate();
+
 module bottom_plate (
 	edge		= BottomPlate_edge,
 	outerRadius	= Plate_outerRadius,
 	thickness	= BottomPlate_thickness,
 	zpos		= 0
 ) {
-	place_plate ( zpos ) {
+	// place_plate ( zpos ) {
 		translate ( [ 0, 0, thickness * cos ( Halves_angles.y ) ] ){
 			mirror ( [ 0, 0, 1 ]) {
 				difference () {
-					plate_sketch (
-						edge		= edge,
-						radius		= outerRadius,
-						thickness	= thickness,
-						zpos		= zpos,
-					);
+					linear_extrude ( height = thickness ) {
+						plate_sketch (
+							edge		= edge,
+							radius		= outerRadius,
+							zpos		= zpos,
+						);
+					}
 
+					// Subtract coutersunk screw holes for rendering / CNC milling.
 					place_screws (
-						thickness	= thickness,
-						zpos		= zpos,
-					);
+						thickness	= thickness
+					) {
+						screw (
+							diameter	= Screw_diameter,
+							length		= 2,
+							head		= "flat",
+							drive		= "none"
+						);
+					}
 				}
 			}
 		}
-	}
+	// }
 }
-
-bottom_plate();

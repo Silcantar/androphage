@@ -85,7 +85,7 @@ module center_block ( include_cut = false ) {
 							screw (
 								diameter	= Screw_diameter,
 								length		= 5,
-								head		= "flat",
+								head		= "flat"
 							);
 						}
 					}
@@ -97,7 +97,7 @@ module center_block ( include_cut = false ) {
 
 		place_sensor () {
 			trackball_sensor ( include_cut = true );
-		} 
+		}
 
 		_trackball();
 	}
@@ -128,18 +128,18 @@ module center_block ( include_cut = false ) {
 
 module _btu_case () {
 	_BTU_case_height = Trackball_BTU_L + Trackball_BTU_H + CenterBlock_wallThickness;
-	
+
 	translate ( [ 0, 0, -_BTU_case_height ] ) {
 		difference () {
-			cylinder ( 
-				d = Trackball_BTU_D1 + CenterBlock_wallThickness, 
+			cylinder (
+				d = Trackball_BTU_D1 + CenterBlock_wallThickness,
 				h = _BTU_case_height
 			);
 
-			cylinder ( 
-				d = Screw_minorDiameter, 
-				h = 2 * ( _BTU_case_height + eps ), 
-				center = true 
+			cylinder (
+				d = Screw_minorDiameter,
+				h = 2 * ( _BTU_case_height + eps ),
+				center = true
 			);
 		}
 	}

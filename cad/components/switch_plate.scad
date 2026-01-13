@@ -12,31 +12,56 @@ use <center_block.scad>
 switch_plate ( zpos = SwitchPlate_position.z );
 
 module switch_plate (
+	edge		= SwitchPlate_edge,
+	PCB			= false,
 	thickness	= SwitchPlate_thickness,
-	zpos = 10,
+	zpos		= 10
 ) {
-	difference () {
-		translate ( SwitchPlate_position ) {
-			place_plate ( zpos = zpos ) {
-				difference () {
-					plate_sketch ( 
-						edge		= SwitchPlate_edge,
-						thickness	= thickness,
-						zpos		= zpos,
-					);
+	linear_extrude ( height = thickness ) {
+		_switch_plate_sketch (
+			edge	= edge,
+			PCB		= PCB,
+			zpos	= zpos
+		);
+	}
+}
 
+module _switch_plate_sketch (
+	edge,
+	PCB,
+	zpos
+) {
+	offset ( r = SwitchPlate_radius )
+	offset ( r = -SwitchPlate_radius ) {
+		difference () {
+			plate_sketch (
+				edge	= edge,
+				zpos	= zpos
+			);
 
-					// Subtract key cutout.
-					translate ( [ 0, 0, -eps ] ) {
-						linear_extrude ( h = thickness + 2 * eps ) {
-							place_switches();
-						}
-					}
-				};
-				
+			// Subtract key cutouts.
+			if ( !PCB ) {
+				place_switches();
+			}
+
+			place_screws ( thickness = 0 ) {
+				_screw_boss_cutout ();
+			}
+
+			translate ( trackball_point ( zpos ) ) {
+				rotate ( [ 0, 0, -Halves_angles.z] )
+					offset (r = SwitchPlate_radius)
+					offset (r = -SwitchPlate_radius)
+					square ( Trackball_diameter, center = true );
 			}
 		}
+	}
+}
 
-		center_block( include_cut = true );
+module _screw_boss_cutout () {
+	_screw_boss_diameter = Insert_holeDiameter + 2 * Insert_wallThickness;
+	circle ( d = _screw_boss_diameter );
+	translate ( [ -_screw_boss_diameter / 2, 0, 0 ] ) {
+		square ( _screw_boss_diameter, center = true );
 	}
 }

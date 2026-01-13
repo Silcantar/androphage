@@ -8,12 +8,12 @@ include <../androphage_globals.scad>
 module trackball (
 	centers		= false,
 	diameter	= Trackball_diameter,
-	color		= Color_secondary
+	color		= Trackball_color
 ) {
 	color ( color ) {
 		sphere ( d = diameter );
 	}
-	
+
 	if ( centers ) {
 		color ( "green", 0.5 ) {
 			for ( r = [ [ 0, 0, 0 ], [ 90, 0, 0 ], [ 0, 90, 0 ] ]) {

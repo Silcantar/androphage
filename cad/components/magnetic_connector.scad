@@ -11,21 +11,21 @@ module magnetic_connector (
 	lipOffset	= MagCon_lipOffset,
 	size		= MagCon_size
 ) {
-	dim = [ 
-		size, 
-		lip, 
-		size + [ 2 * eps, 0, 0 ], 
+	dim = [
+		size,
+		lip,
+		size + [ 2 * eps, 0, 0 ],
 		lip + [ eps, 0, 0 ],
 	];
 
-	dist = [ 
-		[ size.x / 2, 0, 0 ], 
+	dist = [
+		[ size.x / 2, 0, 0 ],
 		[ lip.x / 2 + lipOffset, 0, 0 ],
 		[ size.x / 2, 0, 0 ],
 		[ lip.x / 2 + lipOffset + eps, 0, 0 ]
 	];
 
-	color ( Color_primary ) {
+	color ( MagCon_color ) {
 		for ( i = include_cut ? [ 0 : 3 ] : [ 0 : 1 ] ) {
 			translate ( dist[i] ) {
 				cube ( dim[i] - [ 0, dim[i].z, 0 ], center = true );
@@ -42,7 +42,7 @@ module magnetic_connector (
 	}
 
 	// VIK PCB
-	color ( Color_tertiary ) {
+	color ( PCB_color ) {
 		translate ( MagCon_pcbPosition ) {
 			cube ( MagCon_pcbSize, center = true);
 		}

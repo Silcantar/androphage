@@ -5,30 +5,19 @@
 
 include <../androphage_globals.scad>
 
-use <center_block.scad>
-
-use <plates_common.scad>
+use <switch_plate.scad>
 
 module pcb (
 	edge		= PCB_edge,
 	thickness	= PCB_thickness,
 	zpos		= PCB_position.z,
 ) {
-	difference () {
-		translate ( PCB_position ){
-			place_plate ( zpos ) {
-				difference () {
-					plate_sketch (
-						edge		= edge,
-						thickness	= thickness,
-						zpos		= zpos,
-					);
-				};
-			}
-		}
-
-		center_block ( include_cut = true );
-	}
+	switch_plate (
+		PCB			= true,
+		edge		= edge,
+		thickness	= thickness,
+		zpos		= zpos
+	);
 }
 
 pcb();

@@ -5,9 +5,13 @@
 
 include <../androphage_globals.scad>
 
+// include <../>
+
 use <plates_common.scad>
 
-top_plate( zpos = 0 );
+use <../library/screw.scad>
+
+top_plate();
 
 module top_plate (
 	edge		= TopPlate_edge,
@@ -15,48 +19,72 @@ module top_plate (
 	outerRadius = Plate_outerRadius,
 	spacing		= Key_spacing,
 	thickness	= TopPlate_thickness,
-	zpos		= CenterBlock_height,
+	zpos		= CenterBlock_height
 ) {
 	difference () {
-		place_plate ( zpos ) {
-			difference () {
-				// Main body.
-				plate_sketch (
-					thickness = thickness,
-					edge	= edge,
-					radius	= outerRadius,
-					zpos	= zpos,
-				);
+		linear_extrude ( height = thickness, convexity = 2 ) {
+			_top_plate_sketch (
+				edge,
+				innerRadius,
+				outerRadius,
+				spacing,
+				zpos
+			);
+		}
 
-				// Subtract trackball cutout.
-				translate ( [ 0, 0, -eps ] ) {
-					place_trackball (
-						thickness = thickness + 2 * eps,
-						zpos = zpos,
-					);
+		// Subtract coutersunk screw holes for rendering / CNC milling.
+		place_screws (
+			thickness	= thickness
+		) {
+			screw (
+				diameter	= Screw_diameter,
+				length		= 2,
+				head		= "flat",
+				drive		= "none"
+			);
+		}
+	}
+}
 
-					// Subtract key cutout.
-					linear_extrude ( h = thickness + 2 * eps ){
-						fillet2d ( innerRadius ) {
-							place_switches (
-								connect = true,
-								cutout	= 2 * edge,
-								radius	= 0,
-								size	= spacing,
-							);
-						}
+module _top_plate_sketch (
+	edge,
+	innerRadius,
+	outerRadius,
+	spacing,
+	zpos
+) {
+	difference () {
+		// Main body.
+		plate_sketch (
+			edge	= edge,
+			radius	= outerRadius,
+			zpos	= zpos
+		);
 
-						if ( LED_present ) {
-							place_led_holes ( shape = LED_holeShape );
-						}
-					}
-				}
+		// Subtract trackball cutout.
+		place_trackball (
+			zpos = zpos
+		);
 
-				place_screws (
-					thickness	= thickness,
-					zpos		= zpos,
-				);
-			}
+		// Subtract key cutout.
+		fillet2d ( innerRadius ) {
+			place_switches (
+				connect = true,
+				cutout	= 2 * edge,
+				radius	= 0,
+				size	= spacing
+			);
+		}
+
+		// Subtract LED holes.
+		if ( LED_present ) {
+			place_led_holes ( shape = LED_holeShape );
+		}
+
+		// Place circles at the screw holes for when the sketch is used for
+		// production (e.g. laser cutting).
+		place_screws ( thickness = 0 ) {
+			circle ( d = Screw_diameter );
 		}
 	}
 }

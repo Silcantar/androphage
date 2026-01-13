@@ -29,23 +29,21 @@ use <components/trackball.scad>
 
 use <components/trackball_sensor.scad>
 
-// BottomPlate_visible = false;
-// Desk_visible = false;
-// Key_visible = false;
-// TopPlate_visible = false;
-// Trackball_visible = false;
+_do_mirror = true;
 
 translate ( -Trackball_position ) {
 	androphage_assembly();
-	mirror ( [ 1, 0, 0 ] ) {
-		androphage_assembly();
+	if ( _do_mirror ) {
+		mirror ( [ 1, 0, 0 ] ) {
+			androphage_assembly();
+		}
 	}
 }
 
 // Desk
 if ( Desk_visible ) {
 	translate ( Desk_position ) {
-		color ( Color_clear ) {
+		color ( Desk_color ) {
 			cube ( Desk_size, center = true );
 		}
 	}
@@ -53,36 +51,37 @@ if ( Desk_visible ) {
 
 
 module androphage_assembly() {
-	/*				PCB				*/
-	if ( PCB_visible ) {
-		// translate ( PCB_position ) {
-			color ( Color_secondary ) {
-				pcb ( zpos = PCB_position.z );
-			}
-		// }
-	}
-
-	/*				Switch Plate				*/
-	if ( SwitchPlate_present && SwitchPlate_visible ) {
-		//translate ( SwitchPlate_position ) {
-			color ( Color_primary ) {
-				switch_plate ( zpos = SwitchPlate_position.z );
-			}
-		// }
-	}
-
 	/*				Bottom Plate				*/
 	if ( BottomPlate_visible ) {
-		translate ( [ 0, 0, 0 ] ) {
-			color ( Color_primary ) {
+		place_plate () {
+			color ( BottomPlate_color ) {
 				bottom_plate();
 			}
 		}
 	}
+
+	/*				PCB				*/
+	if ( PCB_visible ) {
+		place_plate ( PCB_position ) {
+			color ( PCB_color ) {
+				pcb ( zpos = PCB_position.z );
+			}
+		}
+	}
+
+	/*				Switch Plate				*/
+	if ( SwitchPlate_present && SwitchPlate_visible ) {
+		place_plate ( SwitchPlate_position ) {
+			color ( SwitchPlate_color ) {
+				switch_plate ( zpos = SwitchPlate_position.z );
+			}
+		}
+	}
+
 	/*				Top Plate				*/
 	if ( TopPlate_visible ) {
-		translate ( TopPlate_position ) {
-			color ( Color_primary ) {
+		place_plate ( TopPlate_position ) {
+			color ( TopPlate_color ) {
 				top_plate ( zpos = TopPlate_position.z );
 			}
 		}
@@ -90,7 +89,7 @@ module androphage_assembly() {
 
 	/*				Center Block & Trackball				*/
 	if ( CenterBlock_visible ) {
-		color ( Color_secondary ){
+		color ( CenterBlock_color ){
 			center_block();
 		}
 	}
@@ -103,7 +102,7 @@ module androphage_assembly() {
 	}
 
 	if ( Trackball_BTU_visible ) {
-		color ( Color_steel ) {
+		color ( Trackball_BTU_color ) {
 			place_btus();
 		}
 	}

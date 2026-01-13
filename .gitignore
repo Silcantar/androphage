@@ -1,2 +1,5 @@
 # Proprietary information about the trackball sensor.
 PMW3610DM-SUDU.pdf
+
+# Intermediate files from SCAD to STEP.
+*.csg

@@ -49,6 +49,54 @@ outer	= 5;
 include <library/screw_globals.scad>
 
 /*******************************************************************************\
+|							Component Visibility								|
+\*******************************************************************************/
+
+// Show the case frame.
+CaseFrame_visible			= true;
+
+// Show the center block.
+CenterBlock_visible			= true;
+
+Desk_visible				= true;
+
+// Show the hinge.
+Hinge_visible				= true;
+
+Insert_visible				= true;
+
+// Show Keycaps.
+Keycap_visible				= true;
+
+MagCon_visible				= true;
+
+// Show the PCB.
+PCB_visible					= true;
+
+// Show the bottom plate.
+BottomPlate_visible			= true;
+
+// Show the switch plate.
+SwitchPlate_visible			= true;
+
+// Show the Top Plate.
+TopPlate_visible			= true;
+
+Screw_visible				= true;
+
+// Show the switches.
+Switch_visible				= true;
+
+// Show the trackball.
+Trackball_visible			= true;
+
+// Show the trackball BTUs.
+Trackball_BTU_visible		= true;
+
+// Show the trackball sensor.
+Trackball_Sensor_visible	= true;
+
+/*******************************************************************************\
 |								Global Functions								|
 \*******************************************************************************/
 
@@ -150,12 +198,38 @@ module fillet2d ( radius, outerFirst = true ) {
 }
 
 /*******************************************************************************\
+|									Colors										|
+\*******************************************************************************/
+
+/* [Colors] */
+// Primary color for the keyboard components (Black).
+Color_primary = [ 0.20, 0.20, 0.20, 1.00 ]; //[0.0:0.01:1.0]
+
+// Secondary color for the keyboard components (Purple).
+Color_secondary = "MediumSlateBlue";//[ 0.50, 0.30, 0.80, 1.0 ];  //[0.0:0.01:1.0]
+
+// Tertiary color for keyboard components (Copper).
+Color_tertiary = [ 0.62, 0.36, 0.18, 1.00 ];
+
+Color_black = [ 0.20, 0.20, 0.20, 1.00 ];
+
+Color_brass = "Gold";
+
+// Color for transparent plastic (Transparent white).
+Color_clear = [ 1.0, 1.0, 1.0, 0.2 ];
+
+// Color for displaying cutting bodies (Transparent yellow).
+Color_cut = [ 1.0, 1.0, 0.0, 0.2 ];
+
+Color_steel = [ 0.5, 0.5, 0.5, 1.0 ];
+
+/*******************************************************************************\
 |									Case Frame									|
 \*******************************************************************************/
 
 /* [Case Frame] */
-// Show the case frame.
-CaseFrame_visible = true;
+
+CaseFrame_color = Color_secondary;
 
 // Thickness of the case frame.
 CaseFrame_thickness = 3; //[1:5]
@@ -165,8 +239,8 @@ CaseFrame_thickness = 3; //[1:5]
 \*******************************************************************************/
 
 /* [Center Block] */
-// Show the center block.
-CenterBlock_visible = true;
+
+CenterBlock_color = Color_secondary;
 
 // Width of the center block
 // CenterBlock_width = 25; //[1:50]
@@ -179,28 +253,6 @@ CenterBlock_screwCount = 3;
 
 // Thickness of the center wall
 CenterBlock_wallThickness = 2; //[1:10]
-
-/*******************************************************************************\
-|									Colors										|
-\*******************************************************************************/
-
-/* [Colors] */
-// Primary color for the keyboard components (Black).
-Color_primary = [ 0.20, 0.20, 0.20, 1.00 ]; //[0.0:0.01:1.0]
-
-// Secondary color for the keyboard components (Purple).
-Color_secondary = "mediumslateblue";//[ 0.50, 0.30, 0.80, 1.0 ];  //[0.0:0.01:1.0]
-
-// Tertiary color for keyboard components (Copper).
-Color_tertiary = [ 0.62, 0.36, 0.18, 1.00 ];
-
-// Color for transparent plastic (Transparent white).
-Color_clear = [ 1.0, 1.0, 1.0, 0.2 ];
-
-// Color for displaying cutting bodies (Transparent yellow).
-Color_cut = [ 1.0, 1.0, 0.0, 0.2 ];
-
-Color_steel = [ 0.5, 0.5, 0.5, 1.0 ];
 
 /*******************************************************************************\
 |									Columns										|
@@ -270,7 +322,7 @@ Column_cutouts = [ 0, 1, 0, 0, 0 ];
 |										Desk									|
 \*******************************************************************************/
 
-Desk_visible = true;
+Desk_color = Color_clear;
 
 Desk_size = [ 300, 200, 1 ];
 
@@ -281,6 +333,9 @@ Desk_position = [ 0, 0, -40 ];
 \*******************************************************************************/
 
 /* [Screws] */
+
+Screw_color = Color_steel;
+
 // M2 screw shaft major diameter.
 Screw_diameter = 2;
 
@@ -297,6 +352,9 @@ Screw_headAngle = 90;
 Screw_offset = 3;
 
 /* [Heat-set Inserts] */
+
+Insert_color = Color_brass;
+
 // Heat-sink insert outer diameter.
 Insert_diameter = 3;
 
@@ -324,8 +382,8 @@ Halves_clearance = 1;
 \*******************************************************************************/
 
 /* [Hinge] */
-// Show the hinge.
-Hinge_visible = true;
+
+Hinge_color = Color_steel;
 
 // Diameter of hinge pivot.
 Hinge_diameter = 3;
@@ -350,9 +408,6 @@ Key_testClearance	= false;
 \*******************************************************************************/
 
 /* [Keycaps] */
-
-// Show Keycaps.
-Keycap_visible = true;
 
 // Keycap profile
 Keycap_type = "lamé"; //[ "cherry", "dsa", "lamé", "mbk", ]
@@ -431,7 +486,7 @@ LED_position_y = 13;
 |								Magnetic Connector								|
 \*******************************************************************************/
 
-MagCon_visible = true;
+MagCon_color = Color_primary;
 
 // Size of the main body of the magnetic connector.
 MagCon_size			= [ 4.7, 26.5, 6.0 ];
@@ -450,8 +505,8 @@ MagCon_pcbPosition = [ MagCon_size.x + MagCon_pcbSize.x / 2, 0, 1 ];
 \*******************************************************************************/
 
 /* [PCB] */
-// Show the PCB.
-PCB_visible = true;
+
+PCB_color = "DarkGreen";
 
 // Distance from keys to edge of PCB.
 PCB_edge = 2;
@@ -464,8 +519,8 @@ PCB_thickness = 1.6;	//[1:0.2:2]
 \*******************************************************************************/
 
 /* [Bottom Plate] */
-// Show the bottom plate.
-BottomPlate_visible = true;
+
+BottomPlate_color = Color_primary;
 
 // Thickness of the bottom plate.
 BottomPlate_thickness = 1.6;	//[1:0.2:2]
@@ -474,18 +529,22 @@ BottomPlate_thickness = 1.6;	//[1:0.2:2]
 BottomPlate_clearance = 3; //[1:10]
 
 /* [Switch Plate] */
+
 // Specify whether a switch plate will be used.
 SwitchPlate_present	= true;
 
-// Show the switch plate.
-SwitchPlate_visible = true;
+SwitchPlate_color = Color_secondary;
+
+SwitchPlate_clearance = 0.2;
 
 // Distance from keys to edge of switch plate.
 SwitchPlate_edge		= 2; //[1:5]
 
+SwitchPlate_radius = 1;
+
 /* [Top Plate] */
-// Show the Top Plate.
-TopPlate_visible = true;
+
+TopPlate_color = Color_primary;
 
 // Top plate thickness. 1.6 mm is the minimum for anodizing at SendCutSend.
 TopPlate_thickness = 1.6; //[1.0:0.2:2.0]
@@ -514,8 +573,6 @@ Plate_outerRadius = 3;
 \*******************************************************************************/
 
 /* [Switches] */
-// Show the switches.
-Switch_visible = true;
 
 // Radius for corners of switch openings in the switch plate.
 Switch_radius = 0.5;	//[0:0.1:1]
@@ -525,7 +582,7 @@ switch_chocv2	= "chocv2";
 switch_mx		= "mx";
 switch_glp		= "glp"; // That's Gateron Low Profile (KS-33).
 
-Switch_type = switch_glp;
+Switch_type = switch_chocv1;
 
 Switch_size = Key_testClearance ? [
 	Key_spacing.x - Key_clearance,
@@ -535,7 +592,7 @@ Switch_size = Key_testClearance ? [
 Switch_travel = 0;
 Switch_maxTravel = 3.3;
 
-// Enum of Choc V1 color schemes. 
+// Enum of Choc V1 color schemes.
 switch_red		= 0;
 switch_blue		= 1;
 switch_brown	= 2;
@@ -595,8 +652,8 @@ Cluster_cutouts = [ 1, 1, 1 ];
 \*******************************************************************************/
 
 /* [Trackball] */
-// Show the trackball.
-Trackball_visible = true;
+
+Trackball_color = Color_secondary;
 
 // Trackball diameter
 Trackball_diameter = 35;	//[25:1:50]
@@ -608,8 +665,8 @@ Trackball_position_y = 63;	//[0:200]
 Trackball_clearance = 1;	//[0:0.1:2]
 
 /* [Trackball Sensor] */
-// Show the trackball sensor.
-Trackball_Sensor_visible = true;
+
+Trackball_Sensor_color = Color_black;
 
 // Trackball sensor PCB size.
 Trackball_Sensor_pcbSize = [ 16, 25 , PCB_thickness ]; //[0:30]
@@ -646,8 +703,8 @@ Trackball_Sensor_opticalCenter = [
 ];
 
 /* [Trackball BTU] */
-// Show the trackball BTUs.
-Trackball_BTU_visible = true;
+
+Trackball_BTU_color = Color_steel;
 
 // Trackball BTU main diameter
 Trackball_BTU_D1	= 7.5;
@@ -728,7 +785,7 @@ MagCon_position		= [
 ];
 
 PCB_position = [
-	0,
+	0,//CenterBlock_wallThickness,
 	0,
 	BottomPlate_thickness + BottomPlate_clearance
 ];
@@ -736,16 +793,20 @@ PCB_position = [
 Switch_position_z = PCB_position.z + PCB_thickness;
 
 Keycap_position_z = (
-	+ PCB_position.z 
-	+ Switch_height_lower 
-	+ Switch_height_upper 
-	- Switch_travel 
+	+ PCB_position.z
+	+ Switch_height_lower
+	+ Switch_height_upper
+	- Switch_travel
 	// - Switch_maxTravel
 );
 
 CenterScrews_x = TopPlate_edge - Screw_diameter;
 
-SwitchPlate_position = PCB_position + [ 0, 0, PCB_thickness + Switch_height_lower - SwitchPlate_thickness ];
+SwitchPlate_position = PCB_position + [
+	0,
+	0,
+	PCB_thickness + Switch_height_lower - SwitchPlate_thickness
+];
 
 TopPlate_position = [
 	0,
@@ -755,12 +816,12 @@ TopPlate_position = [
 		+ BottomPlate_clearance
 		+ PCB_thickness
 		+ Key_height
-	)
+	) * cos ( Halves_angles.y )
 ];
 
 Trackball_position_z = (
 	+ TopPlate_position.z
-	+ TopPlate_thickness
+	+ TopPlate_thickness * cos ( Halves_angles.z )
 );
 
 Trackball_position = [

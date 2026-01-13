@@ -12,7 +12,7 @@ screw (
 	diameter	= 2,
 	length		= 10,
 	head		= head_flat,
-	drive		= drive_hex,
+	drive		= drive_hex
 );
 
 function _head_height_multiplier ( head_type ) = dictionary (

@@ -16,8 +16,8 @@ module trackball_sensor (
 	sensor_lensSize			= Trackball_Sensor_lensSize,
 	sensor_holeSize			= Trackball_Sensor_holeSize,
 	sensor_clearance		= Trackball_Sensor_clearance,
-	color_pcb				= Color_secondary,
-	color_sensor			= Color_primary,
+	color_pcb				= PCB_color,
+	color_sensor			= Trackball_Sensor_color,
 	color_lens				= Color_clear,
 	color_cut				= Color_cut
 ) {

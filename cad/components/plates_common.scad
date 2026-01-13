@@ -13,8 +13,7 @@ test_edge = 360 * $t % 5;
 
 plate_sketch (
 	edge	 	= test_edge,
-	thickness	= 0.5,
-	zpos		= test_zpos,
+	zpos		= test_zpos
 );
 
 // This is where the origin will be after running place_plate ()
@@ -28,9 +27,8 @@ color ( "orange" ){
 			connect = true,
 			cutout = 5,
 			radius = 0,
-			size = Key_spacing,
+			size = Key_spacing
 		);
-		// place_thumb_switches();
 		place_trackball ( test_zpos );
 	}
 }
@@ -198,60 +196,57 @@ function plate_sketch_points ( zpos = 0 ) = [
 	front_center_point ( zpos = zpos ),
 	_center_arc_inner_end(),
 	_center_arc_outer_end(),
-	_front_arc_inner_end (),
+	_front_arc_inner_end ()
 ];
 
 module plate_sketch (
-	thickness,
 	edge = 0,
 	radius = 0,
 	zpos = 0,
 ) {
 	points = plate_sketch_points ( zpos = zpos );
 
-	linear_extrude ( h = thickness ){
-		difference() {
-			fillet2d ( radius ) {
-				offset ( delta = edge ) {
-					difference() {
-						// Main body.
-						polygon ( [ for ( p = points ) [ p.x, p.y ] ] );
+	difference() {
+		fillet2d ( radius ) {
+			offset ( delta = edge ) {
+				difference() {
+					// Main body.
+					polygon ( [ for ( p = points ) [ p.x, p.y ] ] );
 
-						// Subtract the arced sides of the plate.
-						translate ( _front_arc_center() ) {
-							circle ( Plate_frontArcRadius );
-						}
-						translate ( _back_arc_center() ) {
-							circle ( Plate_backArcRadius );
-						}
-						translate ( _center_arc_center() ) {
-							circle ( Plate_centerArcRadius );
-						}
-						translate ( _outer_arc_center() ) {
-							circle ( Plate_outerArcRadius );
-						}
+					// Subtract the arced sides of the plate.
+					translate ( _front_arc_center() ) {
+						circle ( Plate_frontArcRadius );
+					}
+					translate ( _back_arc_center() ) {
+						circle ( Plate_backArcRadius );
+					}
+					translate ( _center_arc_center() ) {
+						circle ( Plate_centerArcRadius );
+					}
+					translate ( _outer_arc_center() ) {
+						circle ( Plate_outerArcRadius );
 					}
 				}
 			}
+		}
 
 
-			translate (
-				front_center_point()
-				+ ( edge + eps ) * [
-					- cos ( Halves_angles.z ) - 2 * sin ( Halves_angles.z ),
-					sin ( Halves_angles.z ) - 2 * cos ( Halves_angles.z )
-				]
-				+ zpos * sin ( Halves_angles.y ) * [
-					- cos ( Halves_angles.z ),
-					sin ( Halves_angles.z )
-				]
-			) {
-				rotate ( -Halves_angles.z ) {
-					square ( [
-						edge + eps,
-						Hinge_size.y + 4 * edge
-					] );
-				}
+		translate (
+			front_center_point()
+			+ ( edge + eps ) * [
+				- cos ( Halves_angles.z ) - 2 * sin ( Halves_angles.z ),
+				sin ( Halves_angles.z ) - 2 * cos ( Halves_angles.z )
+			]
+			+ zpos * sin ( Halves_angles.y ) * [
+				- cos ( Halves_angles.z ),
+				sin ( Halves_angles.z )
+			]
+		) {
+			rotate ( -Halves_angles.z ) {
+				square ( [
+					edge + eps,
+					Hinge_size.y + 4 * edge
+				] );
 			}
 		}
 	}
@@ -307,23 +302,23 @@ module _switch_hole_connector (
 // "Drill" and "countersink" screw holes.
 module place_screws (
 	thickness,
-	zpos,
+	// zpos,
 	halves_angles	= Halves_angles,
 	screw_diameter	= Screw_diameter,
 	screw_positions	= screw_positions(),
 ) {
-	for ( pos = screw_positions ) {
-		translate ( pos + [
-			0,//zpos * sin ( halves_angles.y ),
-			0,
-			thickness + eps
-		] ) {
-			screw (
-				diameter	= screw_diameter,
-				length		= 2,
-				head		= head_flat,
-				drive		= drive_none,
-			);
+	_screw_positions = screw_positions();
+	_screw_rotations = screw_rotations();
+	for ( i = [ 0 : last(_screw_positions)] ) {
+		let (
+			pos = _screw_positions[i],
+			rot = _screw_rotations[i]
+		) {
+			translate ( pos + [ 0, 0, thickness + eps ] ) {
+				rotate ( rot ) {
+					children();
+				}
+			}
 		}
 	}
 }
@@ -342,7 +337,7 @@ function screw_positions ( ) = (
 			- Trackball_diameter / 2
 			- Trackball_clearance
 			- Screw_offset
-		),
+		)
 	) [
 		_center_arc_inner_end() + [
 			Screw_offset * cosz - edge_offset * sinz,
@@ -370,12 +365,22 @@ function screw_positions ( ) = (
 	]
 );
 
+function screw_rotations () = [
+	-Halves_angles.z,
+	-Halves_angles.z,
+	-Halves_angles.z,
+	-90,
+	180,
+	180,
+	90
+];
+
 function key_positions () = concat (
 	// Finger keys.
 	[
 		for (
 			i = [ 0 : Column_last ],
-			j = [ 0 : Column_counts[i] - 1 ],
+			j = [ 0 : Column_counts[i] - 1 ]
 		) [
 			(i - 1) * Key_spacing.x,
 			(Column_offsets[i] + j) * Key_spacing.y,
@@ -394,7 +399,7 @@ function key_positions () = concat (
 	[
 		for (
 			i = [ 0 : last ( Cluster_columnCounts ) ],
-			j = [ 0 : Cluster_columnCounts[i] - 1 ],
+			j = [ 0 : Cluster_columnCounts[i] - 1 ]
 		) concat (
 			(
 				rot2d ( ( i + 1 ) * Cluster_angle )
@@ -415,25 +420,24 @@ function key_positions () = concat (
 );
 
 module place_switches (
-	thickness,
+	// thickness,
 	connect = false,
 	cutout	= 0,
 	radius	= Switch_radius,
 	size	= Switch_size,
 ) {
-	// echo ( key_positions() );
 	for ( p = key_positions() ) {
 		let (
 			angle		= p[2][0],
 			do_cutout	= p[2][1],
-			connector	= p[2][2],
+			connector	= p[2][2]
 		) {
 			translate ( [ p.x, p.y ] ) {
 				rotate ( angle ){
 					_switch_hole (
 						cutout	= cutout * do_cutout,
 						radius	= radius,
-						size	= size,
+						size	= size
 					);
 
 					if ( connect && connector != [ 0, 0 ] ) {
@@ -443,53 +447,10 @@ module place_switches (
 							}
 						}
 					}
-
-					// if ( p[2][2] ) {
-					// 	translate ( v_mul ( Key_spacing, [ -0.5, 0.5 ] ) ) {
-					// 		rotate ( [ 0, 0, 90 + Cluster_angle ]) {
-					// 			_switch_hole_connector ( radius = Key_spacing.x );
-					// 		}
-					// 	}
-					// }
 				}
 			}
 		}
 	}
-}
-
-module place_thumb_switches (
-	thickness,
-	connect	= false,
-	cutout	= 0,
-	radius	= Switch_radius,
-	size	= Switch_size,
-) {
-	// for ( i = [ 0 : len ( Cluster_columnCounts ) - 1 ] ) {
-	// 	translate ([0, - Cluster_radius_mm, 0]) {
-	// 		rotate ( ( i + 1 ) * Cluster_angle ) {
-	// 			translate ( [ 0, Cluster_radius_mm, 0 ] ) {
-	// 				for ( j = [ 0 : Cluster_columnCounts[i] - 1 ] ) {
-	// 					translate ( [ 0, j * Key_spacing.y, 0 ] ) {
-	// 						_switch_hole (
-	// 							cutout	= j == 0 ? cutout * Cluster_cutouts[i] : 0,
-	// 							radius	= radius,
-	// 							size	= size
-	// 						);
-
-	// 						if ( connect && j == 0 ) {
-	// 							translate ( v_mul ( size, [ 0.5, -0.5 ] ) ){
-	// 								_switch_hole_connector();
-	// 							}
-	// 						}
-	// 					}
-	// 				}
-	// 			}
-	// 		}
-	// 	}
-	// }
-
-	//
-	// }
 }
 
 function trackball_point ( zpos = 0 ) = (
@@ -501,24 +462,23 @@ function trackball_point ( zpos = 0 ) = (
 );
 
 module place_trackball (
-	thickness,
+	// thickness,
 	zpos = 0,
 ) {
 	translate ( trackball_point ( zpos ) ) {
-		cylinder (
+		circle (
 			d = (
 				Trackball_diameter
 				+ 2 * Trackball_clearance
-			),
-			h = thickness,
+			)
 		);
 	}
 }
 
-module place_plate ( zpos = 0 ) {
+module place_plate ( pos = [ 0, 0, 0 ] ) {
 	rotate ( [ 0, Halves_angles.y, 0 ] ) {
 		rotate ( [ 0, 0, Halves_angles.z ] ) {
-			translate ( -front_center_point ( zpos ) ) {
+			translate ( pos - front_center_point ( 0 )) {
 				children();
 			}
 		}
