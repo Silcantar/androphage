@@ -189,7 +189,7 @@ CenterBlock_wallThickness = 2; //[1:10]
 Color_primary = [ 0.20, 0.20, 0.20, 1.00 ]; //[0.0:0.01:1.0]
 
 // Secondary color for the keyboard components (Purple).
-Color_secondary = [ 0.50, 0.30, 0.80, 1.0 ];  //[0.0:0.01:1.0]
+Color_secondary = "mediumslateblue";//[ 0.50, 0.30, 0.80, 1.0 ];  //[0.0:0.01:1.0]
 
 // Tertiary color for keyboard components (Copper).
 Color_tertiary = [ 0.62, 0.36, 0.18, 1.00 ];
@@ -267,12 +267,25 @@ Column_offsets = [ for ( i = [ 0 : Column_last ] ) _Column_offsets_init [ i ] ];
 Column_cutouts = [ 0, 1, 0, 0, 0 ];
 
 /*******************************************************************************\
+|										Desk									|
+\*******************************************************************************/
+
+Desk_visible = true;
+
+Desk_size = [ 300, 200, 1 ];
+
+Desk_position = [ 0, 0, -40 ];
+
+/*******************************************************************************\
 |									Fasteners									|
 \*******************************************************************************/
 
 /* [Screws] */
 // M2 screw shaft major diameter.
 Screw_diameter = 2;
+
+// M2 screw shaft minor diameter.
+Screw_minorDiameter = 1.6;
 
 // M2 screw head diameter.
 Screw_headDiameter = 4;
@@ -304,6 +317,8 @@ Insert_wallThickness = 1.6;
 // Halves Angles
 Halves_angles	= [0, 7, 15];	//[-45:45]
 
+Halves_clearance = 1;
+
 /*******************************************************************************\
 |									Hinge										|
 \*******************************************************************************/
@@ -323,6 +338,7 @@ Hinge_size	= [ (27 - Hinge_diameter) / 2, 90, 1 ];	//[50:1:200]
 \*******************************************************************************/
 
 /* [Keys] */
+
 // Space between keycaps.
 Key_clearance = 0.5; //[0:0.1:1]
 
@@ -334,6 +350,7 @@ Key_testClearance	= false;
 \*******************************************************************************/
 
 /* [Keycaps] */
+
 // Show Keycaps.
 Keycap_visible = true;
 
@@ -425,6 +442,9 @@ MagCon_lip			= [ 1.0, 28.5, 8.0 ];
 // Distance between the lip and the face of the connector.
 MagCon_lipOffset	= 1.0;
 
+MagCon_pcbSize = [ 1.6, 36.5, 10 ];
+MagCon_pcbPosition = [ MagCon_size.x + MagCon_pcbSize.x / 2, 0, 1 ];
+
 /*******************************************************************************\
 |									PCBs										|
 \*******************************************************************************/
@@ -432,6 +452,9 @@ MagCon_lipOffset	= 1.0;
 /* [PCB] */
 // Show the PCB.
 PCB_visible = true;
+
+// Distance from keys to edge of PCB.
+PCB_edge = 2;
 
 // PCB thickness.
 PCB_thickness = 1.6;	//[1:0.2:2]
@@ -455,7 +478,7 @@ BottomPlate_clearance = 3; //[1:10]
 SwitchPlate_present	= true;
 
 // Show the switch plate.
-SwitchPlate_visible = false;
+SwitchPlate_visible = true;
 
 // Distance from keys to edge of switch plate.
 SwitchPlate_edge		= 2; //[1:5]
@@ -502,7 +525,7 @@ switch_chocv2	= "chocv2";
 switch_mx		= "mx";
 switch_glp		= "glp"; // That's Gateron Low Profile (KS-33).
 
-Switch_type = switch_chocv1;
+Switch_type = switch_glp;
 
 Switch_size = Key_testClearance ? [
 	Key_spacing.x - Key_clearance,
@@ -530,6 +553,21 @@ $choc_version = ( Switch_type == switch_chocv1 ) ? 1 : 2;
 
 Switch_colorScheme = switch_sunset; // [0: Red, 1: Blue, 2: Brown, 3: Pro Red, 4: Pink, 5: Robin, 6: Sunset, 7: Twilight, 8: Nocturnal, 9: Sunrise, 10: Bokeh]
 $color_scheme = Switch_colorScheme;
+
+// Color for Gateron Low-Profile (KS-33) switches.
+// Suggested Colors:
+// Gateron Banana:	"Khaki"
+// Gateron Blue:	"Blue"
+// Gateron Brown:	"SaddleBrown"
+// Gateron Choco.:	"Sienna"
+// Gateron Red:		"Red"
+// Nuphy Aloe:		"YellowGreen"
+// Nuphy Cowberry:	"Crimson"
+// Nuphy Daisy:		"Salmon"
+// Nuphy Moss:		"DarkOliveGreen"
+// Nuphy Panda:		"Gray"
+// Nuphy Wisteria:	"MediumSlateBlue"
+Switch_GLP_color = "DarkOliveGreen";
 
 
 /*******************************************************************************\
@@ -683,6 +721,8 @@ MagCon_position		= [
 	(
 		+ BottomPlate_thickness
 		+ BottomPlate_clearance
+		+ PCB_thickness
+		+ ( SwitchPlate_present ? Switch_height_lower : 0 )
 		+ 5
 	)
 ];

@@ -29,8 +29,9 @@ use <components/trackball.scad>
 
 use <components/trackball_sensor.scad>
 
-// Keycap_visible = false;
 // BottomPlate_visible = false;
+// Desk_visible = false;
+// Key_visible = false;
 // TopPlate_visible = false;
 // Trackball_visible = false;
 
@@ -42,9 +43,11 @@ translate ( -Trackball_position ) {
 }
 
 // Desk
-translate ( [ 0, 0, -40 ] ) {
-	color ( Color_tertiary ) {
-		cube ( [ 300, 200, 1 ], center = true );
+if ( Desk_visible ) {
+	translate ( Desk_position ) {
+		color ( Color_clear ) {
+			cube ( Desk_size, center = true );
+		}
 	}
 }
 
@@ -52,20 +55,20 @@ translate ( [ 0, 0, -40 ] ) {
 module androphage_assembly() {
 	/*				PCB				*/
 	if ( PCB_visible ) {
-		translate ( PCB_position ) {
+		// translate ( PCB_position ) {
 			color ( Color_secondary ) {
 				pcb ( zpos = PCB_position.z );
 			}
-		}
+		// }
 	}
 
 	/*				Switch Plate				*/
 	if ( SwitchPlate_present && SwitchPlate_visible ) {
-		translate ( SwitchPlate_position ) {
+		//translate ( SwitchPlate_position ) {
 			color ( Color_primary ) {
 				switch_plate ( zpos = SwitchPlate_position.z );
 			}
-		}
+		// }
 	}
 
 	/*				Bottom Plate				*/
@@ -106,14 +109,14 @@ module androphage_assembly() {
 	}
 
 	if ( Trackball_Sensor_visible ) {
-		place_sensor();
+		place_sensor () {
+			trackball_sensor();
+		}
 	}
 
 	if ( MagCon_visible ) {
 		translate ( MagCon_position ) {
-			color ( Color_primary ) {
-				magnetic_connector();
-			}
+			magnetic_connector();
 		}
 	}
 

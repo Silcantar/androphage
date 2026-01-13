@@ -23,9 +23,9 @@ use <../library/screw.scad>
 // Test
 $test = false;
 
-center_block ();
+center_block ( include_cut = false );
 
-module center_block () {
+module center_block ( include_cut = false ) {
 	// Put a cube with a corner at the origin so we can measure from it.
 	ct() { nothing(); cube(); }
 
@@ -36,13 +36,17 @@ module center_block () {
 
 			_pcb_shelf ();
 
-			_sensor_holder();
+			_sensor_holder ( include_cut = include_cut );
 
 			_place_insert_holes () {
 				ch() _screw_boss();
 			}
 
 			_trackball_case();
+
+			place_btus () {
+				_btu_case ();
+			}
 
 			// Test insert hole placement.
 			ct () {
@@ -56,30 +60,34 @@ module center_block () {
 			}
 		}
 
-		// Subtract the openings for the trackball BTUs.
-		place_btus ( include_cut = true, );
-
-		// Subtract the holes for the heat-set inserts.
-		ct () {
-			_place_insert_holes () {
-				_insert_holes();
+		if ( !include_cut ){
+			// Subtract the openings for the trackball BTUs.
+			place_btus () {
+				btu ( include_cut = true );
 			}
-		}
 
-		// Subtract the opening for the magnetic connector.
-		translate ( MagCon_position ) {
-			magnetic_connector ( include_cut = true );
+			// Subtract the holes for the heat-set inserts.
+			ct () {
+				_place_insert_holes () {
+					_insert_holes();
+				}
+			}
+
+			// Subtract the opening for the magnetic connector.
+			translate ( MagCon_position ) {
+				magnetic_connector ( include_cut = true );
 
 
-			// Holes for magnetic connector screws.
-			for ( ypos = ( 0.5 * MagCon_lip.y + Screw_diameter) * [ 1, -1 ] ) {
-				translate ( [ -eps, ypos, 0 ] ) {
-					rotate ( [ 0, -90, 0 ] ) {
-						screw (
-							diameter	= Screw_diameter,
-							length		= 5,
-							head		= "flat",
-						);
+				// Holes for magnetic connector screws.
+				for ( ypos = ( 0.5 * MagCon_lip.y + Screw_diameter) * [ 1, -1 ] ) {
+					translate ( [ -eps, ypos, 0 ] ) {
+						rotate ( [ 0, -90, 0 ] ) {
+							screw (
+								diameter	= Screw_diameter,
+								length		= 5,
+								head		= "flat",
+							);
+						}
 					}
 				}
 			}
@@ -87,15 +95,55 @@ module center_block () {
 
 		cb() _plates();
 
-		place_sensor ( include_cut = true, );
+		place_sensor () {
+			trackball_sensor ( include_cut = true );
+		} 
 
 		_trackball();
+	}
+
+	if ( include_cut ) {
+		color ( Color_cut ) {
+			// Fill the trackball case if we are using this to cut other components.
+			_trackball ( trackball_diameter = Trackball_diameter + 2 * eps );
+
+			// Also create a cube to make clearance for the trackball sensor, etc.
+			_cut_cube_size = [
+				50,
+				Trackball_diameter,
+				35
+			];
+			place_sensor () {
+				translate ( [ 0, 0, -7 ] ) {
+					cube ( _cut_cube_size, center = true );
+				}
+			}
+		}
 	}
 }
 
 /*******************************************************************************\
 |								Additive Features								|
 \*******************************************************************************/
+
+module _btu_case () {
+	_BTU_case_height = Trackball_BTU_L + Trackball_BTU_H + CenterBlock_wallThickness;
+	
+	translate ( [ 0, 0, -_BTU_case_height ] ) {
+		difference () {
+			cylinder ( 
+				d = Trackball_BTU_D1 + CenterBlock_wallThickness, 
+				h = _BTU_case_height
+			);
+
+			cylinder ( 
+				d = Screw_minorDiameter, 
+				h = 2 * ( _BTU_case_height + eps ), 
+				center = true 
+			);
+		}
+	}
+}
 
 module _center_wall (
 	centerBlock_height			= CenterBlock_height,
@@ -178,6 +226,7 @@ module _screw_boss (
 
 module _sensor_holder(
 	centerBlock_wallThickness			= CenterBlock_wallThickness,
+	include_cut							= false,
 	trackball_diameter					= Trackball_diameter,
 	trackball_position					= Trackball_position,
 	trackball_sensor_angle				= Trackball_Sensor_angle,
@@ -268,7 +317,7 @@ module _trackball_case (
 \*******************************************************************************/
 
 module place_btus (
-	include_cut = false,
+	//include_cut = false,
 	trackball_diameter	= Trackball_diameter,
 	trackball_position	= Trackball_position,
 ) {
@@ -277,7 +326,8 @@ module place_btus (
 		for ( zrot = [ -45, -135 ] ) {
 			rotate ( [ 45, 0, zrot ] ) {
 				translate ( [ 0, 0, -trackball_diameter / 2 ] ) {
-					btu ( include_cut = include_cut );
+					children();
+					//btu ( include_cut = include_cut );
 				}
 			}
 		}
@@ -354,7 +404,6 @@ module _plates (
 }
 
 module place_sensor (
-	include_cut = false,
 	trackball_sensor_angle	= Trackball_Sensor_angle,
 	trackball_diameter		= Trackball_diameter,
 	trackball_position		= Trackball_position
@@ -364,7 +413,7 @@ module place_sensor (
 		// Trackball sensor board
 		rotate ( [ 0, 180 - trackball_sensor_angle, 0 ] ) {
 			translate ( [ 0, 0, trackball_diameter / 2 ] ) {
-				trackball_sensor ( include_cut = include_cut );
+				children();
 			}
 		}
 	}

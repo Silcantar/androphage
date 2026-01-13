@@ -16,16 +16,28 @@ module keys () {
 		for ( i = [ 0 : last ( key_pos ) ] ) {
 			let ( p = key_pos[i] ) {
 				translate ( [ p.x, p.y, 0 ] ){
-					rotate ( p[2][0] + Keycap_style[i][1] * 180 ) {
+					rotate ( p[2][0] ) {
 						if ( Switch_visible ) {
 							translate ( [ 0, 0, Switch_position_z ] ) {
-								choc_switch ( travel = Switch_travel );
+								if ( Switch_type == switch_chocv1 || Switch_type == switch_chocv2 ){
+									choc_switch ( travel = Switch_travel );
+								}
+
+								if ( Switch_type == switch_glp ) {
+									color ( Switch_GLP_color ) {
+										translate ( [ 60, 0, 3.2 ] ) {
+											import ("../stl/gateron_ks-33.stl");
+										}
+									}
+								}
 							}
 						}
 						if ( Keycap_visible ) {
-							translate ( [ 0, 0, Keycap_position_z ] ) {
-								color ( Keycap_style[i][2] ) {
-									import ( str ( "../", Keycap_path, Keycap_style[i][0], ".stl" ) );
+							rotate ( Keycap_style[i][1] * 180 ){
+								translate ( [ 0, 0, Keycap_position_z ] ) {
+									color ( Keycap_style[i][2] ) {
+										import ( str ( "../", Keycap_path, Keycap_style[i][0], ".stl" ) );
+									}
 								}
 							}
 						}

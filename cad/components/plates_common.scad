@@ -11,7 +11,7 @@ use <../library/screw.scad>
 test_zpos = 360 * $t % 20;
 test_edge = 360 * $t % 5;
 
-plates_common (
+plate_sketch (
 	edge	 	= test_edge,
 	thickness	= 0.5,
 	zpos		= test_zpos,
@@ -163,7 +163,7 @@ function _center_arc_outer_end() = (
 // The point at the front of the hinge between the halves.
 function front_center_point ( zpos = 0 ) = (
 	_center_arc_inner_end()
-	+ zpos * sin ( Halves_angles.y ) * [
+	+ ( zpos * sin ( Halves_angles.y ) + Halves_clearance ) * [
 		-cos ( Halves_angles.z ),
 		sin ( Halves_angles.z ),
 		0
@@ -188,7 +188,7 @@ function _back_arc_inner_end() = (
 	]
 );
 
-function plates_common_points ( zpos = 0 ) = [
+function plate_sketch_points ( zpos = 0 ) = [
 	_front_middle_point(),
 	_front_outer_point(),
 	_back_outer_point(),
@@ -201,13 +201,13 @@ function plates_common_points ( zpos = 0 ) = [
 	_front_arc_inner_end (),
 ];
 
-module plates_common (
+module plate_sketch (
 	thickness,
 	edge = 0,
 	radius = 0,
 	zpos = 0,
 ) {
-	points = plates_common_points ( zpos = zpos );
+	points = plate_sketch_points ( zpos = zpos );
 
 	linear_extrude ( h = thickness ){
 		difference() {

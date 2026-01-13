@@ -25,20 +25,28 @@ module magnetic_connector (
 		[ lip.x / 2 + lipOffset + eps, 0, 0 ]
 	];
 
-	for ( i = include_cut ? [ 0 : 3 ] : [ 0 : 1 ] ) {
-		translate ( dist[i] ) {
-			cube ( dim[i] - [ 0, dim[i].z, 0 ], center = true );
+	color ( Color_primary ) {
+		for ( i = include_cut ? [ 0 : 3 ] : [ 0 : 1 ] ) {
+			translate ( dist[i] ) {
+				cube ( dim[i] - [ 0, dim[i].z, 0 ], center = true );
 
-			for ( dir = [ -1, 1 ] ) {
-				translate ( [ 0, dir * (dim[i].y - dim[i].z) / 2, 0 ] ) {
-					rotate ( [ 0, 90, 0 ] ) {
-						cylinder ( d = dim[i].z, h = dim[i].x, center = true );
+				for ( dir = [ -1, 1 ] ) {
+					translate ( [ 0, dir * (dim[i].y - dim[i].z) / 2, 0 ] ) {
+						rotate ( [ 0, 90, 0 ] ) {
+							cylinder ( d = dim[i].z, h = dim[i].x, center = true );
+						}
 					}
 				}
 			}
 		}
 	}
 
+	// VIK PCB
+	color ( Color_tertiary ) {
+		translate ( MagCon_pcbPosition ) {
+			cube ( MagCon_pcbSize, center = true);
+		}
+	}
 }
 
 magnetic_connector();

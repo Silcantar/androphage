@@ -5,19 +5,29 @@
 
 include <../androphage_globals.scad>
 
+use <center_block.scad>
+
 use <plates_common.scad>
 
 module pcb (
+	edge		= PCB_edge,
 	thickness	= PCB_thickness,
-	zpos		= 7
+	zpos		= PCB_position.z,
 ) {
-	place_plate ( zpos ) {
-		difference () {
-			plates_common (
-				thickness = thickness,
-				zpos = zpos,
-			);
-		};
+	difference () {
+		translate ( PCB_position ){
+			place_plate ( zpos ) {
+				difference () {
+					plate_sketch (
+						edge		= edge,
+						thickness	= thickness,
+						zpos		= zpos,
+					);
+				};
+			}
+		}
+
+		center_block ( include_cut = true );
 	}
 }
 

@@ -7,25 +7,36 @@ include <../androphage_globals.scad>
 
 use <plates_common.scad>
 
+use <center_block.scad>
+
+switch_plate ( zpos = SwitchPlate_position.z );
+
 module switch_plate (
 	thickness	= SwitchPlate_thickness,
-	zpos = 10
+	zpos = 10,
 ) {
-	place_plate ( zpos ) {
-		difference () {
-			plates_common ( 
-				thickness	= thickness,
-				zpos		= zpos,
-			);
+	difference () {
+		translate ( SwitchPlate_position ) {
+			place_plate ( zpos = zpos ) {
+				difference () {
+					plate_sketch ( 
+						edge		= SwitchPlate_edge,
+						thickness	= thickness,
+						zpos		= zpos,
+					);
 
 
-			// Subtract key cutout.
-			linear_extrude ( h = thickness + 2 * eps ){
-				place_switches();
+					// Subtract key cutout.
+					translate ( [ 0, 0, -eps ] ) {
+						linear_extrude ( h = thickness + 2 * eps ) {
+							place_switches();
+						}
+					}
+				};
+				
 			}
-		};
-		
+		}
+
+		center_block( include_cut = true );
 	}
 }
-
-switch_plate();

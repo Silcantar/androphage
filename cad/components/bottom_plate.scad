@@ -19,7 +19,7 @@ module bottom_plate (
 		translate ( [ 0, 0, thickness * cos ( Halves_angles.y ) ] ){
 			mirror ( [ 0, 0, 1 ]) {
 				difference () {
-					plates_common (
+					plate_sketch (
 						edge		= edge,
 						radius		= outerRadius,
 						thickness	= thickness,

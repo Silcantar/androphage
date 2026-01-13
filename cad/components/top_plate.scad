@@ -21,7 +21,7 @@ module top_plate (
 		place_plate ( zpos ) {
 			difference () {
 				// Main body.
-				plates_common (
+				plate_sketch (
 					thickness = thickness,
 					edge	= edge,
 					radius	= outerRadius,
