@@ -14,6 +14,7 @@ use <../library/screw.scad>
 top_plate();
 
 module top_plate (
+	clearance	= Hinge_diameter / 2,
 	edge		= TopPlate_edge,
 	innerRadius	= TopPlate_innerRadius,
 	outerRadius = Plate_outerRadius,
@@ -24,6 +25,7 @@ module top_plate (
 	difference () {
 		linear_extrude ( height = thickness, convexity = 2 ) {
 			_top_plate_sketch (
+				clearance,
 				edge,
 				innerRadius,
 				outerRadius,
@@ -47,6 +49,7 @@ module top_plate (
 }
 
 module _top_plate_sketch (
+	clearance,
 	edge,
 	innerRadius,
 	outerRadius,
@@ -56,9 +59,10 @@ module _top_plate_sketch (
 	difference () {
 		// Main body.
 		plate_sketch (
-			edge	= edge,
-			radius	= outerRadius,
-			zpos	= zpos
+			clearance	= clearance,
+			edge		= edge,
+			radius		= outerRadius,
+			zpos		= zpos
 		);
 
 		// Subtract trackball cutout.

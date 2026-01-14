@@ -93,6 +93,10 @@ module center_block ( include_cut = false ) {
 			}
 		}
 
+		_center_face();
+
+		_hinges();
+
 		cb() _plates();
 
 		place_sensor () {
@@ -209,11 +213,11 @@ module _screw_boss (
 	insert_wallThickness		= Insert_wallThickness
 ) {
 	d = insert_holeDiameter + 2 * insert_wallThickness;
-	h = 2 * centerBlock_height;
+	h = 1.1 * centerBlock_height;
 
 	translate ( [ 0, 0, bottomPlate_thickness ] ) {
 		rotate ( [ 0, -halves_angles.y, 180 ] ) {
-			translate ( [ 0, 0, -h / 4 ] ) {
+			translate ( [ 0, 0, -h / 10 ] ) {
 				cylinder ( d = d, h = h );
 
 				translate ( [ 0, -d / 2, 0 ] ) {
@@ -334,6 +338,25 @@ module place_btus (
 	}
 }
 
+module _hinges () {
+	rotate ( [ 0, Halves_angles.y, 0 ] ) {
+		ypos = [
+			-TopPlate_edge - eps,
+			Hinge_size.y - BackHinge_length + TopPlate_edge
+		];
+		ydim = [
+			FrontHinge_length + eps,
+			BackHinge_length + eps,
+		];
+
+		for ( i = [ 0 : 1 ] ) {
+			translate ( [ -5, ypos[i], TopPlate_position.z - Hinge_size.z ] ) {
+				cube ( [ 15, ydim[i], Hinge_size.z + eps ] );
+			}
+		}
+	}
+}
+
 module _insert_holes (
 	bottomPlate_thickness	= BottomPlate_thickness,
 	centerBlock_height		= CenterBlock_height,
@@ -381,25 +404,31 @@ module _place_insert_holes (  ) {
 	}
 }
 
+module _center_face () {
+	size = [ 10, 110, 25 ];
+	// Center face.
+	translate ( [ -size.x, -size.y / 10, 0 ] ) {
+		cube ( size );
+	}
+}
+
 module _plates (
 	halves_angles			= Halves_angles,
 	centerBlock_height		= CenterBlock_height,
 	bottomPlate_thickness	= BottomPlate_thickness
 ) {
-	size = [ 40, 150, 30 ];
+	// Top and bottom faces.
+	size = [ 30, 110, 8 ];
 	zpos1 = [ centerBlock_height, bottomPlate_thickness ];
 	zpos2 = [ 0, -size.z ];
 	for ( i = [ 0 : 1 ] ) {
-		translate ( [ 0, -size.y / 2, zpos1[i] ] ) {
+		translate ( [ 0, 0, zpos1[i] ] ) {
 			rotate ( [ 0, halves_angles.y, 0 ] ) {
-				translate ( [ -size.x / 4, size.y / 4, zpos2[i] ] ) {
+				translate ( [ -size.x / 10, -size.y / 10, zpos2[i] ] ) {
 					cube ( size );
 				}
 			}
 		}
-	}
-	translate ( [ -size.x, -size.y / 4, 0 ] ) {
-		cube ( size );
 	}
 }
 

@@ -13,6 +13,8 @@ use <components/case_frame.scad>
 
 use <components/center_block.scad>
 
+use <components/hinge.scad>
+
 use <components/keys.scad>
 
 use <components/magnetic_connector.scad>
@@ -30,12 +32,18 @@ use <components/trackball.scad>
 use <components/trackball_sensor.scad>
 
 _do_mirror = true;
+_do_rotate = false;
 
-translate ( -Trackball_position ) {
+translate ( -[ Trackball_position.x, Trackball_position.y, FrontHinge_position.z ] ) {
 	androphage_assembly();
-	if ( _do_mirror ) {
-		mirror ( [ 1, 0, 0 ] ) {
-			androphage_assembly();
+}
+
+if ( _do_mirror ) {
+	rotate ( [ 0, _do_rotate ? 180 + 2 * Halves_angles.y : 0, 0 ] ) {
+		translate ( -[ Trackball_position.x, Trackball_position.y, FrontHinge_position.z ] ) {
+			mirror ( [ 1, 0, 0 ] ) {
+				androphage_assembly( include_hinge = false );
+			}
 		}
 	}
 }
@@ -50,7 +58,7 @@ if ( Desk_visible ) {
 }
 
 
-module androphage_assembly() {
+module androphage_assembly( include_hinge = true ) {
 	/*				Bottom Plate				*/
 	if ( BottomPlate_visible ) {
 		place_plate () {
@@ -87,10 +95,34 @@ module androphage_assembly() {
 		}
 	}
 
-	/*				Center Block & Trackball				*/
+	/*				Center Block				*/
 	if ( CenterBlock_visible ) {
 		color ( CenterBlock_color ){
 			center_block();
+		}
+	}
+
+	if ( Hinge_visible && include_hinge ) {
+		color ( Hinge_color ) {
+			translate ( FrontHinge_position ) {
+				rotate ( [ -90, 0, 0 ] ) {
+						hinge (
+							length	= FrontHinge_length,
+							angle	= Halves_angles.y * 2
+						);
+
+					}
+				}
+
+			translate ( BackHinge_position ) {
+				rotate ( [ -90, 0, 0 ] ) {
+					hinge (
+						length	= BackHinge_length,
+						angle	= Halves_angles.y * 2,
+						center	= false
+					);
+				}
+			}
 		}
 	}
 

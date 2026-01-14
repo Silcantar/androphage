@@ -38,6 +38,8 @@ $test = false;
 // Very small amount.
 eps = 0.01;
 
+in_to_mm = 25.4;
+
 // "Enum" of fingers/columns.
 inner	= 0;
 index	= 1;
@@ -66,9 +68,9 @@ Hinge_visible				= true;
 Insert_visible				= true;
 
 // Show Keycaps.
-Keycap_visible				= true;
+Keycap_visible				= false;
 
-MagCon_visible				= true;
+MagCon_visible				= false;
 
 // Show the PCB.
 PCB_visible					= true;
@@ -85,7 +87,7 @@ TopPlate_visible			= true;
 Screw_visible				= true;
 
 // Show the switches.
-Switch_visible				= true;
+Switch_visible				= false;
 
 // Show the trackball.
 Trackball_visible			= true;
@@ -386,10 +388,14 @@ Halves_clearance = 1;
 Hinge_color = Color_steel;
 
 // Diameter of hinge pivot.
-Hinge_diameter = 3;
+Hinge_diameter = 0.225 * in_to_mm;//4.42;
+
+Hinge_knuckleDepth = 12.7;
+
+Hinge_pinDiameter = 0.125 * in_to_mm;//2.38;
 
 // Hinge dimensions [ width, length, leaf thickness ].
-Hinge_size	= [ (27 - Hinge_diameter) / 2, 90, 1 ];	//[50:1:200]
+Hinge_size	= [ 13.5, 90, 0.05 * in_to_mm ];	//[50:1:200]
 
 /*******************************************************************************\
 |									Keys										|
@@ -828,4 +834,26 @@ Trackball_position = [
 	0,
 	Trackball_position_y,
 	Trackball_position_z
+];
+
+FrontHinge_length = Trackball_position.y - Trackball_diameter / 2 - Trackball_clearance + TopPlate_edge;
+
+FrontHinge_position = [ 
+	0, 
+	FrontHinge_length / 2 - TopPlate_edge, 
+	CenterBlock_height + Hinge_diameter / 2 - Hinge_size.z * cos ( Halves_angles.y ) 
+];
+
+BackHinge_length = (
+	+ Hinge_size.y 
+	- Trackball_position.y 
+	- Trackball_diameter / 2
+	- Trackball_clearance 
+	+ TopPlate_edge
+);
+
+BackHinge_position = [
+	0, 
+	Hinge_size.y - BackHinge_length / 2 + TopPlate_edge, 
+	CenterBlock_height + Hinge_diameter / 2 - Hinge_size.z * cos ( Halves_angles.y ) 
 ];

@@ -12,6 +12,7 @@ use <center_block.scad>
 switch_plate ( zpos = SwitchPlate_position.z );
 
 module switch_plate (
+	clearance	= CenterBlock_wallThickness,
 	edge		= SwitchPlate_edge,
 	PCB			= false,
 	thickness	= SwitchPlate_thickness,
@@ -19,14 +20,16 @@ module switch_plate (
 ) {
 	linear_extrude ( height = thickness ) {
 		_switch_plate_sketch (
-			edge	= edge,
-			PCB		= PCB,
-			zpos	= zpos
+			clearance	= clearance,
+			edge		= edge,
+			PCB			= PCB,
+			zpos		= zpos
 		);
 	}
 }
 
 module _switch_plate_sketch (
+	clearance,
 	edge,
 	PCB,
 	zpos
@@ -35,8 +38,9 @@ module _switch_plate_sketch (
 	offset ( r = -SwitchPlate_radius ) {
 		difference () {
 			plate_sketch (
-				edge	= edge,
-				zpos	= zpos
+				clearance	= clearance,
+				edge		= edge,
+				zpos		= zpos
 			);
 
 			// Subtract key cutouts.
@@ -52,7 +56,7 @@ module _switch_plate_sketch (
 				rotate ( [ 0, 0, -Halves_angles.z] )
 					offset (r = SwitchPlate_radius)
 					offset (r = -SwitchPlate_radius)
-					square ( Trackball_diameter, center = true );
+					square ( [ 45, Trackball_diameter ], center = true );
 			}
 		}
 	}

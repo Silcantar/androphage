@@ -200,9 +200,10 @@ function plate_sketch_points ( zpos = 0 ) = [
 ];
 
 module plate_sketch (
+	clearance = 0,
 	edge = 0,
 	radius = 0,
-	zpos = 0,
+	zpos = 0
 ) {
 	points = plate_sketch_points ( zpos = zpos );
 
@@ -244,7 +245,7 @@ module plate_sketch (
 		) {
 			rotate ( -Halves_angles.z ) {
 				square ( [
-					edge + eps,
+					edge + clearance + eps,
 					Hinge_size.y + 4 * edge
 				] );
 			}
