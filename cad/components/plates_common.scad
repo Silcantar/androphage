@@ -34,7 +34,7 @@ color ( "orange" ){
 }
 
 
-inner_thumb_key_angle = (
+function inner_thumb_key_angle () = (
 	len( Cluster_columnCounts )
 	* Cluster_angle
 );
@@ -42,13 +42,13 @@ inner_thumb_key_angle = (
 function _front_arc_inner_end () = [
 	(
 		( -Cluster_radius_mm + Key_spacing.y / 2 )
-		* sin ( inner_thumb_key_angle )
+		* sin ( inner_thumb_key_angle() )
 	),
 	(
 		Cluster_radius_mm
-		* ( cos ( inner_thumb_key_angle ) - 1 )
+		* ( cos ( inner_thumb_key_angle() ) - 1 )
 		- ( Key_spacing.y / 2 )
-		*  cos ( inner_thumb_key_angle )
+		*  cos ( inner_thumb_key_angle() )
 	),
 	0
 ];
@@ -104,8 +104,8 @@ function _center_arc_center() = (
 	_center_arc_outer_end()
 	+ Plate_centerArcRadius
 	* [
-		- cos( inner_thumb_key_angle ),
-		- sin ( inner_thumb_key_angle ),
+		- cos( inner_thumb_key_angle() ),
+		- sin ( inner_thumb_key_angle() ),
 		0
 	]
 );
@@ -152,8 +152,8 @@ function _center_arc_inner_end() = (
 function _center_arc_outer_end() = (
 	_front_arc_inner_end ()
 	+ Key_spacing.x / 2 * [
-		- cos ( inner_thumb_key_angle ),
-		- sin ( inner_thumb_key_angle ),
+		- cos ( inner_thumb_key_angle() ),
+		- sin ( inner_thumb_key_angle() ),
 		0
 	]
 );
@@ -303,7 +303,6 @@ module _switch_hole_connector (
 // "Drill" and "countersink" screw holes.
 module place_screws (
 	thickness,
-	// zpos,
 	halves_angles	= Halves_angles,
 	screw_diameter	= Screw_diameter,
 	screw_positions	= screw_positions(),
@@ -324,7 +323,7 @@ module place_screws (
 	}
 }
 
-function screw_positions_translated ( ) =  [
+function screw_positions_translated ( ) = [
 	for ( p = screw_positions() ) p - front_center_point()
 ] * rot3d ( [ 0, 0, -Halves_angles.z ] ) ;
 

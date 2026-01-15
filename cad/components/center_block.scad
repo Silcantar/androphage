@@ -38,8 +38,8 @@ module center_block ( include_cut = false ) {
 
 			_sensor_holder ( include_cut = include_cut );
 
-			_place_insert_holes () {
-				ch() _screw_boss();
+			place_insert_holes () {
+				ch() screw_boss();
 			}
 
 			_trackball_case();
@@ -52,7 +52,7 @@ module center_block ( include_cut = false ) {
 			ct () {
 				nothing ();
 
-				_place_insert_holes () {
+				place_insert_holes () {
 					color ( "green" ) {
 						_insert_holes();
 					}
@@ -68,7 +68,7 @@ module center_block ( include_cut = false ) {
 
 			// Subtract the holes for the heat-set inserts.
 			ct () {
-				_place_insert_holes () {
+				place_insert_holes () {
 					_insert_holes();
 				}
 			}
@@ -204,7 +204,8 @@ module _pcb_shelf (
 	}
 }
 
-module _screw_boss (
+module screw_boss (
+	angle	= -Halves_angles.y,
 	bottomPlate_thickness		= BottomPlate_thickness,
 	centerBlock_height			= CenterBlock_height,
 	centerBlock_wallThickness	= CenterBlock_wallThickness,
@@ -216,7 +217,7 @@ module _screw_boss (
 	h = 1.1 * centerBlock_height;
 
 	translate ( [ 0, 0, bottomPlate_thickness ] ) {
-		rotate ( [ 0, -halves_angles.y, 180 ] ) {
+		rotate ( [ 0, angle, 180 ] ) {
 			translate ( [ 0, 0, -h / 10 ] ) {
 				cylinder ( d = d, h = h );
 
@@ -392,7 +393,7 @@ module _insert_holes (
 	}
 }
 
-module _place_insert_holes (  ) {
+module place_insert_holes (  ) {
 	for ( i = [ 0 : CenterBlock_screwCount - 1 ] ) {
 		translate ( screw_positions_translated()[i] + [
 			0,

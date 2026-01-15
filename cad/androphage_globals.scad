@@ -82,7 +82,7 @@ BottomPlate_visible			= true;
 SwitchPlate_visible			= true;
 
 // Show the Top Plate.
-TopPlate_visible			= true;
+TopPlate_visible			= false;
 
 Screw_visible				= true;
 
@@ -195,6 +195,26 @@ module fillet2d ( radius, outerFirst = true ) {
 			offset ( coeff * radius ) {
 				children();
 			}
+		}
+	}
+}
+
+module fillet_cutter ( r, h ) {
+	difference () {
+		translate ( [ 0, 0, -h / 2 - eps ] ) {
+			cube ( [ r + eps, r + eps, h + 2 * eps ] );
+		}
+
+		cylinder ( r = r, h = h + 2 * eps );
+	}
+}
+
+module fillet_cutter2d ( r ) {
+	translate ( [ -r, -r ] ) {
+		difference () {
+			square ( [ r + eps, r + eps ] );
+
+			circle ( r = r );
 		}
 	}
 }
@@ -388,14 +408,14 @@ Halves_clearance = 1;
 Hinge_color = Color_steel;
 
 // Diameter of hinge pivot.
-Hinge_diameter = 0.225 * in_to_mm;//4.42;
+Hinge_diameter = 0.174 * in_to_mm;	// 0.225 * in_to_mm;	// 
 
-Hinge_knuckleDepth = 12.7;
+Hinge_knuckleDepth = 0.5 * in_to_mm;
 
-Hinge_pinDiameter = 0.125 * in_to_mm;//2.38;
+Hinge_pinDiameter = 3 / 32 * in_to_mm;	// 0.125 * in_to_mm;	// 
 
 // Hinge dimensions [ width, length, leaf thickness ].
-Hinge_size	= [ 13.5, 90, 0.05 * in_to_mm ];	//[50:1:200]
+Hinge_size	= [ 17 / 32 * in_to_mm, 90, 0.04 * in_to_mm ];	//[50:1:200]
 
 /*******************************************************************************\
 |									Keys										|
@@ -518,7 +538,7 @@ PCB_color = "DarkGreen";
 PCB_edge = 2;
 
 // PCB thickness.
-PCB_thickness = 1.6;	//[1:0.2:2]
+PCB_thickness = 1.2;	//[1:0.2:2]
 
 /*******************************************************************************\
 |									Plates										|
@@ -529,7 +549,7 @@ PCB_thickness = 1.6;	//[1:0.2:2]
 BottomPlate_color = Color_primary;
 
 // Thickness of the bottom plate.
-BottomPlate_thickness = 1.6;	//[1:0.2:2]
+BottomPlate_thickness = 1.2;	//[1:0.2:2]
 
 // Clearance between the bottom plate and the PCB.
 BottomPlate_clearance = 3; //[1:10]
@@ -553,7 +573,7 @@ SwitchPlate_radius = 1;
 TopPlate_color = Color_primary;
 
 // Top plate thickness. 1.6 mm is the minimum for anodizing at SendCutSend.
-TopPlate_thickness = 1.6; //[1.0:0.2:2.0]
+TopPlate_thickness = 1.2; //[1.0:0.2:2.0]
 
 TopPlate_edge = SwitchPlate_edge + CaseFrame_thickness;
 
@@ -857,3 +877,7 @@ BackHinge_position = [
 	Hinge_size.y - BackHinge_length / 2 + TopPlate_edge, 
 	CenterBlock_height + Hinge_diameter / 2 - Hinge_size.z * cos ( Halves_angles.y ) 
 ];
+
+CaseFrame_height = ( CenterBlock_height - BottomPlate_thickness ) * cos ( Halves_angles.y );
+
+CaseFrame_position = [ 0, 0, BottomPlate_thickness ];

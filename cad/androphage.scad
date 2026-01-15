@@ -95,9 +95,18 @@ module androphage_assembly( include_hinge = true ) {
 		}
 	}
 
+	/*				Case Frame				*/
+	if ( CaseFrame_visible ) {
+		place_plate ( CaseFrame_position ) {
+			color ( CaseFrame_color ) {
+				case_frame();
+			}
+		}
+	}
+
 	/*				Center Block				*/
 	if ( CenterBlock_visible ) {
-		color ( CenterBlock_color ){
+		color ( CenterBlock_color ) {
 			center_block();
 		}
 	}
@@ -105,23 +114,23 @@ module androphage_assembly( include_hinge = true ) {
 	if ( Hinge_visible && include_hinge ) {
 		color ( Hinge_color ) {
 			translate ( FrontHinge_position ) {
-				rotate ( [ -90, 0, 0 ] ) {
+				// rotate ( [ -90, 0, 0 ] ) {
 						hinge (
 							length	= FrontHinge_length,
 							angle	= Halves_angles.y * 2
 						);
-
-					}
+					// }
 				}
 
 			translate ( BackHinge_position ) {
-				rotate ( [ -90, 0, 0 ] ) {
+				// rotate ( [ -90, 0, 0 ] ) {
 					hinge (
 						length	= BackHinge_length,
 						angle	= Halves_angles.y * 2,
-						center	= false
+						center	= false,
+						front	= false
 					);
-				}
+				// }
 			}
 		}
 	}
