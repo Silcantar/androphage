@@ -7,6 +7,8 @@
 
 include <androphage_globals.scad>
 
+use <components/battery.scad>
+
 use <components/bottom_plate.scad>
 
 use <components/case_frame.scad>
@@ -18,6 +20,8 @@ use <components/hinge.scad>
 use <components/keys.scad>
 
 use <components/magnetic_connector.scad>
+
+use <components/mcu.scad>
 
 use <components/pcb.scad>
 
@@ -31,7 +35,7 @@ use <components/trackball.scad>
 
 use <components/trackball_sensor.scad>
 
-_do_mirror = true;
+_do_mirror = false;
 _do_rotate = false;
 
 translate ( -[ Trackball_position.x, Trackball_position.y, FrontHinge_position.z ] ) {
@@ -71,7 +75,7 @@ module androphage_assembly( include_hinge = true ) {
 	/*				PCB				*/
 	if ( PCB_visible ) {
 		place_plate ( PCB_position ) {
-			color ( PCB_color ) {
+			color ( PCB_color, 1 ) {
 				pcb ( zpos = PCB_position.z );
 			}
 		}
@@ -80,7 +84,7 @@ module androphage_assembly( include_hinge = true ) {
 	/*				Switch Plate				*/
 	if ( SwitchPlate_present && SwitchPlate_visible ) {
 		place_plate ( SwitchPlate_position ) {
-			color ( SwitchPlate_color ) {
+			color ( SwitchPlate_color, 1 ) {
 				switch_plate ( zpos = SwitchPlate_position.z );
 			}
 		}
@@ -151,12 +155,38 @@ module androphage_assembly( include_hinge = true ) {
 	if ( Trackball_Sensor_visible ) {
 		place_sensor () {
 			trackball_sensor();
+
+			*translate ( [ 0, 0, 10 ] ) {
+				rotate ( [ 180, 180, 0 ] ) {
+					mcu();
+				}
+			}
 		}
 	}
 
 	if ( MagCon_visible ) {
 		translate ( MagCon_position ) {
 			magnetic_connector();
+
+			translate ( [ 8, 8, -3 ] ) {
+				rotate ( [ 180, -90, 0 ] ) {
+					*battery( [ 12, 30, 3 ] );
+					mcu();
+				}
+			}
+		}
+	}
+
+	*translate ( [ 20, 84, 3 ] ) {
+		rotate ( [ 0, 0 + Halves_angles.y, 0 ] ) {
+			mcu();
+		}
+	}
+	
+	translate ( [ 20, 88, 11.3 ] ) {
+		rotate ( [ 0, Halves_angles.y, 0 ] )
+		rotate ( [ 0, 90, 100 ] ) {
+			battery();
 		}
 	}
 

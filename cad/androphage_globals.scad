@@ -60,23 +60,23 @@ CaseFrame_visible			= true;
 // Show the center block.
 CenterBlock_visible			= true;
 
-Desk_visible				= true;
+Desk_visible				= false;
 
 // Show the hinge.
-Hinge_visible				= true;
+Hinge_visible				= false;
 
 Insert_visible				= true;
 
 // Show Keycaps.
 Keycap_visible				= false;
 
-MagCon_visible				= false;
+MagCon_visible				= true;
 
 // Show the PCB.
 PCB_visible					= true;
 
 // Show the bottom plate.
-BottomPlate_visible			= true;
+BottomPlate_visible			= false;
 
 // Show the switch plate.
 SwitchPlate_visible			= true;
@@ -90,7 +90,7 @@ Screw_visible				= true;
 Switch_visible				= false;
 
 // Show the trackball.
-Trackball_visible			= true;
+Trackball_visible			= false;
 
 // Show the trackball BTUs.
 Trackball_BTU_visible		= true;
@@ -225,15 +225,15 @@ module fillet_cutter2d ( r ) {
 
 /* [Colors] */
 // Primary color for the keyboard components (Black).
-Color_primary = [ 0.20, 0.20, 0.20, 1.00 ]; //[0.0:0.01:1.0]
+Color_primary = [ 0.20, 0.20, 0.20 ]; //[0.0:0.01:1.0]
 
 // Secondary color for the keyboard components (Purple).
 Color_secondary = "MediumSlateBlue";//[ 0.50, 0.30, 0.80, 1.0 ];  //[0.0:0.01:1.0]
 
 // Tertiary color for keyboard components (Copper).
-Color_tertiary = [ 0.62, 0.36, 0.18, 1.00 ];
+Color_tertiary = [ 0.62, 0.36, 0.18 ];
 
-Color_black = [ 0.20, 0.20, 0.20, 1.00 ];
+Color_black = [ 0.20, 0.20, 0.20 ];
 
 Color_brass = "Gold";
 
@@ -243,7 +243,13 @@ Color_clear = [ 1.0, 1.0, 1.0, 0.2 ];
 // Color for displaying cutting bodies (Transparent yellow).
 Color_cut = [ 1.0, 1.0, 0.0, 0.2 ];
 
-Color_steel = [ 0.5, 0.5, 0.5, 1.0 ];
+Color_steel = [ 0.5, 0.5, 0.5 ];
+
+/*******************************************************************************\
+|									Battery										|
+\*******************************************************************************/
+
+Battery_size = [ 12, 30, 3 ];
 
 /*******************************************************************************\
 |									Case Frame									|
@@ -527,7 +533,25 @@ MagCon_pcbSize = [ 1.6, 36.5, 10 ];
 MagCon_pcbPosition = [ MagCon_size.x + MagCon_pcbSize.x / 2, 0, 1 ];
 
 /*******************************************************************************\
-|									PCBs										|
+|										MCU										|
+\*******************************************************************************/
+
+MCU_size = [ 17.8, 21, 1.6 ];
+
+MCU_usbSize = [ 9, 7.35, 3.2 ];
+
+MCU_usbOverhang = 1.5;
+
+MCU_pcbColor = Color_black;
+
+MCU_radius = 2;
+
+MCU_usbRadius = 1.2;
+
+MCU_chipSize = [ 12, 10, 1.5 ];
+
+/*******************************************************************************\
+|										PCBs									|
 \*******************************************************************************/
 
 /* [PCB] */

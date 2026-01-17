@@ -5,9 +5,6 @@
 
 include <../androphage_globals.scad>
 
-// include <../BOSL2/std.scad>
-// include <../BOSL2/vectors.scad>
-
 use <btu.scad>
 
 use <magnetic_connector.scad>
