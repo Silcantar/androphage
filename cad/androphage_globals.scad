@@ -55,7 +55,7 @@ include <library/screw_globals.scad>
 \*******************************************************************************/
 
 // Show the case frame.
-CaseFrame_visible			= true;
+Frame_visible			= true;
 
 // Show the center block.
 CenterBlock_visible			= true;
@@ -257,10 +257,10 @@ Battery_size = [ 12, 30, 3 ];
 
 /* [Case Frame] */
 
-CaseFrame_color = Color_secondary;
+Frame_color = Color_secondary;
 
 // Thickness of the case frame.
-CaseFrame_thickness = 3; //[1:5]
+Frame_thickness = 3; //[1:5]
 
 /*******************************************************************************\
 |								Center Block									|
@@ -599,7 +599,7 @@ TopPlate_color = Color_primary;
 // Top plate thickness. 1.6 mm is the minimum for anodizing at SendCutSend.
 TopPlate_thickness = 1.2; //[1.0:0.2:2.0]
 
-TopPlate_edge = SwitchPlate_edge + CaseFrame_thickness;
+TopPlate_edge = SwitchPlate_edge + Frame_thickness;
 
 // Fillet radius for the cutout in the top plate.
 TopPlate_innerRadius = 2; //[0.0:0.1:5.0]
@@ -789,7 +789,7 @@ Column_connectors = [
 	[ 0, 0 ],
 ];
 
-BottomPlate_edge = SwitchPlate_edge + CaseFrame_thickness;
+BottomPlate_edge = SwitchPlate_edge + Frame_thickness;
 
 SwitchPlate_thickness = Key_MXspacing ? 1.6 : 1.2;
 
@@ -902,6 +902,6 @@ BackHinge_position = [
 	CenterBlock_height + Hinge_diameter / 2 - Hinge_size.z * cos ( Halves_angles.y ) 
 ];
 
-CaseFrame_height = ( CenterBlock_height - BottomPlate_thickness ) * cos ( Halves_angles.y );
+Frame_height = ( CenterBlock_height - BottomPlate_thickness ) * cos ( Halves_angles.y );
 
-CaseFrame_position = [ 0, 0, BottomPlate_thickness ];
+Frame_position = [ 0, 0, BottomPlate_thickness ];

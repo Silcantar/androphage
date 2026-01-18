@@ -24,10 +24,10 @@ translate ( front_center_point ( test_zpos ) ) {
 color ( "orange" ){
 	linear_extrude ( 1 + 2 * eps, center = true ) {
 		place_switches (
-			connect = true,
-			cutout = 5,
+			connect = false,
+			cutout = 0,
 			radius = 0,
-			size = Key_spacing
+			size = Switch_size
 		);
 		place_trackball ( test_zpos );
 	}

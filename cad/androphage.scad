@@ -11,7 +11,7 @@ use <components/battery.scad>
 
 use <components/bottom_plate.scad>
 
-use <components/case_frame.scad>
+use <components/frame.scad>
 
 use <components/center_block.scad>
 
@@ -100,10 +100,10 @@ module androphage_assembly( include_hinge = true ) {
 	}
 
 	/*				Case Frame				*/
-	if ( CaseFrame_visible ) {
-		place_plate ( CaseFrame_position ) {
-			color ( CaseFrame_color ) {
-				case_frame();
+	if ( Frame_visible ) {
+		place_plate ( Frame_position ) {
+			color ( Frame_color ) {
+				frame();
 			}
 		}
 	}

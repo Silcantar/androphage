@@ -9,10 +9,10 @@ use <plates_common.scad>
 
 use <center_block.scad>
 
-module case_frame () {
+module frame () {
 	intersection () {
 		union () {
-			linear_extrude ( h = CaseFrame_height, convexity = 2 ) {
+			linear_extrude ( h = Frame_height, convexity = 2 ) {
 				difference () {
 					fillet2d ( radius = Plate_outerRadius) {
 						offset ( delta = TopPlate_edge ) {
@@ -21,7 +21,7 @@ module case_frame () {
 					}
 
 					fillet2d ( radius = TopPlate_innerRadius ) {
-						offset ( delta = TopPlate_edge - CaseFrame_thickness ) {
+						offset ( delta = TopPlate_edge - Frame_thickness ) {
 							plate_sketch();
 						}
 					}
@@ -37,7 +37,7 @@ module case_frame () {
 						difference () {
 							screw_boss ( angle = 0 );
 
-							for ( zpos = [ 0, CaseFrame_height - Insert_holeDepth ] ) {
+							for ( zpos = [ 0, Frame_height - Insert_holeDepth ] ) {
 								translate ( [ 0, 0, zpos ] ) {
 									cylinder ( d = Insert_holeDiameter, h = Insert_holeDepth );
 								}
@@ -48,7 +48,7 @@ module case_frame () {
 			}
 		}
 
-		linear_extrude ( h = CaseFrame_height ) {
+		linear_extrude ( h = Frame_height ) {
 			fillet2d ( radius = Plate_outerRadius) {
 				offset ( delta = TopPlate_edge ) {
 					plate_sketch();
@@ -58,4 +58,4 @@ module case_frame () {
 	}
 }
 
-case_frame();
+frame();
