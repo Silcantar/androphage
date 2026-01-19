@@ -5,7 +5,11 @@
 
 include <../androphage_globals.scad>
 
-frame();
+use <plates_common.scad>
+
+rotate ( [ -90, 0, 90 ] ) {
+	frame();
+}
 
 l = "l"; // Linear extrude
 m = "m"; // Mitered corner
@@ -13,20 +17,76 @@ r = "r"; // Rotate extrude
 
 extrudes = [
 //	Type,	angle,	height / radius
-	// [ 
-	// 	l,
-	// 	3.5 * Key_spacing.x
-	// ],
+	[
+		r,
+		34,
+		-Plate_backArcRadius
+	],
+	[
+		r,
+		43,
+		0
+	],
+	[
+		l,
+		sqrt ( ( 2 * Key_spacing.x ) ^ 2 + Key_spacing.y ^ 2 ) * 1.25
+	],
+	[
+		r,
+		atan ( ( 2 * Key_spacing.x ) / Key_spacing.y ),
+		0
+	],
+	[
+		l,
+		3 * Key_spacing.y
+	],
+	[
+		r,
+		90,
+		0
+	],
 	[ 
 		r,
-		30, 
-		-10
+		asin ( Key_spacing.x / Plate_outerArcRadius ),
+		-Plate_outerArcRadius
 	],
-	// [ 
-	// 	r,
-	// 	30,
-	// 	-Plate_outerArcRadius
-	// ]
+	[ 
+		r,
+		asin ( Key_spacing.x / Plate_outerArcRadius ), //54.5, // 
+		0
+	],
+	[ 
+		l,
+		2.5 * Key_spacing.x
+	],
+	[
+		r,
+		inner_thumb_key_angle(),
+		-Plate_frontArcRadius
+	],
+	[
+		l,
+		Key_spacing.x / 2
+	],
+	[
+		r,
+		90,
+		0
+	],
+	[
+		r,
+		inner_thumb_key_angle() + Halves_angles.z,
+		-Plate_centerArcRadius
+	],
+	// [
+	// 	m,
+	// 	90,
+	// 	15
+	// ],
+	// [
+	// 	l,
+	// 	Hinge_size.y
+	// ],
 ];
 
 module multiextrude ( extrudes, convexity = 1 ) {
@@ -60,7 +120,7 @@ module _do_extrude ( extrude, convexity ) {
 	if ( extrude[0] == m ) {
 		assert ( len ( extrude ) >= 3, "Must specify extrude angle *and* height." )
 
-		rotate ( [ 0, extrude[1] / 2, 0 ] ){
+		rotate ( [ 0, extrude[1] / 2, 0 ] ) {
 			for ( i = [ 0, 1 ] ) {
 				mirror ( [ 0, 0, i ] ) {
 					difference () {
@@ -81,13 +141,19 @@ module _do_extrude ( extrude, convexity ) {
 				}
 			}
 		}
+
+		if ( $children > 1 ) {
+			rotate ( [ 0, extrude[1], 0 ] ) {
+				children( [ 1 : $children - 1 ] );
+			}
+		}
 	}
 
 	if ( extrude[0] == r ) {
 		assert ( len ( extrude ) >= 3, "Must specify extrude angle *and* radius." );
 
 		translate ( [ -extrude[2], 0, 0 ] ) {
-			rotate ( [ 0, ( extrude[2] > 0 ) ? 0 : -extrude[1], 0 ] ) {
+			rotate ( [ 0, ( extrude[2] >= 0 ) ? 0 : -extrude[1], 0 ] ) {
 				rotate ( [ -90, 0, 0 ] ) {
 					rotate_extrude ( angle = extrude[1], convexity = convexity ) {
 						translate ( [ extrude[2], 0 ] ) {
@@ -98,9 +164,9 @@ module _do_extrude ( extrude, convexity ) {
 			}
 
 			if ( $children > 1 ) {
-				rotate ( [ 0, sign ( extrude[2] ) * extrude[1], 0 ] ) {
+				rotate ( [ 0, ( extrude[2] >= 0 ? 1 : -1 ) * extrude[1], 0 ] ) {
 					translate ( [ extrude[2], 0 ] ) {
-						children( [1 : $children - 1 ] );
+						children( [ 1 : $children - 1 ] );
 					}
 				}
 			}
@@ -128,7 +194,7 @@ module _frame_sketch (
 	chordCenter = ( ( chordAngle < 0 ) ? size : [ size.x, 0 ] ) + ( chordLength / 2 ) * [ cos ( 90 + chordAngle ), sin ( 90 + chordAngle ) ];
 	mainArcCenter = chordCenter + circleOffset * [ cos ( chordAngle ), sin ( chordAngle ) ];
 
-	translate ( [ TopPlate_edge, 0 ] ) {
+	translate ( [ 0, 0 ] ) {
 		difference () {
 			offset ( r = filletRadius ) {
 				offset ( r = -filletRadius ) {

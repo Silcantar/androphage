@@ -11,7 +11,7 @@ use <components/battery.scad>
 
 use <components/bottom_plate.scad>
 
-use <components/frame.scad>
+use <components/frame2.scad>
 
 use <components/center_block.scad>
 
@@ -101,9 +101,13 @@ module androphage_assembly( include_hinge = true ) {
 
 	/*				Case Frame				*/
 	if ( Frame_visible ) {
-		place_plate ( Frame_position ) {
-			color ( Frame_color ) {
-				frame();
+		translate ( Frame_position ) {
+			rotate ( [ 0, Halves_angles.y, 0 ] ) {
+				rotate ( [ 90, 0, -90 ] ) {
+					color ( Frame_color, 0.5 ) {
+						frame();
+					}
+				}
 			}
 		}
 	}
@@ -156,6 +160,7 @@ module androphage_assembly( include_hinge = true ) {
 		place_sensor () {
 			trackball_sensor();
 
+			// MCU piggybacking on trackball sensor PCB.
 			*translate ( [ 0, 0, 10 ] ) {
 				rotate ( [ 180, 180, 0 ] ) {
 					mcu();
@@ -168,6 +173,7 @@ module androphage_assembly( include_hinge = true ) {
 		translate ( MagCon_position ) {
 			magnetic_connector();
 
+			// MCU piggybacking on magnetic connector PCB.
 			translate ( [ 8, 8, -3 ] ) {
 				rotate ( [ 180, -90, 0 ] ) {
 					*battery( [ 12, 30, 3 ] );
@@ -177,16 +183,19 @@ module androphage_assembly( include_hinge = true ) {
 		}
 	}
 
+	// MCU directly at USB port location.
 	*translate ( [ 20, 84, 3 ] ) {
 		rotate ( [ 0, 0 + Halves_angles.y, 0 ] ) {
 			mcu();
 		}
 	}
 	
-	translate ( [ 20, 88, 11.3 ] ) {
-		rotate ( [ 0, Halves_angles.y, 0 ] )
-		rotate ( [ 0, 90, 100 ] ) {
-			battery();
+	if ( Battery_visible ) {
+		translate ( [ 20, 88, 11.3 ] ) {
+			rotate ( [ 0, Halves_angles.y, 0 ] )
+			rotate ( [ 0, 90, 100 ] ) {
+				battery();
+			}
 		}
 	}
 

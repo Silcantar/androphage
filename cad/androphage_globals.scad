@@ -54,13 +54,15 @@ include <library/screw_globals.scad>
 |							Component Visibility								|
 \*******************************************************************************/
 
-// Show the case frame.
-Frame_visible			= true;
+Battery_visible				= false;
 
 // Show the center block.
-CenterBlock_visible			= true;
+CenterBlock_visible			= false;
 
 Desk_visible				= false;
+
+// Show the case frame.
+Frame_visible				= true;
 
 // Show the hinge.
 Hinge_visible				= false;
@@ -70,10 +72,10 @@ Insert_visible				= true;
 // Show Keycaps.
 Keycap_visible				= false;
 
-MagCon_visible				= true;
+MagCon_visible				= false;
 
 // Show the PCB.
-PCB_visible					= true;
+PCB_visible					= false;
 
 // Show the bottom plate.
 BottomPlate_visible			= false;
@@ -93,10 +95,10 @@ Switch_visible				= false;
 Trackball_visible			= false;
 
 // Show the trackball BTUs.
-Trackball_BTU_visible		= true;
+Trackball_BTU_visible		= false;
 
 // Show the trackball sensor.
-Trackball_Sensor_visible	= true;
+Trackball_Sensor_visible	= false;
 
 /*******************************************************************************\
 |								Global Functions								|
@@ -904,4 +906,4 @@ BackHinge_position = [
 
 Frame_height = ( CenterBlock_height - BottomPlate_thickness ) * cos ( Halves_angles.y );
 
-Frame_position = [ 0, 0, BottomPlate_thickness ];
+Frame_position = [ 0, 0, 0 ];
