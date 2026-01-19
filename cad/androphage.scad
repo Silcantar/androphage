@@ -11,7 +11,7 @@ use <components/battery.scad>
 
 use <components/bottom_plate.scad>
 
-use <components/frame2.scad>
+use <components/frame.scad>
 
 use <components/center_block.scad>
 
@@ -101,10 +101,10 @@ module androphage_assembly( include_hinge = true ) {
 
 	/*				Case Frame				*/
 	if ( Frame_visible ) {
-		translate ( Frame_position ) {
+		translate ( Frame_position - [ 0, SwitchPlate_edge, 0 ] ) {
 			rotate ( [ 0, Halves_angles.y, 0 ] ) {
 				rotate ( [ 90, 0, -90 ] ) {
-					color ( Frame_color, 0.5 ) {
+					color ( Frame_color, 1 ) {
 						frame();
 					}
 				}
@@ -189,7 +189,7 @@ module androphage_assembly( include_hinge = true ) {
 			mcu();
 		}
 	}
-	
+
 	if ( Battery_visible ) {
 		translate ( [ 20, 88, 11.3 ] ) {
 			rotate ( [ 0, Halves_angles.y, 0 ] )

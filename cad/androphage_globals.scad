@@ -57,34 +57,34 @@ include <library/screw_globals.scad>
 Battery_visible				= false;
 
 // Show the center block.
-CenterBlock_visible			= false;
+CenterBlock_visible			= true;
 
-Desk_visible				= false;
+Desk_visible				= true;
 
 // Show the case frame.
 Frame_visible				= true;
 
 // Show the hinge.
-Hinge_visible				= false;
+Hinge_visible				= true;
 
 Insert_visible				= true;
 
 // Show Keycaps.
 Keycap_visible				= false;
 
-MagCon_visible				= false;
+MagCon_visible				= true;
 
 // Show the PCB.
-PCB_visible					= false;
+PCB_visible					= true;
 
 // Show the bottom plate.
-BottomPlate_visible			= false;
+BottomPlate_visible			= true;
 
 // Show the switch plate.
 SwitchPlate_visible			= true;
 
 // Show the Top Plate.
-TopPlate_visible			= false;
+TopPlate_visible			= true;
 
 Screw_visible				= true;
 
@@ -259,10 +259,18 @@ Battery_size = [ 12, 30, 3 ];
 
 /* [Case Frame] */
 
-Frame_color = Color_secondary;
+Frame_color = Color_primary;
+
+Frame_chordAngle = 5;
+
+Frame_filletRadius = 1;
+
+Frame_lipDepth = 1;
+
+Frame_mainRadius = 50;
 
 // Thickness of the case frame.
-Frame_thickness = 3; //[1:5]
+Frame_thickness = 5; //[1:5]
 
 /*******************************************************************************\
 |								Center Block									|
@@ -416,11 +424,11 @@ Halves_clearance = 1;
 Hinge_color = Color_steel;
 
 // Diameter of hinge pivot.
-Hinge_diameter = 0.174 * in_to_mm;	// 0.225 * in_to_mm;	// 
+Hinge_diameter = 0.174 * in_to_mm;	// 0.225 * in_to_mm;	//
 
 Hinge_knuckleDepth = 0.5 * in_to_mm;
 
-Hinge_pinDiameter = 3 / 32 * in_to_mm;	// 0.125 * in_to_mm;	// 
+Hinge_pinDiameter = 3 / 32 * in_to_mm;	// 0.125 * in_to_mm;	//
 
 // Hinge dimensions [ width, length, leaf thickness ].
 Hinge_size	= [ 17 / 32 * in_to_mm, 90, 0.04 * in_to_mm ];	//[50:1:200]
@@ -590,7 +598,7 @@ SwitchPlate_color = Color_secondary;
 SwitchPlate_clearance = 0.2;
 
 // Distance from keys to edge of switch plate.
-SwitchPlate_edge		= 2; //[1:5]
+SwitchPlate_edge = 4; //[1:5]
 
 SwitchPlate_radius = 1;
 
@@ -601,7 +609,7 @@ TopPlate_color = Color_primary;
 // Top plate thickness. 1.6 mm is the minimum for anodizing at SendCutSend.
 TopPlate_thickness = 1.2; //[1.0:0.2:2.0]
 
-TopPlate_edge = SwitchPlate_edge + Frame_thickness;
+TopPlate_edge = SwitchPlate_edge + Frame_lipDepth;
 
 // Fillet radius for the cutout in the top plate.
 TopPlate_innerRadius = 2; //[0.0:0.1:5.0]
@@ -614,11 +622,8 @@ Plate_centerArcRadius = 20;	//[10:50]
 // Radius of the arc at the back of the keyboard.
 Plate_backArcRadius = 120;	//[50:200]
 
-// Radius of the arc at the front outer corner of the keyboard.
-Plate_outerArcRadius = 20;	//[10:50]
-
 // Fillet radius for the outside corners of the plates.
-Plate_outerRadius = 3;
+Plate_outerRadius = Frame_lipDepth;
 
 /*******************************************************************************\
 |									Switches									|
@@ -791,7 +796,7 @@ Column_connectors = [
 	[ 0, 0 ],
 ];
 
-BottomPlate_edge = SwitchPlate_edge + Frame_thickness;
+BottomPlate_edge = SwitchPlate_edge + Frame_lipDepth;
 
 SwitchPlate_thickness = Key_MXspacing ? 1.6 : 1.2;
 
@@ -884,26 +889,38 @@ Trackball_position = [
 
 FrontHinge_length = Trackball_position.y - Trackball_diameter / 2 - Trackball_clearance + TopPlate_edge;
 
-FrontHinge_position = [ 
-	0, 
-	FrontHinge_length / 2 - TopPlate_edge, 
-	CenterBlock_height + Hinge_diameter / 2 - Hinge_size.z * cos ( Halves_angles.y ) 
+FrontHinge_position = [
+	0,
+	FrontHinge_length / 2 - TopPlate_edge,
+	CenterBlock_height + Hinge_diameter / 2 - Hinge_size.z * cos ( Halves_angles.y )
 ];
 
 BackHinge_length = (
-	+ Hinge_size.y 
-	- Trackball_position.y 
+	+ Hinge_size.y
+	- Trackball_position.y
 	- Trackball_diameter / 2
-	- Trackball_clearance 
+	- Trackball_clearance
 	+ TopPlate_edge
 );
 
 BackHinge_position = [
-	0, 
-	Hinge_size.y - BackHinge_length / 2 + TopPlate_edge, 
-	CenterBlock_height + Hinge_diameter / 2 - Hinge_size.z * cos ( Halves_angles.y ) 
+	0,
+	Hinge_size.y - BackHinge_length / 2 + TopPlate_edge,
+	CenterBlock_height + Hinge_diameter / 2 - Hinge_size.z * cos ( Halves_angles.y )
 ];
 
-Frame_height = ( CenterBlock_height - BottomPlate_thickness ) * cos ( Halves_angles.y );
+Frame_height = ( CenterBlock_height + TopPlate_thickness ) * cos ( Halves_angles.y );
+
+Frame_size = [ Frame_thickness, Frame_height ];
 
 Frame_position = [ 0, 0, 0 ];
+
+Plate_outerArcChord = [
+	Key_spacing.x + SwitchPlate_edge,
+	Key_spacing.y / 2
+];
+
+Plate_outerArcAngle = atan ( Plate_outerArcChord.y / Plate_outerArcChord.x );
+
+// Radius of the arc at the front outer corner of the keyboard.
+Plate_outerArcRadius = norm ( Plate_outerArcChord ) / 2 / sin ( Plate_outerArcAngle );	//[10:50]

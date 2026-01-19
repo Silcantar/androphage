@@ -325,7 +325,7 @@ module place_screws (
 
 function screw_positions_translated ( ) = [
 	for ( p = screw_positions() ) p - front_center_point()
-] * rot3d ( [ 0, 0, -Halves_angles.z ] ) ;
+] * rot3d ( [ 0, 0, -Halves_angles.z ] );
 
 function screw_positions ( ) = (
 	let (

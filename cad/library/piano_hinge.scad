@@ -3,39 +3,47 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-piano_hinge ( length = sin ( 360 * $t ) * 100 + 100, angle = 135 * sin ( 360 * $t ) - 45 );
+// Animated demo/test.
+piano_hinge (
+	length = sin ( 360 * $t ) * 100 + 100,
+	angle = 135 * sin ( 360 * $t ) - 45
+);
 
+// Create a piano hinge.
 module piano_hinge (
-	length, 
+	length,
 	angle			= 0,
 	center			= true,
 	clearance		= 0.1,
-	diameter		= 4, 
+	diameter		= 4,
 	knuckleLength	= 10,
+	leafColors		= [ "LightBlue", "Orange" ],
 	leafThickness	= 1,
 	leafWidth		= 10,
+	pinColor		= "LightGreen",
 	pinDiameter		= 2
 ) {
-	color ( "LightGreen" ) {
-		_piano_hinge_pin ( 
-			length		= length, 
+	// Pin
+	color ( pinColor ) {
+		_piano_hinge_pin (
+			length		= length,
 			clearance	= clearance,
-			pinDiameter	= pinDiameter 
+			pinDiameter	= pinDiameter
 		);
 	}
 
-	leaf_colors = [ "LightBlue", "Orange" ];
+	// Leaves
 	for ( side = [ 0, 1 ] ) {
 		rotate ( ( 2 * side - 1 ) * angle / 2 ) {
-			color ( leaf_colors[side] ) {
+			color ( leafColors[side] ) {
 				_piano_hinge_leaf (
 					center			= center,
 					clearance		= clearance,
-					diameter		= diameter, 
+					diameter		= diameter,
 					knuckleLength	= knuckleLength,
 					leafThickness	= leafThickness,
 					leafWidth		= leafWidth,
-					length 			= length, 
+					length 			= length,
 					pinDiameter		= pinDiameter,
 					side			= side
 				);
@@ -44,7 +52,7 @@ module piano_hinge (
 	}
 }
 
-module _piano_hinge_leaf ( 
+module _piano_hinge_leaf (
 	center,
 	clearance,
 	diameter,
@@ -61,20 +69,39 @@ module _piano_hinge_leaf (
 			cylinder ( d = diameter, h = length, center = true );
 
 			// Leaf
-			translate ( [ ( 2 * side - 1 ) * leafWidth / 2, ( diameter - leafThickness ) / 2, 0 ] ) {
+			translate ( [
+				( 2 * side - 1 ) * leafWidth / 2,
+				( diameter - leafThickness ) / 2,
+				0
+			] ) {
 				cube ( [ leafWidth, leafThickness, length ], center = true );
 			}
 		}
 
 		// Pin hole
 		translate ( [ 0, 0, -clearance ] ) {
-			cylinder ( d = pinDiameter, h = length + 2 * clearance, center = true );
+			cylinder (
+				d = pinDiameter,
+				h = length + 2 * clearance,
+				center = true
+			);
 		}
 
 		knuckle_count = floor ( length / knuckleLength / 2 );
 		for ( i = [ 0 : knuckle_count ], j = [ 1, -1 ] ) {
-			translate ( [ 0, 0, j * ( 2 * i + side ) * knuckleLength + ( center ? 0 : knuckleLength / 2 ) ] ) {
-				cube ( [ diameter, diameter, knuckleLength ] + clearance * [ 2, 2, 2 ], center = true );
+			translate ( [
+				0,
+				0,
+				j * ( 2 * i + side ) * knuckleLength + ( center ? 0 : knuckleLength / 2 )
+			] ) {
+				cube (
+					[
+						diameter,
+						diameter,
+						knuckleLength
+					] + clearance * [ 2, 2, 2 ],
+					center = true
+				);
 			}
 		}
 	}
