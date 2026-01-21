@@ -78,32 +78,32 @@ module _top_plate_sketch (
 			);
 		}
 
-		translate ( 
-			_front_arc_inner_end() 
-			+ TopPlate_edge * [ 
-				sin ( inner_thumb_key_angle() ), 
-				-cos ( inner_thumb_key_angle() ) 
-			] 
-			+ Key_spacing.x / 2 * [
-				-cos ( inner_thumb_key_angle() ),
-				-sin ( inner_thumb_key_angle() )
-			]
-		) {
-			rotate ( inner_thumb_key_angle() - 90 ) {
-				fillet_cutter2d ( innerRadius );
-			}
-		}
+		// translate ( 
+		// 	_front_arc_inner_end() 
+		// 	+ TopPlate_edge * [ 
+		// 		sin ( inner_thumb_key_angle() ), 
+		// 		-cos ( inner_thumb_key_angle() ) 
+		// 	] 
+		// 	+ Key_spacing.x / 2 * [
+		// 		-cos ( inner_thumb_key_angle() ),
+		// 		-sin ( inner_thumb_key_angle() )
+		// 	]
+		// ) {
+		// 	rotate ( inner_thumb_key_angle() - 90 ) {
+		// 		fillet_cutter2d ( innerRadius );
+		// 	}
+		// }
 
-		translate ( 
-			_front_middle_point() + [
-				Key_spacing.x / 2,
-				-TopPlate_edge
-			]
-		) {
-			rotate ( 180 ) {
-				fillet_cutter2d ( innerRadius );
-			}
-		}
+		// translate ( 
+		// 	_front_middle_point() + [
+		// 		Key_spacing.x / 2,
+		// 		-TopPlate_edge
+		// 	]
+		// ) {
+		// 	rotate ( 180 ) {
+		// 		fillet_cutter2d ( innerRadius );
+		// 	}
+		// }
 
 		// Subtract LED holes.
 		if ( LED_present ) {

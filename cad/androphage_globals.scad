@@ -48,6 +48,11 @@ ring	= 3;
 pinky	= 4;
 outer	= 5;
 
+// Axis "enum".
+x = "x";
+y = "y";
+z = "z";
+
 include <library/screw_globals.scad>
 
 /*******************************************************************************\
@@ -104,9 +109,6 @@ Trackball_Sensor_visible	= false;
 |								Global Functions								|
 \*******************************************************************************/
 
-// Get the index of the last member of a vector.
-function last ( vector ) = len ( vector ) - 1;
-
 // Create a dictionary from a list of key-value pairs.
 //
 // If there are duplicate keys in the list, only the value for the first key
@@ -115,6 +117,14 @@ function dictionary ( keyvals, key ) = [
 	for ( i = keyvals ) if ( i[0] == key ) i[1]
 ][0];
 
+// Get the index of the last member of a vector.
+function last ( vector ) = len ( vector ) - 1;
+
+// Vector Math.
+function product ( v, i = 0, r = 0 ) = ( i < len ( v ) ) ? product ( v, i + 1, r * v[i] ) : r;
+
+function sum ( v, i = 0, r = 0 ) = ( i < len ( v ) ) ? sum ( v, i + 1, r + v[i] ) : r;
+
 // Element-wise vector multiplication.
 function v_mul ( v1, v2 ) = [
 	for ( i = [ 0 : min ( last(v1), last(v2) ) ] ) (
@@ -122,15 +132,11 @@ function v_mul ( v1, v2 ) = [
 	)
 ];
 
+// Rotation Matrices.
 function rot2d ( angle ) = [
 	[ cos(angle),	-sin(angle)	],
 	[ sin(angle),	cos(angle)	],
 ];
-
-// Axis "enum".
-x = "x";
-y = "y";
-z = "z";
 
 // 3d rotation matrix.
 function rot3d ( angles ) = let (
@@ -268,6 +274,8 @@ Frame_filletRadius = 1;
 Frame_lipDepth = 1;
 
 Frame_mainRadius = 50;
+
+Frame_notchDepth = 4;
 
 // Thickness of the case frame.
 Frame_thickness = 5; //[1:5]

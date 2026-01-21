@@ -40,9 +40,20 @@ module multiextrude ( extrudes, convexity = 1 ) {
 		children ( profile );
 
 		multiextrude ( otherExtrudes, convexity = convexity ) {
-			children();
+			children(0);
+
+			if ( $children > 0 ) children(1);
+
+			if ( $children > 1 ) children(2);
+
+			if ( $children > 2 ) children(3);
 		}
 	}
+}
+
+module translate_on_path ( path ) {
+	// Finish this later. We're building an array of transformation matrices here.
+	transmat = [ for ( seg = path ) ( seg[0] == l ? 0 : 0 )];
 }
 
 // Choose which type of extrude to perform.
@@ -97,7 +108,7 @@ module _linear ( extrude, convexity ) {
 		}
 
 		if ( $children > 1 ) {
-			children( [1 : $children - 1 ] );
+			children( [ 1 : $children - 1 ] );
 		}
 	}
 }
