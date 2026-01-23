@@ -19,9 +19,72 @@ m = ET_M(); // Mitered corner
 r = ET_R(); // Rotate extrude (revolve)
 
 // Automatic colors for identifying extrusion segments.
-colors = [ "Red", "Orange", "Yellow", "Lime", "Green", "Cyan", "Blue", "Purple", "Magenta", "Pink" ];
+colors = [
+	"Red",
+	"Orange",
+	"Yellow",
+	"Lime",
+	"Green",
+	"Cyan",
+	"Blue",
+	"Purple",
+	"Magenta",
+	"Pink"
+];
 
 function get_color ( index ) = colors [ ( index / 3 - 1 ) % 10 ];
+
+function segment_to_transform ( seg ) = (
+	seg[0] == l ? trans ( [ 0, 0, -seg[1] ] ) :
+	seg[0] == m ? to_affine ( rot3d ( [ 0, -seg[2], 0 ] ) ) :
+	seg[0] == r && seg[1] < 0 ? trans ( [ -seg[1], 0, 0 ] ) * to_affine ( rot3d ( [ 0, -seg[2], 0 ] ) ) * trans ( [ seg[1], 0, 0 ] ) :
+	seg[0] == r && seg[1] >= 0 ? trans ( [ -seg[1], 0, 0 ] ) * to_affine ( rot3d ( [ 0, seg[2], 0 ] ) ) * trans ( [ seg[1], 0, 0 ] ) :
+	id ( 4 )
+);
+
+function path_to_transforms ( path ) = [ for ( seg = path ) segment_to_transform ( seg ) ];
+
+function path_to_points ( path ) = (
+	[ for ( i = [ 0 : len ( path ) - 1 ] ) product( path_to_transforms ( [ for ( j = [ 0 : i ] ) path[j] ] ) ) * [ 0, 0, 0, 1 ] ]
+);
+
+module path_to_polygon ( path ) {
+	points = path_to_points ( path );
+	// echo ( points );
+	points2d = [ for ( p = points ) [ p.x, p.z ] ];
+	// echo ( points2d );
+	polygon ( points2d );
+}
+
+module path_to_sketch ( path ) {
+	difference () {
+		union () {
+			path_to_polygon ( path );
+
+			for ( i = [ 0 : len ( path ) - 1 ] ) {
+				let ( seg = path[i] ) {
+					if ( seg[0] == r && seg[1] >= 0 ) {
+						echo(seg);
+						translate_on_path ( [ for ( j = [ 0 : i ] ) path[i] ] ) {
+							#circle ( r = seg[1] );
+						}
+					}
+				}
+			}
+		}
+
+		for ( i = [ 0 : len ( path ) - 1 ] ) {
+			let ( seg = path[i] ) {
+				if ( seg[0] == r && seg[1] < 0 ) {
+					echo(seg);
+					translate_on_path ( [ for ( j = [ 0 : i ] ) path[i] ] ) {
+						#circle ( r = abs ( seg[1] ) );
+					}
+				}
+			}
+		}
+	}
+}
 
 // Perform sequence of extrudes.
 // Extrude definition format:
@@ -51,15 +114,7 @@ module multiextrude ( extrudes, convexity = 1 ) {
 }
 
 module translate_on_path ( path ) {
-	transmat = product ( [ for ( seg = path )	//( i = [ len ( path ) - 1 : 0 ] ) let ( seg = path[i] )
-		seg[0] == l ? trans ( [ 0, 0, -seg[1] ] ) :
-		seg[0] == m ? to_affine ( rot3d ( [ 0, -seg[2], 0 ] ) ) :
-		seg[0] == r && seg[1] < 0 ? trans ( [ -seg[1], 0, 0 ] ) * to_affine ( rot3d ( [ 0, -seg[2], 0 ] ) ) * trans ( [ seg[1], 0, 0 ] ) : 
-		seg[0] == r && seg[1] >= 0 ? trans ( [ -seg[1], 0, 0 ] ) * to_affine ( rot3d ( [ 0, seg[2], 0 ] ) ) * trans ( [ seg[1], 0, 0 ] ) :
-		id ( 4 )
-	] );
-
-	echo ( transmat );
+	transmat = product ( path_to_transforms ( path ) );
 
 	multmatrix ( transmat ) {
 		children();
