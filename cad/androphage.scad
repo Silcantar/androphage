@@ -35,7 +35,7 @@ use <components/trackball.scad>
 
 use <components/trackball_sensor.scad>
 
-_do_mirror = false;
+_do_mirror = true;
 _do_rotate = false;
 
 translate ( -[ Trackball_position.x, Trackball_position.y, FrontHinge_position.z ] ) {

@@ -42,41 +42,45 @@ Plate_outerEdgeLength = (
 	+ ( 1 + cos ( Plate_backEdgeAngle ) ) * SwitchPlate_edge
 );
 
-cutter_height = Frame_notchDepth + Frame_filletRadius;
+cutter_height = Frame_notchDepth;
 
 frame_extrudes = [
 //		Type,	Height / Radius,							Angle,										Profile Number
-	[	r,		-Plate_backArcRadius,						43 - Plate_backArcAngle,					0,				],
-	[	r,		0,											43,											0,				],
-	[	l,		Plate_backEdgeLength,						0,											0,				],
-	[	r,		0,											Plate_backEdgeAngle,						0,				],
-	[	l,		Plate_outerEdgeLength,						0,											0,				],
-	[	r,		0,											90,											0,				],
-	[	r,		-Plate_outerArcRadius,						2 * Plate_outerArcAngle,					0,				],
-	[	r,		0,											2 * Plate_outerArcAngle,					0,				],
-	[	l,		2 * Key_spacing.x + cutter_height,			0,											0,				],
-	[	l,		Key_spacing.x / 2 - cutter_height,			0,											1,				],
-	[	r,		-Plate_frontArcRadius + SwitchPlate_edge,	inner_thumb_key_angle(),					1,				],
-	[	l,		Key_spacing.x / 2 - cutter_height,			0,											1,				],
-	[	l,		SwitchPlate_edge + cutter_height,			0,											0,				],
-	[	r,		0,											90,											0,				],
-	[	l,		SwitchPlate_edge,							0,											0,				],
-	[	r,		-Plate_centerArcRadius + SwitchPlate_edge,	inner_thumb_key_angle() + Halves_angles.z,	0,				],
-	[	l,		1	/* IDK where this comes from. */,		0,											0,				],
+	[	r,		-Plate_backArcRadius,						43 - Plate_backArcAngle,					0,				], //0
+	[	r,		0,											43,											0,				], //1
+	[	l,		Plate_backEdgeLength,						0,											0,				], //2
+	[	r,		0,											Plate_backEdgeAngle,						0,				], //3
+	[	l,		Plate_outerEdgeLength,						0,											0,				], //4
+	[	r,		0,											90,											0,				], //5
+	[	r,		-Plate_outerArcRadius,						2 * Plate_outerArcAngle,					0,				], //6
+	[	r,		0,											2 * Plate_outerArcAngle,					0,				], //7
+	[	l,		2 * Key_spacing.x + cutter_height,			0,											0,				], //8
+	[	l,		Key_spacing.x / 2 - cutter_height,			0,											1,				], //9
+	[	r,		-Plate_frontArcRadius + SwitchPlate_edge,	inner_thumb_key_angle(),					1,				], //10
+	[	l,		Key_spacing.x / 2 - cutter_height,			0,											1,				], //11
+	[	l,		SwitchPlate_edge + cutter_height,			0,											0,				], //12
+	[	r,		0,											90,											0,				], //13
+	[	l,		SwitchPlate_edge,							0,											0,				], //14
+	[	r,		-Plate_centerArcRadius + SwitchPlate_edge,	inner_thumb_key_angle() + Halves_angles.z,	0,				], //15
+	[	l,		4	/* IDK where this comes from. */,		0,											0,				], //16
 ];
 
 module frame () {
-	difference () {
-		multiextrude ( frame_extrudes, convexity = 2 ) {
-			_frame_sketch();
-			
-			_frame_sketch ( notch = true );
-		}
+	translate ( [ 0, 0, 3 ] ) {
+		difference () {
+			multiextrude ( frame_extrudes, convexity = 2 ) {
+				_frame_sketch();
+				
+				_frame_sketch ( notch = true );
+			}
 
-		translate_on_path ( [ for ( i = [ 15 : 16 ] ) frame_extrudes[i] ] ) {
-			translate ( [ 0, Frame_size.y, 0 ] ) {
-				rotate ( [ -90, 0, -90 ] ) {
-					#_notch_end_cutter();
+			for ( i = [ 12, 9 ] ) {
+				translate_on_path ( [ for ( j = [ 16 : -1 : i ] ) frame_extrudes[j] ] ) {
+					translate ( [ 0, Frame_size.y, 0 ] ) {
+						rotate ( [ -90, 0, -90 ] ) {
+							_notch_end_cutter();
+						}
+					}
 				}
 			}
 		}
@@ -92,6 +96,7 @@ module _frame_sketch (
 	notch			= false,
 	notchDepth		= Frame_notchDepth,
 	plateThickness	= TopPlate_thickness,
+	rebates			= true,
 	size			= Frame_size,
 ) {
 	chordLength = size.y / cos ( chordAngle );
@@ -121,25 +126,26 @@ module _frame_sketch (
 		}
 
 		// Plate rebates.
-		for ( ypos = [ -eps, size.y - plateThickness ] ) {
-			translate ( [ -eps, ypos ] ) {
-				square ( [ lipDepth + eps, plateThickness + eps ] );
+		if ( rebates ) {
+			for ( ypos = [ -eps, size.y - plateThickness ] ) {
+				translate ( [ -eps, ypos ] ) {
+					square ( [ lipDepth + eps, plateThickness + eps ] );
+				}
 			}
 		}
 	}
 }
 
 module _notch_end_cutter () {
-	rotate_extrude ( angle = 90 ) {
-		rotate ( 90 ) {
-			translate ( [ eps, -Frame_size.y - 2 * eps ] ) {
-				offset ( eps ) {
-					difference () {
-						_frame_sketch();
+	rotate_extrude ( angle = 360 ) {
+		difference () {
+			translate ( [ 0, -eps, 0 ] )
+			square ( [ 5, Frame_size.x + 2 * eps ] );
 
-						offset ( eps ) {
-							_frame_sketch ( notch = true );
-						}
+			rotate ( 90 ) {
+				translate ( [ eps, -Frame_size.y - Frame_notchDepth ] ) {
+					offset ( eps ) {
+						_frame_sketch ( rebates = false );
 					}
 				}
 			}

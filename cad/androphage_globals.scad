@@ -53,6 +53,7 @@ x = "x";
 y = "y";
 z = "z";
 
+include <library/math.scad>
 include <library/screw_globals.scad>
 
 /*******************************************************************************\
@@ -75,7 +76,7 @@ Hinge_visible				= true;
 Insert_visible				= true;
 
 // Show Keycaps.
-Keycap_visible				= false;
+Keycap_visible				= true;
 
 MagCon_visible				= true;
 
@@ -94,16 +95,16 @@ TopPlate_visible			= true;
 Screw_visible				= true;
 
 // Show the switches.
-Switch_visible				= false;
+Switch_visible				= true;
 
 // Show the trackball.
-Trackball_visible			= false;
+Trackball_visible			= true;
 
 // Show the trackball BTUs.
-Trackball_BTU_visible		= false;
+Trackball_BTU_visible		= true;
 
 // Show the trackball sensor.
-Trackball_Sensor_visible	= false;
+Trackball_Sensor_visible	= true;
 
 /*******************************************************************************\
 |								Global Functions								|
@@ -120,46 +121,6 @@ function dictionary ( keyvals, key ) = [
 // Get the index of the last member of a vector.
 function last ( vector ) = len ( vector ) - 1;
 
-// Vector Math.
-function product ( v, i = 0, r = 0 ) = ( i < len ( v ) ) ? product ( v, i + 1, r * v[i] ) : r;
-
-function sum ( v, i = 0, r = 0 ) = ( i < len ( v ) ) ? sum ( v, i + 1, r + v[i] ) : r;
-
-// Element-wise vector multiplication.
-function v_mul ( v1, v2 ) = [
-	for ( i = [ 0 : min ( last(v1), last(v2) ) ] ) (
-		v1[i] * v2[i]
-	)
-];
-
-// Rotation Matrices.
-function rot2d ( angle ) = [
-	[ cos(angle),	-sin(angle)	],
-	[ sin(angle),	cos(angle)	],
-];
-
-// 3d rotation matrix.
-function rot3d ( angles ) = let (
-	a = angles.z,
-	b = angles.y,
-	c = angles.x
-) [
-	[
-		cos(a) * cos(b),
-		cos(a) * sin(b) * sin(c) - sin(a) * cos(c),
-		cos(a) * sin(b) * cos(c) - sin(a) * sin(c),
-	],
-	[
-		sin(a) * cos(b),
-		sin(a) * sin(b) * sin(c) + cos(a) * cos(c),
-		sin(a) * sin(b) * cos(c) - cos(a) * sin(c),
-	],
-	[
-		-sin(b),
-		cos(b) * sin(c),
-		cos(b) * cos(c),
-	],
-];
 
 /*******************************************************************************\
 |								Global Modules									|

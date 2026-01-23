@@ -3,8 +3,7 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-/*
-*/
+include <math.scad>
 
 // "Enum" of extrude types.
 // May be used whether you are "use"-ing or "include"-ing this library.
@@ -52,8 +51,19 @@ module multiextrude ( extrudes, convexity = 1 ) {
 }
 
 module translate_on_path ( path ) {
-	// Finish this later. We're building an array of transformation matrices here.
-	transmat = [ for ( seg = path ) ( seg[0] == l ? 0 : 0 )];
+	transmat = product ( [ for ( seg = path )	//( i = [ len ( path ) - 1 : 0 ] ) let ( seg = path[i] )
+		seg[0] == l ? trans ( [ 0, 0, -seg[1] ] ) :
+		seg[0] == m ? to_affine ( rot3d ( [ 0, -seg[2], 0 ] ) ) :
+		seg[0] == r && seg[1] < 0 ? trans ( [ -seg[1], 0, 0 ] ) * to_affine ( rot3d ( [ 0, -seg[2], 0 ] ) ) * trans ( [ seg[1], 0, 0 ] ) : 
+		seg[0] == r && seg[1] >= 0 ? trans ( [ -seg[1], 0, 0 ] ) * to_affine ( rot3d ( [ 0, seg[2], 0 ] ) ) * trans ( [ seg[1], 0, 0 ] ) :
+		id ( 4 )
+	] );
+
+	echo ( transmat );
+
+	multmatrix ( transmat ) {
+		children();
+	}
 }
 
 // Choose which type of extrude to perform.
