@@ -5,7 +5,7 @@
 
 include <../androphage_globals.scad>
 
-use <../library/multiextrude.scad>
+use <../library/path.scad>
 
 use <plates_common.scad>
 
@@ -16,16 +16,15 @@ l = ET_L(); // Linear extrude
 m = ET_M(); // Mitered corner
 r = ET_R(); // Rotate extrude (revolve)
 
-frame();
-
-!path_to_sketch ( frame_extrudes );
-
-fill()
-multiextrude ( frame_extrudes ) {
-	square ( [Plate_outerRadius, BottomPlate_thickness] );
-	square ( [Plate_outerRadius, BottomPlate_thickness] );
+rotate ( [ 90, 0, -90 ] ) {
+	frame();
 }
 
+rotate ( [ 180, 0, -90 ] ) {
+	translate ( [ 0, 3, 0 ] ) {
+		path_to_sketch ( frame_extrudes );
+	}
+}
 
 Plate_backEdgeAngle = atan ( ( 2 * Key_spacing.x ) / Key_spacing.y );
 
@@ -53,11 +52,11 @@ Plate_outerEdgeLength = (
 
 cutter_height = Frame_notchDepth;
 
-extra_length = 3;
+Frame_extraLength = 3;
 
 frame_extrudes = [
 //		Type,	Height / Radius,							Angle,										Profile Number
-	[	l,		extra_length,								0,											0,				], //0
+	[	l,		Frame_extraLength,							0,											0,				], //0
 	[	r,		-Plate_backArcRadius,						43 - Plate_backArcAngle,					0,				], //1
 	[	r,		0,											43,											0,				], //2
 	[	l,		Plate_backEdgeLength,						0,											0,				], //3
@@ -74,13 +73,13 @@ frame_extrudes = [
 	[	r,		0,											90,											0,				], //14
 	[	l,		SwitchPlate_edge,							0,											0,				], //15
 	[	r,		-Plate_centerArcRadius + SwitchPlate_edge,	inner_thumb_key_angle() + Halves_angles.z,	0,				], //16
-	[	l,		extra_length + 1,							0,											0,				], //17
+	[	l,		Frame_extraLength + 1,						0,											0,				], //17
 ];
 
 module frame () {
-	translate ( [ 0, 0, extra_length ] ) {
+	translate ( [ 0, 0, Frame_extraLength ] ) {
 		difference () {
-			multiextrude ( frame_extrudes, convexity = 2 ) {
+			sweep ( frame_extrudes, convexity = 2 ) {
 				_frame_sketch();
 
 				_frame_sketch ( notch = true );
@@ -96,7 +95,7 @@ module frame () {
 				}
 			}
 
-			translate ( [ 0, 0, -extra_length ] ) {
+			translate ( [ 0, 0, -Frame_extraLength ] ) {
 				rotate ( [ Halves_angles.y, 0, 0 ] ) {
 					translate ( [ -110, -5, 0 ] ) {
 						cube ( [ 120, 30, 10 ] );
