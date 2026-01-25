@@ -159,7 +159,7 @@ module _notch_end_cutter () {
 	rotate_extrude ( angle = 360 ) {
 		difference () {
 			translate ( [ 0, -eps, 0 ] )
-			square ( [ 5, Frame_size.x + 2 * eps ] );
+			square ( [ Frame_notchDepth + Frame_filletRadius + eps, Frame_size.x + 2 * eps ] );
 
 			rotate ( 90 ) {
 				translate ( [ eps, -Frame_size.y - Frame_notchDepth ] ) {
