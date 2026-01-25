@@ -1,203 +1,551 @@
 /*******************************************************************************\
-|							Assembly of Androphage keyboard.					|
+|																				|
+|						Parameters for Androphage keyboard.						|
 |							Copyright 2026 Joshua Lucas 						|
+|																				|
+|	Length Unit:	millimeter													|
+|	Angle Unit:		degree														|
+|																				|
+|	* Terminology *																|
+|		x-axis name:	"width" 	/	"inner"	- "outer"						|
+|		y-axis name:	"depth" 	/	"front"	- "back"						|
+|		z-axis name:	"height"	/	"top"	- "bottom"						|
+|																				|
+|		"center": between the halves.											|
+|		"middle": in the middle of a given half (i.e. near the middle finger).	|
+|																				|
+|	* Naming Conventions *														|
+|		Modules & Functions:	snake_case										|
+|			Example:	module center_block ( ... ) { ... }						|
+|		Global Variables:		PascalCaseObject_camelCaseProperty				|
+|			Example:	CenterBlock_wallThickness								|
+|		Function parameters:	camelCaseObject_camelCaseProperty				|
+|																				|
+|	Prepend an underscore for local-scope items.								|
+|																				|
 \*******************************************************************************/
 
-// $preview = false;
+// include <library/screw_globals.scad>
 
-include <androphage_globals.scad>
+// use <library/math.scad>
 
-use <components/battery.scad>
+/* [Hidden] */
 
-use <components/bottom_plate.scad>
+/*******************************************************************************\
+|									Config										|
+\*******************************************************************************/
 
-use <components/frame.scad>
+// Rendering parameters.
+$fa = $preview ? 10 : 1;
+$fs = $preview ? 1	: 0.1;
 
-use <components/center_block.scad>
+// Test boolean.
+$test = false;
 
-use <components/hinge.scad>
+/*******************************************************************************\
+|									Constants									|
+\*******************************************************************************/
 
-use <components/keys.scad>
+// Very small amount.
+eps = 0.01;
 
-use <components/magnetic_connector.scad>
+// Number of millimeters in an inch.
+INCH = 25.4;
 
-use <components/mcu.scad>
+/*******************************************************************************\
+|									Enums										|
+\*******************************************************************************/
 
-use <components/pcb.scad>
+// Fingers/columns.
+inner	= 0;
+index	= 1;
+middle	= 2;
+ring	= 3;
+pinky	= 4;
+outer	= 5;
 
-use <components/plates_common.scad>
+// Axes.
+axis = [
+	[ 1, 0, 0 ], // x
+	[ 0, 1, 0 ], // y
+	[ 0, 0, 1 ], // z
+];
 
-use <components/switch_plate.scad>
+// Switch types.
+switch_chocv1	= "chocv1";
+switch_chocv2	= "chocv2";
+switch_mx		= "mx";
+switch_glp		= "glp"; // That's Gateron Low Profile (KS-33).
 
-use <components/top_plate.scad>
+// Choc V1 color schemes.
+switch_red		= 0;
+switch_blue		= 1;
+switch_brown	= 2;
+switch_prored	= 3;
+switch_pink		= 4;
+switch_robin	= 5;
+switch_sunset	= 6;
+switch_twilight	= 7;
+switch_nocturnal= 8;
+switch_sunrise	= 9;
+switch_bokeh	= 10;
 
-use <components/trackball.scad>
+/*******************************************************************************\
+|							Component Visibility								|
+\*******************************************************************************/
 
-use <components/trackball_sensor.scad>
+// Show the left half of the keyboard.
+do_mirror = true;
 
-_do_mirror = true;
-_do_rotate = false;
+// Animate the opening and closing of the keyboard.
+do_rotate = false;
 
-translate ( -[ Trackball_position.x, Trackball_position.y, FrontHinge_position.z ] ) {
-	androphage_assembly();
-}
+/* [Component Visibility] */
 
-if ( _do_mirror ) {
-	rotate ( [ 0, _do_rotate ? 180 + 2 * Halves_angles.y : 0, 0 ] ) {
-		translate ( -[ Trackball_position.x, Trackball_position.y, FrontHinge_position.z ] ) {
-			mirror ( [ 1, 0, 0 ] ) {
-				androphage_assembly( include_hinge = false );
-			}
-		}
-	}
-}
+Battery_visible				= false;
 
-// Desk
-if ( Desk_visible ) {
-	translate ( Desk_position ) {
-		color ( Desk_color ) {
-			cube ( Desk_size, center = true );
-		}
-	}
-}
+// Show the center block.
+CenterBlock_visible			= true;
 
+// Show the desk.
+Desk_visible				= true;
 
-module androphage_assembly( include_hinge = true ) {
-	/*				Bottom Plate				*/
-	if ( BottomPlate_visible ) {
-		place_plate () {
-			color ( BottomPlate_color ) {
-				bottom_plate();
-			}
-		}
-	}
+// Show the case frame.
+Frame_visible				= true;
 
-	/*				PCB				*/
-	if ( PCB_visible ) {
-		place_plate ( PCB_position ) {
-			color ( PCB_color, 1 ) {
-				pcb ( zpos = PCB_position.z );
-			}
-		}
-	}
+// Show the hinge.
+Hinge_visible				= true;
 
-	/*				Switch Plate				*/
-	if ( SwitchPlate_present && SwitchPlate_visible ) {
-		place_plate ( SwitchPlate_position ) {
-			color ( SwitchPlate_color, 1 ) {
-				switch_plate ( zpos = SwitchPlate_position.z );
-			}
-		}
-	}
+Insert_visible				= true;
 
-	/*				Top Plate				*/
-	if ( TopPlate_visible ) {
-		place_plate ( TopPlate_position ) {
-			color ( TopPlate_color ) {
-				top_plate ( zpos = TopPlate_position.z );
-			}
-		}
-	}
+// Show Keycaps.
+Keycap_visible				= false;
 
-	/*				Case Frame				*/
-	if ( Frame_visible ) {
-		translate ( Frame_position - [ 0, SwitchPlate_edge, 0 ] ) {
-			rotate ( [ 0, Halves_angles.y, 0 ] ) {
-				rotate ( [ 90, 0, -90 ] ) {
-					color ( Frame_color, 1 ) {
-						frame();
-					}
-				}
-			}
-		}
-	}
+// Show the magnetic connector.
+MagCon_visible				= true;
 
-	/*				Center Block				*/
-	if ( CenterBlock_visible ) {
-		color ( CenterBlock_color ) {
-			center_block();
-		}
-	}
+// Show the PCB.
+PCB_visible					= true;
 
-	if ( Hinge_visible && include_hinge ) {
-		color ( Hinge_color ) {
-			translate ( FrontHinge_position ) {
-				// rotate ( [ -90, 0, 0 ] ) {
-						hinge (
-							length	= FrontHinge_length,
-							angle	= Halves_angles.y * 2
-						);
-					// }
-				}
+// Show the bottom plate.
+BottomPlate_visible			= true;
 
-			translate ( BackHinge_position ) {
-				// rotate ( [ -90, 0, 0 ] ) {
-					hinge (
-						length	= BackHinge_length,
-						angle	= Halves_angles.y * 2,
-						center	= false,
-						front	= false
-					);
-				// }
-			}
-		}
-	}
+// Show the switch plate.
+SwitchPlate_visible			= true;
 
-	/*				Trackball				*/
-	if ( Trackball_visible ) {
-		translate ( Trackball_position ) {
-			trackball ( centers = false );
-		}
-	}
+// Show the Top Plate.
+TopPlate_visible			= true;
 
-	if ( Trackball_BTU_visible ) {
-		color ( Trackball_BTU_color ) {
-			place_btus();
-		}
-	}
+Screw_visible				= true;
 
-	if ( Trackball_Sensor_visible ) {
-		place_sensor () {
-			trackball_sensor();
+// Show the switches.
+Switch_visible				= true;
 
-			// MCU piggybacking on trackball sensor PCB.
-			*translate ( [ 0, 0, 10 ] ) {
-				rotate ( [ 180, 180, 0 ] ) {
-					mcu();
-				}
-			}
-		}
-	}
+// Show the trackball.
+Trackball_visible			= true;
 
-	if ( MagCon_visible ) {
-		translate ( MagCon_position ) {
-			magnetic_connector();
+// Show the trackball BTUs.
+Trackball_BTU_visible		= true;
 
-			// MCU piggybacking on magnetic connector PCB.
-			translate ( [ 8, 8, -3 ] ) {
-				rotate ( [ 180, -90, 0 ] ) {
-					*battery( [ 12, 30, 3 ] );
-					mcu();
-				}
-			}
-		}
-	}
+// Show the trackball sensor.
+Trackball_Sensor_visible	= true;
 
-	// MCU directly at USB port location.
-	*translate ( [ 20, 84, 3 ] ) {
-		rotate ( [ 0, 0 + Halves_angles.y, 0 ] ) {
-			mcu();
-		}
-	}
+/*******************************************************************************\
+|									Battery										|
+\*******************************************************************************/
 
-	if ( Battery_visible ) {
-		translate ( [ 20, 88, 11.3 ] ) {
-			rotate ( [ 0, Halves_angles.y, 0 ] )
-			rotate ( [ 0, 90, 100 ] ) {
-				battery();
-			}
-		}
-	}
+/* [Battery] */
 
-	keys();
-}
+Battery_size = [ 12, 30, 3 ];
+
+/*******************************************************************************\
+|									Case Frame									|
+\*******************************************************************************/
+
+/* [Case Frame] */
+
+Frame_chordAngle = 5;
+
+Frame_filletRadius = 1;
+
+Frame_lipDepth = 1;
+
+Frame_mainRadius = 50;
+
+Frame_notchDepth = 6;
+
+// Thickness of the case frame.
+Frame_thickness = 5; //[1:5]
+
+/*******************************************************************************\
+|								Center Block									|
+\*******************************************************************************/
+
+/* [Center Block] */
+
+// Width and height of the strengthening ribs of the center block.
+CenterBlock_ribSize = [ 2, 2 ]; //[1:5]
+
+// Number of screws that screw into the top and bottom of the center block.
+CenterBlock_screwCount = 3;
+
+// Thickness of the center wall
+CenterBlock_wallThickness = 2; //[1:10]
+
+/*******************************************************************************\
+|									Columns										|
+\*******************************************************************************/
+
+/* [Column Key Counts] */
+// Number of keys in the inner index finger column.
+Column_inner_count	= 3;	//[1:4]
+// Number of keys in the index finger column.
+Column_index_count	= 4;	//[1:5]
+// Number of keys in the middle finger column.
+Column_middle_count	= 4;	//[1:5]
+// Number of keys in the ring finger column.
+Column_ring_count	= 4;	//[1:5]
+// Number of keys in the pinky finger column.
+Column_pinky_count	= 3;	//[1:5]
+// Number of keys in the outer pinky finger column.
+Column_outer_count	= 0;	//[0:5]
+
+/* [Column Offsets] */
+// Distance that keys in the inner index finger column are offset depthward.
+Column_inner_offset		= 1;	//[1:0.125:2]
+// Distance that keys in the index finger column are offset depthward.
+Column_index_offset		= 0;	//[-1:0.125:2]
+// Distance that keys in the middle finger column are offset depthward.
+Column_middle_offset	= 0.5;	//[-1:0.125:2]
+// Distance that keys in the ring finger column are offset depthward.
+Column_ring_offset		= 0;	//[-1:0.125:2]
+// Distance that keys in the pinky finger column are offset depthward.
+Column_pinky_offset		= 0.5;	//[-1:0.125:2]
+// Distance that keys in the outer pinky finger column are offset depthward.
+Column_outer_offset		= 0.5;	//[-1:0.125:2]
+
+/*******************************************************************************\
+|										Desk									|
+\*******************************************************************************/
+
+/* [Desk] */
+
+Desk_size = [ 300, 200, 1 ];
+
+Desk_position = [ 0, 0, -40 ];
+
+/*******************************************************************************\
+|									Fasteners									|
+\*******************************************************************************/
+
+/* [Screws] */
+
+// M2 screw shaft major diameter.
+Screw_diameter = 2;
+
+// M2 screw shaft minor diameter.
+Screw_minorDiameter = 1.6;
+
+// M2 screw head diameter.
+Screw_headDiameter = 4;
+
+// Screw countersink angle.
+Screw_headAngle = 90;
+
+// Distance screws are inset from the plate edge.
+Screw_offset = 3;
+
+/* [Heat-set Inserts] */
+
+// Heat-sink insert outer diameter.
+Insert_diameter = 3;
+
+// Heat-sink insert height.
+Insert_height = 3;
+
+Insert_holeDiameter = 2.8;
+
+Insert_holeDepth = 4;
+
+Insert_wallThickness = 1.6;
+
+/*******************************************************************************\
+|									Halves										|
+\*******************************************************************************/
+
+/* [Halves] */
+// Halves Angles
+Halves_angles	= [0, 7, 15];	//[-45:45]
+
+Halves_clearance = 1;
+
+/*******************************************************************************\
+|									Hinge										|
+\*******************************************************************************/
+
+/* [Hinge] */
+
+// Unlike keyboard components, hinges available in the US are mostly sized in
+// inches.
+Hinge_unit = "inch"; //["inch", "mm"]
+
+// Outer diameter of hinge pivot.
+Hinge_diameter = 0.174;	//[]
+
+// Length of each hinge knuckle.
+Hinge_knuckleDepth = 0.5; //[0:0.1:1]
+
+// Hinge leaf thickness.
+Hinge_leafThickness = 0.04; //[0.01:0.01:0.1]
+
+// Hinge leaf width.
+Hinge_leafWidth	= 0.53125;	//[0.03125:0.03125:1]
+
+// Diameter of hinge pin.
+Hinge_pinDiameter = 0.09375;	//[0.03125:0.03125:1]
+
+/*******************************************************************************\
+|									Keycaps										|
+\*******************************************************************************/
+
+/* [Keycaps] */
+
+// Space between keycaps.
+Keycap_clearance = 0.5; //[0:0.1:1]
+
+// Test clearance between keycaps and case.
+Keycap_testClearance = false;
+
+// Keycap profile
+Keycap_profile = "lamé"; //[ "cherry", "dsa", "lamé", "mbk", "steno" ]
+
+// Styles for KLP Lamé keycaps.
+Keycap_saddle = false;
+
+// Should the frontmost key in the index column be pressed by the thumb?
+Keycap_fiveThumbKeys = true;
+
+/*******************************************************************************\
+|									LEDs										|
+\*******************************************************************************/
+
+/* [LEDs] */
+LED_present = true;
+
+LED_count = 4;
+
+LED_holeShape = "square";
+
+LED_holeSize = [ 3, 3 ];
+
+LED_holeSpacing = [ 4.5, 0 ];
+
+LED_position_y = 13;
+
+/*******************************************************************************\
+|								Magnetic Connector								|
+\*******************************************************************************/
+
+// Size of the main body of the magnetic connector.
+MagCon_size			= [ 4.7, 26.5, 6.0 ];
+
+// Size of the lip around the magnetic connector.
+MagCon_lip			= [ 1.0, 28.5, 8.0 ];
+
+// Distance between the lip and the face of the connector.
+MagCon_lipOffset	= 1.0;
+
+MagCon_pcbSize = [ 1.6, 36.5, 10 ];
+
+/*******************************************************************************\
+|										MCU										|
+\*******************************************************************************/
+
+MCU_chipSize = [ 12, 10, 1.5 ];
+
+MCU_radius = 2;
+
+MCU_size = [ 17.8, 21, 1.6 ];
+
+MCU_usbOverhang = 1.5;
+
+MCU_usbRadius = 1.2;
+
+MCU_usbSize = [ 9, 7.35, 3.2 ];
+
+/*******************************************************************************\
+|										PCBs									|
+\*******************************************************************************/
+
+/* [PCB] */
+
+PCB_color = "DarkGreen";
+
+// Distance from keys to edge of PCB.
+PCB_edge = 2;
+
+// PCB thickness.
+PCB_thickness = 1.2;	//[1:0.2:2]
+
+/*******************************************************************************\
+|									Plates										|
+\*******************************************************************************/
+
+/* [Bottom Plate] */
+
+// Thickness of the bottom plate.
+BottomPlate_thickness = 1.2;	//[1:0.2:2]
+
+// Clearance between the bottom plate and the PCB.
+BottomPlate_clearance = 3; //[1:10]
+
+/* [Switch Plate] */
+
+// Specify whether a switch plate will be used.
+SwitchPlate_present	= true;
+
+SwitchPlate_clearance = 0.2;
+
+// Distance from keys to edge of switch plate.
+SwitchPlate_edge = 4; //[1:5]
+
+SwitchPlate_radius = 1;
+
+/* [Top Plate] */
+
+// Top plate thickness. 1.6 mm is the minimum for anodizing at SendCutSend.
+TopPlate_thickness = 1.2; //[1.0:0.2:2.0]
+
+// Fillet radius for the cutout in the top plate.
+TopPlate_innerRadius = 2; //[0.0:0.1:5.0]
+
+/* [Plates Common] */
+
+// Radius of the arc at the front of the keyboard.
+Plate_centerArcRadius = 20;	//[10:50]
+
+// Radius of the arc at the back of the keyboard.
+Plate_backArcRadius = 120;	//[50:200]
+
+/*******************************************************************************\
+|									Switches									|
+\*******************************************************************************/
+
+/* [Switches] */
+
+// Radius for corners of switch openings in the switch plate.
+Switch_radius = 0.5;	//[0:0.1:1]
+
+Switch_type = "glp"; //["chocv1", "chocv2", "mx", "glp"]
+
+Switch_travel = 0;
+Switch_maxTravel = 3.3;
+
+Switch_colorScheme = "Sunset"; //["Red", "Blue", "Brown", "Pro Red", "Pink", "Robin", "Sunset", "Twilight", "Nocturnal", "Sunrise", "Bokeh"]
+
+// Color for Gateron Low-Profile (KS-33) switches.
+Switch_GLP_type = "Banana"; //["Banana", "Blue", "Brown", "Chocolate", "Red", "Aloe", "Cowberry", "Daisy", "Moss", "Panda", "Wisteria"]
+
+// Map GLP switch type to CSS colors.
+glp_colors = object ( [
+	[ "Banana",		[ "Khaki",				] ],
+	[ "Blue",		[ "Blue",				] ],
+	[ "Brown",		[ "SaddleBrown",		] ],
+	[ "Chocolate",	[ "Sienna",				] ],
+	[ "Red",		[ "Red",				] ],
+	[ "Aloe",		[ "YellowGreen",		] ],
+	[ "Cowberry",	[ "Crimson",			] ],
+	[ "Daisy",		[ "Salmon",				] ],
+	[ "Moss",		[ "DarkOliveGreen",		] ],
+	[ "Panda",		[ "Gray",				] ],
+	[ "Wisteria",	[ "MediumSlateBlue",	] ],
+] );
+
+/*******************************************************************************\
+|								Thumb Cluster									|
+\*******************************************************************************/
+
+/* [Thumb Cluster] */
+
+// Angle between adjacent thumb keys.
+Cluster_angle		= 10; //[0:1:30]
+
+// Number of keys in the inner two thumb columns.
+Cluster_columnCounts	= [1, 2, 1];	//[1:2]
+
+// Offset distance of the inner two thumb columns.
+Cluster_columnOffsets	= [0, 0, 0];	//[0:0.125:1]
+
+// This drives the spacing between the thumb keys.
+Cluster_radius	= 6.5; //[0:0.25:10]
+
+Cluster_cutouts = [ 1, 1, 1 ];
+
+/*******************************************************************************\
+|									Trackball									|
+\*******************************************************************************/
+
+/* [Trackball] */
+
+// Trackball diameter
+Trackball_diameter = 35;	//[25:1:50]
+
+// Trackball position
+Trackball_position_y = 63;	//[0:200]
+
+// Trackball clearance
+Trackball_clearance = 1;	//[0:0.1:2]
+
+/* [Trackball Sensor] */
+
+// Trackball sensor PCB size.
+Trackball_Sensor_pcbSize_xy = [ 16, 25 ]; //[0:30]
+
+// Trackball sensor IC size.
+Trackball_Sensor_size = [ 10.9, 16.2, 1.65 ];
+
+// Trackball sensor lens size.
+Trackball_Sensor_lensSize = [ 8.6, 16.96, 3.4 ];
+
+// Distance between trackball sensor lens and trackball.
+Trackball_Sensor_clearance = 2.4;
+
+// Diameter of the opening in the trackball case.
+Trackball_Sensor_holeSize = 8;
+
+// Angle of the trackball sensor from horizontal.
+Trackball_Sensor_angle = 60; //[30:5:90]
+
+// Size of trackball sensor holding feature.
+Trackball_Sensor_holderHeight = 15;
+
+// Thickness of trackball sensor holding feature.
+Trackball_Sensor_holderThickness = 5;
+
+/* [Trackball BTU] */
+
+// Trackball BTU main diameter
+Trackball_BTU_D1	= 7.5;
+
+// Trackball BTU upper ring diameter
+Trackball_BTU_D		= 9;
+
+// Trackball BTU main height
+Trackball_BTU_L		= 4;
+
+// Trackball BTU upper ring height
+Trackball_BTU_H		= 1;
+
+// Trackball BTU ball height
+Trackball_BTU_L1	= 1.1;
+
+// Trackball BTU ball diameter
+Trackball_BTU_d		= 4;
+
+/*******************************************************************************\
+|									Assembly									|
+\*******************************************************************************/
+
+include <objects.scad>
+
+include <assembly.scad>
