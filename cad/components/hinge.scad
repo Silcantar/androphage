@@ -26,8 +26,8 @@ module hinge (
 				clearance		= eps,
 				diameter		= Hinge_diameter, 
 				knuckleLength	= Hinge_knuckleDepth,
-				leafThickness	= Hinge_size.z,
-				leafWidth		= Hinge_size.x,
+				leafThickness	= Hinge_leafThickness,
+				leafWidth		= Hinge_leafWidth,
 				pinDiameter		= Hinge_pinDiameter
 			);
 		}
