@@ -5,7 +5,11 @@
 
 include <../androphage_globals.scad>
 
+// use <frame.scad>
+
 use <plates_common.scad>
+
+use <../library/path.scad>
 
 use <../library/screw.scad>
 
@@ -22,11 +26,12 @@ module bottom_plate (
 			mirror ( [ 0, 0, 1 ]) {
 				difference () {
 					linear_extrude ( height = thickness ) {
-						plate_sketch (
-							edge		= edge,
-							radius		= outerRadius,
-							zpos		= zpos,
-						);
+						path_to_sketch ( frame_extrudes );
+						// plate_sketch (
+						// 	edge		= edge,
+						// 	radius		= outerRadius,
+						// 	zpos		= zpos,
+						// );
 					}
 
 					// Subtract coutersunk screw holes for rendering / CNC milling.
