@@ -19,50 +19,55 @@ CenterBlock = object ( [
 	[ "ribSize",		CenterBlock_ribSize			],
 	[ "screwCount",		CenterBlock_screwCount		],
 	[ "wallThickness",	CenterBlock_wallThickness	],
-	// [ "width",			CenterBlock_width			],
 ] );
 
 /*******************************************************************************\
 |									Columns										|
 \*******************************************************************************/
 
-Column_inner = object ( [
+Column_Inner = object ( [
 	[ "count",	Column_inner_count	],
 	[ "offset",	Column_inner_offset	],
 ] );
 
-Column_index = object ( [
+Column_Index = object ( [
 	[ "count",	Column_index_count	],
 	[ "offset",	Column_index_offset	],
 ] );
 
-Column_middle = object ( [
+Column_Middle = object ( [
 	[ "count",	Column_middle_count		],
 	[ "offset",	Column_middle_offset	],
 ] );
 
-Column_ring = object ( [
+Column_Ring = object ( [
 	[ "count",	Column_ring_count	],
 	[ "offset",	Column_ring_offset	],
 ] );
 
-Column_pinky = object ( [
+Column_Pinky = object ( [
 	[ "count",	Column_pinky_count	],
 	[ "offset",	Column_pinky_offset	],
 ] );
 
-Column_outer = object ( [
+Column_Outer = object ( [
 	[ "count",	Column_outer_count	],
 	[ "offset",	Column_outer_offset	],
 ] );
 
-Columns = object ( [
-	[ "inner",	Column_inner	],
-	[ "index",	Column_index	],
-	[ "middle",	Column_middle	],
-	[ "ring",	Column_ring		],
-	[ "pinky",	Column_pinky	],
-	[ "outer",	Column_outer	],
+Column = object ( [
+	[ "Inner",		Column_Inner		],
+	[ "Index",		Column_Index		],
+	[ "Middle",		Column_Middle		],
+	[ "Ring",		Column_Ring			],
+	[ "Pinky",		Column_Pinky		],
+	[ "Outer",		Column_Outer		],
+	[ "last",		Column_last			],
+	[ "connectors",	Column_connectors	],
+	[ "count",		Column_count		],
+	[ "counts",		Column_counts		],
+	[ "cutouts",	Column_cutouts		],
+	[ "offsets",	Column_offsets		],
 ] );
 
 /*******************************************************************************\
@@ -199,6 +204,7 @@ MagCon = object ( [
 	[ "pcbSize",		MagCon_pcbSize		],
 	[ "pcbPosition",	MagCon_pcbPosition	],
 	[ "position",		MagCon_position		],
+	[ "size",			MagCon_size			],
 ] );
 
 /*******************************************************************************\
@@ -322,12 +328,14 @@ Trackball_Sensor = object ( [
 	[ "holeSize",			Trackball_Sensor_holeSize			],
 	[ "holderHeight",		Trackball_Sensor_holderHeight		],
 	[ "holderThickness",	Trackball_Sensor_holderThickness	],
+	[ "lensColor",			Color.clear							],
 	[ "lensSize",			Trackball_Sensor_lensSize			],
+	[ "opticalCenter",		Trackball_Sensor_opticalCenter		],
 	[ "pcbSize",			Trackball_Sensor_pcbSize			],
 	[ "size",				Trackball_Sensor_size				],
 ] );
 
-Trackball_= object ( [
+Trackball = object ( [
 	[ "BTU",		Trackball_BTU		],
 	[ "Sensor",		Trackball_Sensor	],
 	[ "clearance",	Trackball_clearance	],

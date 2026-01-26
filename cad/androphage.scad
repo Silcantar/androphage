@@ -275,7 +275,7 @@ LED_present = true;
 
 LED_count = 4;
 
-LED_holeShape = "square";
+LED_holeShape = "square"; //["square", "circle"]
 
 LED_holeSize = [ 3, 3 ];
 
