@@ -1,6 +1,6 @@
 /*******************************************************************************\
 |																				|
-|						Parameters for Androphage keyboard.						|
+|				Main File and Parameters for Androphage keyboard.				|
 |							Copyright 2026 Joshua Lucas 						|
 |																				|
 |	Length Unit:	millimeter													|
@@ -25,83 +25,16 @@
 |																				|
 \*******************************************************************************/
 
-// include <library/screw_globals.scad>
-
-// use <library/math.scad>
-
-/* [Hidden] */
-
-/*******************************************************************************\
-|									Config										|
-\*******************************************************************************/
-
-// Rendering parameters.
-$fa = $preview ? 10 : 1;
-$fs = $preview ? 1	: 0.1;
-
-// Test boolean.
-$test = false;
-
-/*******************************************************************************\
-|									Constants									|
-\*******************************************************************************/
-
-// Very small amount.
-eps = 0.01;
-
-// Number of millimeters in an inch.
-INCH = 25.4;
-
-/*******************************************************************************\
-|									Enums										|
-\*******************************************************************************/
-
-// Fingers/columns.
-inner	= 0;
-index	= 1;
-middle	= 2;
-ring	= 3;
-pinky	= 4;
-outer	= 5;
-
-// Axes.
-axis = [
-	[ 1, 0, 0 ], // x
-	[ 0, 1, 0 ], // y
-	[ 0, 0, 1 ], // z
-];
-
-// Switch types.
-switch_chocv1	= "chocv1";
-switch_chocv2	= "chocv2";
-switch_mx		= "mx";
-switch_glp		= "glp"; // That's Gateron Low Profile (KS-33).
-
-// Choc V1 color schemes.
-switch_red		= 0;
-switch_blue		= 1;
-switch_brown	= 2;
-switch_prored	= 3;
-switch_pink		= 4;
-switch_robin	= 5;
-switch_sunset	= 6;
-switch_twilight	= 7;
-switch_nocturnal= 8;
-switch_sunrise	= 9;
-switch_bokeh	= 10;
-
 /*******************************************************************************\
 |							Component Visibility								|
 \*******************************************************************************/
 
-// Show the left half of the keyboard.
-do_mirror = true;
-
-// Animate the opening and closing of the keyboard.
-do_rotate = false;
-
 /* [Component Visibility] */
 
+// Show the left half of the keyboard.
+LeftHalf_visible = true;
+
+// Show the battery.
 Battery_visible				= false;
 
 // Show the center block.
@@ -150,6 +83,9 @@ Trackball_BTU_visible		= true;
 // Show the trackball sensor.
 Trackball_Sensor_visible	= true;
 
+// Animate the opening and closing of the keyboard.
+do_rotate = false;
+
 /*******************************************************************************\
 |									Battery										|
 \*******************************************************************************/
@@ -176,6 +112,8 @@ Frame_notchDepth = 6;
 
 // Thickness of the case frame.
 Frame_thickness = 5; //[1:5]
+
+Frame_extraLength = 3;
 
 /*******************************************************************************\
 |								Center Block									|
@@ -294,6 +232,9 @@ Hinge_diameter = 0.174;	//[]
 
 // Length of each hinge knuckle.
 Hinge_knuckleDepth = 0.5; //[0:0.1:1]
+
+// Length of joint between halves.
+Hinge_length = 90;
 
 // Hinge leaf thickness.
 Hinge_leafThickness = 0.04; //[0.01:0.01:0.1]
@@ -524,28 +465,34 @@ Trackball_Sensor_holderThickness = 5;
 
 /* [Trackball BTU] */
 
-// Trackball BTU main diameter
-Trackball_BTU_D1	= 7.5;
+// Trackball BTU ball diameter
+Trackball_BTU_d		= 4;
 
 // Trackball BTU upper ring diameter
 Trackball_BTU_D		= 9;
 
-// Trackball BTU main height
-Trackball_BTU_L		= 4;
+// Trackball BTU main diameter
+Trackball_BTU_D1	= 7.5;
 
 // Trackball BTU upper ring height
 Trackball_BTU_H		= 1;
 
+// Trackball BTU main height
+Trackball_BTU_L		= 4;
+
 // Trackball BTU ball height
 Trackball_BTU_L1	= 1.1;
-
-// Trackball BTU ball diameter
-Trackball_BTU_d		= 4;
 
 /*******************************************************************************\
 |									Assembly									|
 \*******************************************************************************/
 
+include <globals.scad>
+
+include <color.scad>
+
+include <derives.scad>
+
 include <objects.scad>
 
-include <assembly.scad>
+// include <assembly.scad>
