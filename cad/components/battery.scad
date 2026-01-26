@@ -1,22 +1,25 @@
 /*******************************************************************************\
-|						403450 Battery for Androphage keyboard.					|
-|							Copyright 2026 Joshua Lucas 						|
+|							Battery for Androphage keyboard.					|
+|							Copyright 2026 Joshua Lucas							|
 \*******************************************************************************/
 
-include <../androphage_globals.scad>
+include <../globals.scad>
 
-battery();
+if ( is_undef ( $parent_modules ) ) {
+	include <../androphage.scad>
+	battery ( Battery );
+}
 
-module battery ( size = Battery_size ) {
-	color ( Color_steel ) {
-		cube ( size - [ size.z, 0, 0 ], center = true );
-		
+module battery ( battery ) {
+	color ( battery.color ) {
+		cube ( battery.size - [ battery.size.z, 0, 0 ], center = true );
+
 		for ( i = [ -1, 1 ] ) {
-			translate ( [ i * ( size.x - size.z ) / 2, 0, 0 ] ) {
+			translate ( [ i * ( battery.size.x - battery.size.z ) / 2, 0, 0 ] ) {
 				rotate ( [ 90, 0, 0 ] ) {
-					cylinder ( d = size.z, h = size.y, center = true );
+					cylinder ( d = battery.size.z, h = battery.size.y, center = true );
 				}
 			}
-		} 
+		}
 	}
 }

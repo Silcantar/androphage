@@ -3,201 +3,205 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../androphage_globals.scad>
 
 use <../library/screw.scad>
 
-// Approximate actual values of these parameters.
-test_zpos = 360 * $t % 20;
-test_edge = 360 * $t % 5;
+include <../androphage.scad>
 
-plate_sketch (
-	edge	 	= test_edge,
-	zpos		= test_zpos
-);
 
-// This is where the origin will be after running place_plate ()
-translate ( front_center_point ( test_zpos ) ) {
-	# circle (1);
-}
+if ( is_undef ( $parent_modules ) ) {
+	// Approximate actual values of these parameters.
+	test_zpos = 360 * $t % 20;
+	test_edge = 360 * $t % 5;
 
-color ( "orange" ){
-	linear_extrude ( 1 + 2 * eps, center = true ) {
-		place_switches (
-			connect = false,
-			cutout = 0,
-			radius = 0,
-			size = Switch_size
-		);
-		place_trackball ( test_zpos );
+	plate_sketch (
+		edge	 	= test_edge,
+		zpos		= test_zpos
+	);
+
+	// This is where the origin will be after running place_plate ()
+	translate ( front_center_point ( test_zpos ) ) {
+		# circle (1);
+	}
+
+	color ( "orange" ){
+		linear_extrude ( 1 + 2 * eps, center = true ) {
+			place_switches (
+				connect = false,
+				cutout = 0,
+				radius = 0,
+				size = Switch_size
+			);
+			place_trackball ( test_zpos );
+		}
 	}
 }
 
 
-function inner_thumb_key_angle () = (
-	len( Cluster_columnCounts )
-	* Cluster_angle
-);
+// function inner_thumb_key_angle () = (
+// 	len( Cluster_columnCounts )
+// 	* Cluster_angle
+// );
 
-function _front_arc_inner_end () = [
-	(
-		( -Cluster_radius_mm + Key_spacing.y / 2 )
-		* sin ( inner_thumb_key_angle() )
-	),
-	(
-		Cluster_radius_mm
-		* ( cos ( inner_thumb_key_angle() ) - 1 )
-		- ( Key_spacing.y / 2 )
-		*  cos ( inner_thumb_key_angle() )
-	),
-	0
-];
+// function _front_arc_inner_end () = [
+// 	(
+// 		( -Cluster_radius_mm + Key_spacing.y / 2 )
+// 		* sin ( inner_thumb_key_angle() )
+// 	),
+// 	(
+// 		Cluster_radius_mm
+// 		* ( cos ( inner_thumb_key_angle() ) - 1 )
+// 		- ( Key_spacing.y / 2 )
+// 		*  cos ( inner_thumb_key_angle() )
+// 	),
+// 	0
+// ];
 
-// Front middle
-function _front_middle_point() = [
-	0,
-	-Key_spacing.y * (0.5 - min ( Column_offsets ) ),
-	0
-];
+// // Front middle
+// function _front_middle_point() = [
+// 	0,
+// 	-Key_spacing.y * (0.5 - min ( Column_offsets ) ),
+// 	0
+// ];
 
-// Front outer
-function _front_outer_point() = (
-	_front_middle_point() + [
-		( len ( Column_counts ) - 1.5) * Key_spacing.x,
-		0,
-		0
-	]
-);
+// // Front outer
+// function _front_outer_point() = (
+// 	_front_middle_point() + [
+// 		( len ( Column_counts ) - 1.5) * Key_spacing.x,
+// 		0,
+// 		0
+// 	]
+// );
 
-// Back outer
-function _back_outer_point() = (
-	_front_outer_point() + [
-		0,
-		(
-			Column_counts [ pinky ]
-			+ Column_offsets [ pinky ]
-		) * Key_spacing.y,
-		0
+// // Back outer
+// function _back_outer_point() = (
+// 	_front_outer_point() + [
+// 		0,
+// 		(
+// 			Column_counts [ pinky ]
+// 			+ Column_offsets [ pinky ]
+// 		) * Key_spacing.y,
+// 		0
 
-	]
-);
+// 	]
+// );
 
-// Back middle
-function _back_middle_point() = [
-	( middle - 1 ) * Key_spacing.x,
-	Column_counts [ middle ] * Key_spacing.x,
-	0
-];
+// // Back middle
+// function _back_middle_point() = [
+// 	( middle - 1 ) * Key_spacing.x,
+// 	Column_counts [ middle ] * Key_spacing.x,
+// 	0
+// ];
 
-function _back_center_point() = (
-	_center_arc_center()
-	+ Hinge_size.y
-	* [
-		sin( Halves_angles.z ),
-		cos( Halves_angles.z ),
-		0
-	]
-);
+// function _back_center_point() = (
+// 	_center_arc_center()
+// 	+ Hinge_size.y
+// 	* [
+// 		sin( Halves_angles.z ),
+// 		cos( Halves_angles.z ),
+// 		0
+// 	]
+// );
 
-// The center of the center arc.
-function _center_arc_center() = (
-	_center_arc_outer_end()
-	+ Plate_centerArcRadius
-	* [
-		- cos( inner_thumb_key_angle() ),
-		- sin ( inner_thumb_key_angle() ),
-		0
-	]
-);
+// // The center of the center arc.
+// function _center_arc_center() = (
+// 	_center_arc_outer_end()
+// 	+ Plate_centerArcRadius
+// 	* [
+// 		- cos( inner_thumb_key_angle() ),
+// 		- sin ( inner_thumb_key_angle() ),
+// 		0
+// 	]
+// );
 
-// The center of the back arc.
-function _back_arc_center() = (
-	_center_arc_center()
-	+ (
-		Plate_centerArcRadius
-		+ Hinge_size.y
-		+ Plate_backArcRadius
-	) * [
-		sin(Halves_angles.z),
-		cos(Halves_angles.z),
-		0
-	]
-);
+// // The center of the back arc.
+// function _back_arc_center() = (
+// 	_center_arc_center()
+// 	+ (
+// 		Plate_centerArcRadius
+// 		+ Hinge_length
+// 		+ Plate_backArcRadius
+// 	) * [
+// 		sin(Halves_angles.z),
+// 		cos(Halves_angles.z),
+// 		0
+// 	]
+// );
 
-function _front_arc_center() = [
-	0,
-	-Cluster_radius_mm
-	+ Key_spacing.y * min( Column_offsets ),
-	0
-];
+// function _front_arc_center() = [
+// 	0,
+// 	-Cluster_radius_mm
+// 	+ Key_spacing.y * min( Column_offsets ),
+// 	0
+// ];
 
-function _outer_arc_center() = (
-	_front_outer_point() + [
-		0,
-		Column_offsets [ pinky ] * Key_spacing.y
-		- Plate_outerArcRadius,
-		0
-	]
-);
+// function _outer_arc_center() = (
+// 	_front_outer_point() + [
+// 		0,
+// 		Column_offsets [ pinky ] * Key_spacing.y
+// 		- Plate_outerArcRadius,
+// 		0
+// 	]
+// );
 
-function _center_arc_inner_end() = (
-	_center_arc_center()
-	+ Plate_centerArcRadius * [
-		sin ( Halves_angles.z ),
-		cos ( Halves_angles.z ),
-		0
-	]
-);
+// function _center_arc_inner_end() = (
+// 	_center_arc_center()
+// 	+ Plate_centerArcRadius * [
+// 		sin ( Halves_angles.z ),
+// 		cos ( Halves_angles.z ),
+// 		0
+// 	]
+// );
 
-function _center_arc_outer_end() = (
-	_front_arc_inner_end ()
-	+ Key_spacing.x / 2 * [
-		- cos ( inner_thumb_key_angle() ),
-		- sin ( inner_thumb_key_angle() ),
-		0
-	]
-);
+// function _center_arc_outer_end() = (
+// 	_front_arc_inner_end ()
+// 	+ Key_spacing.x / 2 * [
+// 		- cos ( inner_thumb_key_angle() ),
+// 		- sin ( inner_thumb_key_angle() ),
+// 		0
+// 	]
+// );
 
-// The point at the front of the hinge between the halves.
-function front_center_point ( zpos = 0 ) = (
-	_center_arc_inner_end()
-	+ ( zpos * sin ( Halves_angles.y ) + Halves_clearance ) * [
-		-cos ( Halves_angles.z ),
-		sin ( Halves_angles.z ),
-		0
-	]
-);
+// // The point at the front of the hinge between the halves.
+// function front_center_point ( zpos = 0 ) = (
+// 	_center_arc_inner_end()
+// 	+ ( zpos * sin ( Halves_angles.y ) + Halves_clearance ) * [
+// 		-cos ( Halves_angles.z ),
+// 		sin ( Halves_angles.z ),
+// 		0
+// 	]
+// );
 
-function back_center_point ( zpos = 0 ) = (
-	front_center_point ( zpos = zpos )
-	+ Hinge_size.y * [
-		sin ( Halves_angles.z ),
-		cos ( Halves_angles.z ),
-		0
-	]
-);
+// function back_center_point ( zpos = 0 ) = (
+// 	front_center_point ( zpos = zpos )
+// 	+ Hinge_size.y * [
+// 		sin ( Halves_angles.z ),
+// 		cos ( Halves_angles.z ),
+// 		0
+// 	]
+// );
 
-function _back_arc_inner_end() = (
-	_back_arc_center()
-	+ Plate_backArcRadius * [
-		-sin ( Halves_angles.z ),
-		-cos ( Halves_angles.z ),
-		0
-	]
-);
+// function _back_arc_inner_end() = (
+// 	_back_arc_center()
+// 	+ Plate_backArcRadius * [
+// 		-sin ( Halves_angles.z ),
+// 		-cos ( Halves_angles.z ),
+// 		0
+// 	]
+// );
 
-function plate_sketch_points ( zpos = 0 ) = [
-	_front_middle_point(),
-	_front_outer_point(),
-	_back_outer_point(),
-	_back_middle_point(),
-	_back_arc_inner_end(),
-	back_center_point ( zpos = zpos ),
-	front_center_point ( zpos = zpos ),
-	_center_arc_inner_end(),
-	_center_arc_outer_end(),
-	_front_arc_inner_end ()
-];
+// function plate_sketch_points ( zpos = 0 ) = [
+// 	_front_middle_point(),
+// 	_front_outer_point(),
+// 	_back_outer_point(),
+// 	_back_middle_point(),
+// 	_back_arc_inner_end(),
+// 	back_center_point ( zpos = zpos ),
+// 	front_center_point ( zpos = zpos ),
+// 	_center_arc_inner_end(),
+// 	_center_arc_outer_end(),
+// 	_front_arc_inner_end ()
+// ];
 
 module plate_sketch (
 	clearance = 0,

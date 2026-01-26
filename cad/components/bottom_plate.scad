@@ -3,9 +3,6 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../androphage_globals.scad>
-
-// use <frame.scad>
 
 use <plates_common.scad>
 
@@ -13,40 +10,52 @@ use <../library/path.scad>
 
 use <../library/screw.scad>
 
-bottom_plate();
+if ( is_undef ( $parent_modules ) ) {
+	include <../androphage.scad>
+
+	bottom_plate (
+		Frame,
+		Halves,
+		Plate,
+		Screw
+	);
+}
 
 module bottom_plate (
-	edge		= BottomPlate_edge,
-	outerRadius	= Plate_outerRadius,
-	thickness	= BottomPlate_thickness,
-	zpos		= 0
+	frame,
+	halves,
+	plate,
+	screw,
+	// edge		= BottomPlate_edge,
+	// outerRadius	= Plate_outerRadius,
+	// thickness	= BottomPlate_thickness,
+	// zpos		= 0
 ) {
-	// place_plate ( zpos ) {
-		translate ( [ 0, 0, thickness * cos ( Halves_angles.y ) ] ){
-			mirror ( [ 0, 0, 1 ]) {
-				difference () {
-					linear_extrude ( height = thickness ) {
-						path_to_sketch ( frame_extrudes );
-						// plate_sketch (
-						// 	edge		= edge,
-						// 	radius		= outerRadius,
-						// 	zpos		= zpos,
-						// );
-					}
+	thickness = plate.Bottom.thickness;
+	translate ( [ 0, 0, thickness * cos ( halves.angles.y ) ] ){
+		mirror ( [ 0, 0, 1 ]) {
+			difference () {
+				linear_extrude ( height = thickness ) {
+					path_to_sketch ( frame.extrudes );
+					// plate_sketch (
+					// 	edge		= edge,
+					// 	radius		= outerRadius,
+					// 	zpos		= zpos,
+					// );
+				}
 
-					// Subtract coutersunk screw holes for rendering / CNC milling.
-					place_screws (
-						thickness	= thickness
-					) {
-						screw (
-							diameter	= Screw_diameter,
-							length		= 2,
-							head		= "flat",
-							drive		= "none"
-						);
-					}
+				// Subtract coutersunk screw holes for rendering / CNC milling.
+				place_screws (
+					thickness	= thickness
+				) {
+					screw (
+						diameter	= screw.diameter,
+						length		= 2,
+						head		= "flat",
+						drive		= "none"
+					);
 				}
 			}
 		}
-	// }
+	}
 }
