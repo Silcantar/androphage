@@ -3,47 +3,56 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../androphage_globals.scad>
+include <../globals.scad>
 
-mcu();
+include <../color.scad>
+
+use <../library/fillet.scad>
+
+if ( is_undef ( $parent_modules ) ) {
+	include <../androphage.scad>
+
+	mcu ( MCU );
+}
 
 module mcu ( 
-	chipSize	= MCU_chipSize,
-	size		= MCU_size,
-	radius		= MCU_radius,
-	usbOverhang	= MCU_usbOverhang,
-	usbRadius	= MCU_usbRadius,
-	usbSize		= MCU_usbSize,
-	pcbColor	= MCU_pcbColor
+	mcu,
+	// chipSize	= MCU_chipSize,
+	// size		= MCU_size,
+	// radius		= MCU_radius,
+	// usbOverhang	= MCU_usbOverhang,
+	// usbRadius	= MCU_usbRadius,
+	// usbSize		= MCU_usbSize,
+	// pcbColor	= MCU_pcbColor
 ) {
-	color ( Color_steel ) {
+	color ( Color.steel ) {
 		translate ( [
 			0, 
-			size.y / 2 + usbOverhang, 
-			size.z + usbSize.z / 2 
+			mcu.size.y / 2 + mcu.usbOverhang, 
+			mcu.size.z + mcu.usbSize.z / 2 
 		] ) {
 			// USB Port
 			rotate ( [ 90, 0, 0 ]) {
-				linear_extrude ( h = usbSize.y ) {
-					fillet2d ( radius = usbRadius ) {
-						square ( [ usbSize.x, usbSize.z ], center = true );
+				linear_extrude ( h = mcu.usbSize.y ) {
+					fillet2d ( radius = mcu.usbRadius ) {
+						square ( [ mcu.usbSize.x, mcu.usbSize.z ], center = true );
 					}
 				}
 			}
 		}
 
 		// Chip housing, or whatever that is.
-		translate ( [ 0, -1, size.z + chipSize.z / 2 ] )
+		translate ( [ 0, -1, mcu.size.z + mcu.chipSize.z / 2 ] )
 		cube ( [ 12, 10, 1.5 ], center = true );
 	}
 
 	difference () {
 		union () {
 			// PCB
-			color ( pcbColor ) {
-				linear_extrude ( h = size.z ) {
-					fillet2d ( radius = radius ) {
-						square ( [ size.x, size.y ], center = true );
+			color ( mcu.pcbColor ) {
+				linear_extrude ( h = mcu.size.z ) {
+					fillet2d ( radius = mcu.radius ) {
+						square ( [ mcu.size.x, mcu.size.y ], center = true );
 					}
 				}
 			}
@@ -52,10 +61,10 @@ module mcu (
 			color ( "Gold" ) {
 				for ( i = [ 0 : 6 ], j = [ [ 0, 0, 0 ], [ 1, 0, 0 ] ] ) {
 					mirror ( j ){
-						translate ( size / 2 + [ -0.75, -2.8 - 2.54 * i, 0 ] ) {
-							cube ( [ 1.5 + eps, 2, size.z + 2 * eps ], center = true );
+						translate ( mcu.size / 2 + [ -0.75, -2.8 - 2.54 * i, 0 ] ) {
+							cube ( [ 1.5 + eps, 2, mcu.size.z + 2 * eps ], center = true );
 							translate ( [ -0.75, 0, 0 ] ) {
-								cylinder ( d = 2, h = size.z + 2 * eps, center = true );
+								cylinder ( d = 2, h = mcu.size.z + 2 * eps, center = true );
 							}
 						}
 					}
@@ -66,10 +75,10 @@ module mcu (
 		// Through holes and castellations
 		for ( i = [ 0 : 6 ], j = [ [ 0, 0, 0 ], [ 1, 0, 0 ] ] ) {
 			mirror ( j ){
-				translate ( size / 2 + [ 0, -2.8 - 2.54 * i, 0 ] ) {
-					cylinder ( d = 1, h = size.z + 4 * eps, center = true );
+				translate ( mcu.size / 2 + [ 0, -2.8 - 2.54 * i, 0 ] ) {
+					cylinder ( d = 1, h = mcu.size.z + 4 * eps, center = true );
 					translate ( [ -1.5, 0, 0 ] ) {
-						cylinder ( d = 1, h = size.z + 4 * eps, center = true );
+						cylinder ( d = 1, h = mcu.size.z + 4 * eps, center = true );
 					}
 				}
 			}

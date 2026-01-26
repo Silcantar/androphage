@@ -117,3 +117,19 @@ module _top_plate_sketch (
 		}
 	}
 }
+
+module place_led_holes (
+	led,
+) {
+	translate ( led.position ) {
+		for ( i = [ 0 : led.count - 1 ] ) {
+			translate ( led.holeSpacing * i ) {
+				if ( led.shape == "circle" ) {
+					circle ( d = led.holeSize.x );
+				} else {
+					square ( led.holeSize, center = true );
+				}
+			}
+		}
+	}
+}
