@@ -22,6 +22,20 @@ CenterBlock = object ( [
 ] );
 
 /*******************************************************************************\
+|								Thumb Cluster									|
+\*******************************************************************************/
+
+Cluster = object ( [
+    [ "angle",			Cluster_angle			],
+    [ "columnCounts",	Cluster_columnCounts	],
+    [ "columnOffsets",	Cluster_columnOffsets	],
+    [ "cutouts",		Cluster_cutouts			],
+    [ "fiveThumbKeys",  Cluster_fiveThumbKeys   ],
+    [ "radius",			Cluster_radius			],
+    [ "radius_mm",		Cluster_radius_mm		],
+] );
+
+/*******************************************************************************\
 |									Columns										|
 \*******************************************************************************/
 
@@ -292,19 +306,6 @@ Switch = object ( [
     [ "size",		Switch_size			],
     [ "travel",		Switch_travel		],
     [ "type",		Switch_type			],
-] );
-
-/*******************************************************************************\
-|								Thumb Cluster									|
-\*******************************************************************************/
-
-Cluster = object ( [
-    [ "angle",			Cluster_angle			],
-    [ "columnCounts",	Cluster_columnCounts	],
-    [ "columnOffsets",	Cluster_columnOffsets	],
-    [ "radius",			Cluster_radius			],
-    [ "radius_mm",		Cluster_radius_mm		],
-    [ "cutouts",		Cluster_cutouts			],
 ] );
 
 /*******************************************************************************\

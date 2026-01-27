@@ -176,8 +176,8 @@ Keycap_styles = [
     [ tilted, 0, Color_primary ],
     // Index Column
     // This key can go to the index or thumb:
-    Keycap_fiveThumbKeys ? [ thumb, 0, Color_primary ] : [ tilted, 1, Color_primary ],
-    Keycap_fiveThumbKeys ? [ tilted, 1, Color_primary ] : [ normal, 1, Color_primary ],
+    Cluster_fiveThumbKeys ? [ thumb, 0, Color_primary ] : [ tilted, 1, Color_primary ],
+    Cluster_fiveThumbKeys ? [ tilted, 1, Color_primary ] : [ normal, 1, Color_primary ],
     // [ tilted, 1 ],
     [ homing, 0, Color_secondary ],
     [ tilted, 0, Color_primary ],

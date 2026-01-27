@@ -131,6 +131,29 @@ CenterBlock_screwCount = 3;
 CenterBlock_wallThickness = 2; //[1:10]
 
 /*******************************************************************************\
+|								Thumb Cluster									|
+\*******************************************************************************/
+
+/* [Thumb Cluster] */
+
+// Angle between adjacent thumb keys.
+Cluster_angle		= 10; //[0:1:30]
+
+// Number of keys in the inner two thumb columns.
+Cluster_columnCounts	= [1, 1, 2, 1];	//[1:2]
+
+// Offset distance of the inner two thumb columns.
+Cluster_columnOffsets	= [0, 0, 0, 0];	//[0:0.125:1]
+
+// This drives the spacing between the thumb keys.
+Cluster_radius	= 6.5; //[0:0.25:10]
+
+Cluster_cutouts = [ 1, 1, 1, 1 ];
+
+// Should the frontmost key in the index column be pressed by the thumb?
+Cluster_fiveThumbKeys = true;
+
+/*******************************************************************************\
 |									Columns										|
 \*******************************************************************************/
 
@@ -138,7 +161,7 @@ CenterBlock_wallThickness = 2; //[1:10]
 // Number of keys in the inner index finger column.
 Column_inner_count	= 3;	//[1:4]
 // Number of keys in the index finger column.
-Column_index_count	= 4;	//[1:5]
+Column_index_count	= 3;	//[1:5]
 // Number of keys in the middle finger column.
 Column_middle_count	= 4;	//[1:5]
 // Number of keys in the ring finger column.
@@ -152,7 +175,7 @@ Column_outer_count	= 0;	//[0:5]
 // Distance that keys in the inner index finger column are offset depthward.
 Column_inner_offset		= 1;	//[1:0.125:2]
 // Distance that keys in the index finger column are offset depthward.
-Column_index_offset		= 0;	//[-1:0.125:2]
+Column_index_offset		= 1;	//[-1:0.125:2]
 // Distance that keys in the middle finger column are offset depthward.
 Column_middle_offset	= 0.5;	//[-1:0.125:2]
 // Distance that keys in the ring finger column are offset depthward.
@@ -262,9 +285,6 @@ Keycap_profile = "lamé"; //[ "cherry", "dsa", "lamé", "mbk", "steno" ]
 
 // Styles for KLP Lamé keycaps.
 Keycap_saddle = false;
-
-// Should the frontmost key in the index column be pressed by the thumb?
-Keycap_fiveThumbKeys = true;
 
 /*******************************************************************************\
 |									LEDs										|
@@ -401,26 +421,6 @@ glp_colors = object ( [
     [ "Panda",		[ "Gray",				] ],
     [ "Wisteria",	[ "MediumSlateBlue",	] ],
 ] );
-
-/*******************************************************************************\
-|								Thumb Cluster									|
-\*******************************************************************************/
-
-/* [Thumb Cluster] */
-
-// Angle between adjacent thumb keys.
-Cluster_angle		= 10; //[0:1:30]
-
-// Number of keys in the inner two thumb columns.
-Cluster_columnCounts	= [1, 2, 1];	//[1:2]
-
-// Offset distance of the inner two thumb columns.
-Cluster_columnOffsets	= [0, 0, 0];	//[0:0.125:1]
-
-// This drives the spacing between the thumb keys.
-Cluster_radius	= 6.5; //[0:0.25:10]
-
-Cluster_cutouts = [ 1, 1, 1 ];
 
 /*******************************************************************************\
 |									Trackball									|
