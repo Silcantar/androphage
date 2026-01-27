@@ -342,9 +342,6 @@ MCU_usbSize = [ 9, 7.35, 3.2 ];
 
 PCB_color = "DarkGreen";
 
-// Distance from keys to edge of PCB.
-PCB_edge = 2;
-
 // PCB thickness.
 PCB_thickness = 1.2;	//[1:0.2:2]
 

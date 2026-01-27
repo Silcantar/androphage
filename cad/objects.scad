@@ -31,6 +31,7 @@ Cluster = object ( [
     [ "columnOffsets",	Cluster_columnOffsets	],
     [ "cutouts",		Cluster_cutouts			],
     [ "fiveThumbKeys",  Cluster_fiveThumbKeys   ],
+    [ "innerThumbKeyAngle", Cluster_innerThumbKeyAngle ],
     [ "radius",			Cluster_radius			],
     [ "radius_mm",		Cluster_radius_mm		],
 ] );
@@ -175,9 +176,9 @@ Hinge = object ( [
 \*******************************************************************************/
 
 Key = object ( [
+    [ "height",		Key_height		],
     [ "mxSpacing",	Key_mxSpacing	],
     [ "spacing",	Key_spacing		],
-    [ "height",		Key_height		],
 ] );
 
 /*******************************************************************************\

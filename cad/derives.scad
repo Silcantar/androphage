@@ -7,7 +7,7 @@
 |								Prerequisites									|
 \*******************************************************************************/
 
-Cluster_innerThumbKeyAngle = len ( Cluster_columnCounts ) * Cluster_angle;
+Cluster_innerThumbKeyAngle = ( len ( Cluster_columnCounts ) - 1 ) * Cluster_angle;
 
 Key_mxSpacing = ( Switch_type == "mx" ) ? true : false;
 Key_spacing = Key_mxSpacing ? [19, 19] : [18, 17];
@@ -56,6 +56,12 @@ CenterBlock_height = (
     +	PCB_thickness
     +	Key_height
 );
+
+/*******************************************************************************\
+|								Thumb Cluster									|
+\*******************************************************************************/
+
+Cluster_radius_mm = Cluster_radius * Key_spacing.y;
 
 /*******************************************************************************\
 |									Columns										|
@@ -249,6 +255,13 @@ MagCon_position		= [
 MCU_pcbColor = Color_black;
 
 /*******************************************************************************\
+|										PCB										|
+\*******************************************************************************/
+
+// Distance from keys to edge of PCB.
+PCB_edge = SwitchPlate_edge;
+
+/*******************************************************************************\
 |									Plates										|
 \*******************************************************************************/
 
@@ -339,12 +352,6 @@ $choc_version = ( Switch_type == switch_chocv1 ) ? 1 : 2;
 $color_scheme = Switch_colorScheme;
 
 Switch_position_z = PCB_position.z + PCB_thickness;
-
-/*******************************************************************************\
-|								Thumb Cluster									|
-\*******************************************************************************/
-
-Cluster_radius_mm = Cluster_radius * Key_spacing.y;
 
 /*******************************************************************************\
 |									Trackball									|
