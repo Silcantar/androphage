@@ -259,37 +259,6 @@ if ( is_undef ( $parent_modules ) ) {
 // 	}
 // }
 
-module _switch_hole (
-	radius	= Switch.radius,
-	size	= Switch.size,
-	cutout	= 0,
-) {
-	fillet2d ( radius ) {
-		translate ( [ 0, -cutout / 2, 0 ] ) {
-			square ( size + [ 0, cutout ], center = true );
-		}
-	}
-}
-
-module _switch_hole_connector (
-	angle	= Cluster.angle,
-	radius	= Key.spacing.y,
-) {
-	difference () {
-		circle ( r = radius );
-
-		xpos = [ -4 * radius, 0 ];
-		angle_multiplier = [ 0, -1 ];
-		for ( i = [ 0 : 1 ] ) {
-			rotate ( [ 0, 0, angle * angle_multiplier[i] ] ) {
-				translate ( [ xpos[i], -2 * radius ] ) {
-					square ( 4 * radius );
-				}
-			}
-		}
-	}
-}
-
 // "Drill" and "countersink" screw holes.
 module place_screws (
 	thickness,

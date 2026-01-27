@@ -3,11 +3,11 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
+include <../globals.scad>
 
-use <plates_common.scad>
+use <plate.scad>
 
-use <../library/path.scad>
-
+use <../library/fillet.scad>
 use <../library/screw.scad>
 
 if ( is_undef ( $parent_modules ) ) {
@@ -15,47 +15,37 @@ if ( is_undef ( $parent_modules ) ) {
 
     bottom_plate (
         Frame,
-        Halves,
+        // Halves,
         Plate,
-        Screw
+        // Screw
     );
 }
 
 module bottom_plate (
     frame,
-    halves,
+    // halves,
     plate,
-    screw,
+    // screw,
     // edge		= BottomPlate_edge,
     // outerRadius	= Plate_outerRadius,
     // thickness	= BottomPlate_thickness,
     // zpos		= 0
 ) {
-    thickness = plate.Bottom.thickness;
-    translate ( [ 0, 0, thickness * cos ( halves.angles.y ) ] ){
-        mirror ( [ 0, 0, 1 ]) {
-            difference () {
-                linear_extrude ( height = thickness ) {
-                    path_to_sketch ( frame.extrudes );
-                    // plate_sketch (
-                    // 	edge		= edge,
-                    // 	radius		= outerRadius,
-                    // 	zpos		= zpos,
-                    // );
-                }
-
-                // Subtract coutersunk screw holes for rendering / CNC milling.
-                place_screws (
-                    thickness	= thickness
-                ) {
-                    screw (
-                        diameter	= screw.diameter,
-                        length		= 2,
-                        head		= "flat",
-                        drive		= "none"
-                    );
-                }
-            }
+    linear_extrude ( height = plate.Bottom.thickness ) {
+        fillet2d ( radius = plate.outerRadius ) {
+            plate_sketch ( frame );
         }
     }
+
+                // Subtract coutersunk screw holes for rendering / CNC milling.
+                // place_screws (
+                //     thickness	= thickness
+                // ) {
+                //     screw (
+                //         diameter	= screw.diameter,
+                //         length		= 2,
+                //         head		= "flat",
+                //         drive		= "none"
+                //     );
+                // }
 }

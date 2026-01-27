@@ -3,69 +3,43 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../androphage_globals.scad>
+include <../globals.scad>
 
-use <plates_common.scad>
+use <key_placement.scad>
+use <plate.scad>
 
-use <center_block.scad>
+use <../library/fillet.scad>
 
-switch_plate ( zpos = SwitchPlate_position.z );
+if ( is_undef ( $parent_modules ) ) {
+    include <../androphage.scad>
+
+    switch_plate ( 
+        Cluster,
+        Column,
+        Frame,
+        Key,
+        Plate,
+        Switch,
+    );
+}
 
 module switch_plate (
-    clearance	= CenterBlock_wallThickness,
-    edge		= SwitchPlate_edge,
-    PCB			= false,
-    thickness	= SwitchPlate_thickness,
-    zpos		= 10
+    cluster,
+    column,
+    frame,
+    key,
+    plate,
+    switch,
 ) {
-    linear_extrude ( height = thickness ) {
-        _switch_plate_sketch (
-            clearance	= clearance,
-            edge		= edge,
-            PCB			= PCB,
-            zpos		= zpos
-        );
-    }
-}
-
-module _switch_plate_sketch (
-    clearance,
-    edge,
-    PCB,
-    zpos
-) {
-    offset ( r = SwitchPlate_radius )
-    offset ( r = -SwitchPlate_radius ) {
+    linear_extrude ( height = plate.Switch.thickness ) {
         difference () {
-            plate_sketch (
-                clearance	= clearance,
-                edge		= edge,
-                zpos		= zpos
-            );
-
-            // Subtract key cutouts.
-            if ( !PCB ) {
-                place_switches();
+            fillet2d ( radius = plate.outerRadius ) {
+                plate_sketch ( frame );
             }
 
-            place_screws ( thickness = 0 ) {
-                _screw_boss_cutout ();
-            }
-
-            translate ( trackball_point ( zpos ) ) {
-                rotate ( [ 0, 0, -Halves_angles.z] )
-                    offset (r = SwitchPlate_radius)
-                    offset (r = -SwitchPlate_radius)
-                    square ( [ 45, Trackball_diameter ], center = true );
+            place_key_holes ( frame, key, plate ) {
+                key_holes( cluster, column, key, switch );
             }
         }
-    }
-}
-
-module _screw_boss_cutout () {
-    _screw_boss_diameter = Insert_holeDiameter + 2 * Insert_wallThickness;
-    circle ( d = _screw_boss_diameter );
-    translate ( [ -_screw_boss_diameter / 2, 0, 0 ] ) {
-        square ( _screw_boss_diameter, center = true );
     }
 }
