@@ -12,124 +12,124 @@ use <../library/screw.scad>
 top_plate();
 
 module top_plate (
-	clearance	= Hinge_diameter / 2,
-	edge		= TopPlate_edge,
-	innerRadius	= TopPlate_innerRadius,
-	outerRadius = Plate_outerRadius,
-	spacing		= Key_spacing,
-	thickness	= TopPlate_thickness,
-	zpos		= CenterBlock_height
+    clearance	= Hinge_diameter / 2,
+    edge		= TopPlate_edge,
+    innerRadius	= TopPlate_innerRadius,
+    outerRadius = Plate_outerRadius,
+    spacing		= Key_spacing,
+    thickness	= TopPlate_thickness,
+    zpos		= CenterBlock_height
 ) {
-	difference () {
-		linear_extrude ( height = thickness, convexity = 2 ) {
-			_top_plate_sketch (
-				clearance,
-				edge,
-				innerRadius,
-				outerRadius,
-				spacing,
-				zpos
-			);
-		}
+    difference () {
+        linear_extrude ( height = thickness, convexity = 2 ) {
+            _top_plate_sketch (
+                clearance,
+                edge,
+                innerRadius,
+                outerRadius,
+                spacing,
+                zpos
+            );
+        }
 
-		// Subtract coutersunk screw holes for rendering / CNC milling.
-		place_screws (
-			thickness	= thickness
-		) {
-			screw (
-				diameter	= Screw_diameter,
-				length		= 2,
-				head		= "flat",
-				drive		= "none"
-			);
-		}
-	}
+        // Subtract coutersunk screw holes for rendering / CNC milling.
+        place_screws (
+            thickness	= thickness
+        ) {
+            screw (
+                diameter	= Screw_diameter,
+                length		= 2,
+                head		= "flat",
+                drive		= "none"
+            );
+        }
+    }
 }
 
 module _top_plate_sketch (
-	clearance,
-	edge,
-	innerRadius,
-	outerRadius,
-	spacing,
-	zpos
+    clearance,
+    edge,
+    innerRadius,
+    outerRadius,
+    spacing,
+    zpos
 ) {
-	difference () {
-		// Main body.
-		plate_sketch (
-			clearance	= clearance,
-			edge		= edge,
-			radius		= outerRadius,
-			zpos		= zpos
-		);
+    difference () {
+        // Main body.
+        plate_sketch (
+            clearance	= clearance,
+            edge		= edge,
+            radius		= outerRadius,
+            zpos		= zpos
+        );
 
-		// Subtract trackball cutout.
-		place_trackball (
-			zpos = zpos
-		);
+        // Subtract trackball cutout.
+        place_trackball (
+            zpos = zpos
+        );
 
-		// Subtract key cutout.
-		fillet2d ( innerRadius ) {
-			place_switches (
-				connect = true,
-				cutout	= 2 * edge,
-				radius	= 0,
-				size	= spacing
-			);
-		}
+        // Subtract key cutout.
+        fillet2d ( innerRadius ) {
+            place_switches (
+                connect = true,
+                cutout	= 2 * edge,
+                radius	= 0,
+                size	= spacing
+            );
+        }
 
-		// translate ( 
-		// 	_front_arc_inner_end() 
-		// 	+ TopPlate_edge * [ 
-		// 		sin ( inner_thumb_key_angle() ), 
-		// 		-cos ( inner_thumb_key_angle() ) 
-		// 	] 
-		// 	+ Key_spacing.x / 2 * [
-		// 		-cos ( inner_thumb_key_angle() ),
-		// 		-sin ( inner_thumb_key_angle() )
-		// 	]
-		// ) {
-		// 	rotate ( inner_thumb_key_angle() - 90 ) {
-		// 		fillet_cutter2d ( innerRadius );
-		// 	}
-		// }
+        // translate ( 
+        // 	_front_arc_inner_end() 
+        // 	+ TopPlate_edge * [ 
+        // 		sin ( inner_thumb_key_angle() ), 
+        // 		-cos ( inner_thumb_key_angle() ) 
+        // 	] 
+        // 	+ Key_spacing.x / 2 * [
+        // 		-cos ( inner_thumb_key_angle() ),
+        // 		-sin ( inner_thumb_key_angle() )
+        // 	]
+        // ) {
+        // 	rotate ( inner_thumb_key_angle() - 90 ) {
+        // 		fillet_cutter2d ( innerRadius );
+        // 	}
+        // }
 
-		// translate ( 
-		// 	_front_middle_point() + [
-		// 		Key_spacing.x / 2,
-		// 		-TopPlate_edge
-		// 	]
-		// ) {
-		// 	rotate ( 180 ) {
-		// 		fillet_cutter2d ( innerRadius );
-		// 	}
-		// }
+        // translate ( 
+        // 	_front_middle_point() + [
+        // 		Key_spacing.x / 2,
+        // 		-TopPlate_edge
+        // 	]
+        // ) {
+        // 	rotate ( 180 ) {
+        // 		fillet_cutter2d ( innerRadius );
+        // 	}
+        // }
 
-		// Subtract LED holes.
-		if ( LED_present ) {
-			place_led_holes ( shape = LED_holeShape );
-		}
+        // Subtract LED holes.
+        if ( LED_present ) {
+            place_led_holes ( shape = LED_holeShape );
+        }
 
-		// Place circles at the screw holes for when the sketch is used for
-		// production (e.g. laser cutting).
-		place_screws ( thickness = 0 ) {
-			circle ( d = Screw_diameter );
-		}
-	}
+        // Place circles at the screw holes for when the sketch is used for
+        // production (e.g. laser cutting).
+        place_screws ( thickness = 0 ) {
+            circle ( d = Screw_diameter );
+        }
+    }
 }
 
 module place_led_holes (
-	led,
+    led,
 ) {
-	translate ( led.position ) {
-		for ( i = [ 0 : led.count - 1 ] ) {
-			translate ( led.holeSpacing * i ) {
-				if ( led.shape == "circle" ) {
-					circle ( d = led.holeSize.x );
-				} else {
-					square ( led.holeSize, center = true );
-				}
-			}
-		}
-	}
+    translate ( led.position ) {
+        for ( i = [ 0 : led.count - 1 ] ) {
+            translate ( led.holeSpacing * i ) {
+                if ( led.shape == "circle" ) {
+                    circle ( d = led.holeSize.x );
+                } else {
+                    square ( led.holeSize, center = true );
+                }
+            }
+        }
+    }
 }

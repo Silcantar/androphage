@@ -389,17 +389,17 @@ Switch_GLP_type = "Banana"; //["Banana", "Blue", "Brown", "Chocolate", "Red", "A
 
 // Map GLP switch type to CSS colors.
 glp_colors = object ( [
-	[ "Banana",		[ "Khaki",				] ],
-	[ "Blue",		[ "Blue",				] ],
-	[ "Brown",		[ "SaddleBrown",		] ],
-	[ "Chocolate",	[ "Sienna",				] ],
-	[ "Red",		[ "Red",				] ],
-	[ "Aloe",		[ "YellowGreen",		] ],
-	[ "Cowberry",	[ "Crimson",			] ],
-	[ "Daisy",		[ "Salmon",				] ],
-	[ "Moss",		[ "DarkOliveGreen",		] ],
-	[ "Panda",		[ "Gray",				] ],
-	[ "Wisteria",	[ "MediumSlateBlue",	] ],
+    [ "Banana",		[ "Khaki",				] ],
+    [ "Blue",		[ "Blue",				] ],
+    [ "Brown",		[ "SaddleBrown",		] ],
+    [ "Chocolate",	[ "Sienna",				] ],
+    [ "Red",		[ "Red",				] ],
+    [ "Aloe",		[ "YellowGreen",		] ],
+    [ "Cowberry",	[ "Crimson",			] ],
+    [ "Daisy",		[ "Salmon",				] ],
+    [ "Moss",		[ "DarkOliveGreen",		] ],
+    [ "Panda",		[ "Gray",				] ],
+    [ "Wisteria",	[ "MediumSlateBlue",	] ],
 ] );
 
 /*******************************************************************************\
