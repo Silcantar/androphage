@@ -29,7 +29,6 @@ Cluster = object ( [
     [ "angle",			Cluster_angle			],
     [ "columnCounts",	Cluster_columnCounts	],
     [ "columnOffsets",	Cluster_columnOffsets	],
-    [ "cutout",         Cluster_cutout          ],
     [ "cutouts",		Cluster_cutouts			],
     [ "fiveThumbKeys",  Cluster_fiveThumbKeys   ],
     [ "innerThumbKeyAngle", Cluster_innerThumbKeyAngle ],

@@ -25,6 +25,26 @@
 |																				|
 \*******************************************************************************/
 
+use <components/battery.scad>
+
+use <components/center_block.scad>
+
+use <components/frame.scad>
+
+use <components/hinge.scad>
+
+use <components/keys.scad>
+
+use <components/magnetic_connector.scad>
+
+use <components/mcu.scad>
+
+use <components/plates.scad>
+
+use <components/trackball.scad>
+
+use <components/trackball_sensor.scad>
+
 /*******************************************************************************\
 |							Component Visibility								|
 \*******************************************************************************/
@@ -494,4 +514,4 @@ include <derives.scad>
 
 include <objects.scad>
 
-// include <assembly.scad>
+include <assembly.scad>

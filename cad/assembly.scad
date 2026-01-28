@@ -3,48 +3,18 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-// $preview = false;
-
-use <components/battery.scad>
-
-use <components/bottom_plate.scad>
-
-use <components/frame.scad>
-
-use <components/center_block.scad>
-
-use <components/hinge.scad>
-
-use <components/keys.scad>
-
-use <components/magnetic_connector.scad>
-
-use <components/mcu.scad>
-
-use <components/pcb.scad>
-
-use <components/plates_common.scad>
-
-use <components/switch_plate.scad>
-
-use <components/top_plate.scad>
-
-use <components/trackball.scad>
-
-use <components/trackball_sensor.scad>
-
 androphage_assembly();
 
 module androphage_assembly () {
     // Assemble and place the right half.
-    translate ( -[ Trackball_position.x, Trackball_position.y, FrontHinge_position.z ] ) {
+    translate ( -[ Trackball.position.x, Trackball.position.y, Hinge.Front.position.z ] ) {
         assemble_half();
     }
 
     // Assemble and place the left half.
-    if ( _do_mirror ) {
-        rotate ( [ 0, _do_rotate ? 180 + 2 * Halves_angles.y : 0, 0 ] ) {
-            translate ( -[ Trackball_position.x, Trackball_position.y, FrontHinge_position.z ] ) {
+    if ( LeftHalf_visible ) {
+        rotate ( [ 0, LeftHalf_visible ? 180 + 2 * Halves.angles.y : 0, 0 ] ) {
+            translate ( -[ Trackball.position.x, Trackball.position.y, Hinge.Front.position.z ] ) {
                 mirror ( [ 1, 0, 0 ] ) {
                     assemble_half( include_hinge = false );
                 }
@@ -53,10 +23,10 @@ module androphage_assembly () {
     }
 
     // Desk
-    if ( Desk_visible ) {
-        translate ( Desk_position ) {
-            color ( Desk_color ) {
-                cube ( Desk_size, center = true );
+    if ( Desk.visible ) {
+        translate ( Desk.position ) {
+            color ( Desk.color ) {
+                cube ( Desk.size, center = true );
             }
         }
     }
@@ -65,48 +35,48 @@ module androphage_assembly () {
 // Assemble one half of the Androphage keyboard.
 module assemble_half( include_hinge = true ) {
     /*				Bottom Plate				*/
-    if ( BottomPlate_visible ) {
-        place_plate () {
-            color ( BottomPlate_color ) {
-                bottom_plate();
+    if ( Plate.Bottom.visible ) {
+        // place_plate () {
+            color ( Plate.Bottom.color ) {
+                plate ( plates().bottom, Cluster, Column, Frame, Key, LED, Plate, Switch );
             }
-        }
+        // }
     }
 
     /*				PCB				*/
-    if ( PCB_visible ) {
-        place_plate ( PCB_position ) {
-            color ( PCB_color, 1 ) {
-                pcb ( zpos = PCB_position.z );
+    if ( PCB.visible ) {
+        translate ( PCB.position ) {
+            color ( PCB.color, 1 ) {
+                plate ( plates().pcb, Cluster, Column, Frame, Key, LED, Plate, Switch, zpos = PCB_position.z );
             }
         }
     }
 
     /*				Switch Plate				*/
-    if ( SwitchPlate_present && SwitchPlate_visible ) {
-        place_plate ( SwitchPlate_position ) {
-            color ( SwitchPlate_color, 1 ) {
-                switch_plate ( zpos = SwitchPlate_position.z );
+    if ( Plate.Switch.present && Plate.Switch.visible ) {
+        translate ( Plate.Switch.position ) {
+            color ( Plate.Switch.color, 1 ) {
+                plate (  plates().switch, Cluster, Column, Frame, Key, LED, Plate, Switch, zpos = SwitchPlate_position.z );
             }
         }
     }
 
     /*				Top Plate				*/
-    if ( TopPlate_visible ) {
-        place_plate ( TopPlate_position ) {
-            color ( TopPlate_color ) {
-                top_plate ( zpos = TopPlate_position.z );
+    if ( Plate.Top.visible ) {
+        translate ( Plate.Top.position ) {
+            color ( Plate.Top.color ) {
+                plate ( plates().top, Cluster, Column, Frame, Key, LED, Plate, Switch, zpos = TopPlate_position.z );
             }
         }
     }
 
     /*				Case Frame				*/
-    if ( Frame_visible ) {
-        translate ( Frame_position - [ 0, SwitchPlate_edge, 0 ] ) {
-            rotate ( [ 0, Halves_angles.y, 0 ] ) {
+    if ( Frame.visible ) {
+        translate ( [ 0, Plate.Switch.edge, 0 ] ) {
+            rotate ( [ 0, Halves.angles.y, 0 ] ) {
                 rotate ( [ 90, 0, -90 ] ) {
-                    color ( Frame_color, 1 ) {
-                        frame();
+                    color ( Frame.color, 1 ) {
+                        frame ( Frame, Halves, Plate );
                     }
                 }
             }
@@ -114,50 +84,46 @@ module assemble_half( include_hinge = true ) {
     }
 
     /*				Center Block				*/
-    if ( CenterBlock_visible ) {
-        color ( CenterBlock_color ) {
+    if ( CenterBlock.visible ) {
+        color ( CenterBlock.color ) {
             center_block();
         }
     }
 
-    if ( Hinge_visible && include_hinge ) {
-        color ( Hinge_color ) {
-            translate ( FrontHinge_position ) {
-                // rotate ( [ -90, 0, 0 ] ) {
-                        hinge (
-                            length	= FrontHinge_length,
-                            angle	= Halves_angles.y * 2
-                        );
-                    // }
-                }
+    if ( Hinge.visible && include_hinge ) {
+        color ( Hinge.color ) {
+            translate ( Hinge.Front.position ) {
+                hinge (
+                    length	= Hinge.Front.length,
+                    angle	= Halves.angles.y * 2
+                );
+            }
 
-            translate ( BackHinge_position ) {
-                // rotate ( [ -90, 0, 0 ] ) {
-                    hinge (
-                        length	= BackHinge_length,
-                        angle	= Halves_angles.y * 2,
-                        center	= false,
-                        front	= false
-                    );
-                // }
+            translate ( Hinge.Back.position ) {
+                hinge (
+                    length	= Hinge.Back.length,
+                    angle	= Halves.angles.y * 2,
+                    center	= false,
+                    front	= false
+                );
             }
         }
     }
 
     /*				Trackball				*/
-    if ( Trackball_visible ) {
-        translate ( Trackball_position ) {
+    if ( Trackball.visible ) {
+        translate ( Trackball.position ) {
             trackball ( centers = false );
         }
     }
 
-    if ( Trackball_BTU_visible ) {
-        color ( Trackball_BTU_color ) {
+    if ( Trackball.BTU.visible ) {
+        color ( Trackball.BTU.color ) {
             place_btus();
         }
     }
 
-    if ( Trackball_Sensor_visible ) {
+    if ( Trackball.Sensor.visible ) {
         place_sensor () {
             trackball_sensor();
 
@@ -170,8 +136,8 @@ module assemble_half( include_hinge = true ) {
         }
     }
 
-    if ( MagCon_visible ) {
-        translate ( MagCon_position ) {
+    if ( MagCon.visible ) {
+        translate ( MagCon.position ) {
             magnetic_connector();
 
             // MCU piggybacking on magnetic connector PCB.
@@ -186,14 +152,14 @@ module assemble_half( include_hinge = true ) {
 
     // MCU directly at USB port location.
     *translate ( [ 20, 84, 3 ] ) {
-        rotate ( [ 0, 0 + Halves_angles.y, 0 ] ) {
+        rotate ( [ 0, 0 + Halves.angles.y, 0 ] ) {
             mcu();
         }
     }
 
-    if ( Battery_visible ) {
+    if ( Battery.visible ) {
         translate ( [ 20, 88, 11.3 ] ) {
-            rotate ( [ 0, Halves_angles.y, 0 ] )
+            rotate ( [ 0, Halves.angles.y, 0 ] )
             rotate ( [ 0, 90, 100 ] ) {
                 battery();
             }
