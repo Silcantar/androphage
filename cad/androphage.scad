@@ -145,13 +145,15 @@ Cluster_columnCounts	= [1, 1, 2, 1];	//[1:2]
 // Offset distance of the inner two thumb columns.
 Cluster_columnOffsets	= [0, 0, 0, 0];	//[0:0.125:1]
 
-// This drives the spacing between the thumb keys.
-Cluster_radius	= 6.5; //[0:0.25:10]
+Cluster_cutout = 10;
 
 Cluster_cutouts = [ 1, 1, 1, 1 ];
 
 // Should the frontmost key in the index column be pressed by the thumb?
 Cluster_fiveThumbKeys = true;
+
+// This drives the spacing between the thumb keys.
+Cluster_radius	= 6.5; //[0:0.25:10]
 
 /*******************************************************************************\
 |									Columns										|
