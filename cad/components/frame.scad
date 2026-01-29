@@ -3,26 +3,25 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../globals.scad>
+// include <../globals.scad>
 
 use <../library/path.scad>
 
-if ( is_undef( $parent_modules ) ) {
-    include <../androphage.scad>
+// if ( is_undef( ANDROPHAGE_MAIN ) ) {
 
-    $fa = 1;
-    $fs = 0.1;
+//     $fa = 1;
+//     $fs = 0.1;
 
-    rotate ( [ 90, 0, -90 ] ) {
-        frame( Frame, Halves, Plate );
-    }
+//     rotate ( [ 90, 0, -90 ] ) {
+//         frame( Frame, Halves, Plate );
+//     }
 
-    rotate ( [ 180, 0, -90 ] ) {
-        translate ( [ 0, 3, 0 ] ) {
-            path_to_sketch ( Frame.path );
-        }
-    }
-}
+//     rotate ( [ 180, 0, -90 ] ) {
+//         translate ( [ 0, 3, 0 ] ) {
+//             path_to_sketch ( Frame.path );
+//         }
+//     }
+// }
 
 module frame (
     frame,

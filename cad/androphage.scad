@@ -25,25 +25,7 @@
 |																				|
 \*******************************************************************************/
 
-use <components/battery.scad>
-
-use <components/center_block.scad>
-
-use <components/frame.scad>
-
-use <components/hinge.scad>
-
-use <components/keys.scad>
-
-use <components/magnetic_connector.scad>
-
-use <components/mcu.scad>
-
-use <components/plates.scad>
-
-use <components/trackball.scad>
-
-use <components/trackball_sensor.scad>
+ANDROPHAGE_MAIN = true;
 
 /*******************************************************************************\
 |							Component Visibility								|
@@ -381,7 +363,7 @@ BottomPlate_clearance = 3; //[1:10]
 
 /* [Switch Plate] */
 
-// Specify whether a switch plate will be used.
+// Specify whether a switch plate will be included.
 SwitchPlate_present	= true;
 
 SwitchPlate_clearance = 0.2;
@@ -506,6 +488,7 @@ Trackball_BTU_L1	= 1.1;
 |									Assembly									|
 \*******************************************************************************/
 
+// Definitions and calclations.
 include <globals.scad>
 
 include <color.scad>
@@ -513,5 +496,26 @@ include <color.scad>
 include <derives.scad>
 
 include <objects.scad>
+
+// Components
+include <components/battery.scad>
+
+include <components/center_block.scad>
+
+include <components/frame.scad>
+
+include <components/hinge.scad>
+
+include <components/keys.scad>
+
+include <components/magnetic_connector.scad>
+
+include <components/mcu.scad>
+
+include <components/plates.scad>
+
+include <components/trackball.scad>
+
+include <components/trackball_sensor.scad>
 
 include <assembly.scad>

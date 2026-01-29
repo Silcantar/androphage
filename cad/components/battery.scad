@@ -3,11 +3,10 @@
 |							Copyright 2026 Joshua Lucas							|
 \*******************************************************************************/
 
-include <../globals.scad>
-
-if ( is_undef ( $parent_modules ) ) {
-    include <../androphage.scad>
-    battery ( Battery );
+// Test
+if ( is_undef ( ANDROPHAGE_MAIN ) ) {
+    battery = object(color="silver", size=[15,20,3]);
+    battery ( battery );
 }
 
 module battery ( battery ) {

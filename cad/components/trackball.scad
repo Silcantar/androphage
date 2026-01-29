@@ -3,13 +3,12 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../globals.scad>
+// include <../globals.scad>
 
-if ( is_undef ( $parent_modules ) ) {
-    include <../androphage.scad>
+// if ( is_undef ( ANDROPHAGE_MAIN ) ) {
 
-    trackball ( Trackball, centers = true );
-}
+//     trackball ( Trackball, centers = true );
+// }
 
 module trackball (
     trackball,

@@ -3,16 +3,15 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../globals.scad>
+// include <../globals.scad>
 
-include <../color.scad>
+// include <../color.scad>
 
-if ( is_undef ( $parent_modules ) ) {
-    include <../androphage.scad>
+// if ( is_undef ( ANDROPHAGE_MAIN ) ) {
 
-    // Test
-    trackball_sensor ( Trackball.Sensor, include_cut = true );
-}
+//     // Test
+//     trackball_sensor ( Trackball.Sensor, include_cut = true );
+// }
 
 module trackball_sensor (
     sensor,

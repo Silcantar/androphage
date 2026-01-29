@@ -3,17 +3,14 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../globals.scad>
+// if ( is_undef ( ANDROPHAGE_MAIN ) ) {
 
-if ( is_undef ( $parent_modules ) ) {
-    include <../androphage.scad>
-
-    magnetic_connector (
-        MagCon,
-        include_cut	= true,
-        pcb_color	= PCB.color,
-    );
-}
+//     magnetic_connector (
+//         MagCon,
+//         include_cut	= true,
+//         pcb_color	= PCB.color,
+//     );
+// }
 
 module magnetic_connector (
     magcon,

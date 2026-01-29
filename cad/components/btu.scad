@@ -3,13 +3,7 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../globals.scad>
-
-include <../color.scad>
-
-if ( is_undef ( $parent_modules ) ) {
-    include <../androphage.scad>
-
+if ( is_undef ( ANDROPHAGE_MAIN ) ) {
     btu ( Trackball_BTU, include_cut = true );
 }
 

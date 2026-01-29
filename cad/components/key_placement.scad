@@ -3,28 +3,27 @@
 |                            Copyright 2026 Joshua Lucas                        |
 \*******************************************************************************/
 
-include <../globals.scad>
+// include <../globals.scad>
 
 use <../library/fillet.scad>
 use <../library/math.scad>
 use <../library/path.scad>
 
-if ( is_undef ( $parent_modules ) ) {
-    include <../androphage.scad>
+// if ( is_undef ( ANDROPHAGE_MAIN ) ) {
 
-    place_key_holes ( Frame, Key, Plate ) {
-        key_holes (
-            Cluster,
-            Column,
-            Key,
-            Switch,
-            connect = true,
-            cutout  = 0
-        );
-    }
-}
+//     place_key_holes ( Frame, Key, Plate ) {
+//         key_holes (
+//             Cluster,
+//             Column,
+//             Key,
+//             Switch,
+//             connect = true,
+//             cutout  = 0
+//         );
+//     }
+// }
 
-// Create the holes for either the switches in the switch mounting plate or the 
+// Create the holes for either the switches in the switch mounting plate or the
 // keys in the top plate.
 module key_holes (
     cluster,
@@ -45,7 +44,7 @@ module key_holes (
                     cutout  = p.cutout,
                 );
 
-                // 
+                //
                 if ( p.connect ) {
                     key_hole_connector ( cluster.angle, key.spacing.y, key );
                 }
@@ -57,10 +56,10 @@ module key_holes (
     if ( connect ) {
         translate ( v_mul ( key.spacing, [ -0.5, 0.5 ] ) ) {
             rotate ( 90 + cluster.angle ) {
-                key_hole_connector ( 
-                    cluster.angle, 
-                    key.spacing.x, 
-                    key, 
+                key_hole_connector (
+                    cluster.angle,
+                    key.spacing.x,
+                    key,
                     do_translate = false,
                 );
             }
@@ -70,11 +69,11 @@ module key_holes (
 
 module place_key_holes ( frame, key, plate ) {
     path = [ for ( i = [ 17 : -1 : 10 ] ) frame.path[i] ];
-    translate_on_path ( 
-        path, 
-        rad_axis = -axis.y, 
-        rot_axis = axis.z, 
-        trans_axis = -axis.x 
+    translate_on_path (
+        path,
+        rad_axis = -axis.y,
+        rot_axis = axis.z,
+        trans_axis = -axis.x
     ) {
         translate ( [ 0, key.spacing.y / 2 + plate.Switch.edge ] ) {
             children();
@@ -98,10 +97,10 @@ function key_positions (
 function finger_key_positions (
     column,
     key,
-) = [ 
-    for ( 
-        i = [ 0 : column.last ], 
-        j = [ 0 : column.counts[i] - 1 ] 
+) = [
+    for (
+        i = [ 0 : column.last ],
+        j = [ 0 : column.counts[i] - 1 ]
     ) (
         let (
             position = [
@@ -132,7 +131,7 @@ function thumb_key_positions (
         j = [ 0 : cluster.columnCounts[i] - 1 ]
     ) (
         let (
-            position = rot2d ( i * cluster.angle ) * ( 
+            position = rot2d ( i * cluster.angle ) * (
                 [ 0, ( j + cluster.columnOffsets[i] ) * key.spacing.y ]
                 + [ 0, cluster.radius_mm ]
             )

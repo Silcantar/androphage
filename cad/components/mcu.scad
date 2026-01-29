@@ -3,19 +3,18 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../globals.scad>
+// include <../globals.scad>
 
-include <../color.scad>
+// include <../color.scad>
 
-use <../library/fillet.scad>
+// use <../library/fillet.scad>
 
-if ( is_undef ( $parent_modules ) ) {
-    include <../androphage.scad>
+// if ( is_undef ( ANDROPHAGE_MAIN ) ) {
 
-    mcu ( MCU );
-}
+//     mcu ( MCU );
+// }
 
-module mcu ( 
+module mcu (
     mcu,
     // chipSize	= MCU_chipSize,
     // size		= MCU_size,
@@ -27,9 +26,9 @@ module mcu (
 ) {
     color ( Color.steel ) {
         translate ( [
-            0, 
-            mcu.size.y / 2 + mcu.usbOverhang, 
-            mcu.size.z + mcu.usbSize.z / 2 
+            0,
+            mcu.size.y / 2 + mcu.usbOverhang,
+            mcu.size.z + mcu.usbSize.z / 2
         ] ) {
             // USB Port
             rotate ( [ 90, 0, 0 ]) {

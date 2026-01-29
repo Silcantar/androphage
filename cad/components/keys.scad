@@ -3,15 +3,14 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../androphage_globals.scad>
 
-use <choc_switch.scad>
+// use <choc_switch.scad>
 
-use <plates_common.scad>
+// use <plates_common.scad>
 
 module keys () {
     key_pos = key_positions();
-    
+
     place_plate () {
         for ( i = [ 0 : last ( key_pos ) ] ) {
             let ( p = key_pos[i] ) {

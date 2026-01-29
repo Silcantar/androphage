@@ -3,19 +3,18 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-include <../globals.scad>
+// include <../globals.scad>
 
-use <../library/piano_hinge.scad>
+// use <../library/piano_hinge.scad>
 
-if ( is_undef ( $parent_modules ) ) {
-    include <../androphage.scad>
+// if ( is_undef ( ANDROPHAGE_MAIN ) ) {
 
-    hinge (
-        Hinge,
-        length = 100,
-        angle = 20
-    );
-}
+//     hinge (
+//         Hinge,
+//         length = 100,
+//         angle = 20
+//     );
+// }
 
 module hinge (
     halves,

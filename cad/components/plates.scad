@@ -3,25 +3,25 @@
 |						Copyright 2026 Joshua Lucas 						    |
 \*******************************************************************************/
 
-include <../globals.scad>
+// include <../globals.scad>
 
-use <key_placement.scad>
+// use <key_placement.scad>
 
-use <../library/fillet.scad>
-use <../library/path.scad>
-use <../library/rainbow.scad>
+// use <../library/fillet.scad>
+// use <../library/path.scad>
+// use <../library/rainbow.scad>
 
-plates = object ( [
-    [ "bottom", 0 ],
-    [ "pcb",    1 ],
-    [ "switch", 2 ],
-    [ "top",    3 ],
-] );
+// plates = object ( [
+//     [ "bottom", 0 ],
+//     [ "pcb",    1 ],
+//     [ "switch", 2 ],
+//     [ "top",    3 ],
+// ] );
 
-function plates () = plates;
+// function plates () = plates;
 
-if ( is_undef ( $parent_modules ) ) {
-    include <../androphage.scad>
+if ( is_undef ( ANDROPHAGE_MAIN ) ) {
+    //include <../androphage.scad>
 
     spacing = 2;
 
