@@ -506,6 +506,8 @@ include <components/frame.scad>
 
 include <components/hinge.scad>
 
+include <components/key_placement.scad>
+
 include <components/keys.scad>
 
 include <components/magnetic_connector.scad>

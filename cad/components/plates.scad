@@ -7,9 +7,9 @@
 
 // use <key_placement.scad>
 
-// use <../library/fillet.scad>
-// use <../library/path.scad>
-// use <../library/rainbow.scad>
+use <../library/fillet.scad>
+use <../library/path.scad>
+use <../library/rainbow.scad>
 
 // plates = object ( [
 //     [ "bottom", 0 ],
@@ -21,8 +21,6 @@
 // function plates () = plates;
 
 if ( is_undef ( ANDROPHAGE_MAIN ) ) {
-    //include <../androphage.scad>
-
     spacing = 2;
 
     for ( p = plates ) {
@@ -36,13 +34,13 @@ if ( is_undef ( ANDROPHAGE_MAIN ) ) {
 
 module plate_sketch (
     plate_id,
-    cluster,
-    column,
-    frame,
-    key,
-    led,
-    plate,
-    switch,
+    // cluster,
+    // column,
+    // frame,
+    // key,
+    // led,
+    // plate,
+    // switch,
     zpos = 0,
 ) {
     is_bottom = ( plate_id == plates.bottom );
@@ -51,10 +49,10 @@ module plate_sketch (
     is_top = ( plate_id == plates.top );
 
     difference () {
-        fillet2d ( radius = plate.outerRadius ) {
-            offset ( delta = ( is_bottom || is_top ) ? plate.Top.edge : plate.Switch.edge ) {
+        fillet2d ( radius = Plate.outerRadius ) {
+            offset ( delta = ( is_bottom || is_top ) ? Plate.Top.edge : Plate.Switch.edge ) {
                 mirror ( [ 1, 1, 0 ] ) {
-                    path_to_sketch ( frame.path );
+                    path_to_sketch ( Frame.path );
                 }
             }
         }
@@ -64,34 +62,26 @@ module plate_sketch (
         }
 
         if ( is_switch ) {
-            place_key_holes ( frame, key, plate ) {
+            place_key_holes() {
                 key_holes(
-                    cluster,
-                    column,
-                    key,
-                    switch,
                     connect = is_top,
-                    cutout = is_top ? cluster.cutout : 0,
+                    cutout = is_top ? Cluster.cutout : 0,
                 );
 
-                led_holes ( led );
+                led_holes();
             }
         }
 
         if ( is_top ) {
-            place_key_holes ( frame, key, plate ) {
-                fillet2d ( plate.Top.innerRadius ) {
+            place_key_holes() {
+                fillet2d ( Plate.Top.innerRadius ) {
                     key_holes(
-                        cluster,
-                        column,
-                        key,
-                        switch,
                         connect = is_top,
                         cutout = is_top ? cluster.cutout : 0,
                     );
                 }
 
-                led_holes ( led );
+                led_holes();
             }
         }
     }
@@ -99,40 +89,40 @@ module plate_sketch (
 
 module plate (
     plate_id,
-    cluster,
-    column,
-    frame,
-    key,
-    led,
-    plate,
-    switch,
+    // cluster,
+    // column,
+    // frame,
+    // key,
+    // led,
+    // plate,
+    // switch,
     zpos = 0,
 ) {
-    linear_extrude ( height = plate.Switch.thickness ) {
+    linear_extrude ( height = Plate.Switch.thickness ) {
         plate_sketch (
             plate_id,
-            cluster,
-            column,
-            frame,
-            key,
-            led,
-            plate,
-            switch,
+            // cluster,
+            // column,
+            // frame,
+            // key,
+            // led,
+            // plate,
+            // switch,
             zpos = 0,
         );
     }
 }
 
 module led_holes (
-    led,
+    // led,
 ) {
-    translate ( led.position ) {
-        for ( i = [ 0 : led.count - 1 ] ) {
-            translate ( led.holeSpacing * i ) {
-                if ( led.shape == "circle" ) {
-                    circle ( d = led.holeSize.x );
+    translate ( LED.position ) {
+        for ( i = [ 0 : LED.count - 1 ] ) {
+            translate ( LED.holeSpacing * i ) {
+                if ( LED.shape == "circle" ) {
+                    circle ( d = LED.holeSize.x );
                 } else {
-                    square ( led.holeSize, center = true );
+                    square ( LED.holeSize, center = true );
                 }
             }
         }

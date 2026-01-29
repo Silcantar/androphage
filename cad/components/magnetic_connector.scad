@@ -3,35 +3,34 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-// if ( is_undef ( ANDROPHAGE_MAIN ) ) {
-
-//     magnetic_connector (
-//         MagCon,
-//         include_cut	= true,
-//         pcb_color	= PCB.color,
-//     );
-// }
+if ( is_undef ( ANDROPHAGE_MAIN ) ) {
+    magnetic_connector (
+        // MagCon,
+        include_cut	= true,
+        pcb_color	= PCB.color,
+    );
+}
 
 module magnetic_connector (
-    magcon,
+    // magcon,
     include_cut	= false,
     pcb_color	= "DarkGreen",
 ) {
     dim = [
-        magcon.size,
-        magcon.lip,
-        magcon.size + [ 2 * eps, 0, 0 ],
-        magcon.lip + [ eps, 0, 0 ],
+        MagCon.size,
+        MagCon.lip,
+        MagCon.size + [ 2 * eps, 0, 0 ],
+        MagCon.lip + [ eps, 0, 0 ],
     ];
 
     dist = [
-        [ magcon.size.x / 2, 0, 0 ],
-        [ magcon.lip.x / 2 + magcon.lipOffset, 0, 0 ],
-        [ magcon.size.x / 2, 0, 0 ],
-        [ magcon.lip.x / 2 + magcon.lipOffset + eps, 0, 0 ]
+        [ MagCon.size.x / 2, 0, 0 ],
+        [ MagCon.lip.x / 2 + MagCon.lipOffset, 0, 0 ],
+        [ MagCon.size.x / 2, 0, 0 ],
+        [ MagCon.lip.x / 2 + MagCon.lipOffset + eps, 0, 0 ]
     ];
 
-    color ( magcon.color ) {
+    color ( MagCon.color ) {
         for ( i = include_cut ? [ 0 : 3 ] : [ 0 : 1 ] ) {
             translate ( dist[i] ) {
                 cube ( dim[i] - [ 0, dim[i].z, 0 ], center = true );
@@ -48,11 +47,9 @@ module magnetic_connector (
     }
 
     // VIK PCB
-    color ( pcb_color ) {
-        translate ( magcon.pcbPosition ) {
-            cube ( magcon.pcbSize, center = true);
+    color ( PCB.color ) {
+        translate ( MagCon.pcbPosition ) {
+            cube ( MagCon.pcbSize, center = true);
         }
     }
 }
-
-magnetic_connector();

@@ -6,24 +6,24 @@
 
 // use <choc_switch.scad>
 
-// use <plates_common.scad>
+use <key_placement.scad>
 
 module keys () {
     key_pos = key_positions();
 
-    place_plate () {
-        for ( i = [ 0 : last ( key_pos ) ] ) {
+    // place_plate () {
+        for ( i = [ 0 : len ( key_pos ) - 1 ] ) {
             let ( p = key_pos[i] ) {
                 translate ( [ p.x, p.y, 0 ] ){
                     rotate ( p[2][0] ) {
-                        if ( Switch_visible ) {
-                            translate ( [ 0, 0, Switch_position_z ] ) {
+                        if ( Switch.visible ) {
+                            translate ( [ 0, 0, Switch.position.z ] ) {
                                 if ( Switch_type == switch_chocv1 || Switch_type == switch_chocv2 ){
-                                    choc_switch ( travel = Switch_travel );
+                                    choc_switch ( travel = Switch.travel );
                                 }
 
-                                if ( Switch_type == switch_glp ) {
-                                    color ( Switch_GLP_color ) {
+                                if ( Switch.type == switch_glp ) {
+                                    color ( Switch.GLP.color ) {
                                         translate ( [ 60, 0, 3.2 ] ) {
                                             import ("../stl/gateron_ks-33.stl");
                                         }
@@ -31,11 +31,11 @@ module keys () {
                                 }
                             }
                         }
-                        if ( Keycap_visible ) {
-                            rotate ( Keycap_style[i][1] * 180 ){
-                                translate ( [ 0, 0, Keycap_position_z ] ) {
+                        if ( Keycap.visible ) {
+                            rotate ( Keycap.style[i][1] * 180 ){
+                                translate ( [ 0, 0, Keycap.position.z ] ) {
                                     color ( Keycap_style[i][2] ) {
-                                        import ( str ( "../", Keycap_path, Keycap_style[i][0], ".stl" ) );
+                                        import ( str ( "../", Keycap.path, Keycap.style[i][0], ".stl" ) );
                                     }
                                 }
                             }
@@ -44,5 +44,5 @@ module keys () {
                 }
             }
         }
-    }
+    // }
 }

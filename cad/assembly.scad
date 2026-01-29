@@ -38,7 +38,7 @@ module assemble_half( include_hinge = true ) {
     if ( Plate.Bottom.visible ) {
         // place_plate () {
             color ( Plate.Bottom.color ) {
-                plate ( plates().bottom, Cluster, Column, Frame, Key, LED, Plate, Switch );
+                plate ( plates().bottom );
             }
         // }
     }
@@ -47,7 +47,7 @@ module assemble_half( include_hinge = true ) {
     if ( PCB.visible ) {
         translate ( PCB.position ) {
             color ( PCB.color, 1 ) {
-                plate ( plates().pcb, Cluster, Column, Frame, Key, LED, Plate, Switch, zpos = PCB_position.z );
+                plate ( plates().pcb, zpos = PCB_position.z );
             }
         }
     }
@@ -56,7 +56,7 @@ module assemble_half( include_hinge = true ) {
     if ( Plate.Switch.present && Plate.Switch.visible ) {
         translate ( Plate.Switch.position ) {
             color ( Plate.Switch.color, 1 ) {
-                plate (  plates().switch, Cluster, Column, Frame, Key, LED, Plate, Switch, zpos = SwitchPlate_position.z );
+                plate ( plates().switch, zpos = SwitchPlate_position.z );
             }
         }
     }
@@ -65,7 +65,7 @@ module assemble_half( include_hinge = true ) {
     if ( Plate.Top.visible ) {
         translate ( Plate.Top.position ) {
             color ( Plate.Top.color ) {
-                plate ( plates().top, Cluster, Column, Frame, Key, LED, Plate, Switch, zpos = TopPlate_position.z );
+                plate ( plates().top, zpos = TopPlate_position.z );
             }
         }
     }
@@ -76,7 +76,7 @@ module assemble_half( include_hinge = true ) {
             rotate ( [ 0, Halves.angles.y, 0 ] ) {
                 rotate ( [ 90, 0, -90 ] ) {
                     color ( Frame.color, 1 ) {
-                        frame ( Frame, Halves, Plate );
+                        frame();
                     }
                 }
             }
@@ -138,7 +138,7 @@ module assemble_half( include_hinge = true ) {
 
     if ( MagCon.visible ) {
         translate ( MagCon.position ) {
-            magnetic_connector();
+            magnetic_connector( MagCon );
 
             // MCU piggybacking on magnetic connector PCB.
             translate ( [ 8, 8, -3 ] ) {
@@ -166,5 +166,5 @@ module assemble_half( include_hinge = true ) {
         }
     }
 
-    keys();
+    // keys();
 }

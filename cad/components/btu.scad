@@ -8,39 +8,39 @@ if ( is_undef ( ANDROPHAGE_MAIN ) ) {
 }
 
 module btu (
-    btu,
+    // btu,
     include_cut = false,
 ) {
     translate ( [ 0, 0, (
-        - btu.L
-        - btu.H
-        - btu.L1
+        - BTU.L
+        - BTU.H
+        - BTU.L1
     ) ] ) {
         cylinder (
-            d = btu.D1,
-            h = btu.L + eps
+            d = BTU.D1,
+            h = BTU.L + eps
         );
     }
 
     translate ( [ 0, 0, (
-        - btu.H
-        - btu.L1
+        - BTU.H
+        - BTU.L1
     ) ] ){
         cylinder (
-            d = btu.D,
-            h = btu.H + eps
+            d = BTU.D,
+            h = BTU.H + eps
         );
     }
 
-    translate ( [ 0, 0, - btu.d / 2 ] ) {
-        sphere ( d = btu.d );
+    translate ( [ 0, 0, - BTU.d / 2 ] ) {
+        sphere ( d = BTU.d );
     }
 
     if ( include_cut ) {
-        translate ( [ 0, 0, -btu.L1 ] ) {
+        translate ( [ 0, 0, -BTU.L1 ] ) {
             color ( Color.cut )
             cylinder (
-                d = btu.D,
+                d = BTU.D,
                 h = 10 + eps
             );
         }

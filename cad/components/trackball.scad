@@ -11,20 +11,20 @@
 // }
 
 module trackball (
-    trackball,
+    // trackball,
     centers		= false,
     // diameter	= Trackball_diameter,
     // color		= Trackball_color
 ) {
-    color ( trackball.color ) {
-        sphere ( d = trackball.diameter );
+    color ( Trackball.color ) {
+        sphere ( d = Trackball.diameter );
     }
 
     if ( centers ) {
         color ( "green", 0.5 ) {
             for ( r = [ [ 0, 0, 0 ], [ 90, 0, 0 ], [ 0, 90, 0 ] ]) {
                 rotate ( r ){
-                    cylinder ( d = trackball.diameter + 5, h = 0.1, center = true );
+                    cylinder ( d = Trackball.diameter + 5, h = 0.1, center = true );
                 }
             }
         }

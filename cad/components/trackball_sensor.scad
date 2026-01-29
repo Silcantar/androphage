@@ -14,7 +14,7 @@
 // }
 
 module trackball_sensor (
-    sensor,
+    // sensor,
     include_cut				= false,
     // sensor_pcbSize			= Trackball_Sensor_pcbSize,
     // sensor_opticalCenter	= Trackball_Sensor_opticalCenter,
@@ -27,6 +27,7 @@ module trackball_sensor (
     // color_lens				= Color_clear,
     // color_cut				= Color_cut
 ) {
+    sensor = Trackball.Sensor;
 
     // Focal point of the sensor
     * sphere ( d = 1 );

@@ -24,30 +24,30 @@ use <../library/path.scad>
 // }
 
 module frame (
-    frame,
-    halves,
-    plate,
+    // frame,
+    // halves,
+    // plate,
 ) {
-    translate ( [ 0, 0, frame.extraLength ] ) {
+    translate ( [ 0, 0, Frame.extraLength ] ) {
         difference () {
-            sweep ( frame.path, convexity = 2 ) {
-                _frame_sketch( frame, plate );
+            sweep ( Frame.path, convexity = 2 ) {
+                _frame_sketch();
 
-                _frame_sketch ( frame, plate, notch = true );
+                _frame_sketch ( notch = true );
             }
 
             for ( i = [ 13, 10 ] ) {
-                translate_on_path ( [ for ( j = [ len ( frame.path ) - 1 : -1 : i ] ) frame.path[j] ] ) {
-                    translate ( [ 0, frame.size.y, 0 ] ) {
+                translate_on_path ( [ for ( j = [ len ( Frame.path ) - 1 : -1 : i ] ) Frame.path[j] ] ) {
+                    translate ( [ 0, Frame.size.y, 0 ] ) {
                         rotate ( [ -90, 0, -90 ] ) {
-                            _notch_end_cutter( frame, plate );
+                            _notch_end_cutter();
                         }
                     }
                 }
             }
 
-            translate ( [ 0, 0, -frame.extraLength ] ) {
-                rotate ( [ halves.angles.y, 0, 0 ] ) {
+            translate ( [ 0, 0, -Frame.extraLength ] ) {
+                rotate ( [ Halves.angles.y, 0, 0 ] ) {
                     translate ( [ -110, -5, 0 ] ) {
                         cube ( [ 120, 30, 10 ] );
                     }
@@ -59,32 +59,32 @@ module frame (
 
 // Cross section of the frame.
 module _frame_sketch (
-    frame,
-    plate,
+    // frame,
+    // plate,
     notch			= false,
     rebates			= true,
 ) {
-    chordLength = frame.size.y / cos ( frame.chordAngle );
-    circleOffset = sqrt ( frame.mainRadius ^ 2 - ( chordLength / 2 ) ^ 2 );
+    chordLength = Frame.size.y / cos ( Frame.chordAngle );
+    circleOffset = sqrt ( Frame.mainRadius ^ 2 - ( chordLength / 2 ) ^ 2 );
     chordCenter = (
-          ( frame.chordAngle < 0 ) ? frame.size : [ frame.size.x, 0 ] )
+          ( Frame.chordAngle < 0 ) ? Frame.size : [ Frame.size.x, 0 ] )
         + ( chordLength / 2 ) * [
-            cos ( 90 + frame.chordAngle ),
-            sin ( 90 + frame.chordAngle )
+            cos ( 90 + Frame.chordAngle ),
+            sin ( 90 + Frame.chordAngle )
         ];
     mainArcCenter = chordCenter + circleOffset * [
-        cos ( frame.chordAngle ),
-        sin ( frame.chordAngle )
+        cos ( Frame.chordAngle ),
+        sin ( Frame.chordAngle )
     ];
 
     difference () {
-        offset ( r = frame.filletRadius ) {
-            offset ( r = -frame.filletRadius ) {
+        offset ( r = Frame.filletRadius ) {
+            offset ( r = -Frame.filletRadius ) {
                 difference () {
-                    square ( frame.size - [ 0, notch ? frame.notchDepth : 0 ] );
+                    square ( Frame.size - [ 0, notch ? Frame.notchDepth : 0 ] );
 
                     translate ( mainArcCenter ) {
-                        circle ( r = frame.mainRadius );
+                        circle ( r = Frame.mainRadius );
                     }
                 }
             }
@@ -92,9 +92,9 @@ module _frame_sketch (
 
         // Plate rebates.
         if ( rebates ) {
-            for ( ypos = [ -eps, frame.size.y - plate.Top.thickness ] ) {
+            for ( ypos = [ -eps, Frame.size.y - Plate.Top.thickness ] ) {
                 translate ( [ -eps, ypos ] ) {
-                    square ( [ frame.lipDepth + eps, plate.Top.thickness + eps ] );
+                    square ( [ Frame.lipDepth + eps, Plate.Top.thickness + eps ] );
                 }
             }
         }
@@ -102,20 +102,20 @@ module _frame_sketch (
 }
 
 module _notch_end_cutter (
-    frame,
-    plate,
+    // frame,
+    // plate,
 ) {
     rotate_extrude ( angle = 360 ) {
         difference () {
             translate ( [ 0, -eps, 0 ] )
-            square ( [ frame.notchDepth + frame.filletRadius + eps, frame.size.x + 2 * eps ] );
+            square ( [ Frame.notchDepth + Frame.filletRadius + eps, Frame.size.x + 2 * eps ] );
 
             rotate ( 90 ) {
-                translate ( [ eps, -frame.size.y - frame.notchDepth ] ) {
+                translate ( [ eps, -Frame.size.y - Frame.notchDepth ] ) {
                     offset ( eps ) {
                         _frame_sketch (
-                            frame,
-                            plate,
+                            // frame,
+                            // plate,
                             rebates = false
                         );
                     }
