@@ -15,7 +15,7 @@
 |		"middle": in the middle of a given half (i.e. near the middle finger).	|
 |																				|
 |	* Naming Conventions *														|
-|		Modules & Functions:	snake_case										|
+|	    Modules & Functions:	snake_case										|
 |			Example:	module center_block ( ... ) { ... }						|
 |		Global Variables:		PascalCaseObject_camelCaseProperty				|
 |			Example:	CenterBlock_wallThickness								|
@@ -25,7 +25,14 @@
 |																				|
 \*******************************************************************************/
 
+/* [Hidden] */
+// Other files test whether this is defined to determine whether this file has
+// been loaded.
 ANDROPHAGE_MAIN = true;
+
+/* [Testing] */
+// Set to true to enable testing features.
+$test = false;
 
 /*******************************************************************************\
 |							Component Visibility								|
@@ -51,6 +58,7 @@ Frame_visible				= true;
 // Show the hinge.
 Hinge_visible				= true;
 
+// Show heat-set inserts.
 Insert_visible				= true;
 
 // Show Keycaps.
@@ -58,6 +66,9 @@ Keycap_visible				= false;
 
 // Show the magnetic connector.
 MagCon_visible				= true;
+
+// Show the microcontroller unit.
+MCU_visible                 = true;
 
 // Show the PCB.
 PCB_visible					= true;
@@ -84,9 +95,6 @@ Trackball_BTU_visible		= true;
 
 // Show the trackball sensor.
 Trackball_Sensor_visible	= true;
-
-// Animate the opening and closing of the keyboard.
-do_rotate = false;
 
 /*******************************************************************************\
 |									Battery										|
@@ -311,6 +319,8 @@ LED_position_y = 13;
 |								Magnetic Connector								|
 \*******************************************************************************/
 
+/* [Magnetic Connector] */
+
 // Size of the main body of the magnetic connector.
 MagCon_size			= [ 4.7, 26.5, 6.0 ];
 
@@ -325,6 +335,8 @@ MagCon_pcbSize = [ 1.6, 36.5, 10 ];
 /*******************************************************************************\
 |										MCU										|
 \*******************************************************************************/
+
+/* [MCU] */
 
 MCU_chipSize = [ 12, 10, 1.5 ];
 
@@ -369,13 +381,13 @@ SwitchPlate_present	= true;
 SwitchPlate_clearance = 0.2;
 
 // Distance from keys to edge of switch plate.
-SwitchPlate_edge = 4; //[1:5]
+SwitchPlate_edge = 2; //[1:5]
 
 SwitchPlate_radius = 1;
 
 /* [Top Plate] */
 
-// Top plate thickness. 1.6 mm is the minimum for anodizing at SendCutSend.
+// Top plate thickness.
 TopPlate_thickness = 1.2; //[1.0:0.2:2.0]
 
 // Fillet radius for the cutout in the top plate.
@@ -388,6 +400,8 @@ Plate_centerArcRadius = 20;	//[10:50]
 
 // Radius of the arc at the back of the keyboard.
 Plate_backArcRadius = 120;	//[50:200]
+
+Plate_backCornerAngle = 43;
 
 /*******************************************************************************\
 |									Switches									|
@@ -489,16 +503,20 @@ Trackball_BTU_L1	= 1.1;
 \*******************************************************************************/
 
 // Definitions and calclations.
+include <library/globals.scad>
+
 include <globals.scad>
 
 include <color.scad>
 
 include <derives.scad>
 
-include <objects.scad>
+// include <objects.scad>
 
-// Components
+// Components.
 include <components/battery.scad>
+
+include <components/btu.scad>
 
 include <components/center_block.scad>
 
@@ -516,8 +534,9 @@ include <components/mcu.scad>
 
 include <components/plates.scad>
 
-include <components/trackball.scad>
-
 include <components/trackball_sensor.scad>
 
+include <components/trackball.scad>
+
+// Assembly.
 include <assembly.scad>

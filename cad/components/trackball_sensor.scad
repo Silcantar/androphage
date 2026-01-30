@@ -10,77 +10,62 @@
 // if ( is_undef ( ANDROPHAGE_MAIN ) ) {
 
 //     // Test
-//     trackball_sensor ( Trackball.Sensor, include_cut = true );
+//     trackball_sensor ( Trackball_Sensor, include_cut = true );
 // }
 
-module trackball_sensor (
-    // sensor,
-    include_cut				= false,
-    // sensor_pcbSize			= Trackball_Sensor_pcbSize,
-    // sensor_opticalCenter	= Trackball_Sensor_opticalCenter,
-    // sensor_size				= Trackball_Sensor_size,
-    // sensor_lensSize			= Trackball_Sensor_lensSize,
-    // sensor_holeSize			= Trackball_Sensor_holeSize,
-    // sensor_clearance		= Trackball_Sensor_clearance,
-    // color_pcb				= PCB_color,
-    // color_sensor			= Trackball_Sensor_color,
-    // color_lens				= Color_clear,
-    // color_cut				= Color_cut
-) {
-    sensor = Trackball.Sensor;
-
+module trackball_sensor ( include_cut = false ) {
     // Focal point of the sensor
     * sphere ( d = 1 );
 
-    translate ( sensor.pcbSize / 2 - sensor.opticalCenter ) {
+    translate ( Trackball_Sensor_pcbSize / 2 - Trackball_Sensor_opticalCenter ) {
         // PCB
-        color ( Color.pcb ) {
-            cube ( sensor.pcbSize, center = true );
+        color ( PCB_color ) {
+            cube ( Trackball_Sensor_pcbSize, center = true );
         }
 
         // Sensor
         translate ( [ 0, 0, (
-            sensor.pcbSize.z
-            + sensor.size.z
+            Trackball_Sensor_pcbSize.z
+            + Trackball_Sensor_size.z
         ) / 2 ] ) {
-            color ( sensor.color ) {
-                cube ( sensor.size, center = true);
+            color ( Trackball_Sensor_color ) {
+                cube ( Trackball_Sensor_size, center = true);
             }
         }
 
         // Lens
         translate ( [ 0, 0, -(
-            sensor.pcbSize.z
-            + sensor.lensSize.z
+            Trackball_Sensor_pcbSize.z
+            + Trackball_Sensor_lensSize.z
         ) / 2 ] ) {
-            color ( sensor.lensColor ) {
-                cube ( sensor.lensSize + [ 0, 0, eps ], center = true );
+            color ( Trackball_Sensor_lensColor ) {
+                cube ( Trackball_Sensor_lensSize + [ 0, 0, $eps ], center = true );
             }
         }
     }
 
     if ( include_cut ) {
-        color ( Color.cut ){
+        color ( Color_cut ){
             cylinder (
-                d = sensor.holeSize,
-                h = sensor.clearance + eps
+                d = Trackball_Sensor_holeSize,
+                h = Trackball_Sensor_clearance + $eps
             );
 
             translate (
-                sensor.pcbSize / 2
-                - sensor.opticalCenter
+                Trackball_Sensor_pcbSize / 2
+                - Trackball_Sensor_opticalCenter
                 + [
                     0,
                     0,
-                    sensor.clearance
-                    + sensor.lensSize.z
-                    - eps
+                    Trackball_Sensor_clearance
+                    + Trackball_Sensor_lensSize.z
+                    - $eps
                 ]
             ) {
                 cube (
                     [
-                        sensor.pcbSize.x,
-                        sensor.pcbSize.y,
+                        Trackball_Sensor_pcbSize.x,
+                        Trackball_Sensor_pcbSize.y,
                         10
                     ],
                     center = true

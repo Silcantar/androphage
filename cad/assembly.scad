@@ -3,79 +3,97 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
+use <library/animation.scad>
+
 androphage_assembly();
+
+angle = ( 180 + 2 * Halves_angles.y ) * oscillate();
 
 module androphage_assembly () {
     // Assemble and place the right half.
-    translate ( -[ Trackball.position.x, Trackball.position.y, Hinge.Front.position.z ] ) {
+    echo ( "Assembling right half." );
+    translate ( -[ Trackball_position.x, Trackball_position.y, Hinge_Front_position.z ] ) {
         assemble_half();
     }
 
     // Assemble and place the left half.
     if ( LeftHalf_visible ) {
-        rotate ( [ 0, LeftHalf_visible ? 180 + 2 * Halves.angles.y : 0, 0 ] ) {
-            translate ( -[ Trackball.position.x, Trackball.position.y, Hinge.Front.position.z ] ) {
+        echo ( "Assembling left half." );
+        rotate ( [ 0, LeftHalf_visible ? angle : 0, 0 ] ) {
+            translate ( -[ Trackball_position.x, Trackball_position.y, Hinge_Front_position.z ] ) {
                 mirror ( [ 1, 0, 0 ] ) {
-                    assemble_half( include_hinge = false );
+                    assemble_half( secondary = true );
                 }
             }
         }
     }
 
     // Desk
-    if ( Desk.visible ) {
-        translate ( Desk.position ) {
-            color ( Desk.color ) {
-                cube ( Desk.size, center = true );
+    if ( Desk_visible ) {
+        echo ( "Building Desk." );
+        translate ( Desk_position ) {
+            color ( Desk_color ) {
+                cube ( Desk_size, center = true );
             }
         }
     }
 }
 
 // Assemble one half of the Androphage keyboard.
-module assemble_half( include_hinge = true ) {
+module assemble_half( secondary = false ) {
     /*				Bottom Plate				*/
-    if ( Plate.Bottom.visible ) {
-        // place_plate () {
-            color ( Plate.Bottom.color ) {
-                plate ( plates().bottom );
+    if ( BottomPlate_visible ) {
+        echo ( "    Building bottom plate." );
+        rotate ( [ 0, Halves_angles.y, 0 ] ) {
+            color ( BottomPlate_color ) {
+                plate ( bottom );
             }
-        // }
+        }
     }
 
     /*				PCB				*/
-    if ( PCB.visible ) {
-        translate ( PCB.position ) {
-            color ( PCB.color, 1 ) {
-                plate ( plates().pcb, zpos = PCB_position.z );
+    if ( PCB_visible ) {
+        echo ( "    Building PCB." );
+        translate ( PCB_position ) {
+            rotate ( [ 0, Halves_angles.y, 0 ] ) {
+                color ( PCB_color, 1 ) {
+                    plate ( pcb, zpos = PCB_position.z );
+                }
             }
         }
     }
 
     /*				Switch Plate				*/
-    if ( Plate.Switch.present && Plate.Switch.visible ) {
-        translate ( Plate.Switch.position ) {
-            color ( Plate.Switch.color, 1 ) {
-                plate ( plates().switch, zpos = SwitchPlate_position.z );
+    if ( SwitchPlate_present && SwitchPlate_visible ) {
+        echo ( "    Building switch plate." );
+        translate ( SwitchPlate_position ) {
+            rotate ( [ 0, Halves_angles.y, 0 ] ) {
+                color ( SwitchPlate_color, 1 ) {
+                    plate ( switch, zpos = SwitchPlate_position.z );
+                }
             }
         }
     }
 
     /*				Top Plate				*/
-    if ( Plate.Top.visible ) {
-        translate ( Plate.Top.position ) {
-            color ( Plate.Top.color ) {
-                plate ( plates().top, zpos = TopPlate_position.z );
+    if ( TopPlate_visible ) {
+        echo ( "    Building top plate." );
+        translate ( TopPlate_position ) {
+            rotate ( [ 0, Halves_angles.y, 0 ] ) {
+                color ( TopPlate_color ) {
+                    plate ( top, zpos = TopPlate_position.z );
+                }
             }
         }
     }
 
     /*				Case Frame				*/
-    if ( Frame.visible ) {
-        translate ( [ 0, Plate.Switch.edge, 0 ] ) {
-            rotate ( [ 0, Halves.angles.y, 0 ] ) {
+    if ( Frame_visible ) {
+        echo ( "    Building frame." );
+        translate ( [ 0, -SwitchPlate_edge, 0 ] ) {
+            rotate ( [ 0, Halves_angles.y, 0 ] ) {
                 rotate ( [ 90, 0, -90 ] ) {
-                    color ( Frame.color, 1 ) {
+                    color ( Frame_color, 1 ) {
                         frame();
                     }
                 }
@@ -84,46 +102,55 @@ module assemble_half( include_hinge = true ) {
     }
 
     /*				Center Block				*/
-    if ( CenterBlock.visible ) {
-        color ( CenterBlock.color ) {
+    if ( CenterBlock_visible ) {
+        echo ( "    Building center block." );
+        color ( CenterBlock_color ) {
             center_block();
         }
     }
 
-    if ( Hinge.visible && include_hinge ) {
-        color ( Hinge.color ) {
-            translate ( Hinge.Front.position ) {
-                hinge (
-                    length	= Hinge.Front.length,
-                    angle	= Halves.angles.y * 2
-                );
+    if ( Hinge_visible && !secondary ) {
+        echo ( "    Building hinges." );
+        color ( Hinge_color ) {
+            translate ( Hinge_Front_position ) {
+                rotate ( [ 0, angle / 2, 0 ] ) {
+                    hinge (
+                        length	= Hinge_Front_length,
+                        angle	= Halves_angles.y * 2 - angle
+                    );
+                }
             }
 
-            translate ( Hinge.Back.position ) {
-                hinge (
-                    length	= Hinge.Back.length,
-                    angle	= Halves.angles.y * 2,
-                    center	= false,
-                    front	= false
-                );
+            translate ( Hinge_Back_position ) {
+                rotate ( [ 0, angle / 2, 0 ] ) {
+                    hinge (
+                        length	= Hinge_Back_length,
+                        angle	= Halves_angles.y * 2 - angle,
+                        center	= false,
+                        front	= false
+                    );
+                }
             }
         }
     }
 
     /*				Trackball				*/
-    if ( Trackball.visible ) {
-        translate ( Trackball.position ) {
+    if ( Trackball_visible ) {
+        echo ( "    Building trackball." );
+        translate ( Trackball_position ) {
             trackball ( centers = false );
         }
     }
 
-    if ( Trackball.BTU.visible ) {
-        color ( Trackball.BTU.color ) {
+    if ( Trackball_BTU_visible ) {
+        echo ( "    Building BTUs." );
+        color ( Trackball_BTU_color ) {
             place_btus();
         }
     }
 
-    if ( Trackball.Sensor.visible ) {
+    if ( Trackball_Sensor_visible ) {
+        echo ( "    Building trackball sensor." );
         place_sensor () {
             trackball_sensor();
 
@@ -136,10 +163,14 @@ module assemble_half( include_hinge = true ) {
         }
     }
 
-    if ( MagCon.visible ) {
-        translate ( MagCon.position ) {
-            magnetic_connector( MagCon );
+    translate ( MagCon_position ) {
 
+        if ( MagCon_visible ) {
+            echo ( "    Building magnetic connector." );
+            magnetic_connector();
+        }
+
+        if ( MCU_visible && !secondary ){
             // MCU piggybacking on magnetic connector PCB.
             translate ( [ 8, 8, -3 ] ) {
                 rotate ( [ 180, -90, 0 ] ) {
@@ -152,19 +183,21 @@ module assemble_half( include_hinge = true ) {
 
     // MCU directly at USB port location.
     *translate ( [ 20, 84, 3 ] ) {
-        rotate ( [ 0, 0 + Halves.angles.y, 0 ] ) {
+        rotate ( [ 0, 0 + Halves_angles.y, 0 ] ) {
             mcu();
         }
     }
 
-    if ( Battery.visible ) {
+    if ( Battery_visible ) {
+        echo ( "    Building battery." );
         translate ( [ 20, 88, 11.3 ] ) {
-            rotate ( [ 0, Halves.angles.y, 0 ] )
+            rotate ( [ 0, Halves_angles.y, 0 ] )
             rotate ( [ 0, 90, 100 ] ) {
                 battery();
             }
         }
     }
 
+    echo ( "    Building keys and switches." );
     // keys();
 }

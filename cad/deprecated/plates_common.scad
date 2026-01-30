@@ -25,7 +25,7 @@ if ( is_undef ( $parent_modules ) ) {
 	// 	# circle (1);
 	// }
 
-	// linear_extrude ( 1 + 2 * eps, center = true ) {
+	// linear_extrude ( 1 + 2 * $eps, center = true ) {
 		place_switches (
 			Cluster,
 			Column,
@@ -240,7 +240,7 @@ if ( is_undef ( $parent_modules ) ) {
 
 // 		translate (
 // 			front_center_point()
-// 			+ ( edge + eps ) * [
+// 			+ ( edge + $eps ) * [
 // 				- cos ( Halves_angles.z ) - 2 * sin ( Halves_angles.z ),
 // 				sin ( Halves_angles.z ) - 2 * cos ( Halves_angles.z )
 // 			]
@@ -251,7 +251,7 @@ if ( is_undef ( $parent_modules ) ) {
 // 		) {
 // 			rotate ( -Halves_angles.z ) {
 // 				square ( [
-// 					edge + clearance + eps,
+// 					edge + clearance + $eps,
 // 					Hinge_size.y + 4 * edge
 // 				] );
 // 			}
@@ -262,8 +262,8 @@ if ( is_undef ( $parent_modules ) ) {
 // "Drill" and "countersink" screw holes.
 module place_screws (
 	thickness,
-	halves_angles	= halves.angles,
-	screw_diameter	= Screw.diameter,
+	halves_angles	= halves_angles,
+	screw_diameter	= Screw_diameter,
 	screw_positions	= screw_positions(),
 ) {
 	_screw_positions = screw_positions();
@@ -273,7 +273,7 @@ module place_screws (
 			pos = _screw_positions[i],
 			rot = _screw_rotations[i]
 		) {
-			translate ( pos + [ 0, 0, thickness + eps ] ) {
+			translate ( pos + [ 0, 0, thickness + $eps ] ) {
 				rotate ( rot ) {
 					children();
 				}
@@ -282,14 +282,14 @@ module place_screws (
 	}
 }
 
-function screw_positions_translated ( 
-	angle = halves.angles.z,
+function screw_positions_translated (
+	angle = halves_angles.z,
 	screw_positions = screw_positions(),
 ) = [
 	for ( p = screw_positions ) p - front_center_point()
 ] * rot3d ( [ 0, 0, -angle ] );
 
-function screw_positions ( 
+function screw_positions (
 	halves,
 	key,
 	plate,
@@ -297,46 +297,46 @@ function screw_positions (
 	trackball,
 ) = (
 	let (
-		cosz = cos ( halves.angles.z ),
-		sinz = sin ( halves.angles.z ),
-		edge_offset = plate.Top.edge - screw.offset,
+		cosz = cos ( halves_angles.z ),
+		sinz = sin ( halves_angles.z ),
+		edge_offset = plate_Top_edge - screw_offset,
 		screw1_y = (
-			+ trackball.position.y
-			- trackball.diameter / 2
-			- trackball.clearance
-			- screw.offset
+			+ trackball_position.y
+			- trackball_diameter / 2
+			- trackball_clearance
+			- screw_offset
 		)
 	) [
 		_center_arc_inner_end() + [
-			screw.offset * cosz - edge_offset * sinz,
-			-screw.offset * sinz - edge_offset * cosz,
+			screw_offset * cosz - edge_offset * sinz,
+			-screw_offset * sinz - edge_offset * cosz,
 			0,
 		],
 		_center_arc_inner_end() + [
-			screw.offset * cosz + screw1_y * sinz,
-			-screw.offset * sinz + screw1_y * cosz,
+			screw_offset * cosz + screw1_y * sinz,
+			-screw_offset * sinz + screw1_y * cosz,
 			0,
 		],
 		_back_arc_inner_end() + [
-			screw.offset * cosz + edge_offset * sinz,
-			-screw.offset * sinz + edge_offset * cosz,
+			screw_offset * cosz + edge_offset * sinz,
+			-screw_offset * sinz + edge_offset * cosz,
 			0
 		],
 		_back_middle_point () + [ 1.5, 1, 0 ],
 		_back_outer_point() + [ edge_offset, 1, 0 ],
 		_front_outer_point() + [
 			edge_offset,
-			key.spacing.y / 2 - edge_offset,
+			key_spacing.y / 2 - edge_offset,
 			0
 		],
-		_front_middle_point() + [ key.spacing.x, -edge_offset, 0 ],
+		_front_middle_point() + [ key_spacing.x, -edge_offset, 0 ],
 	]
 );
 
 function screw_rotations ( halves ) = [
-	-halves.angles.z,
-	-halves.angles.z,
-	-halves.angles.z,
+	-halves_angles.z,
+	-halves_angles.z,
+	-halves_angles.z,
 	-90,
 	180,
 	180,
@@ -351,41 +351,41 @@ function key_positions (
 	// Finger keys.
 	[
 		for (
-			i = [ 0 : column.last ],
-			j = [ 0 : column.counts[i] - 1 ]
+			i = [ 0 : column_last ],
+			j = [ 0 : column_counts[i] - 1 ]
 		) [
-			(i - 1) * key.spacing.x,
-			(column.offsets[i] + j) * key.spacing.y,
+			(i - 1) * key_spacing.x,
+			(column_offsets[i] + j) * key_spacing.y,
 			// Properties
 			[
 				// Rotation
 				0,
 				// Cutout
-				j == 0 ? column.cutouts[i] : 0,
+				j == 0 ? column_cutouts[i] : 0,
 				// Connector
-				j == 0 ? column.connectors[i] : [ 0, 0 ],
+				j == 0 ? column_connectors[i] : [ 0, 0 ],
 			],
 		],
 	],
 	// Thumb keys.
 	[
 		for (
-			i = [ 0 : len ( cluster.columnCounts ) - 1 ],
-			j = [ 0 : cluster.columnCounts[i] - 1 ]
+			i = [ 0 : len ( cluster_columnCounts ) - 1 ],
+			j = [ 0 : cluster_columnCounts[i] - 1 ]
 		) concat (
 			(
-				rot2d ( ( i + 1 ) * cluster.angle )
-				* [ 0, cluster.radius_mm + key.spacing.y * j ]
-				+ [ 0, -cluster.radius_mm ]
+				rot2d ( ( i + 1 ) * cluster_angle )
+				* [ 0, cluster_radius_mm + key_spacing.y * j ]
+				+ [ 0, -cluster_radius_mm ]
 			),
 			// Properties
 			[ [
 				// Rotation
-				( i + 1 ) * cluster.angle,
+				( i + 1 ) * cluster_angle,
 				// Cutout
 				j == 0 ? 1 : 0,
 				// Connector
-				j == 0 ? [ key.spacing.y, 0 ] : [ 0, 0 ],
+				j == 0 ? [ key_spacing.y, 0 ] : [ 0, 0 ],
 			] ]
 		)
 	]
@@ -411,8 +411,8 @@ module place_switches (
 				rotate ( angle ){
 					_switch_hole (
 						cutout	= cutout * do_cutout,
-						radius	= switch.radius,
-						size	= switch.size
+						radius	= switch_radius,
+						size	= switch_size
 					);
 
 					if ( connect && connector != [ 0, 0 ] ) {
@@ -431,12 +431,12 @@ module place_switches (
 function trackball_point (
 	halves,
 	trackball,
-	zpos = 0 
+	zpos = 0
 ) = (
 	front_center_point ( zpos )
-		+ trackball.position.y * [
-		sin ( halves.angles.z ),
-		cos ( halves.angles.z )
+		+ trackball_position.y * [
+		sin ( halves_angles.z ),
+		cos ( halves_angles.z )
 	]
 );
 
@@ -447,19 +447,19 @@ module place_trackball (
 	translate ( trackball_point ( zpos ) ) {
 		circle (
 			d = (
-				trackball.diameter
-				+ 2 * trackball.clearance
+				trackball_diameter
+				+ 2 * trackball_clearance
 			)
 		);
 	}
 }
 
-module place_plate ( 
+module place_plate (
 	halves,
 	pos = [ 0, 0, 0 ],
 ) {
-	rotate ( [ 0, halves.angles.y, 0 ] ) {
-		rotate ( [ 0, 0, halves.angles.z ] ) {
+	rotate ( [ 0, halves_angles.y, 0 ] ) {
+		rotate ( [ 0, 0, halves_angles.z ] ) {
 			translate ( pos - front_center_point ( 0 )) {
 				children();
 			}

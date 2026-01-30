@@ -3,22 +3,9 @@
 |						Copyright 2026 Joshua Lucas 						    |
 \*******************************************************************************/
 
-// include <../globals.scad>
-
-// use <key_placement.scad>
-
 use <../library/fillet.scad>
 use <../library/path.scad>
 use <../library/rainbow.scad>
-
-// plates = object ( [
-//     [ "bottom", 0 ],
-//     [ "pcb",    1 ],
-//     [ "switch", 2 ],
-//     [ "top",    3 ],
-// ] );
-
-// function plates () = plates;
 
 if ( is_undef ( ANDROPHAGE_MAIN ) ) {
     spacing = 2;
@@ -34,25 +21,18 @@ if ( is_undef ( ANDROPHAGE_MAIN ) ) {
 
 module plate_sketch (
     plate_id,
-    // cluster,
-    // column,
-    // frame,
-    // key,
-    // led,
-    // plate,
-    // switch,
     zpos = 0,
 ) {
-    is_bottom = ( plate_id == plates.bottom );
-    is_pcb = ( plate_id == plates.pcb );
-    is_switch = ( plate_id == plates.switch );
-    is_top = ( plate_id == plates.top );
+    is_bottom   = ( plate_id == bottom );
+    is_pcb      = ( plate_id == pcb );
+    is_switch   = ( plate_id == switch );
+    is_top      = ( plate_id == top );
 
     difference () {
-        fillet2d ( radius = Plate.outerRadius ) {
-            offset ( delta = ( is_bottom || is_top ) ? Plate.Top.edge : Plate.Switch.edge ) {
+        fillet2d ( radius = Plate_outerRadius ) {
+            offset ( delta = ( is_bottom || is_top ) ? Frame_lipDepth : 0 ) {
                 mirror ( [ 1, 1, 0 ] ) {
-                    path_to_sketch ( Frame.path );
+                    path_to_sketch ( Frame_path );
                 }
             }
         }
@@ -65,7 +45,7 @@ module plate_sketch (
             place_key_holes() {
                 key_holes(
                     connect = is_top,
-                    cutout = is_top ? Cluster.cutout : 0,
+                    cutout = is_top ? Cluster_cutout : 0,
                 );
 
                 led_holes();
@@ -74,10 +54,10 @@ module plate_sketch (
 
         if ( is_top ) {
             place_key_holes() {
-                fillet2d ( Plate.Top.innerRadius ) {
-                    key_holes(
+                fillet2d ( TopPlate_innerRadius ) {
+                   key_holes(
                         connect = is_top,
-                        cutout = is_top ? cluster.cutout : 0,
+                        cutout = is_top ? Cluster_cutout : 0,
                     );
                 }
 
@@ -89,40 +69,24 @@ module plate_sketch (
 
 module plate (
     plate_id,
-    // cluster,
-    // column,
-    // frame,
-    // key,
-    // led,
-    // plate,
-    // switch,
     zpos = 0,
 ) {
-    linear_extrude ( height = Plate.Switch.thickness ) {
+    linear_extrude ( height = SwitchPlate_thickness ) {
         plate_sketch (
             plate_id,
-            // cluster,
-            // column,
-            // frame,
-            // key,
-            // led,
-            // plate,
-            // switch,
             zpos = 0,
         );
     }
 }
 
-module led_holes (
-    // led,
-) {
-    translate ( LED.position ) {
-        for ( i = [ 0 : LED.count - 1 ] ) {
-            translate ( LED.holeSpacing * i ) {
-                if ( LED.shape == "circle" ) {
-                    circle ( d = LED.holeSize.x );
+module led_holes () {
+    translate ( LED_position ) {
+        for ( i = [ 0 : LED_count - 1 ] ) {
+            translate ( LED_holeSpacing * i ) {
+                if ( LED_holeShape == "circle" ) {
+                    circle ( d = LED_holeSize.x );
                 } else {
-                    square ( LED.holeSize, center = true );
+                    square ( LED_holeSize, center = true );
                 }
             }
         }

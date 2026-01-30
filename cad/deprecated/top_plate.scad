@@ -78,12 +78,12 @@ module _top_plate_sketch (
             );
         }
 
-        // translate ( 
-        // 	_front_arc_inner_end() 
-        // 	+ TopPlate_edge * [ 
-        // 		sin ( inner_thumb_key_angle() ), 
-        // 		-cos ( inner_thumb_key_angle() ) 
-        // 	] 
+        // translate (
+        // 	_front_arc_inner_end()
+        // 	+ TopPlate_edge * [
+        // 		sin ( inner_thumb_key_angle() ),
+        // 		-cos ( inner_thumb_key_angle() )
+        // 	]
         // 	+ Key_spacing.x / 2 * [
         // 		-cos ( inner_thumb_key_angle() ),
         // 		-sin ( inner_thumb_key_angle() )
@@ -94,7 +94,7 @@ module _top_plate_sketch (
         // 	}
         // }
 
-        // translate ( 
+        // translate (
         // 	_front_middle_point() + [
         // 		Key_spacing.x / 2,
         // 		-TopPlate_edge
@@ -111,7 +111,7 @@ module _top_plate_sketch (
         }
 
         // Place circles at the screw holes for when the sketch is used for
-        // production (e.g. laser cutting).
+        // production (e_g. laser cutting).
         place_screws ( thickness = 0 ) {
             circle ( d = Screw_diameter );
         }
@@ -121,13 +121,13 @@ module _top_plate_sketch (
 module place_led_holes (
     led,
 ) {
-    translate ( led.position ) {
-        for ( i = [ 0 : led.count - 1 ] ) {
-            translate ( led.holeSpacing * i ) {
-                if ( led.shape == "circle" ) {
-                    circle ( d = led.holeSize.x );
+    translate ( led_position ) {
+        for ( i = [ 0 : led_count - 1 ] ) {
+            translate ( led_holeSpacing * i ) {
+                if ( led_shape == "circle" ) {
+                    circle ( d = led_holeSize.x );
                 } else {
-                    square ( led.holeSize, center = true );
+                    square ( led_holeSize, center = true );
                 }
             }
         }

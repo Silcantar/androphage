@@ -11,19 +11,6 @@
 $fa = $preview ? 10 : 1;
 $fs = $preview ? 1	: 0.1;
 
-// Test boolean.
-$test = false;
-
-/*******************************************************************************\
-|									Constants									|
-\*******************************************************************************/
-
-// Very small amount.
-eps = 0.01;
-
-// Number of millimeters in an inch.
-INCH = 25.4;
-
 /*******************************************************************************\
 |									Enums										|
 \*******************************************************************************/
@@ -47,7 +34,7 @@ axis = [
 switch_chocv1	= "chocv1";
 switch_chocv2	= "chocv2";
 switch_mx		= "mx";
-switch_glp		= "glp"; // That's Gateron Low Profile (KS-33).
+switch_glp		= "glp"; // Gateron Low Profile (KS-33).
 
 // Choc V1 color schemes.
 switch_red		= 0;
@@ -62,9 +49,12 @@ switch_nocturnal= 8;
 switch_sunrise	= 9;
 switch_bokeh	= 10;
 
-// Path segments.
-// use <library/path.scad>
+bottom  = 0;
+pcb     = 1;
+switch  = 2;
+top     = 3;
 
-// l = ET_L(); // Linear extrude
-// m = ET_M(); // Mitered corner
-// r = ET_R(); // Rotate extrude (revolve)
+// Sweep types.
+l = "l"; // Linear extrude
+m = "m"; // Mitered corner
+r = "r"; // Rotate extrude (revolve)

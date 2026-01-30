@@ -7,7 +7,7 @@ if ( is_undef ( ANDROPHAGE_MAIN ) ) {
     magnetic_connector (
         // MagCon,
         include_cut	= true,
-        pcb_color	= PCB.color,
+        pcb_color	= PCB_color,
     );
 }
 
@@ -17,20 +17,20 @@ module magnetic_connector (
     pcb_color	= "DarkGreen",
 ) {
     dim = [
-        MagCon.size,
-        MagCon.lip,
-        MagCon.size + [ 2 * eps, 0, 0 ],
-        MagCon.lip + [ eps, 0, 0 ],
+        MagCon_size,
+        MagCon_lip,
+        MagCon_size + [ 2 * $eps, 0, 0 ],
+        MagCon_lip + [ $eps, 0, 0 ],
     ];
 
     dist = [
-        [ MagCon.size.x / 2, 0, 0 ],
-        [ MagCon.lip.x / 2 + MagCon.lipOffset, 0, 0 ],
-        [ MagCon.size.x / 2, 0, 0 ],
-        [ MagCon.lip.x / 2 + MagCon.lipOffset + eps, 0, 0 ]
+        [ MagCon_size.x / 2, 0, 0 ],
+        [ MagCon_lip.x / 2 + MagCon_lipOffset, 0, 0 ],
+        [ MagCon_size.x / 2, 0, 0 ],
+        [ MagCon_lip.x / 2 + MagCon_lipOffset + $eps, 0, 0 ]
     ];
 
-    color ( MagCon.color ) {
+    color ( MagCon_color ) {
         for ( i = include_cut ? [ 0 : 3 ] : [ 0 : 1 ] ) {
             translate ( dist[i] ) {
                 cube ( dim[i] - [ 0, dim[i].z, 0 ], center = true );
@@ -47,9 +47,9 @@ module magnetic_connector (
     }
 
     // VIK PCB
-    color ( PCB.color ) {
-        translate ( MagCon.pcbPosition ) {
-            cube ( MagCon.pcbSize, center = true);
+    color ( PCB_color ) {
+        translate ( MagCon_pcbPosition ) {
+            cube ( MagCon_pcbSize, center = true);
         }
     }
 }

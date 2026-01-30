@@ -5,6 +5,7 @@
 
 use <../library/screw.scad>
 use <../library/test.scad>
+use <../library/utility.scad>
 
 if ( is_undef ( ANDROPHAGE_MAIN ) ) {
     center_block ( include_cut = false );
@@ -65,16 +66,16 @@ module center_block (
             }
 
             // Subtract the opening for the magnetic connector.
-            translate ( MagCon.position ) {
+            translate ( MagCon_position ) {
                 magnetic_connector ( include_cut = true );
 
 
                 // Holes for magnetic connector screws.
-                for ( ypos = ( 0.5 * MagCon.lip.y + Screw.diameter) * [ 1, -1 ] ) {
-                    translate ( [ -eps, ypos, 0 ] ) {
+                for ( ypos = ( 0.5 * MagCon_lip.y + Screw_diameter) * [ 1, -1 ] ) {
+                    translate ( [ -$eps, ypos, 0 ] ) {
                         rotate ( [ 0, -90, 0 ] ) {
                             screw (
-                                diameter	= Screw.diameter,
+                                diameter	= Screw_diameter,
                                 length		= 5,
                                 head		= "flat"
                             );
@@ -100,12 +101,12 @@ module center_block (
     if ( include_cut ) {
         color ( Color_cut ) {
             // Fill the trackball case if we are using this to cut other components.
-            _trackball ( diameter = Trackball.diameter + 2 * eps );
+            _trackball ( diameter = Trackball_diameter + 2 * $eps );
 
             // Also create a cube to make clearance for the trackball sensor, etc.
             _cut_cube_size = [
                 50,
-                Trackball.diameter,
+                Trackball_diameter,
                 35
             ];
             place_sensor () {
@@ -126,18 +127,18 @@ module _btu_case (
     // screw,
     // trackball,
 ) {
-    BTU_case_height = Trackball.BTU.L + Trackball.BTU.H + CenterBlock.wallThickness;
+    BTU_case_height = Trackball_BTU_L + Trackball_BTU_H + CenterBlock_wallThickness;
 
     translate ( [ 0, 0, -BTU_case_height ] ) {
         difference () {
             cylinder (
-                d = Trackball.BTU.D1 + CenterBlock.wallThickness,
+                d = Trackball_BTU_D1 + CenterBlock_wallThickness,
                 h = BTU_case_height
             );
 
             cylinder (
-                d = Screw.minorDiameter,
-                h = 2 * ( BTU_case_height + eps ),
+                d = Screw_minorDiameter,
+                h = 2 * ( BTU_case_height + $eps ),
                 center = true
             );
         }
@@ -150,32 +151,32 @@ module _center_wall (
     // hinge,
     // plate,
 ) {
-    translate ( [ -eps, -Plate.Top.edge ] ) {
+    translate ( [ -$eps, -TopPlate_edge ] ) {
         difference () {
             // Main body
             cube ( [
-                CenterBlock.wallThickness + CenterBlock.ribSize.y + eps,
-                Hinge.size.y + 2 * Plate.Top.edge,
-                CenterBlock.height
+                CenterBlock_wallThickness + CenterBlock_ribSize.y + $eps,
+                Hinge_length + 2 * TopPlate_edge,
+                CenterBlock_height
             ] );
 
             // Subtract the part that is not the ribs.
             translate ( [
-                CenterBlock.wallThickness,
-                CenterBlock.ribSize.x,
+                CenterBlock_wallThickness,
+                CenterBlock_ribSize.x,
                 (
-                    Plate.Bottom.thickness
-                    + CenterBlock.ribSize.x
-                    - CenterBlock.wallThickness * sin ( halves.angles.y )
+                    BottomPlate_thickness
+                    + CenterBlock_ribSize.x
+                    - CenterBlock_wallThickness * sin ( Halves_angles.y )
                 ),
             ] ) {
                 cube ( [
-                    CenterBlock.ribSize.y + 2 * eps,
-                    Hinge.size.y + 2 * Plate.Top.edge - 2 * CenterBlock.ribSize.x,
+                    CenterBlock_ribSize.y + 2 * $eps,
+                    Hinge_length + 2 * TopPlate_edge - 2 * CenterBlock_ribSize.x,
                     (
-                        CenterBlock.height
-                        - Plate.Bottom.thickness
-                        - 2 * CenterBlock.ribSize.x
+                        CenterBlock_height
+                        - BottomPlate_thickness
+                        - 2 * CenterBlock_ribSize.x
                     )
                 ] );
             }
@@ -188,9 +189,9 @@ module _pcb_shelf (
     // hinge,
     // plate,
 ) {
-    translate ( [ 0, 0, Plate.Bottom.thickness - eps ] ) {
-        rotate ( [ 0, Halves.angles.y, 0 ] ) {
-            cube ( [ 5, Hinge.size.y, Plate.Bottom.clearance + eps ] );
+    translate ( [ 0, 0, BottomPlate_thickness - $eps ] ) {
+        rotate ( [ 0, Halves_angles.y, 0 ] ) {
+            cube ( [ 5, Hinge_length, BottomPlate_clearance + $eps ] );
         }
     }
 }
@@ -201,11 +202,11 @@ module screw_boss (
     // insert,
     // plate,
 ) {
-    d = Insert.holeDiameter + 2 * Insert.wallThickness;
-    h = 1.1 * CenterBlock.height;
+    d = Insert_holeDiameter + 2 * Insert_wallThickness;
+    h = 1.1 * CenterBlock_height;
 
-    translate ( [ 0, 0, Plate.Bottom.thickness ] ) {
-        rotate ( [ 0, Halves.angles.y, 180 ] ) {
+    translate ( [ 0, 0, BottomPlate_thickness ] ) {
+        rotate ( [ 0, Halves_angles.y, 180 ] ) {
             translate ( [ 0, 0, -h / 10 ] ) {
                 cylinder ( d = d, h = h );
 
@@ -224,32 +225,32 @@ module _sensor_holder(
     vblock_extra						= 10,
 ) {
     hblock_size = [
-        Trackball.Sensor.holderThickness,
-        Trackball.Sensor.pcbSize.y + CenterBlock.wallThickness,
-        Trackball.Sensor.holderHeight
+        Trackball_Sensor_holderThickness,
+        Trackball_Sensor_pcbSize.y + CenterBlock_wallThickness,
+        Trackball_Sensor_holderHeight
     ];
 
     vblock_size = [
-        Trackball.Sensor.pcbSize.x + CenterBlock.wallThickness + vblock_extra,
-        Trackball.Sensor.holderThickness,
-        Trackball.Sensor.holderHeight
+        Trackball_Sensor_pcbSize.x + CenterBlock_wallThickness + vblock_extra,
+        Trackball_Sensor_holderThickness,
+        Trackball_Sensor_holderHeight
     ];
 
     rot_offset = (
-        - Trackball.Sensor.holderHeight / 2
-        + Trackball.diameter / 2
-        + Trackball.Sensor.clearance
-        + Trackball.Sensor.lensSize.z
-        + Trackball.Sensor.pcbSize.z
+        - Trackball_Sensor_holderHeight / 2
+        + Trackball_diameter / 2
+        + Trackball_Sensor_clearance
+        + Trackball_Sensor_lensSize.z
+        + Trackball_Sensor_pcbSize.z
     );
 
-    translate ( Trackball.position ) {
-        rotate ( [ 0, 180 - Trackball.Sensor.angle, 0 ] ) {
+    translate ( Trackball_position ) {
+        rotate ( [ 0, 180 - Trackball_Sensor_angle, 0 ] ) {
             translate (
                 v_mul(
                     (
-                        Trackball.Sensor.pcbSize / 2
-                        - Trackball.Sensor.opticalCenter
+                        Trackball_Sensor_pcbSize / 2
+                        - Trackball_Sensor_opticalCenter
                     ),
                     [1, 1, 0]
                 ) +
@@ -270,14 +271,14 @@ module _trackball_case (
     // trackball,
 ) {
     d = (
-        Trackball.diameter
+        Trackball_diameter
         + 2 * (
-            Trackball.clearance
-            + CenterBlock.wallThickness
+            Trackball_clearance
+            + CenterBlock_wallThickness
         )
     );
 
-    translate ( Trackball.position ) {
+    translate ( Trackball_position ) {
         rotate ( [ 90, 0, 0 ] ) { rotate ( [ 0, 0, -90 ] ) {
             // Extruding 90 degrees is fine because we're going to cut this
             // feature using the _plates feature anyway and extruding the
@@ -287,7 +288,7 @@ module _trackball_case (
                     circle ( d = d );
 
                     translate ( [ -d, -d / 2, 0 ] ) {
-                        square ( d + 2 * eps );
+                        square ( d + 2 * $eps );
                     }
                 }
             }
@@ -300,11 +301,11 @@ module _trackball_case (
 \*******************************************************************************/
 
 module place_btus () {
-    translate ( Trackball.position ) {
+    translate ( Trackball_position ) {
         // BTUs
         for ( zrot = [ -45, -135 ] ) {
             rotate ( [ 45, 0, zrot ] ) {
-                translate ( [ 0, 0, -Trackball.diameter / 2 ] ) {
+                translate ( [ 0, 0, -Trackball_diameter / 2 ] ) {
                     children();
                 }
             }
@@ -317,19 +318,19 @@ module _hinges (
     // hinge,
     // plate,
 ) {
-    rotate ( [ 0, Halves.angles.y, 0 ] ) {
+    rotate ( [ 0, Halves_angles.y, 0 ] ) {
         ypos = [
-            -Plate.Top.edge - eps,
-            Hinge.size.y - Hinge.Back.length + Plate.Top.edge
+            -TopPlate_edge - $eps,
+            Hinge_length - Hinge_Back_length + TopPlate_edge
         ];
         ydim = [
-            Hinge.Front.length + eps,
-            Hinge.Back.length + eps,
+            Hinge_Front_length + $eps,
+            Hinge_Back_length + $eps,
         ];
 
         for ( i = [ 0 : 1 ] ) {
-            translate ( [ -5, ypos[i], Plate.Top.position.z - Hinge.size.z ] ) {
-                cube ( [ 15, ydim[i], Hinge.size.z + eps ] );
+            translate ( [ -5, ypos[i], TopPlate_position.z - Hinge_leafThickness ] ) {
+                cube ( [ 15, ydim[i], Hinge_leafThickness + $eps ] );
             }
         }
     }
@@ -341,16 +342,16 @@ module _insert_holes (
     // insert,
     // plate,
 ) {
-    translate ( [ 0, 0, Plate.Bottom.thickness ] ) {
-        rotate ( [ 0, Halves.angles.y, 0 ] ) {
+    translate ( [ 0, 0, BottomPlate_thickness ] ) {
+        rotate ( [ 0, Halves_angles.y, 0 ] ) {
             for ( zpos = [
-                -eps,
+                -$eps,
                 (
-                    CenterBlock.height
-                    - Insert.holeDepth
-                    - Plate.Bottom.thickness
-                    + eps
-                ) * ( cos ( Halves.angles.y ) ),
+                    CenterBlock_height
+                    - Insert_holeDepth
+                    - BottomPlate_thickness
+                    + $eps
+                ) * ( cos ( Halves_angles.y ) ),
 
             ] ){
                 translate ( [
@@ -359,8 +360,8 @@ module _insert_holes (
                     zpos
                 ] ) {
                     cylinder (
-                        d = Insert.holeDiameter,
-                        h = Insert.holeDepth + eps
+                        d = Insert_holeDiameter,
+                        h = Insert_holeDepth + $eps
                     );
                 }
             }
@@ -369,15 +370,15 @@ module _insert_holes (
 }
 
 module place_insert_holes () {
-    for ( i = [ 0 : CenterBlock.screwCount - 1 ] ) {
-        translate ( screw_positions_translated()[i] + [
-            0,
-            0,
-            -screw_positions_translated()[i].x * sin ( Halves.angles.y )
-        ] ) {
-            children();
-        }
-    }
+    // for ( i = [ 0 : CenterBlock_screwCount - 1 ] ) {
+    //     translate ( screw_positions_translated()[i] + [
+    //         0,
+    //         0,
+    //         -screw_positions_translated()[i].x * sin ( Halves_angles.y )
+    //     ] ) {
+    //         children();
+    //     }
+    // }
 }
 
 module _center_face () {
@@ -394,11 +395,11 @@ module _plates (
 ) {
     // Top and bottom faces.
     size = [ 30, 110, 8 ];
-    zpos1 = [ CenterBlock.height, Plate.Bottomthickness ];
+    zpos1 = [ CenterBlock_height, BottomPlate_thickness ];
     zpos2 = [ 0, -size.z ];
     for ( i = [ 0 : 1 ] ) {
         translate ( [ 0, 0, zpos1[i] ] ) {
-            rotate ( [ 0, Halves.angles.y, 0 ] ) {
+            rotate ( [ 0, Halves_angles.y, 0 ] ) {
                 translate ( [ -size.x / 10, -size.y / 10, zpos2[i] ] ) {
                     cube ( size );
                 }
@@ -408,11 +409,11 @@ module _plates (
 }
 
 module place_sensor () {
-    translate ( Trackball.position ) {
+    translate ( Trackball_position ) {
 
         // Trackball sensor board
-        rotate ( [ 0, 180 - Trackball.Sensor.angle, 0 ] ) {
-            translate ( [ 0, 0, Trackball.diameter / 2 ] ) {
+        rotate ( [ 0, 180 - Trackball_Sensor_angle, 0 ] ) {
+            translate ( [ 0, 0, Trackball_diameter / 2 ] ) {
                 children();
             }
         }
@@ -420,12 +421,12 @@ module place_sensor () {
 }
 
 module _trackball ( diameter ) {
-    diameter2 = is_undef ( diameter ) ? Trackball.diameter : diameter;
-    translate ( Trackball.position ) {
+    diameter2 = is_undef ( diameter ) ? Trackball_diameter : diameter;
+    translate ( Trackball_position ) {
         // Subtract Trackball + clearance.
         sphere ( d = (
             diameter2
-            + 2 * Trackball.clearance
+            + 2 * Trackball_clearance
         ) );
     }
 }

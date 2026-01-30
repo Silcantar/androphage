@@ -129,7 +129,10 @@ Insert_color = Color_brass;
 
 Frame_color = Color_primary;
 
-Frame_height = ( CenterBlock_height + TopPlate_thickness ) * cos ( Halves_angles.y );
+Frame_height = (
+    CenterBlock_height
+    + TopPlate_thickness
+) * cos ( Halves_angles.y );
 
 Frame_size = [ Frame_thickness, Frame_height ];
 
@@ -149,18 +152,29 @@ Hinge_Back_length = (
     + TopPlate_edge
 );
 
+Hinge_zpos = (
+    CenterBlock_height
+    + Hinge_diameter / 2
+    - Hinge_leafThickness * cos ( Halves_angles.y )
+);
+
 Hinge_Back_position = [
     0,
     Hinge_length - Hinge_Back_length / 2 + TopPlate_edge,
-    CenterBlock_height + Hinge_diameter / 2 - Hinge_leafThickness * cos ( Halves_angles.y )
+    Hinge_zpos
 ];
 
-Hinge_Front_length = Trackball_position_y - Trackball_diameter / 2 - Trackball_clearance + TopPlate_edge;
+Hinge_Front_length = (
+    Trackball_position_y
+    - Trackball_diameter / 2
+    - Trackball_clearance
+    + TopPlate_edge
+);
 
 Hinge_Front_position = [
     0,
     Hinge_Front_length / 2 - TopPlate_edge,
-    CenterBlock_height + Hinge_diameter / 2 - Hinge_leafThickness * cos ( Halves_angles.y )
+    Hinge_zpos
 ];
 
 /*******************************************************************************\
@@ -289,7 +303,7 @@ TopPlate_color = Color_primary;
 
 TopPlate_position = [
     0,
-    0,
+    -Frame_lipDepth,
     (
         + BottomPlate_thickness
         + BottomPlate_clearance
@@ -365,6 +379,8 @@ Trackball_BTU_color = Color_steel;
 
 Trackball_Sensor_color = Color_black;
 
+Trackball_Sensor_lensColor = Color_clear;
+
 Trackball_Sensor_pcbSize = concat (
     Trackball_Sensor_pcbSize_xy,
     [ PCB_thickness ]
@@ -399,15 +415,11 @@ Trackball_position = [
 |								Postrequisites									|
 \*******************************************************************************/
 
-l = "l"; // Linear extrude
-m = "m"; // Mitered corner
-r = "r"; // Rotate extrude (revolve)
-
 Frame_path = [
 //		Type,	Height / Radius,							Angle,											Profile Number
     [	l,		Frame_extraLength,							0,												0,	], //0
-    [	r,		-Plate_backArcRadius,						43 - Plate_backArcAngle,						0,	], //1
-    [	r,		0,											43,												0,	], //2
+    [	r,		-Plate_backArcRadius,						Plate_backCornerAngle - Plate_backArcAngle,		0,	], //1
+    [	r,		0,											Plate_backCornerAngle,							0,	], //2
     [	l,		Plate_backEdgeLength,						0,												0,	], //3
     [	r,		0,											Plate_backEdgeAngle,							0,	], //4
     [	l,		Plate_outerEdgeLength,						0,												0,	], //5

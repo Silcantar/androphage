@@ -22,6 +22,8 @@ Color_clear = [ 1.0, 1.0, 1.0, 0.2 ];
 // Color for displaying cutting bodies (Transparent yellow).
 Color_cut = [ 1.0, 1.0, 0.0, 0.2 ];
 
+Color_pcb = "DarkGreen";
+
 Color_steel = [ 0.5, 0.5, 0.5 ];
 
 Color = object ( [

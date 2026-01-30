@@ -1,4 +1,5 @@
 /*******************************************************************************\
+                                DEPRECATED
 |				Map all Androphage keyboard parameters to objects.				|
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
@@ -18,6 +19,7 @@ CenterBlock = object ( [
     [ "height",			CenterBlock_height			],
     [ "ribSize",		CenterBlock_ribSize			],
     [ "screwCount",		CenterBlock_screwCount		],
+    [ "visible",        CenterBlock_visible         ],
     [ "wallThickness",	CenterBlock_wallThickness	],
 ] );
 
@@ -93,6 +95,7 @@ Desk = object ( [
     [ "color",		Desk_color		],
     [ "position",	Desk_position	],
     [ "size",		Desk_size		],
+    [ "visible",    Desk_visible    ],
 ] );
 
 /*******************************************************************************\
@@ -107,6 +110,7 @@ Screw = object ( [
     [ "headDiameter",	Screw_headDiameter	],
     [ "minorDiameter",	Screw_minorDiameter	],
     [ "offset",			Screw_offset		],
+    [ "visible",        Screw_visible       ],
 ] );
 
 Insert = object ( [
@@ -115,6 +119,7 @@ Insert = object ( [
     [ "height",			Insert_height			],
     [ "holeDiameter",	Insert_holeDiameter		],
     [ "holeDepth",		Insert_holeDepth		],
+    [ "visible",        Insert_visible          ],
     [ "wallThickness",	Insert_wallThickness	],
 ] );
 
@@ -169,6 +174,8 @@ Hinge = object ( [
     [ "pinDiameter",	Hinge_pinDiameter * Hinge_scale		],
     [ "leafThickness",	Hinge_leafThickness * Hinge_scale	],
     [ "leafWidth",		Hinge_leafWidth * Hinge_scale		],
+    [ "length",         Hinge_length                        ],
+    [ "visible",        Hinge_visible                       ],
 ] );
 
 /*******************************************************************************\
@@ -193,6 +200,7 @@ Keycap = object ( [
     [ "profile",		Keycap_profile			],
     [ "styles",			Keycap_styles			],
     [ "testClearance",	Keycap_testClearance	],
+    [ "visible",        Keycap_visible          ],
 ] );
 
 /*******************************************************************************\
@@ -220,6 +228,7 @@ MagCon = object ( [
     [ "pcbPosition",	MagCon_pcbPosition	],
     [ "position",		MagCon_position		],
     [ "size",			MagCon_size			],
+    [ "visible",        MagCon_visible      ],
 ] );
 
 /*******************************************************************************\
@@ -234,6 +243,7 @@ MCU = object ( [
     [ "usbOverhang",	MCU_usbOverhang	],
     [ "usbRadius",		MCU_usbRadius	],
     [ "usbSize",		MCU_usbSize		],
+    [ "visible",        MCU_visible     ],
 ] );
 
 /*******************************************************************************\
@@ -245,6 +255,7 @@ PCB = object ( [
     [ "edge",		PCB_edge		],
     [ "position",	PCB_position	],
     [ "thickness",	PCB_thickness	],
+    [ "visible",    PCB_visible     ],
 ] );
 
 /*******************************************************************************\
@@ -256,6 +267,7 @@ Plate_Bottom = object ( [
     [ "color",		BottomPlate_color		],
     [ "edge",		BottomPlate_edge		],
     [ "thickness",	BottomPlate_thickness	],
+    [ "visible",    BottomPlate_visible     ],
 ] );
 
 Plate_Switch = object ( [
@@ -266,6 +278,7 @@ Plate_Switch = object ( [
     [ "present",	SwitchPlate_present		],
     [ "radius",		SwitchPlate_radius		],
     [ "thickness",	SwitchPlate_thickness	],
+    [ "visible",    SwitchPlate_visible     ],
 ] );
 
 Plate_Top = object ( [
@@ -274,6 +287,7 @@ Plate_Top = object ( [
     [ "innerRadius",	TopPlate_innerRadius	],
     [ "position",		TopPlate_position		],
     [ "thickness",		TopPlate_thickness		],
+    [ "visible",        TopPlate_visible        ],
 ] );
 
 Plate = object ( [
@@ -307,6 +321,7 @@ Switch = object ( [
     [ "size",		Switch_size			],
     [ "travel",		Switch_travel		],
     [ "type",		Switch_type			],
+    [ "visible",    Switch_visible      ],
 ] );
 
 /*******************************************************************************\
@@ -314,13 +329,14 @@ Switch = object ( [
 \*******************************************************************************/
 
 Trackball_BTU = object ( [
-    [ "color",	Trackball_BTU_color	],
-    [ "d",		Trackball_BTU_d		],
-    [ "D1",		Trackball_BTU_D1	],
-    [ "D",		Trackball_BTU_D		],
-    [ "H",		Trackball_BTU_H		],
-    [ "L",		Trackball_BTU_L		],
-    [ "L1",		Trackball_BTU_L1	],
+    [ "color",	    Trackball_BTU_color	    ],
+    [ "d",		    Trackball_BTU_d		    ],
+    [ "D1",		    Trackball_BTU_D1	    ],
+    [ "D",		    Trackball_BTU_D		    ],
+    [ "H",		    Trackball_BTU_H		    ],
+    [ "L",		    Trackball_BTU_L		    ],
+    [ "L1",		    Trackball_BTU_L1	    ],
+    [ "visible",    Trackball_BTU_visible   ],
 ] );
 
 Trackball_Sensor = object ( [
@@ -330,11 +346,12 @@ Trackball_Sensor = object ( [
     [ "holeSize",			Trackball_Sensor_holeSize			],
     [ "holderHeight",		Trackball_Sensor_holderHeight		],
     [ "holderThickness",	Trackball_Sensor_holderThickness	],
-    [ "lensColor",			Color.clear							],
+    [ "lensColor",			Color_clear							],
     [ "lensSize",			Trackball_Sensor_lensSize			],
     [ "opticalCenter",		Trackball_Sensor_opticalCenter		],
     [ "pcbSize",			Trackball_Sensor_pcbSize			],
     [ "size",				Trackball_Sensor_size				],
+    [ "visible",            Trackball_Sensor_visible            ],
 ] );
 
 Trackball = object ( [
@@ -344,4 +361,5 @@ Trackball = object ( [
     [ "color",		Trackball_color		],
     [ "diameter",	Trackball_diameter	],
     [ "position",	Trackball_position	],
+    [ "visible",    Trackball_visible   ],
 ] );

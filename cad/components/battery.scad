@@ -10,13 +10,13 @@ if ( is_undef ( ANDROPHAGE_MAIN ) ) {
 }
 
 module battery () {
-    color ( Battery.color ) {
-        cube ( Battery.size - [ Battery.size.z, 0, 0 ], center = true );
+    color ( Battery_color ) {
+        cube ( Battery_size - [ Battery_size.z, 0, 0 ], center = true );
 
         for ( i = [ -1, 1 ] ) {
-            translate ( [ i * ( Battery.size.x - Battery.size.z ) / 2, 0, 0 ] ) {
+            translate ( [ i * ( Battery_size.x - Battery_size.z ) / 2, 0, 0 ] ) {
                 rotate ( [ 90, 0, 0 ] ) {
-                    cylinder ( d = Battery.size.z, h = Battery.size.y, center = true );
+                    cylinder ( d = Battery_size.z, h = Battery_size.y, center = true );
                 }
             }
         }

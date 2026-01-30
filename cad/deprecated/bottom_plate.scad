@@ -31,8 +31,8 @@ module bottom_plate (
     // thickness	= BottomPlate_thickness,
     // zpos		= 0
 ) {
-    linear_extrude ( height = plate.Bottom.thickness ) {
-        fillet2d ( radius = plate.outerRadius ) {
+    linear_extrude ( height = plate_Bottom_thickness ) {
+        fillet2d ( radius = plate_outerRadius ) {
             plate_sketch ( frame );
         }
     }
@@ -42,7 +42,7 @@ module bottom_plate (
                 //     thickness	= thickness
                 // ) {
                 //     screw (
-                //         diameter	= screw.diameter,
+                //         diameter	= screw_diameter,
                 //         length		= 2,
                 //         head		= "flat",
                 //         drive		= "none"
