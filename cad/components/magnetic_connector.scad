@@ -41,7 +41,16 @@ module magnetic_connector (
     // VIK PCB
     color ( PCB_color ) {
         translate ( MagCon_pcbPosition ) {
-            cube ( MagCon_pcbSize, center = true);
+            *cube ( MagCon_pcbSize, center = true);
+            rotate ( [0, 90, 0 ] ) {
+                hull () {
+                    for ( ypos = ( MagCon_pcbSize.y - MagCon_pcbSize.z ) * [ -0.5, 0.5 ] ) {
+                        translate ( [ 0, ypos, 0 ] ) {
+                            cylinder ( d = MagCon_pcbSize.z, center = true );
+                        }
+                    }
+                }
+            }
         }
     }
 }

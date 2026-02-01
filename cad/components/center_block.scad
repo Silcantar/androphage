@@ -350,7 +350,7 @@ module _center_face () {
 
 module _plates () {
     // Top and bottom faces.
-    size = [ 30, 110, 8 ];
+    size = [ 30, 110, 10 ];
     zpos1 = [ TopPlate_position.z, BottomPlate_thickness ];
     zpos2 = [ 0, -size.z ];
     for ( i = [ 0 : 1 ] ) {

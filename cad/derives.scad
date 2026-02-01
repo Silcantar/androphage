@@ -247,18 +247,20 @@ LED_position = [
 
 MagCon_color = Color_primary;
 
-MagCon_pcbPosition = [ MagCon_size.x + MagCon_pcbSize.x / 2, 0, 1 ];
+MagCon_pcbSize = [ PCB_thickness, 36.5, 10 ];
+
+MagCon_pcbPosition = [ MagCon_size.x + MagCon_pcbSize.x / 2, 0, 0 ];
 
 // Position of the connector relative to the Center Block.
 MagCon_position		= [
     0,
-    19.5,
+    27.5,
     (
         + BottomPlate_thickness
         + BottomPlate_clearance
         + PCB_thickness
         + ( SwitchPlate_present ? Switch_height_lower : 0 )
-        + 5
+        + 1
     )
 ];
 

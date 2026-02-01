@@ -58,7 +58,9 @@ module plate_sketch (
             }
         }
 
-        translate ( [ -10, -10, 0 ] ) {
+        cut_offset = ( is_pcb || is_switch ) ? CenterBlock_wallThickness : 0;
+
+        translate ( [ -10 + cut_offset, -10, 0 ] ) {
             square ( [ 10, 120 ] );
         }
     }
@@ -108,6 +110,10 @@ module trackball_sensor_hole () {
                 ] );
             } else {
                 square ( [ 50, Trackball_diameter ], center = true );
+            }
+
+            translate ( [ 0, -54, 0 ] ) {
+                square ( [ 10, 40 ] );
             }
         }
     }
