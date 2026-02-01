@@ -55,7 +55,7 @@ module place_key_holes () {
         rot_axis = axis.z,
         trans_axis = -axis.x
     ) {
-        translate ( [ 0, Key_spacing.y / 2 + SwitchPlate_edge ] ) {
+        translate ( [ -SwitchPlate_edge - 1, Key_spacing.y / 2 + SwitchPlate_edge ] ) {
             children();
         }
     }

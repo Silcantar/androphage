@@ -155,7 +155,7 @@ Hinge_Back_length = (
 Hinge_zpos = (
     CenterBlock_height
     + Hinge_diameter / 2
-    - Hinge_leafThickness * cos ( Halves_angles.y )
+    - Hinge_leafThickness// * cos ( Halves_angles.y )
 );
 
 Hinge_Back_position = [
@@ -303,13 +303,13 @@ TopPlate_color = Color_primary;
 
 TopPlate_position = [
     0,
-    -Frame_lipDepth,
+    0,
     (
         + BottomPlate_thickness
         + BottomPlate_clearance
         + PCB_thickness
         + Key_height
-    ) * cos ( Halves_angles.y )
+    ) //* cos ( Halves_angles.y )
 ];
 
 /* [Plates Common] */
@@ -418,8 +418,8 @@ Trackball_position = [
 Frame_path = [
 //		Type,	Height / Radius,							Angle,											Profile Number
     [	l,		Frame_extraLength,							0,												0,	], //0
-    [	r,		-Plate_backArcRadius,						Plate_backCornerAngle - Plate_backArcAngle,		0,	], //1
-    [	r,		0,											Plate_backCornerAngle,							0,	], //2
+    [	r,		-Plate_backArcRadius,                   	Plate_backCornerAngle - Plate_backArcAngle,		0,	], //1
+    [	r,		0,                 							Plate_backCornerAngle,							0,	], //2
     [	l,		Plate_backEdgeLength,						0,												0,	], //3
     [	r,		0,											Plate_backEdgeAngle,							0,	], //4
     [	l,		Plate_outerEdgeLength,						0,												0,	], //5

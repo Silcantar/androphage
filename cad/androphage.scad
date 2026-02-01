@@ -381,7 +381,7 @@ SwitchPlate_present	= true;
 SwitchPlate_clearance = 0.2;
 
 // Distance from keys to edge of switch plate.
-SwitchPlate_edge = 2; //[1:5]
+SwitchPlate_edge = 2; //[0:5]
 
 SwitchPlate_radius = 1;
 
