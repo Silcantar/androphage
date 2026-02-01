@@ -3,14 +3,6 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-if ( is_undef ( ANDROPHAGE_MAIN ) ) {
-    magnetic_connector (
-        // MagCon,
-        include_cut	= true,
-        pcb_color	= PCB_color,
-    );
-}
-
 module magnetic_connector (
     // magcon,
     include_cut	= false,

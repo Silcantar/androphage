@@ -5,19 +5,7 @@
 
 use <../library/fillet.scad>
 
-if ( is_undef ( ANDROPHAGE_MAIN ) ) {
-    mcu ( MCU );
-}
-
 module mcu (
-    // mcu,
-    // chipSize	= MCU_chipSize,
-    // size		= MCU_size,
-    // radius		= MCU_radius,
-    // usbOverhang	= MCU_usbOverhang,
-    // usbRadius	= MCU_usbRadius,
-    // usbSize		= MCU_usbSize,
-    // pcbColor	= MCU_pcbColor
 ) {
     color ( Color_steel ) {
         translate ( [

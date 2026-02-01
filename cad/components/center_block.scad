@@ -7,15 +7,7 @@ use <../library/screw.scad>
 use <../library/test.scad>
 use <../library/utility.scad>
 
-if ( is_undef ( ANDROPHAGE_MAIN ) ) {
-    center_block ( include_cut = false );
-}
-
 module center_block (
-    // centerBlock,
-    // magCon,
-    // screw,
-    // trackball,
     include_cut = false,
 ) {
     // Put a cube with a corner at the origin so we can measure from it.
@@ -122,11 +114,7 @@ module center_block (
 |								Additive Features								|
 \*******************************************************************************/
 
-module _btu_case (
-    // centerBlock,
-    // screw,
-    // trackball,
-) {
+module _btu_case () {
     BTU_case_height = Trackball_BTU_L + Trackball_BTU_H + CenterBlock_wallThickness;
 
     translate ( [ 0, 0, -BTU_case_height ] ) {
@@ -145,12 +133,7 @@ module _btu_case (
     }
 }
 
-module _center_wall (
-    // centerBlock,
-    // halves,
-    // hinge,
-    // plate,
-) {
+module _center_wall () {
     translate ( [ -$eps, -TopPlate_edge ] ) {
         difference () {
             // Main body
@@ -184,11 +167,7 @@ module _center_wall (
     }
 }
 
-module _pcb_shelf (
-    // halves,
-    // hinge,
-    // plate,
-) {
+module _pcb_shelf () {
     translate ( [ 0, 0, BottomPlate_thickness - $eps ] ) {
         rotate ( [ 0, Halves_angles.y, 0 ] ) {
             cube ( [ 5, Hinge_length, BottomPlate_clearance + $eps ] );
@@ -196,12 +175,7 @@ module _pcb_shelf (
     }
 }
 
-module screw_boss (
-    // centerBlock,
-    // halves,
-    // insert,
-    // plate,
-) {
+module screw_boss () {
     d = Insert_holeDiameter + 2 * Insert_wallThickness;
     h = 1.1 * CenterBlock_height;
 
@@ -219,8 +193,6 @@ module screw_boss (
 }
 
 module _sensor_holder(
-    // centerBlock,
-    // trackball,
     include_cut							= false,
     vblock_extra						= 10,
 ) {
@@ -265,11 +237,7 @@ module _sensor_holder(
     }
 }
 
-module _trackball_case (
-    // centerBlock,
-    // halves,
-    // trackball,
-) {
+module _trackball_case () {
     d = (
         Trackball_diameter
         + 2 * (
@@ -313,11 +281,7 @@ module place_btus () {
     }
 }
 
-module _hinges (
-    // halves,
-    // hinge,
-    // plate,
-) {
+module _hinges () {
     rotate ( [ 0, Halves_angles.y, 0 ] ) {
         ypos = [
             -TopPlate_edge - $eps,
@@ -336,12 +300,7 @@ module _hinges (
     }
 }
 
-module _insert_holes (
-    // centerBlock,
-    // halves,
-    // insert,
-    // plate,
-) {
+module _insert_holes () {
     translate ( [ 0, 0, BottomPlate_thickness ] ) {
         rotate ( [ 0, Halves_angles.y, 0 ] ) {
             for ( zpos = [
@@ -389,10 +348,7 @@ module _center_face () {
     }
 }
 
-module _plates (
-    // centerBlock,
-    // halves,
-) {
+module _plates () {
     // Top and bottom faces.
     size = [ 30, 110, 8 ];
     zpos1 = [ CenterBlock_height, BottomPlate_thickness ];

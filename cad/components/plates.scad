@@ -5,19 +5,6 @@
 
 use <../library/fillet.scad>
 use <../library/path.scad>
-use <../library/rainbow.scad>
-
-if ( is_undef ( ANDROPHAGE_MAIN ) ) {
-    spacing = 2;
-
-    for ( p = plates ) {
-        translate ( [ 0, 0, plates[p] * spacing ] ) {
-            rainbow ( plates[p] ) {
-                plate ( plates[p], zpos );
-            }
-        }
-    }
-}
 
 module plate_sketch (
     plate_id,

@@ -3,16 +3,6 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-// include <../globals.scad>
-
-// include <../color.scad>
-
-// if ( is_undef ( ANDROPHAGE_MAIN ) ) {
-
-//     // Test
-//     trackball_sensor ( Trackball_Sensor, include_cut = true );
-// }
-
 module trackball_sensor ( include_cut = false ) {
     // Focal point of the sensor
     * sphere ( d = 1 );

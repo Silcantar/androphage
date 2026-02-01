@@ -3,13 +3,6 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-// include <../globals.scad>
-
-// if ( is_undef ( ANDROPHAGE_MAIN ) ) {
-
-//     trackball ( Trackball, centers = true );
-// }
-
 module trackball (
     // trackball,
     centers		= false,

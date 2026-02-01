@@ -41,8 +41,6 @@ module frame () {
 
 // Cross section of the frame.
 module _frame_sketch (
-    // frame,
-    // plate,
     notch			= false,
     rebates			= true,
 ) {
@@ -83,10 +81,7 @@ module _frame_sketch (
     }
 }
 
-module _notch_end_cutter (
-    // frame,
-    // plate,
-) {
+module _notch_end_cutter () {
     rotate_extrude ( angle = 360 ) {
         difference () {
             translate ( [ 0, -$eps, 0 ] )

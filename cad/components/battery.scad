@@ -3,12 +3,6 @@
 |							Copyright 2026 Joshua Lucas							|
 \*******************************************************************************/
 
-// Test
-if ( is_undef ( ANDROPHAGE_MAIN ) ) {
-    Battery = object(color="silver", size=[15,20,3]);
-    battery();
-}
-
 module battery () {
     color ( Battery_color ) {
         cube ( Battery_size - [ Battery_size.z, 0, 0 ], center = true );

@@ -3,8 +3,6 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-// include <../globals.scad>
-
 use <../library/piano_hinge.scad>
 
 if ( is_undef ( ANDROPHAGE_MAIN ) ) {

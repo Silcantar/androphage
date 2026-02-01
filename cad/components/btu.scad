@@ -3,10 +3,6 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
-if ( is_undef ( ANDROPHAGE_MAIN ) ) {
-    btu ( include_cut = true );
-}
-
 module btu (
     include_cut = false,
 ) {
