@@ -156,7 +156,7 @@ module assemble_half( secondary = false ) {
 
             if ( MCU_visible && !secondary && MCU_location == "trackball sensor" ) {
                 // MCU piggybacking on trackball sensor PCB.
-                translate ( [ 0, -5, 10 ] ) {
+                translate ( [ -2, -5, 10 ] ) {
                     rotate ( [ 180, 180, 0 ] ) {
                         mcu();
                     }

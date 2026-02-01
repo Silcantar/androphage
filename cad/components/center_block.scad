@@ -293,8 +293,8 @@ module _hinges () {
         ];
 
         for ( i = [ 0 : 1 ] ) {
-            translate ( [ -5, ypos[i], TopPlate_position.z - Hinge_leafThickness ] ) {
-                cube ( [ 15, ydim[i], Hinge_leafThickness + $eps ] );
+            translate ( [ -5, ypos[i], TopPlate_position.z - Hinge_leafThickness * Hinge_scale ] ) {
+                cube ( [ 15, ydim[i], Hinge_leafThickness * Hinge_scale + $eps ] );
             }
         }
     }
@@ -351,7 +351,7 @@ module _center_face () {
 module _plates () {
     // Top and bottom faces.
     size = [ 30, 110, 8 ];
-    zpos1 = [ CenterBlock_height, BottomPlate_thickness ];
+    zpos1 = [ TopPlate_position.z, BottomPlate_thickness ];
     zpos2 = [ 0, -size.z ];
     for ( i = [ 0 : 1 ] ) {
         translate ( [ 0, 0, zpos1[i] ] ) {

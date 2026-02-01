@@ -309,7 +309,8 @@ TopPlate_position = [
         + BottomPlate_clearance
         + PCB_thickness
         + Key_height
-    ) //* cos ( Halves_angles.y )
+        - TopPlate_thickness
+    )
 ];
 
 /* [Plates Common] */
