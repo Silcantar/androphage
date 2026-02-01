@@ -47,9 +47,7 @@ module trackball_sensor ( include_cut = false ) {
                 + [
                     0,
                     0,
-                    Trackball_Sensor_clearance
-                    + Trackball_Sensor_lensSize.z
-                    - $eps
+                    5 + Trackball_Sensor_pcbSize.z / 2 - $eps
                 ]
             ) {
                 cube (

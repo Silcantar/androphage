@@ -154,23 +154,24 @@ module assemble_half( secondary = false ) {
         place_sensor () {
             trackball_sensor();
 
-            // MCU piggybacking on trackball sensor PCB.
-            *translate ( [ 0, 0, 10 ] ) {
-                rotate ( [ 180, 180, 0 ] ) {
-                    mcu();
+            if ( MCU_visible && !secondary && MCU_location == "trackball sensor" ) {
+                // MCU piggybacking on trackball sensor PCB.
+                translate ( [ 0, -5, 10 ] ) {
+                    rotate ( [ 180, 180, 0 ] ) {
+                        mcu();
+                    }
                 }
             }
         }
     }
 
     translate ( MagCon_position ) {
-
         if ( MagCon_visible ) {
             echo ( "    Building magnetic connector." );
             magnetic_connector();
         }
 
-        if ( MCU_visible && !secondary ){
+        if ( MCU_visible && !secondary && MCU_location == "magnetic connector" ) {
             // MCU piggybacking on magnetic connector PCB.
             translate ( [ 8, 8, -3 ] ) {
                 rotate ( [ 180, -90, 0 ] ) {
@@ -181,10 +182,12 @@ module assemble_half( secondary = false ) {
         }
     }
 
-    // MCU directly at USB port location.
-    *translate ( [ 20, 84, 3 ] ) {
-        rotate ( [ 0, 0 + Halves_angles.y, 0 ] ) {
-            mcu();
+    if ( MCU_visible && !secondary && MCU_location == "main PCB" ) {
+        // MCU directly at USB port location.
+        translate ( [ 20, 84, 3 + 1.6 ] ) {
+            rotate ( [ 0, 180 + Halves_angles.y, 0 ] ) {
+                mcu();
+            }
         }
     }
 

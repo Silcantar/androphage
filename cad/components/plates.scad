@@ -37,6 +37,10 @@ module plate_sketch (
                     }
                 }
 
+                if ( is_switch || is_pcb ) {
+                    trackball_sensor_hole();
+                }
+
                 if ( is_top ) {
                     place_key_holes() {
                         fillet2d ( TopPlate_innerRadius ) {
@@ -48,6 +52,8 @@ module plate_sketch (
 
                         led_holes();
                     }
+
+                    trackball_hole();
                 }
             }
         }
@@ -79,6 +85,29 @@ module led_holes () {
                 } else {
                     square ( LED_holeSize, center = true );
                 }
+            }
+        }
+    }
+}
+
+module trackball_hole () {
+    translate ( [ 0, Trackball_position.y + SwitchPlate_edge, 0 ] ) {
+        circle ( d = Trackball_diameter + 2 * Trackball_clearance );
+    }
+}
+
+module trackball_sensor_hole () {
+    translate ( [ 0, Trackball_position.y + SwitchPlate_edge, 0 ] ) {
+        fillet2d ( SwitchPlate_radius ) {
+            if ( MCU_location == "trackball sensor" ) {
+                polygon ( [
+                    [ 0,    -Trackball_diameter / 2 ],
+                    [ 25 + Trackball_diameter * tan ( Halves_angles.z ),   -Trackball_diameter / 2 ],
+                    [ 25,   Trackball_diameter / 2  ],
+                    [ 0,    Trackball_diameter / 2  ],
+                ] );
+            } else {
+                square ( [ 50, Trackball_diameter ], center = true );
             }
         }
     }

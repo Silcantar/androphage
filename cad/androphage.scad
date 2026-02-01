@@ -340,6 +340,8 @@ MagCon_pcbSize = [ 1.6, 36.5, 10 ];
 
 MCU_chipSize = [ 12, 10, 1.5 ];
 
+MCU_location = "trackball sensor"; //["trackball sensor", "magnetic connector", "main PCB"]
+
 MCU_radius = 2;
 
 MCU_size = [ 17.8, 21, 1.6 ];
