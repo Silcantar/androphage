@@ -85,7 +85,9 @@ module led_holes () {
                 if ( LED_holeShape == "circle" ) {
                     circle ( d = LED_holeSize.x );
                 } else {
-                    square ( LED_holeSize, center = true );
+                    fillet2d ( LED_holeRadius ) {
+                        square ( LED_holeSize, center = true );
+                    }
                 }
             }
         }
