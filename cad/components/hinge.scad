@@ -17,7 +17,8 @@ module hinge (
     length,
     angle	= 0,
     center	= true,
-    front	= true
+    front	= true,
+    zpos = 0,
 ) {
     scale = Hinge_unit == "inch" ? 25.4 : 1;
     difference () {
@@ -39,26 +40,18 @@ module hinge (
             for ( m = [ [ 0, 0, 0 ], [ 1, 0, 0 ] ] ) {
                 mirror ( m ) {
                     translate ( [ 0, -length / 2 + TopPlate_edge, 0 ] ) {
-                        rotate ( [ 0, angle / 2, 0] ) rotate ( [ 0, 0, Halves_angles.z ] ) {
-                            // translate ( -front_center_point ( zpos = TopPlate_position.z ) ) {
-
-                                // Subtract key cutout.
-                                linear_extrude ( height = scale * Hinge_diameter + 2 * $eps, center = true ) {
-                                    fillet2d ( TopPlate_innerRadius ) {
-                                        place_key_holes () {
-                                            key_holes (
-                                                connect = true,
-                                                cutout	= 2 * TopPlate_edge,
-                                            );
-                                        }
+                        rotate ( [ 0, angle / 2, 0] )
+                            linear_extrude ( height = scale * Hinge_diameter + 2 * $eps, center = true ) {
+                                fillet2d ( TopPlate_innerRadius ) {
+                                    translate ( [ zpos * sin ( Halves_angles.y ) - Frame_extraLength, -SwitchPlate_edge, 0 ] ) {
+                                    place_key_holes () {
+                                        key_holes (
+                                            connect = true,
+                                            cutout	= 2 * TopPlate_edge,
+                                        );
                                     }
                                 }
-
-                                // Subtract screw holes.
-                                // place_screws ( thickness = 0 ) {
-                                //     cylinder ( d = Screw_diameter, h = Hinge_diameter + 4 * $eps, center = true );
-                                // }
-                            // }
+                            }
                         }
                     }
                 }

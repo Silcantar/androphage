@@ -47,8 +47,8 @@ module key_holes (
     }
 }
 
-module place_key_holes () {
-    path = [ for ( i = [ 17 : -1 : 10 ] ) Frame_path[i] ];
+module place_key_holes ( start = 17, end = 10 ) {
+    path = [ for ( i = [ start : -1 : end ] ) Frame_path[i] ];
     translate_on_path (
         path,
         rad_axis = -axis.y,

@@ -116,7 +116,8 @@ module assemble_half( secondary = false ) {
                 rotate ( [ 0, angle / 2, 0 ] ) {
                     hinge (
                         length	= Hinge_Front_length,
-                        angle	= Halves_angles.y * 2 - angle
+                        angle	= Halves_angles.y * 2 - angle,
+                        zpos = TopPlate_position.z
                     );
                 }
             }
@@ -127,7 +128,8 @@ module assemble_half( secondary = false ) {
                         length	= Hinge_Back_length,
                         angle	= Halves_angles.y * 2 - angle,
                         center	= false,
-                        front	= false
+                        front	= false,
+                        zpos = TopPlate_position.z
                     );
                 }
             }

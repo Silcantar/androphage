@@ -58,7 +58,10 @@ module plate_sketch (
             }
         }
 
-        cut_offset = ( is_pcb || is_switch ) ? CenterBlock_wallThickness : 0;
+        cut_offset = (
+            ( is_pcb || is_switch ) ? CenterBlock_wallThickness :
+            is_top ? Hinge_diameter / 2 : 0
+        );
 
         translate ( [ -10 + cut_offset, -10, 0 ] ) {
             square ( [ 10, 120 ] );
