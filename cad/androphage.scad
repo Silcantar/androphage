@@ -424,21 +424,6 @@ Switch_colorScheme = "Sunset"; //["Red", "Blue", "Brown", "Pro Red", "Pink", "Ro
 // Color for Gateron Low-Profile (KS-33) switches.
 Switch_GLP_type = "Banana"; //["Banana", "Blue", "Brown", "Chocolate", "Red", "Aloe", "Cowberry", "Daisy", "Moss", "Panda", "Wisteria"]
 
-// Map GLP switch type to CSS colors.
-glp_colors = object ( [
-    [ "Banana",		[ "Khaki",				] ],
-    [ "Blue",		[ "Blue",				] ],
-    [ "Brown",		[ "SaddleBrown",		] ],
-    [ "Chocolate",	[ "Sienna",				] ],
-    [ "Red",		[ "Red",				] ],
-    [ "Aloe",		[ "YellowGreen",		] ],
-    [ "Cowberry",	[ "Crimson",			] ],
-    [ "Daisy",		[ "Salmon",				] ],
-    [ "Moss",		[ "DarkOliveGreen",		] ],
-    [ "Panda",		[ "Gray",				] ],
-    [ "Wisteria",	[ "MediumSlateBlue",	] ],
-] );
-
 /*******************************************************************************\
 |									Trackball									|
 \*******************************************************************************/
@@ -512,8 +497,6 @@ include <globals.scad>
 include <color.scad>
 
 include <derives.scad>
-
-// include <objects.scad>
 
 // Components.
 include <components/battery.scad>
