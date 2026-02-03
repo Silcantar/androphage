@@ -186,9 +186,9 @@ module assemble_half( secondary = false ) {
 
     if ( MCU_visible && !secondary && MCU_location == "main PCB" ) {
         // MCU directly at USB port location.
-        translate ( [ 20, 84, 3 + 1.6 ] ) {
-            rotate ( [ 0, 180 + Halves_angles.y, 0 ] ) {
-                mcu();
+        translate ( [ 20, 86, 0 ] ) {
+            rotate ( [ 0, 0 + Halves_angles.y, 0 ] ) {
+                mcu( include_cut = false );
             }
         }
     }

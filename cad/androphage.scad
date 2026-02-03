@@ -44,7 +44,7 @@ $test = false;
 LeftHalf_visible = true;
 
 // Show the battery.
-Battery_visible				= false;
+Battery_visible				= true;
 
 // Show the center block.
 CenterBlock_visible			= true;
@@ -62,7 +62,7 @@ Hinge_visible				= true;
 Insert_visible				= true;
 
 // Show Keycaps.
-Keycap_visible				= false;
+Keycap_visible				= true;
 
 // Show the magnetic connector.
 MagCon_visible				= true;
@@ -344,13 +344,15 @@ MCU_location = "trackball sensor"; //["trackball sensor", "magnetic connector", 
 
 MCU_radius = 2;
 
-MCU_size = [ 17.8, 21, 1.6 ];
+MCU_size = [ 17.8, 21, 1.2 ];
 
 MCU_usbOverhang = 1.5;
 
 MCU_usbRadius = 1.2;
 
 MCU_usbSize = [ 9, 7.35, 3.2 ];
+
+MCU_usbCutSize = [ 12, 10, 7 ];
 
 /*******************************************************************************\
 |										PCBs									|
