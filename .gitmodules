@@ -6,3 +6,6 @@
 	path = cad/library
 	url = https://github.com/Silcantar/openscad_library.git
 	branch = main
+[submodule "cad/keycaps"]
+	path = cad/keycaps
+	url = https://github.com/Silcantar/keycaps.git
