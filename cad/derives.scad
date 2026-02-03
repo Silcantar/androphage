@@ -131,7 +131,6 @@ Frame_color = Color_primary;
 
 Frame_height = (
     CenterBlock_height
-    + TopPlate_thickness
 ) * cos ( Halves_angles.y );
 
 Frame_size = [ Frame_thickness, Frame_height ];
