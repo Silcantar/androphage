@@ -3,14 +3,22 @@
 |							Copyright 2026 Joshua Lucas 						|
 \*******************************************************************************/
 
+use <library/choc_switch.scad>
+
 /*******************************************************************************\
 |								Prerequisites									|
 \*******************************************************************************/
 
 Cluster_innerThumbKeyAngle = ( len ( Cluster_columnCounts ) - 1 ) * Cluster_angle;
 
-Key_mxSpacing = ( Switch_type == "mx" ) ? true : false;
-Key_spacing = Key_mxSpacing ? [19, 19] : [18, 17];
+// Key_mxSpacing = ( Switch_type == switch_mx ) ? true : false;
+
+Key_spacing = (
+    ( Key_spacingType == "choc" ) ? [ 18, 17 ] :
+    ( Key_spacingType == "mx" ) ? [ 19, 19 ] :
+    Key_customSpacing
+);
+// Key_spacing = Key_mxSpacing ? [19, 19] : [18, 17];
 
 Keycap_height = (
     ( Keycap_profile == "cherry"	) ? 11	:
@@ -180,7 +188,7 @@ Hinge_Front_position = [
 |									Keycaps										|
 \*******************************************************************************/
 
-Keycap_path = "klp_lame_keycaps/STL/Choc Stem + Choc Size/Choc_Stem_Choc_Size_";
+// Keycap_path = "klp_lame_keycaps/STL/Choc Stem + Choc Size/Choc_Stem_Choc_Size_";
 
 normal	= Keycap_saddle ? "Saddle"			: "Normal";
 tilted	= Keycap_saddle ? "Saddle_Tilted"	: "Normal_Tilted";
@@ -222,8 +230,8 @@ Keycap_styles = [
 ];
 
 Keycap_position_z = (
-    + PCB_position.z
-    + Switch_height_lower
+    // + PCB_position.z
+    // + Switch_height_lower
     + Switch_height_upper
     - Switch_travel
 );
@@ -290,7 +298,7 @@ BottomPlate_edge = SwitchPlate_edge + Frame_lipDepth;
 
 SwitchPlate_color = Color_secondary;
 
-SwitchPlate_thickness = Key_mxSpacing ? 1.6 : 1.2;
+SwitchPlate_thickness = ( Switch_type == switch_mx ) ? 1.6 : 1.2;
 
 SwitchPlate_position = PCB_position + [
     0,
@@ -365,7 +373,7 @@ Switch_size = Keycap_testClearance ? [
 // Variables used by choc_switch.scad.
 $choc_version = ( Switch_type == switch_chocv1 ) ? 1 : 2;
 
-$color_scheme = Switch_colorScheme;
+$color_scheme = choc_color_name_to_number ( Switch_chocColor );
 
 Switch_position_z = PCB_position.z + PCB_thickness;
 

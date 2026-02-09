@@ -203,6 +203,10 @@ module assemble_half( secondary = false ) {
         }
     }
 
-    echo ( "    Building keys and switches." );
-    // keys();
+        translate ( SwitchPlate_position + [ 0, 0, SwitchPlate_thickness ] ) {
+            rotate ( [ 0, Halves_angles.y, 0 ] ) {
+                echo ( "    Building keys and switches." );
+                keys();
+            }
+        }
 }

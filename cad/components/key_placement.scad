@@ -13,7 +13,7 @@ module key_holes (
     connect = false,
     cutout  = 0,
 ) {
-    key_positions = key_positions( connect, cutout );
+    key_positions = key_positions ( connect, cutout );
 
     for ( p = key_positions ) {
         translate ( p.position ) {
@@ -103,7 +103,7 @@ function thumb_key_positions (
         j = [ 0 : Cluster_columnCounts[i] - 1 ]
     ) (
         let (
-            position = rot2d ( i * Cluster_angle ) * (
+            position = rot2d ( i * Cluster_angle, affine = false ) * (
                 [ 0, ( j + Cluster_columnOffsets[i] ) * Key_spacing.y ]
                 + [ 0, Cluster_radius_mm ]
             )

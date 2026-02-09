@@ -271,8 +271,8 @@ module _trackball_case () {
 module place_btus () {
     translate ( Trackball_position ) {
         // BTUs
-        for ( zrot = [ -45, -135 ] ) {
-            rotate ( [ 45, 0, zrot ] ) {
+        for ( zrot = -90 * [ 1, 1 ] + Trackball_BTU_angles.z * [ -1, 1 ] ) {
+            rotate ( [ Trackball_BTU_angles.x, 0, zrot ] ) {
                 translate ( [ 0, 0, -Trackball_diameter / 2 ] ) {
                     children();
                 }

@@ -298,6 +298,12 @@ Keycap_profile = "lamé"; //[ "cherry", "dsa", "lamé", "mbk", "steno" ]
 // Styles for KLP Lamé keycaps.
 Keycap_saddle = false;
 
+// What type of key spacing to use.
+Key_spacingType = "choc"; // [ "choc", "mx", "custom" ]
+
+// Spacing to use if spacingType is "custom".
+Key_customSpacing = [ 16, 16 ];
+
 /*******************************************************************************\
 |									LEDs										|
 \*******************************************************************************/
@@ -421,10 +427,18 @@ Switch_type = "glp"; //["chocv1", "chocv2", "mx", "glp"]
 Switch_travel = 0;
 Switch_maxTravel = 3.3;
 
-Switch_colorScheme = "Sunset"; //["Red", "Blue", "Brown", "Pro Red", "Pink", "Robin", "Sunset", "Twilight", "Nocturnal", "Sunrise", "Bokeh"]
+// Color for Choc switches.
+Switch_chocColor = "Sunset"; //["Red", "Blue", "Brown", "Pro Red", "Pink", "Robin", "Sunset", "Twilight", "Nocturnal", "Sunrise", "Bokeh"]
 
 // Color for Gateron Low-Profile (KS-33) switches.
-Switch_GLP_type = "Banana"; //["Banana", "Blue", "Brown", "Chocolate", "Red", "Aloe", "Cowberry", "Daisy", "Moss", "Panda", "Wisteria"]
+Switch_glpColor = "Banana"; //["Banana", "Blue", "Brown", "Chocolate", "Red", "Aloe", "Cowberry", "Daisy", "Moss", "Panda", "Wisteria"]
+
+// Default MX color based on Durock Shrimps.
+Switch_mxStemColor = [ 1.00, 1.00, 1.00, 0.80 ]; //[ 0.00 : 0.01 : 1.00 ]
+
+Switch_mxTopColor = [ 0.00, 0.90, 1.00, 0.60 ]; //[ 0.00 : 0.01 : 1.00 ]
+
+Switch_mxBottomColor = [ 0.00, 0.90, 1.00, 0.60 ]; //[ 0.00 : 0.01 : 1.00 ]
 
 /*******************************************************************************\
 |									Trackball									|
@@ -468,6 +482,8 @@ Trackball_Sensor_holderHeight = 15;
 Trackball_Sensor_holderThickness = 5;
 
 /* [Trackball BTU] */
+
+Trackball_BTU_angles = [ 45, 0, 45 ];
 
 // Trackball BTU ball diameter
 Trackball_BTU_d		= 4;

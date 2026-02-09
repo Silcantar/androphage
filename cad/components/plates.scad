@@ -29,8 +29,8 @@ module plate_sketch (
                 if ( is_switch ) {
                     place_key_holes() {
                         key_holes(
-                            connect = is_top,
-                            cutout = is_top ? Cluster_cutout : 0,
+                            connect = false,
+                            cutout = 0,
                         );
 
                         led_holes();
@@ -44,10 +44,10 @@ module plate_sketch (
                 if ( is_top ) {
                     place_key_holes() {
                         fillet2d ( TopPlate_innerRadius ) {
-                        key_holes(
-                                connect = is_top,
-                                cutout = is_top ? Cluster_cutout : 0,
-                            );
+                            key_holes(
+                                    connect = true,
+                                    cutout = Cluster_cutout,
+                                );
                         }
 
                         led_holes();
