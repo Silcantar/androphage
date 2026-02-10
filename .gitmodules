@@ -9,3 +9,9 @@
 [submodule "cad/keycaps"]
 	path = cad/keycaps
 	url = https://github.com/Silcantar/keycaps.git
+[submodule "pcb/kleeb"]
+	path = pcb/kleeb
+	url = https://github.com/crides/kleeb.git
+[submodule "pcb/key-switches"]
+	path = pcb/key-switches
+	url = https://github.com/Silcantar/key-switches.git
