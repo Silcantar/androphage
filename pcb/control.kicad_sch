@@ -3,7 +3,7 @@
 	(generator "eeschema")
 	(generator_version "9.0")
 	(uuid "fc39a356-4f0c-4b85-8296-0f69f3dc18a4")
-	(paper "A4")
+	(paper "A3")
 	(title_block
 		(title "Androphage Control")
 		(date "2026-02-10")
@@ -968,6 +968,107 @@
 						)
 					)
 					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "GND_1"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "GND_1_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_1_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -5887,16 +5988,6 @@
 		)
 		(uuid "98504fd5-5666-4ffe-b995-1c90dbdc3b5a")
 	)
-	(polyline
-		(pts
-			(xy 280.67 12.7) (xy 280.67 165.1)
-		)
-		(stroke
-			(width 0)
-			(type dash)
-		)
-		(uuid "9b52b1fb-3141-4f75-bffd-a9b6d6307d5d")
-	)
 	(wire
 		(pts
 			(xy 82.55 41.91) (xy 82.55 43.18)
@@ -5967,16 +6058,6 @@
 		)
 		(uuid "b14b2c85-979f-44b2-b43b-3b6061847a0f")
 	)
-	(polyline
-		(pts
-			(xy 190.5 165.1) (xy 190.5 12.7)
-		)
-		(stroke
-			(width 0)
-			(type dash)
-		)
-		(uuid "b8515634-1582-457c-a153-8df0ac6d110b")
-	)
 	(wire
 		(pts
 			(xy 27.94 60.96) (xy 38.1 60.96)
@@ -6046,16 +6127,6 @@
 			(type default)
 		)
 		(uuid "c9ec0522-5f3a-4722-921a-948b59ce6108")
-	)
-	(polyline
-		(pts
-			(xy 190.5 12.7) (xy 280.67 12.7)
-		)
-		(stroke
-			(width 0)
-			(type dash)
-		)
-		(uuid "cf9f9502-bd03-4932-9634-98e9afe15dca")
 	)
 	(wire
 		(pts
@@ -7579,7 +7650,7 @@
 	)
 	(global_label "VBAT"
 		(shape input)
-		(at 222.885 115.57 270)
+		(at 222.25 115.57 270)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7589,7 +7660,7 @@
 		)
 		(uuid "6970f9e9-9721-4bf0-9ade-f683d8cd82bd")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 222.7898 123.6566 90)
+			(at 222.1548 123.6566 90)
 			(effects
 				(font
 					(size 1.524 1.524)
@@ -7927,7 +7998,7 @@
 	)
 	(global_label "VBUS"
 		(shape input)
-		(at 234.315 115.57 270)
+		(at 233.68 115.57 270)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -7937,7 +8008,7 @@
 		)
 		(uuid "ac485855-964c-495f-998c-a395ae5b5962")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 234.2198 124.2372 90)
+			(at 233.5848 124.2372 90)
 			(effects
 				(font
 					(size 1.524 1.524)
@@ -8274,7 +8345,7 @@
 	)
 	(global_label "nRF_VDD"
 		(shape input)
-		(at 211.455 115.57 270)
+		(at 209.55 115.57 270)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -8284,7 +8355,7 @@
 		)
 		(uuid "df2919d8-2434-41d8-aae0-60fa52768412")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 211.3598 128.0835 90)
+			(at 209.4548 128.0835 90)
 			(effects
 				(font
 					(size 1.524 1.524)
@@ -10071,7 +10142,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "VIK_OUT"
+		(property "Value" "VIK_OUT_SENSOR"
 			(at 168.91 35.5599 0)
 			(effects
 				(font
@@ -10147,6 +10218,73 @@
 			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e/43544070-5b6a-4f5c-a637-418df5d67efe"
 					(reference "J8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "GND_1")
+		(lib_id "power:GND")
+		(at 27.94 30.48 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1bec0586-7e86-46b8-a122-aefa12ef255e")
+		(property "Reference" "#PWR02"
+			(at 27.94 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 27.94 35.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 27.94 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 27.94 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 27.94 30.48 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "175544f2-baa9-48bd-9127-6bc9e68138db")
+		)
+		(instances
+			(project ""
+				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e/43544070-5b6a-4f5c-a637-418df5d67efe"
+					(reference "#PWR02")
 					(unit 1)
 				)
 			)
@@ -10376,7 +10514,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "VIK_OUT"
+		(property "Value" "VIK_OUT_RIGHT"
 			(at 129.54 35.5599 0)
 			(effects
 				(font
@@ -10721,7 +10859,7 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 222.885 115.57 0)
+		(at 222.25 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10730,7 +10868,7 @@
 		(fields_autoplaced yes)
 		(uuid "7c597fab-dd09-472d-b09a-99e8098cfbce")
 		(property "Reference" "#FLG0101"
-			(at 222.885 113.665 0)
+			(at 222.25 113.665 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10739,7 +10877,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 222.885 109.855 0)
+			(at 222.25 109.855 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10747,7 +10885,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 222.885 115.57 0)
+			(at 222.25 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10756,7 +10894,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 222.885 115.57 0)
+			(at 222.25 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10765,7 +10903,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 222.885 115.57 0)
+			(at 222.25 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10785,16 +10923,18 @@
 		)
 	)
 	(symbol
-		(lib_id "nrfmicro-rescue:GND")
-		(at 200.025 115.57 0)
+		(lib_name "GND_1")
+		(lib_id "power:GND")
+		(at 199.39 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "899b44e4-517d-465e-976c-95863237d951")
-		(property "Reference" "#PWR0120"
-			(at 200.025 121.92 0)
+		(fields_autoplaced yes)
+		(uuid "8509a486-3216-498f-afdc-117e50aef7b6")
+		(property "Reference" "#PWR01"
+			(at 199.39 121.92 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10803,7 +10943,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 200.025 119.38 0)
+			(at 199.39 120.65 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10811,7 +10951,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 200.025 115.57 0)
+			(at 199.39 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10820,7 +10960,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 200.025 115.57 0)
+			(at 199.39 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10828,21 +10968,22 @@
 				(hide yes)
 			)
 		)
-		(property "Description" ""
-			(at 200.025 115.57 0)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 199.39 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(pin "1"
-			(uuid "94d0cc4a-3744-4cc5-85bb-8be474e7412b")
+			(uuid "77909983-2ceb-4e22-91b9-11b354a78898")
 		)
 		(instances
 			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e/43544070-5b6a-4f5c-a637-418df5d67efe"
-					(reference "#PWR0120")
+					(reference "#PWR01")
 					(unit 1)
 				)
 			)
@@ -10930,7 +11071,7 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 200.025 115.57 0)
+		(at 199.39 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10939,7 +11080,7 @@
 		(fields_autoplaced yes)
 		(uuid "8e003c95-3063-4489-af76-8db5dc652f5e")
 		(property "Reference" "#FLG0103"
-			(at 200.025 113.665 0)
+			(at 199.39 113.665 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10948,7 +11089,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 200.025 109.855 0)
+			(at 199.39 109.855 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10956,7 +11097,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 200.025 115.57 0)
+			(at 199.39 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10965,7 +11106,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 200.025 115.57 0)
+			(at 199.39 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10974,7 +11115,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 200.025 115.57 0)
+			(at 199.39 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11488,7 +11629,7 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 211.455 115.57 0)
+		(at 209.55 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11497,7 +11638,7 @@
 		(fields_autoplaced yes)
 		(uuid "9a2adf06-d311-4495-b373-8439397d4d20")
 		(property "Reference" "#FLG0104"
-			(at 211.455 113.665 0)
+			(at 209.55 113.665 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11506,7 +11647,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 211.455 109.855 0)
+			(at 209.55 109.855 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11514,7 +11655,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 211.455 115.57 0)
+			(at 209.55 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11523,7 +11664,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 211.455 115.57 0)
+			(at 209.55 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11532,7 +11673,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 211.455 115.57 0)
+			(at 209.55 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11629,7 +11770,7 @@
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 234.315 115.57 0)
+		(at 233.68 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -11638,7 +11779,7 @@
 		(fields_autoplaced yes)
 		(uuid "a7a1842e-1892-4e2f-baec-76c1cfe6cac1")
 		(property "Reference" "#FLG0102"
-			(at 234.315 113.665 0)
+			(at 233.68 113.665 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11647,7 +11788,7 @@
 			)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 234.315 109.855 0)
+			(at 233.68 109.855 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11655,7 +11796,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 234.315 115.57 0)
+			(at 233.68 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11664,7 +11805,7 @@
 			)
 		)
 		(property "Datasheet" "~"
-			(at 234.315 115.57 0)
+			(at 233.68 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11673,7 +11814,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 234.315 115.57 0)
+			(at 233.68 115.57 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -11953,70 +12094,6 @@
 			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e/43544070-5b6a-4f5c-a637-418df5d67efe"
 					(reference "J4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:GND")
-		(at 27.94 30.48 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "d2e5ccd0-e58d-4bd1-8fe8-d02be6ade4ef")
-		(property "Reference" "#PWR01"
-			(at 27.94 36.83 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "GND"
-			(at 28.067 34.8742 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 27.94 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 27.94 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 27.94 30.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "300376e4-2b00-44af-a639-d837c7025de9")
-		)
-		(instances
-			(project "androphage"
-				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e/43544070-5b6a-4f5c-a637-418df5d67efe"
-					(reference "#PWR01")
 					(unit 1)
 				)
 			)

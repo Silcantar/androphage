@@ -7,4 +7,5 @@
   (lib (name "ic")(type "KiCad")(uri "${KIPRJMOD}/kleeb/ic.kicad_sym")(options "")(descr ""))
   (lib (name "display")(type "KiCad")(uri "${KIPRJMOD}/kleeb/display.kicad_sym")(options "")(descr ""))
   (lib (name "vik")(type "KiCad")(uri "${KIPRJMOD}/vik/kicad/vik.kicad_sym")(options "")(descr ""))
+  (lib (name "AS11CH")(type "KiCad")(uri "${KIPRJMOD}/library/AS11CH.kicad_sym")(options "")(descr ""))
 )
