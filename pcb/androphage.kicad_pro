@@ -396,7 +396,7 @@
       "version": 1
     },
     "net_format_name": "",
-    "page_layout_descr_file": "",
+    "page_layout_descr_file": "control",
     "plot_directory": "",
     "space_save_all_events": true,
     "spice_current_sheet_as_root": false,
@@ -408,6 +408,23 @@
     "subpart_first_id": 65,
     "subpart_id_separator": 0
   },
-  "sheets": [],
+  "sheets": [
+    [
+      "99196bd8-ec0c-4029-b5c4-fcab8025953e",
+      "Root"
+    ],
+    [
+      "43544070-5b6a-4f5c-a637-418df5d67efe",
+      "Control"
+    ],
+    [
+      "dae4d51f-00d7-40d3-8960-7feb1f422f81",
+      "Left_Switches"
+    ],
+    [
+      "33d957a1-d4bf-4013-ad54-3652467a5493",
+      "Right_Switches"
+    ]
+  ],
   "text_variables": {}
 }
