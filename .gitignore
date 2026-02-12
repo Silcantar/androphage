@@ -3,3 +3,6 @@ PMW3610DM-SUDU.pdf
 
 # Intermediate files from SCAD to STEP.
 *.csg
+
+# KiCAD Backup files.
+pcb/androphage-backups/androphage-*.zip
