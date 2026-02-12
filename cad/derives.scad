@@ -85,12 +85,14 @@ _Column_counts_init = [
 ];
 
 Column_count = len ( [
-    for (i = [ len ( _Column_counts_init ) - 1 : -1 : 0 ] )
-        if ( i != 0 )
+    for ( i = [ len ( _Column_counts_init ) - 1 : -1 : 0 ] )
+        if ( _Column_counts_init[i] != 0 )
             i
 ] );
 
 Column_last = Column_count - 1;
+
+echo ( Column_last );
 
 Column_counts = [ for ( i = [ 0 : Column_last ] ) _Column_counts_init[i] ];
 
@@ -104,6 +106,17 @@ _Column_offsets_init = [
 ];
 
 Column_offsets = [ for ( i = [ 0 : Column_last ] ) _Column_offsets_init [ i ] ];
+
+_Column_splay_init = [
+	Column_inner_splay,
+	Column_index_splay,
+	Column_middle_splay,
+	Column_ring_splay,
+	Column_pinky_splay,
+	Column_outer_splay
+];
+
+Column_splay = [ for ( i = [ 0 : Column_last ] ) _Column_splay_init [ i ] ];
 
 Column_cutouts = [ 0, 1, 0, 0, 0 ];
 
@@ -244,7 +257,7 @@ Keycap_position = [ 0, 0, Keycap_position_z ];
 
 LED_position = [
     Key_spacing.x - ( LED_count - 1 ) * LED_holeSpacing.x / 2,
-    Key_spacing.y / 2 - LED_position_y,
+    Key_spacing.y / 2 + LED_position_y,
     0
 ];
 
@@ -276,6 +289,16 @@ MagCon_position		= [
 \*******************************************************************************/
 
 MCU_pcbColor = Color_black;
+
+/*******************************************************************************\
+|									LEDs										|
+\*******************************************************************************/
+
+OLED_position = [
+    Key_spacing.x,
+    Key_spacing.y / 2 + OLED_position_y,
+    0
+];
 
 /*******************************************************************************\
 |										PCB										|
@@ -324,40 +347,49 @@ TopPlate_position = [
 
 /* [Plates Common] */
 
-Plate_backEdgeAngle = atan ( ( 2 * Key_spacing.x ) / Key_spacing.y );
-
-Plate_backEdgeLength = (
-    1.25 * sqrt (
-        ( 2 * Key_spacing.x ) ^ 2
-        + Key_spacing.y ^ 2
-    )
-    + sin ( Plate_backEdgeAngle ) * SwitchPlate_edge
+Plate_backEdge = (
+    [ 0, -( Column_counts[middle] + 0.5 ) * Key_spacing.y - SwitchPlate_edge ] * rot2d ( Column_splay[middle], affine = false )
+    + [ ( Column_last - middle ) * Key_spacing.x, ( Column_offsets[Column_last] - Column_offsets[middle] ) * Key_spacing.y ]
+    + [ 0, ( Column_counts[Column_last] + 0.5 ) * Key_spacing.y + SwitchPlate_edge ] * rot2d ( Column_splay[Column_last], affine = false )
 );
+
+// echo ( Plate_backEdge );
+
+Plate_backEdgeAngle = (
+    90 + atan ( Plate_backEdge.y / Plate_backEdge.x )
+    + Column_splay[Column_last]
+);
+
+echo ( Plate_backEdgeAngle );
+
+Plate_backEdgeLength = norm ( Plate_backEdge ) + ( Key_spacing.x / 2 + SwitchPlate_edge ) / sin ( Plate_backEdgeAngle);
 
 Plate_backArcAngle = 180 - (
-    - 2 * Cluster_innerThumbKeyAngle
-    - Halves_angles.z
+    Halves_angles.z
+    + Column_splay[Column_last]
     + Plate_backEdgeAngle
-    + 180
+    + Plate_backCornerAngle
 );
+
+echo (Plate_backArcAngle);
 
 Plate_frontArcRadius = ( Cluster_radius - 0.5 ) * Key_spacing.y;
 
 Plate_outerArcChord = [
-    Key_spacing.x + SwitchPlate_edge,
-    Key_spacing.y / 2
+    Key_spacing.x / 2,
+    Column_offsets[Column_last] * Key_spacing.y
 ];
 
-Plate_outerArcAngle = atan ( Plate_outerArcChord.y / Plate_outerArcChord.x );
+Plate_outerArcAngle = 2 * atan ( Plate_outerArcChord.y / Plate_outerArcChord.x );
 
 // Radius of the arc at the front outer corner of the keyboard.
-Plate_outerArcRadius = norm ( Plate_outerArcChord ) / 2 / sin ( Plate_outerArcAngle );
+Plate_outerArcRadius = Plate_outerArcChord.x * norm ( Plate_outerArcChord ) / Plate_outerArcChord.y;//norm ( Plate_outerArcChord ) / 2 / sin ( Plate_outerArcAngle );
 
 // Fillet radius for the outside corners of the plates.
 Plate_outerRadius = Frame_lipDepth;
 
 Plate_outerEdgeLength = (
-      3 * Key_spacing.y
+      ( Column_counts[Column_last] ) * Key_spacing.y
     + ( 1 + cos ( Plate_backEdgeAngle ) ) * SwitchPlate_edge
 );
 
@@ -427,22 +459,23 @@ Trackball_position = [
 
 Frame_path = [
 //		Type,	Height / Radius,							Angle,											Profile Number
-    [	l,		Frame_extraLength,							0,												0,	], //0
-    [	r,		-Plate_backArcRadius,                   	Plate_backCornerAngle - Plate_backArcAngle,		0,	], //1
+    [	l,		Frame_extraLength + Hinge_offset,			0,												0,	], //0
+    [	r,		-Plate_backArcRadius,                   	Plate_backArcAngle,		                        0,	], //1
     [	r,		0,                 							Plate_backCornerAngle,							0,	], //2
     [	l,		Plate_backEdgeLength,						0,												0,	], //3
     [	r,		0,											Plate_backEdgeAngle,							0,	], //4
     [	l,		Plate_outerEdgeLength,						0,												0,	], //5
-    [	r,		0,											90,												0,	], //6
-    [	r,		-Plate_outerArcRadius,						2 * Plate_outerArcAngle,						0,	], //7
-    [	r,		0,											2 * Plate_outerArcAngle,						0,	], //8
-    [	l,		2 * Key_spacing.x + Frame_notchDepth,		0,												0,	], //9
-    [	l,		Key_spacing.x / 2 - Frame_notchDepth,		0,												1,	], //10
-    [	r,		-Plate_frontArcRadius + SwitchPlate_edge,	Cluster_innerThumbKeyAngle,						1,	], //11
-    [	l,		Key_spacing.x / 2 - Frame_notchDepth,		0,												1,	], //12
-    [	l,		SwitchPlate_edge + Frame_notchDepth,		0,												0,	], //13
-    [	r,		0,											90,												0,	], //14
-    [	l,		SwitchPlate_edge,							0,												0,	], //15
-    [	r,		-Plate_centerArcRadius + SwitchPlate_edge,	Cluster_innerThumbKeyAngle + Halves_angles.z,	0,	], //16
-    [	l,		Frame_extraLength + 1,						0,												0,	], //17
+    [	r,		0,											90 - Column_splay[Column_last],					0,	], //6
+    [   l,      ( Column_last - pinky ) * Key_spacing.x,    0,                                              0,  ], //7
+    [	r,		-Plate_outerArcRadius,						Plate_outerArcAngle,	    					0,	], //8
+    [	r,		0,											Plate_outerArcAngle,    						0,	], //9
+    [	l,		2 * Key_spacing.x + Frame_notchDepth,		0,												0,	], //10
+    [	l,		Key_spacing.x / 2 - Frame_notchDepth,		0,												1,	], //11
+    [	r,		-Plate_frontArcRadius + SwitchPlate_edge,	Cluster_innerThumbKeyAngle,						1,	], //12
+    [	l,		Key_spacing.x / 2 - Frame_notchDepth,		0,												1,	], //13
+    [	l,		SwitchPlate_edge + Frame_notchDepth,		0,												0,	], //14
+    [	r,		0,											90,												0,	], //15
+    [	l,		SwitchPlate_edge,							0,												0,	], //16
+    [	r,		-Plate_centerArcRadius + SwitchPlate_edge,	Cluster_innerThumbKeyAngle + Halves_angles.z,	0,	], //17
+    [	l,		Frame_extraLength + Hinge_offset + 1,		0,												0,	], //18
 ];

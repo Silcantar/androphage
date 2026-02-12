@@ -27,13 +27,19 @@ module plate_sketch (
                 }
 
                 if ( is_switch ) {
-                    place_key_holes() {
+                    #place_key_holes() {
                         key_holes(
                             connect = false,
                             cutout = 0,
                         );
 
-                        led_holes();
+                        if ( LED_present ) {
+                            led_holes();
+                        }
+
+                        if ( OLED_present ) {
+                            oled_hole();
+                        }
                     }
                 }
 
@@ -50,7 +56,13 @@ module plate_sketch (
                                 );
                         }
 
-                        led_holes();
+                        if ( LED_present ) {
+                            led_holes();
+                        }
+
+                        if ( OLED_present ) {
+                            oled_hole();
+                        }
                     }
 
                     trackball_hole();
@@ -101,6 +113,14 @@ module led_holes () {
                     }
                 }
             }
+        }
+    }
+}
+
+module oled_hole () {
+    translate ( OLED_position ) {
+        fillet2d ( OLED_holeRadius ) {
+            square ( OLED_screenSize, center = true );
         }
     }
 }

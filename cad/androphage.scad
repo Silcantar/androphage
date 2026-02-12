@@ -197,6 +197,14 @@ Column_pinky_offset		= 0.5;	//[-1:0.125:2]
 // Distance that keys in the outer pinky finger column are offset depthward.
 Column_outer_offset		= 0.5;	//[-1:0.125:2]
 
+/* [Column Splay] */
+Column_inner_splay = 0;
+Column_index_splay = 0;
+Column_middle_splay = 0;
+Column_ring_splay = 5;
+Column_pinky_splay = 15;
+Column_outer_splay = 15;
+
 /*******************************************************************************\
 |										Desk									|
 \*******************************************************************************/
@@ -277,6 +285,8 @@ Hinge_leafThickness = 0.04; //[0.01:0.01:0.1]
 // Hinge leaf width.
 Hinge_leafWidth	= 0.53125;	//[0.03125:0.03125:1]
 
+Hinge_offset = 5;
+
 // Diameter of hinge pin.
 Hinge_pinDiameter = 0.09375;	//[0.03125:0.03125:1]
 
@@ -321,7 +331,7 @@ LED_holeSize = [ 3, 3 ];
 
 LED_holeSpacing = [ 4.5, 0 ];
 
-LED_position_y = 13;
+LED_position_y = -13;
 
 /*******************************************************************************\
 |								Magnetic Connector								|
@@ -346,7 +356,7 @@ MagCon_lipOffset	= 1.0;
 
 MCU_chipSize = [ 12, 10, 1.5 ];
 
-MCU_location = "trackball sensor"; //["trackball sensor", "magnetic connector", "main PCB"]
+MCU_location = "main PCB"; //["trackball sensor", "magnetic connector", "main PCB"]
 
 MCU_radius = 2;
 
@@ -359,6 +369,20 @@ MCU_usbRadius = 1.2;
 MCU_usbSize = [ 9, 7.35, 3.2 ];
 
 MCU_usbCutSize = [ 12, 10, 7 ];
+
+/*******************************************************************************\
+|										OLED									|
+\*******************************************************************************/
+
+OLED_present = false;
+
+OLED_holeRadius = 0.5;
+
+OLED_pcbSize = [ 15.5, 13 ];
+
+OLED_position_y = -13;
+
+OLED_screenSize = [ 12.58, 6.98 ];
 
 /*******************************************************************************\
 |										PCBs									|

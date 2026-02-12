@@ -47,7 +47,7 @@ module key_holes (
     }
 }
 
-module place_key_holes ( start = 17, end = 10 ) {
+module place_key_holes ( start = 18, end = 11 ) {
     path = [ for ( i = [ start : -1 : end ] ) Frame_path[i] ];
     translate_on_path (
         path,
@@ -77,16 +77,17 @@ function finger_key_positions () = [
         j = [ 0 : Column_counts[i] - 1 ]
     ) (
         let (
+            r = ( j + Column_offsets[i] ) * Key_spacing.y,
             position = [
-                ( i - 1 ) * Key_spacing.x,
-                ( j + Column_offsets[i] ) * Key_spacing.y
+                ( i - 1 ) * Key_spacing.x + r * sin ( Column_splay[i] ),
+                r * cos ( Column_splay[i] )
             ]
         ) (
             object ( [
-                [ "position",   position    ],
-                [ "angle",      0           ],
-                [ "connect",    false       ],
-                [ "cutout",     0           ],
+                [ "position",   position            ],
+                [ "angle",      -Column_splay[i]    ],
+                [ "connect",    false               ],
+                [ "cutout",     0                   ],
             ] )
         )
     )
