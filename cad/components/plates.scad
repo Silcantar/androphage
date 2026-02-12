@@ -71,13 +71,21 @@ module plate_sketch (
 
 module plate (
     plate_id,
+    sketch = false,
     zpos = 0,
 ) {
-    linear_extrude ( height = SwitchPlate_thickness ) {
+    if ( sketch ) {
         plate_sketch (
             plate_id,
             zpos = zpos,
         );
+    } else {
+        linear_extrude ( height = SwitchPlate_thickness ) {
+            plate_sketch (
+                plate_id,
+                zpos = zpos,
+            );
+        }
     }
 }
 

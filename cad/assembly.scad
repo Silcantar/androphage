@@ -41,6 +41,11 @@ module androphage_assembly () {
 
 // Assemble one half of the Androphage keyboard.
 module assemble_half( secondary = false ) {
+    /*          Plate Sketch for PCB outline             */
+    if ( Plate_sketch ) {
+        plate_sketch ( switch, zpos = SwitchPlate_position.z );
+    }
+
     /*				Bottom Plate				*/
     if ( BottomPlate_visible ) {
         echo ( "    Building bottom plate." );
@@ -186,8 +191,8 @@ module assemble_half( secondary = false ) {
 
     if ( MCU_visible && !secondary && MCU_location == "main PCB" ) {
         // MCU directly at USB port location.
-        translate ( [ 20, 86, 0 ] ) {
-            rotate ( [ 0, 0 + Halves_angles.y, 0 ] ) {
+        translate ( [ 32, 88, -2 ] ) {
+            rotate ( [ 0, 0 + Halves_angles.y, Halves_angles.z ] ) {
                 mcu( include_cut = false );
             }
         }
