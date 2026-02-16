@@ -15,3 +15,6 @@
 [submodule "pcb/key-switches"]
 	path = pcb/key-switches
 	url = https://github.com/Silcantar/key-switches.git
+[submodule "cad/BOSL2"]
+	path = cad/BOSL2
+	url = https://github.com/BelfrySCAD/BOSL2.git
