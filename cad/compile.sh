@@ -13,7 +13,7 @@ cat \
  components/plates.scad \
  components/trackball_sensor.scad \
  components/trackball.scad \
- keycaps/keycaps_nolib_compiled.scad \
+ keycaps/keycap_nolib_compiled.scad \
  library/animation.scad \
  library/choc_switch.scad \
  library/fillet.scad \
@@ -33,6 +33,5 @@ cat \
  color.scad \
  derives.scad \
  globals.scad \
- objects.scad \
-| grep -v '^include' > ./androphage_compiled.scad
+| grep -v '^include' | grep -v '^use' > ./androphage_compiled.scad
 echo "androphage_compiled.scad written."
