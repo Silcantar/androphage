@@ -7,3 +7,5 @@ PMW3610DM-SUDU.pdf
 # KiCAD Backup files.
 pcb/androphage-backups
 pcb/_autosave*.kicad_sch
+
+*_compiled.scad
