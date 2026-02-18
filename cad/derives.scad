@@ -120,13 +120,13 @@ Column_splay = [ for ( i = [ 0 : Column_last ] ) _Column_splay_init [ i ] ];
 
 Column_cutouts = [ 0, 1, 0, 0, 0 ];
 
-Column_connectors = [
-    [ Key_spacing.x, 90 + Cluster_angle ],
-    [ 0, 0 ],
-    [ 0, 0 ],
-    [ 0, 0 ],
-    [ 0, 0 ],
-];
+// Column_connectors = [
+//     [ Key_spacing.x, 90 + Cluster_angle ],
+//     [ 0, 0 ],
+//     [ 0, 0 ],
+//     [ 0, 0 ],
+//     [ 0, 0 ],
+// ];
 
 /*******************************************************************************\
 |										Desk									|

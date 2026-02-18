@@ -25,6 +25,8 @@
 |																				|
 \*******************************************************************************/
 
+include <BOSL2/std.scad>
+
 /* [Hidden] */
 // Other files test whether this is defined to determine whether this file has
 // been loaded.
@@ -533,7 +535,8 @@ Trackball_BTU_L1	= 1.1;
 |									Assembly									|
 \*******************************************************************************/
 
-// Definitions and calclations.
+// Definitions and calculations.
+
 include <library/globals.scad>
 
 include <globals.scad>

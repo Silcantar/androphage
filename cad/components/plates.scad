@@ -15,7 +15,23 @@ module plate_sketch (
     is_switch   = ( plate_id == switch );
     is_top      = ( plate_id == top );
 
-    difference () {
+    upper_points = [
+        for ( i = [ 0 : Column_last ] ) [
+            i * Key_spacing.x,
+            ( Column_counts[i] + Column_offsets[i] ) * Key_spacing.y
+        ]
+    ];
+
+    lower_points = [
+        for ( i = [ ( Cluster_fiveThumbKeys ? middle : index ) : Column_last ] ) [
+            i * Key_spacing.x,
+            Column_offsets[i] * Key_spacing.y
+        ]
+    ];
+
+    stroke ( concat ( upper_points, reverse ( lower_points ) ) );
+
+    *difference () {
         translate ( [ zpos * sin ( Halves_angles.y ) - Frame_extraLength, -SwitchPlate_edge, 0 ] ) {
             difference () {
                 fillet2d ( radius = Plate_outerRadius ) {
