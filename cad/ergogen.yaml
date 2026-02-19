@@ -1,0 +1,74 @@
+meta:
+  name: androphage
+  engine: 4.2.1
+  version: 0.1
+  author: Joshua Lucas
+units:
+  ux: 18
+  uy: 17
+  thumblength: 96
+  $default_height: 17
+  $default_padding: 17
+  $default_spread: 18
+  $default_width: 18
+points:
+  zones:
+    thumb:
+      rows:
+        home:
+      columns:
+        inner:
+          key:
+            stagger: -uy
+            spread: -ux
+        home:
+          key:
+            origin: [ 0, -thumblength ]
+            spread: 0
+            splay: -11.75
+          rows:
+            home:
+            top:
+        outer1:
+          key:
+            origin: [ 0, -thumblength ]
+            spread: 0
+            splay: -11.75
+        outer2:
+          key:
+            origin: [ 0, -thumblength ]
+            spread: 0
+            splay: -11.75
+    fingers:
+      anchor:
+        ref: thumb_outer2_home
+        shift: [ -ux, uy ]
+      rows:
+        bottom:
+        home:
+        top:
+      columns:
+        inner:
+        index:
+          rows:
+        middle:
+          key:
+            stagger: uy / 2
+          rows:
+            bottom2:
+              shift: [0, -4 * uy]
+        ring:
+          key:
+            origin: [ -ux / 2, -uy ]
+            splay: -5
+            stagger: -uy / 2
+          rows:
+            bottom2:
+              shift: [ 0, -4 * uy ]
+        pinky:
+          key:
+            origin: [ -ux / 2, -uy / 2]
+            splay: -10
+            stagger: -uy / 2
+        outer:
+          $skip: true # Comment out this line to include this column.
