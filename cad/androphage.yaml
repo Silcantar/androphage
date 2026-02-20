@@ -1,0 +1,305 @@
+# Androphage parameters
+# This is a superset of Ergogen YAML.
+# Ergogen Config
+meta:
+  engine: 4.2.1
+  version: 0.1
+  author:
+units:
+  ux: 18
+  uy: 17
+  thumblength: 96
+  pcbedge: 4
+  $default_height: 17
+  $default_padding: 17
+  $default_spread: 18
+  $default_width: 18
+points:
+  zones:
+    thumb:
+      key:
+        spread: 0
+      rows:
+        home:
+      columns:
+        inner:
+          key:
+            stagger: -uy
+            spread: -ux
+        home:
+          key:
+            origin: [ 0, -thumblength ]
+            splay: -11.75
+          rows:
+            home:
+            top:
+        outer1:
+          key:
+            origin: [ 0, -thumblength ]
+            splay: -11.75
+        outer2:
+          key:
+            origin: [ 0, -thumblength ]
+            splay: -11.75
+    fingers:
+      anchor:
+        ref: thumb_outer2_home
+        shift: [ -ux, uy ]
+      rows:
+        bottom:
+        home:
+        top:
+      columns:
+        inner:
+        index:
+          rows:
+        middle:
+          key:
+            stagger: uy / 2
+          rows:
+            bottom2:
+              shift: [0, -4 * uy]
+        ring:
+          key:
+            origin: [ -ux / 2, -uy ]
+            splay: -5
+            stagger: -uy / 2
+          rows:
+            bottom2:
+              shift: [ 0, -4 * uy ]
+        pinky:
+          key:
+            origin: [ -ux / 2, -uy / 2]
+            splay: -10
+            stagger: -uy / 2
+        outer:
+          $skip: true # Comment out this line to include this column.
+outlines:
+  _outline:
+    - what: polygon
+      points:
+        - ref: thumb_inner_home
+          shift: [-ux/2, uy/2]
+        - ref: fingers_inner_top
+          shift: [-ux/2, uy/2]
+        - ref: fingers_middle_top
+          shift: [0, uy/2]
+        - ref: fingers_pinky_top
+          shift: [ux/2, uy/2]
+        - ref: fingers_pinky_bottom
+          shift: [ux/2, -uy/2]
+        - ref: fingers_ring_bottom2
+          shift: [0, -uy/2]
+        - ref: thumb_outer2_home
+          shift: [0, -uy/2]
+        - ref: thumb_home_home
+          shift: [0, -uy/2]
+        - ref: thumb_inner_home
+          shift: [-ux/2, -uy/2]
+      expand: pcbedge
+      joints: pointy
+    - what: circle
+      where: thumb_inner_home
+      adjust:
+        shift: [-20, 0]
+      radius: 20
+      operation: stack
+  _switchcutout:
+    - what: rectangle
+      size: [13.8, 13.8]
+      fillet: 0.4
+  _cutouts:
+    - what: outline
+      name: _switchcutout
+      where: true
+  switchplate:
+    - what: outline
+      name: _outline
+    - what: outline
+      name: _cutouts
+      operation: stack
+---
+# OpenSCAD parameters
+components:
+  Battery:
+    visible: true
+    size:
+      value: [ 12, 30, 3 ]
+      range: [ 0, 100 ]
+      description: Dimensions of battery.
+  Frame:
+    visible: true
+    chordAngle:
+      value: 5
+      range: [ 0, 10 ]
+      description: Angle between the chord of the main arc and vertical.
+    filletRadius: 1
+    lipDepth: 1
+    mainRadius: 50
+    notchDepth: 6
+    thickness:
+      value: 5
+      range: [ 1, 5 ]
+    extraLength: 3
+  CenterBlock:
+    visible: true
+    ribSize: [ 2, 2 ]
+    screwCount: 3
+    wallThickness: 2
+  Desk:
+    visible: true
+    size: [ 300, 200, 1 ]
+    position: [ 0, 0, -40 ]
+  Screw:
+    visible: true
+    diameter: 2
+    minorDiameter: 1.6
+    headDiameter: 4
+    headAngle: 90
+    offset: 3
+  Insert:
+    visible: true
+    diameter: 3
+    height: 3
+    holeDiameter: 2.8
+    holeDepth: 4
+    wallThickness: 1.6
+  Halves:
+    visible: true
+    angles:
+      value: [ 0, 7, 15 ]
+      range: [ -45, 45 ]
+    clearance: 1
+  Hinge:
+    visible: true
+    diameter: 4.42
+    knuckleDepth:
+      value: 12.7
+      range: [ 0, 25 ]
+    length: 90
+    leafThickness: 0.04
+    leafWidth: 13.5
+    offset: 5
+    pinDiameter: 2.4
+  Keycap:
+    visible: true
+    clearance: 1
+    testClearance: false
+    profile:
+      value: lame
+      range: [ cherry, dsa, lame, mbk, steno ]
+    saddle: false
+    spacingType:
+      value: choc
+      range: [ choc, mx, custom ]
+    customSpacing: [ 16, 16 ]
+  LED:
+    visible: true
+    present: true
+    count: 4
+    holeRadius: 0.2
+    holeShape:
+      value: square
+      range: [ square, circle ]
+    holeSize: 3
+    holeSpacing: [ 4.5, 0 ]
+    positionY: -13
+  MagneticConnector:
+    visible: true
+    size: [ 4.7, 26.5, 6.0 ]
+    lip: [ 1.0, 28.5, 8.0 ]
+    lipOffset: 1.0
+  MCU:
+    visible: true
+    chipSize: [ 12, 10, 1.5 ]
+    location:
+      value: main PCB
+      range: [ trackball sensor, magnetic connector, main PCB ]
+    radius: 2
+    size: [ 17.8, 21, 1.2 ]
+    usbOverhang: 1.5
+    usbRadius: 1.2
+    usbSize: [ 9, 7.35, 3.2 ]
+    usbCutSize: [ 12, 10, 7 ]
+  OLED:
+    visible: true
+    present: false
+    holeRadius: 0.5
+    pcbSize: [ 15.5, 13 ]
+    position: [ 0, 0 ]
+    screenSize: [ 12.58, 6.98 ]
+  PCB:
+    visible: true
+    color: DarkGreen
+    thickness: 1.2
+  BottomPlate:
+    visible: true
+    thickness:
+      value: 1.2
+      range: [ 1, 2, 0.2 ]
+    clearance:
+      value: 3
+      range: [ 1, 10 ]
+  SwitchPlate:
+    visible: true
+    present: true
+    clearance: 0.2
+    edge:
+      value: 2
+      range: [ 0, 5 ]
+    radius: 1
+  TopPlate:
+    visible: true
+    thickness: 1.2
+    innerRadius:
+      value: 2
+      range: [ 0, 5, 0.1 ]
+  Plate:
+    centerArcRadius: 20
+    backArcRadius: 120
+    backCornerAngle: 43
+    sketch: false
+  Switch:
+    radius: 0.5
+    type:
+      value: glp
+      choices: [ chocv1, chocv2, mx, glp ]
+    travel: 0
+    maxTravel: 3.3
+    chocColor:
+      value: Sunset
+      choices: [ Red, Blue, Brown, Pro Red, Pink, Robin, Sunset, Twilight, Nocturnal, Sunrise, Bokeh ]
+    glpColor:
+      value: Banana
+      choices: [ Banana, Blue, Brown, Chocolate, Red, Aloe, Cowberry, Daisy, Moss, Panda, Wisteria ]
+    mxStemColor:
+      value: [ 1, 1, 1, 0.8 ]
+      range: [ 0, 1, 0.01 ]
+    mxTopColor:
+      value: [ 0, 0.9, 1, 0.6 ]
+      range: [ 0, 1, 0.01 ]
+    mxBottomColor:
+      value: [ 0, 0.9, 1, 0.6 ]
+      range: [ 0, 1, 0.01 ]
+  Trackball:
+    diameter: 35
+    positionY: 63
+    clearance: 1
+  TrackBallSensor:
+    pcbSize: [ 16, 25 ]
+    size: [ 10.9, 16.2, 1.65 ]
+    lensSize: [ 8.6, 16.96, 3.4 ]
+    clearance: 2.4
+    holeSize: 8
+    angle: 60
+    holderHeight: 15
+    holderThickness: 5
+  BTU:
+    angles: [ 45, 0, 45 ]
+    d: 4
+    D: 9
+    D1: 7.5
+    H: 1
+    L: 4
+    L1: 1.1
+

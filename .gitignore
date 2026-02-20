@@ -9,3 +9,6 @@ pcb/androphage-backups
 pcb/_autosave*.kicad_sch
 
 *_compiled.scad
+
+__pycache__
+*.egg-info

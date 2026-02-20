@@ -1,7 +1,7 @@
 meta:
   name: androphage
   engine: 4.2.1
-  version: 0.1
+  version: 0.1.0
   author: Joshua Lucas
 units:
   ux: 18
@@ -50,7 +50,6 @@ points:
       columns:
         inner:
         index:
-          rows:
         middle:
           key:
             stagger: uy / 2
