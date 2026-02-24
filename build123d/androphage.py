@@ -1,6 +1,5 @@
 import cadquery as cq
-#from cadquery.vis import show
-from ocp_vscode import *
+from ocp_vscode import show
 
 part = cq.Workplane('XY').box(10,20,30)
 
