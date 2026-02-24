@@ -3,45 +3,33 @@ from collections.abc import Iterable
 
 import build123d as bd
 
-#from cadquery.vis import show
-from ocp_vscode import show
+from androphage_common import *
 
-eps = 0.001
-
-class Battery(bd.BasePartObject):
+class Battery(Component):
+    '''
+        Standard lithium-polymer battery. Default size is 403450.
+    '''
     def __init__(
         self,
-        # color: Iterable | str = 'silver',
-        size: Iterable = [12, 3, 30],
+        align: bd.Align | tuple[bd.Align, bd.Align, bd.Align] = bd.Align.NONE,
+        color: Iterable | str = 'gainsboro',
+        mode: bd.Mode = bd.Mode.ADD,
+        rotation: Iterable = [0, 0, 0],
+        size: Iterable = [34, 4.0, 50]
     ):
-        # self.color(color)
         self.size = size
+        super().__init__(align, color, mode, rotation)
+
+    def build(self) -> bd.Part:
         with bd.BuildPart() as battery:
             with bd.BuildSketch() as sketch:
-                bd.RectangleRounded(size[0], size[1], size[1]/2 - eps)
-            bd.extrude(amount=size[2])
-        super().__init__(
-            part=battery.part,
-            # rotation=rotation,
-            # align=align,
-            # mode=mode
-        )
-
-    # @property
-    # def color(self):
-    #     return self._color
-
-    # @color.setter
-    # def color(self, value: Iterable | str):
-    #     if isinstance(value, str):
-    #         self._color = bd.Color(name=value)
-    #     else:
-    #         self._color = bd.Color(
-    #             red=value[0],
-    #             green=value[1],
-    #             blue=value[2],
-    #             alpha=value[3]
-    #         )
+                bd.RectangleRounded(
+                    self.size.X,
+                    self.size.Y,
+                    self.size.Y/2 - eps
+                )
+            bd.extrude(amount=self.size.Z)
+        return battery.part
 
     @property
     def size(self):
@@ -52,4 +40,5 @@ class Battery(bd.BasePartObject):
         self._size = bd.Vector(value)
 
 if __name__ == '__main__':
+    from ocp_vscode import show
     show(Battery())

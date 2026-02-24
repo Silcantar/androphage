@@ -1,6 +1,6 @@
-import cadquery as cq
-from ocp_vscode import show
+import build123d as bd
 
-part = cq.Workplane('XY').box(10,20,30)
+from androphage_common import *
 
-show(part)
+if __name__ == '__main__':
+    from ocp_vscode import show
