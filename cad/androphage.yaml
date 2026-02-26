@@ -118,8 +118,7 @@ outlines:
     - what: outline
       name: _cutouts
       operation: stack
----
-# OpenSCAD parameters
+# OpenSCAD/build123d parameters
 components:
   Battery:
     visible: true

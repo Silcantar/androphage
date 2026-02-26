@@ -46,10 +46,11 @@ class Column:
 @dataclass
 class Meta:
     engine: str
-    name: str = ''
-    version: str = ''
-    author: str = ''
+    name: str = None
+    version: str = None
+    author: str = None
 
+@dataclass
 class Units:
     pass
 
@@ -75,26 +76,27 @@ class Ergogen:
 
     def __init__(self, config_file: typing.TextIO):
         self.config_dict = self.read_config(config_file)
-        self.meta = self.extract_meta(self.config_dict)
+        self.meta = self.extract_meta()
 
     def read_config(self, config_file: typing.TextIO) -> dict[str, any]:
         return yaml.safe_load(config_file)
 
-    def extract_meta(self, config_dict: dict[str, any]) -> Meta:
-        metadict = config_dict['meta']
-        engine = metadict['engine']
-        try:
-            name = metadict['name']
-            version = metadict['version']
-            author = metadict['author']
-        except KeyError:
-            pass
-        finally:
-            return Meta(engine, name, version, author)
+    def extract_meta(self) -> Meta:
+        metadict = self.config_dict['meta']
+        meta = Meta(engine=metadict['engine'])
+        for fieldname in ['name', 'version', 'author']:
+            try:
+                meta.__dict__[fieldname] = metadict[fieldname]
+            except KeyError:
+                pass
+        return meta
+
+    def extract_units(self) -> Units:
+        unitsdict = self.config_dict['units']
 
 
 if __name__ == '__main__':
-    with open('ergogen.yaml') as yf:
+    with open('cad/androphage.yaml') as yf:
         eg = Ergogen(yf)
         # print(eg._config_dict)
         print(eg.meta)

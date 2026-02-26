@@ -14,7 +14,7 @@ vector4 = tuple[float, float, float, float]
 MIN = bd.Align.MIN
 CENTER = bd.Align.CENTER
 MAX = bd.Align.MAX
-@dataclass
+@dataclass(frozen=True)
 class Align:
     LeftFrontBottom     = (MIN,     MIN,    MIN)
     LeftFront           = (MIN,     MIN,    CENTER)
