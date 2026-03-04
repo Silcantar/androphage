@@ -26,7 +26,7 @@ class Battery(Component):
                 bd.RectangleRounded(
                     self.size.X,
                     self.size.Y,
-                    self.size.Y/2 - eps
+                    self.size.Y/2 - EPS
                 )
             bd.extrude(amount=self.size.Z)
         return battery.part

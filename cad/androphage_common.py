@@ -1,15 +1,11 @@
 import typing
-from collections.abc import Iterable
-# from enum import Enum
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 
 import build123d as bd
 
-eps = 0.001
+EPS = 0.001
 
-vector2 = tuple[float, float]
-vector3 = tuple[float, float, float]
-vector4 = tuple[float, float, float, float]
 
 MIN = bd.Align.MIN
 CENTER = bd.Align.CENTER
@@ -73,7 +69,7 @@ class Component(bd.BasePartObject):
 
     @color.setter
     def color(self, value: Iterable | str):
-        self._color = MakeColor(value)
+        self._color = make_color(value)
 
     @property
     def rotation(self):
@@ -83,8 +79,46 @@ class Component(bd.BasePartObject):
     def rotation(self, value: Iterable):
         self._rotation = bd.Rotation(value)
 
+class Column:
+    _defaults = {
+        'keys': 1,
+        'offset': 0,
+        'splay': 0,
+        'spread': 1,
+        'stagger': 0,
+        'suppress': False,
+    }
 
-def MakeColor(value: Iterable | str, alpha: float = 1.0):
+    def __init__(self, column_defs: dict[str, any]):
+        for key in self._defaults:
+            try:
+                self.__dict__[key] = column_defs[key]
+            except KeyError:
+                self.__dict__[key] = self._defaults[key]
+
+def key_locations(
+    column_defs: dict[str, any],
+    spacing: Sequence[float, float]
+) -> bd.LocationList:
+    spc = bd.Vector(spacing)
+    locations: list[bd.Location] = []
+    origin = bd.Location([0, 0])
+    for column_key in column_defs:
+        column = Column(column_defs[column_key])
+        if column.suppress:
+            continue
+        origin *= bd.Location(
+            position=[column.spread*spc.X, column.stagger*spc.Y],
+            orientation=[0, 0, -column.splay]
+        )
+        for i in range(0, column.keys):
+            loc = origin * bd.Location(position=[0, spc.Y*(i + column.offset)])
+            loc.label = f'{column_key}_{i}'
+            locations.append(loc)
+    return bd.LocationList(locations)
+
+
+def make_color(value: Iterable | str, alpha: float = 1.0):
     if isinstance(value, str):
         return bd.Color(name=value)
     elif isinstance(value, Iterable):
@@ -97,4 +131,3 @@ def MakeColor(value: Iterable | str, alpha: float = 1.0):
         )
     else:
         return bd.Color()
-

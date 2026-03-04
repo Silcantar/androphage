@@ -1,39 +1,124 @@
-# Androphage Parameters
-spacing: [18, 17]
-cutout: [14, 14]
-columns:
-  thumb_inner:
-    spread: 0
-  thumb_home:
-    keys: 2
-    splay: 10
-  thumb_outer1:
-    splay: 10
-  thumb_outer2:
-    splay: 10
-  finger_inner:
-    keys: 3
-    stagger: 1
-    spread: -1
-  finger_index:
-    suppress: false
-    keys: 3
-    spread: 1
-  finger_middle:
-    keys: 4
-    stagger: -0.5
-  finger_ring:
-    keys: 4
-    offset: -0.5
-    stagger: 0
-    splay: 5
-  finger_pinky:
-    keys: 3
-    splay: 10
-  finger_outer:
-    suppress: true
-    keys: 2
-    stagger: 0.5
+# Androphage parameters
+# This is a superset of Ergogen YAML.
+# Ergogen Config
+meta:
+  engine: 4.2.1
+  version: 0.1
+  author:
+units:
+  ux: 18
+  uy: 17
+  thumblength: 96
+  pcbedge: 4
+  $default_height: 17
+  $default_padding: 17
+  $default_spread: 18
+  $default_width: 18
+points:
+  zones:
+    thumb:
+      key:
+        spread: 0
+      rows:
+        home:
+      columns:
+        inner:
+          key:
+            stagger: -uy
+            spread: -ux
+        home:
+          key:
+            origin: [ 0, -thumblength ]
+            splay: -11.75
+          rows:
+            home:
+            top:
+        outer1:
+          key:
+            origin: [ 0, -thumblength ]
+            splay: -11.75
+        outer2:
+          key:
+            origin: [ 0, -thumblength ]
+            splay: -11.75
+    fingers:
+      anchor:
+        ref: thumb_outer2_home
+        shift: [ -ux, uy ]
+      rows:
+        bottom:
+        home:
+        top:
+      columns:
+        inner:
+        index:
+          rows:
+        middle:
+          key:
+            stagger: uy / 2
+          rows:
+            bottom2:
+              shift: [0, -4 * uy]
+        ring:
+          key:
+            origin: [ -ux / 2, -uy ]
+            splay: -5
+            stagger: -uy / 2
+          rows:
+            bottom2:
+              shift: [ 0, -4 * uy ]
+        pinky:
+          key:
+            origin: [ -ux / 2, -uy / 2]
+            splay: -10
+            stagger: -uy / 2
+        outer:
+          $skip: true # Comment out this line to include this column.
+outlines:
+  _outline:
+    - what: polygon
+      points:
+        - ref: thumb_inner_home
+          shift: [-ux/2, uy/2]
+        - ref: fingers_inner_top
+          shift: [-ux/2, uy/2]
+        - ref: fingers_middle_top
+          shift: [0, uy/2]
+        - ref: fingers_pinky_top
+          shift: [ux/2, uy/2]
+        - ref: fingers_pinky_bottom
+          shift: [ux/2, -uy/2]
+        - ref: fingers_ring_bottom2
+          shift: [0, -uy/2]
+        - ref: thumb_outer2_home
+          shift: [0, -uy/2]
+        - ref: thumb_home_home
+          shift: [0, -uy/2]
+        - ref: thumb_inner_home
+          shift: [-ux/2, -uy/2]
+      expand: pcbedge
+      joints: pointy
+    - what: circle
+      where: thumb_inner_home
+      adjust:
+        shift: [-20, 0]
+      radius: 20
+      operation: stack
+  _switchcutout:
+    - what: rectangle
+      size: [13.8, 13.8]
+      fillet: 0.4
+  _cutouts:
+    - what: outline
+      name: _switchcutout
+      where: true
+  switchplate:
+    - what: outline
+      name: _outline
+    - what: outline
+      name: _cutouts
+      operation: stack
+# OpenSCAD/build123d parameters
 components:
   Battery:
     visible: true
@@ -216,3 +301,4 @@ components:
     H: 1
     L: 4
     L1: 1.1
+
