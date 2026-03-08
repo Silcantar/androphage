@@ -1,5 +1,5 @@
 import typing
-from collections.abc import Iterable
+# from collections.abc import Iterable
 
 import build123d as bd
 
@@ -11,13 +11,13 @@ class Battery(Component):
     '''
     def __init__(
         self,
-        align: bd.Align | tuple[bd.Align, bd.Align, bd.Align] = bd.Align.NONE,
-        color: Iterable | str = 'gainsboro',
+        align: AlignLike = bd.Align.NONE,
+        color: bd.ColorLike = 'Silver',
         mode: bd.Mode = bd.Mode.ADD,
-        rotation: Iterable = [0, 0, 0],
-        size: Iterable = [34, 4.0, 50]
+        rotation: bd.RotationLike = (0, 0, 0),
+        size: bd.VectorLike = (34, 4.0, 50)
     ):
-        self.size = size
+        self.size: bd.Vector = size
         super().__init__(align, color, mode, rotation)
 
     def build(self) -> bd.Part:
@@ -36,7 +36,7 @@ class Battery(Component):
         return self._size
 
     @size.setter
-    def size(self, value: Iterable):
+    def size(self, value: bd.VectorLike):
         self._size = bd.Vector(value)
 
 if __name__ == '__main__':

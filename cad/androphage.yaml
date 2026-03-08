@@ -16,7 +16,6 @@ columns:
     stagger: 1
     spread: -1
   finger_index:
-    suppress: false
     keys: 3
     spread: 1
   finger_middle:
@@ -24,14 +23,14 @@ columns:
     stagger: -0.5
   finger_ring:
     keys: 4
-    offset: -0.5
-    stagger: 0
+    shift: [0, -0.5]
+    stagger: 0 #-0.5
     splay: 5
   finger_pinky:
     keys: 3
     splay: 10
   finger_outer:
-    suppress: true
+    skip: true
     keys: 2
     stagger: 0.5
 components:

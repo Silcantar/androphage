@@ -3,6 +3,8 @@ import yaml
 
 from dataclasses import dataclass
 
+import build123d as bd
+
 type FileLike = str | Path | File
 
 type Point = tuple[float, float]
@@ -25,14 +27,14 @@ class MultiAnchor:
 
 @dataclass
 class Column:
-    stagger: float
-    spread: float
-    splay: float
-    padding: float
-    orient: float
-    shift: Point
-    rotate: float
-    adjust: float
+    stagger: float = 0
+    spread: float = 1
+    splay: float = 0
+    padding: float = 1
+    orient: float = 0
+    shift: bd.VectorLike = (0, 0)
+    rotate: float = 0
+    # adjust: float =
     bind: list[int]
     autobind: int
     skip: bool
@@ -42,6 +44,13 @@ class Column:
     name: str
     width: float
     height: float
+
+    def __init__(self, column_defs: dict[str, any]):
+        for key in self._defaults:
+            try:
+                self.__dict__[key] = column_defs[key]
+            except KeyError:
+                self.__dict__[key] = self._defaults[key]
 
 @dataclass
 class Meta:

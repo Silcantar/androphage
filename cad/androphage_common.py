@@ -6,10 +6,12 @@ import build123d as bd
 
 EPS = 0.001
 
+AlignLike = bd.Align | tuple[bd.Align, bd.Align, bd.Align]
 
 MIN = bd.Align.MIN
 CENTER = bd.Align.CENTER
 MAX = bd.Align.MAX
+
 @dataclass(frozen=True)
 class Align:
     LeftFrontBottom     = (MIN,     MIN,    MIN)
@@ -43,13 +45,13 @@ class Align:
 class Component(bd.BasePartObject):
     def __init__(
         self,
-        align: bd.Align | tuple[bd.Align, bd.Align, bd.Align] = bd.Align.NONE,
-        color: Iterable | str = 'silver',
+        align: AlignLike = bd.Align.NONE,
+        color: bd.ColorLike | str = 'CornflowerBlue',
         mode: bd.Mode = bd.Mode.ADD,
-        rotation: Iterable = [0, 0, 0],
+        rotation: bd.RotationLike = [0, 0, 0],
     ):
         self.align = align
-        self.color = color
+        # self.color = color
         self.mode = mode
         self.rotation = rotation
         part = self.build()
@@ -59,34 +61,20 @@ class Component(bd.BasePartObject):
             align=self.align,
             mode=self.mode
         )
+        self.color = color
 
     def build(self) -> bd.Part:
         raise NotImplementedError()
 
-    @property
-    def color(self):
-        return self._color
-
-    @color.setter
-    def color(self, value: Iterable | str):
-        self._color = make_color(value)
-
-    @property
-    def rotation(self):
-        return self._rotation
-
-    @rotation.setter
-    def rotation(self, value: Iterable):
-        self._rotation = bd.Rotation(value)
 
 class Column:
     _defaults = {
         'keys': 1,
-        'offset': 0,
+        'skip': False,
+        'shift': [0, 0],
         'splay': 0,
         'spread': 1,
         'stagger': 0,
-        'suppress': False,
     }
 
     def __init__(self, column_defs: dict[str, any]):
@@ -96,38 +84,44 @@ class Column:
             except KeyError:
                 self.__dict__[key] = self._defaults[key]
 
+
+class LocationDict(dict[str, bd.Location]):
+    def __init__(self, **kwargs):
+        super().__init__(kwargs)
+
+    def locations(self) -> bd.LocationList:
+        return bd.LocationList(list(self.values()))
+
+
 def key_locations(
     column_defs: dict[str, any],
     spacing: Sequence[float, float]
 ) -> bd.LocationList:
     spc = bd.Vector(spacing)
-    locations: list[bd.Location] = []
-    origin = bd.Location([0, 0])
+    locations = LocationDict()
+    origin = bd.Location((0, 0))
     for column_key in column_defs:
         column = Column(column_defs[column_key])
-        if column.suppress:
+        if column.skip:
             continue
         origin *= bd.Location(
             position=[column.spread*spc.X, column.stagger*spc.Y],
             orientation=[0, 0, -column.splay]
         )
         for i in range(0, column.keys):
-            loc = origin * bd.Location(position=[0, spc.Y*(i + column.offset)])
+            loc = (
+                origin * bd.Location(position=[
+                    spc.X*column.shift[0],
+                    spc.Y*(i + column.shift[1])
+                ])
+            )
             loc.label = f'{column_key}_{i}'
-            locations.append(loc)
-    return bd.LocationList(locations)
+            locations[loc.label] = loc
+    return locations
 
 
-def make_color(value: Iterable | str, alpha: float = 1.0):
-    if isinstance(value, str):
-        return bd.Color(name=value)
-    elif isinstance(value, Iterable):
-        alpha = value[3] if len(value) >= 4 else alpha
-        return bd.Color(
-            r=value[0],
-            g=value[1],
-            b=value[2],
-            a=alpha
-        )
-    else:
-        return bd.Color()
+def plate_outline() -> bd.Sketch:
+    with bd.BuildSketch() as sketch:
+        with bd.BuildLine() as outline:
+            pass
+    return sketch

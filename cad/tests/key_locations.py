@@ -10,7 +10,7 @@ with open('/home/joshua/Repositories/androphage/cad/androphage.yaml') as yamlfil
     yamldict = yaml.safe_load(yamlfile)
 kl = key_locations(yamldict['columns'], yamldict['spacing'])
 with bd.BuildPart() as keys:
-    with kl:
+    with kl.locations():
         bd.Box(
             yamldict['spacing'][0],
             yamldict['spacing'][1],

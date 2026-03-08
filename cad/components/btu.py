@@ -16,11 +16,11 @@ class BTU(Component):
     '''
     def __init__(
         self,
-        align: bd.Align | tuple[bd.Align, bd.Align, bd.Align] = bd.Align.NONE,
-        color: Iterable | str = 'gainsboro',
+        align: AlignLike = bd.Align.NONE,
+        color: bd.ColorLike = 'DarkGray',
         mode: bd.Mode = bd.Mode.ADD,
-        rotation: Iterable = [0, 0, 0],
-        angles: Iterable = [60, 0, 45],
+        rotation: bd.RotationLike = (0, 0, 0),
+        angles: bd.RotationLike = (60, 0, 45),
         a: float = 1.9,
         b: float = 3.2,
         d: float = 7.938,
@@ -71,8 +71,8 @@ class BTU(Component):
         return self._angles
 
     @angles.setter
-    def angles(self, value: Iterable):
-        self._angles = bd.Vector(value)
+    def angles(self, value: bd.RotationLike):
+        self._angles = bd.Rotation(value)
 
 if __name__ == '__main__':
     from ocp_vscode import show
