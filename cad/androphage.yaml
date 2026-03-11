@@ -20,10 +20,10 @@ columns:
     spread: 1
   finger_middle:
     keys: 4
-    stagger: -0.5
+    stagger: -0.75
   finger_ring:
     keys: 4
-    shift: [0, -0.5]
+    shift: [0, -0.25]
     stagger: 0 #-0.5
     splay: 5
   finger_pinky:
@@ -32,7 +32,30 @@ columns:
   finger_outer:
     skip: true
     keys: 2
-    stagger: 0.5
+    stagger: 0.75
+outlines:
+  outline:
+    - what: Line
+      points:
+        - ref: thumb_inner_0
+          adjust:
+            shift: [-0.5, 0.5]
+
+    - what: Line
+      points:
+        - ref: thumb_inner_0
+          adjust.shift: [-0.5, -0.5]
+        - ref: thumb_inner_0
+          adjust.shift: [-0.5, 0.5]
+    - what: ThreePointArc
+      points:
+        - ref: thumb_inner_0
+          adjust.shift: [0, -0.5]
+        - ref: thumb_home_0
+          adjust.shift: [0.5, -0.5]
+        - ref: thumb_outer2_0
+          adjust.shift: [0, -0.5]
+    - what:
 components:
   Battery:
     visible: true
