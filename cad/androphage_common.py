@@ -140,52 +140,111 @@ def plate_outline(
     right = spc.X
     center = spc.X/2
     middle = spc.Y/2
-    hinge_back_point = (
+
+    hinge_back_loc = (
         key_locations['thumb_inner_0']
         * bd.Pos(left, top)
         * bd.Rot(Z=-45)
         * bd.Pos(0, hinge_length)
     )
+
+    middle_back_loc = (
+        key_locations['finger_middle_3']
+        * bd.Pos(left, top)
+    )
+
+    thumb_inner_front_loc = (
+        key_locations['thumb_inner_0']
+        * bd.Pos(center, bottom)
+    )
+
+    thumb_inner_front_left_loc = (
+        key_locations['thumb_inner_0']
+        * bd.Pos(left, bottom)
+    )
+
+    thumb_home_front_loc = (
+        key_locations['thumb_home_0']
+        * bd.Pos(right, bottom)
+    )
+
+    thumb_outer2_front_loc = (
+        key_locations['thumb_outer2_0']
+        * bd.Pos(center, bottom)
+    )
+
+    pinky_front_loc = (
+        key_locations['finger_pinky_0']
+        * bd.Pos(right, bottom)
+    )
+
+    pinky_back_loc = (
+        key_locations['finger_pinky_2']
+        * bd.Pos(right, top)
+    )
+
     with bd.BuildSketch() as sketch:
         with bd.BuildLine() as outline:
-            front_outer_arc = bd.ThreePointArc(
-                (key_locations['thumb_outer2_0'] * bd.Pos(center, bottom)).position,
-                (key_locations['finger_ring_0'] * bd.Pos(right, bottom)).position,
-                (key_locations['finger_pinky_0'] * bd.Pos(right, bottom)).position,
+            thumb_inner_line = bd.Line(
+                thumb_inner_front_left_loc.position,
+                thumb_inner_front_loc.position
+            )
+            front_arc = bd.ThreePointArc(
+                thumb_inner_line.end_point(),
+                thumb_home_front_loc.position,
+                thumb_outer2_front_loc.position
+            )
+            front_outer_arc = bd.TangentArc(
+                front_arc.end_point(),
+                pinky_front_loc.position,
+                tangent=front_arc.tangent_at(1)
             )
             outside_line = bd.Line(
-                (key_locations['finger_pinky_0'] * bd.Pos(right, bottom)).position,
-                (key_locations['finger_pinky_2'] * bd.Pos(right, top)).position,
+                front_outer_arc.end_point(),
+                pinky_back_loc.position
             )
-            # back_line = bd.Line(
-            #     (key_locations['finger_middle_3'] * bd.Pos(right, top)).position,
-            #     (key_locations['finger_middle_3'] * bd.Pos(left, top)).position,
-            # )
-                #(key_locations['finger_inner_2'] * bd.Pos(left, top)).position,
             back_center_arc = bd.TangentArc(
-                hinge_back_point.position,
-                (key_locations['finger_middle_3'] * bd.Pos(left, top)).position,
-                tangent=(bd.Rot(hinge_back_point.orientation) * bd.Pos(1,0)).position
+                hinge_back_loc.position,
+                middle_back_loc.position,
+                tangent=(
+                    bd.Rot(hinge_back_loc.orientation)
+                    * bd.Pos(1,0)
+                ).position
             )
             back_outside_arc = bd.TangentArc(
                 back_center_arc.end_point(),
-                (key_locations['finger_pinky_2'] * bd.Pos(right, top)).position,
+                outside_line.end_point(),
                 tangent=back_center_arc.tangent_at(1)
-                # (key_locations['finger_ring_3'] * bd.Pos(right, top)).position,
-                # (key_locations['finger_middle_3'] * bd.Pos(right, top)).position,
             )
-            center_polyline = bd.Polyline(
-                hinge_back_point.position,
+            center_line = bd.Line(
+                hinge_back_loc.position,
                 (key_locations['thumb_inner_0'] * bd.Pos(left, top)).position,
-                (key_locations['thumb_inner_0'] * bd.Pos(left, bottom)).position,
-                (key_locations['thumb_inner_0'] * bd.Pos(center, bottom)).position
             )
-            front_arc = bd.ThreePointArc(
-                (key_locations['thumb_inner_0'] * bd.Pos(center, bottom)).position,
-                (key_locations['thumb_home_0'] * bd.Pos(right, bottom)).position,
-                (key_locations['thumb_outer2_0'] * bd.Pos(center, bottom)).position
+            center_line2 = bd.PolarLine(
+                start=(key_locations['thumb_inner_0'] * bd.Pos(left, top)).position,
+                direction=center_line.tangent_at(),
+                length=100,
+                mode=bd.Mode.PRIVATE
             )
-            bd.offset(amount=offset, kind=bd.Kind.INTERSECTION)
+            const_line = bd.IntersectingLine(
+                start=thumb_inner_line.start_point(),
+                direction=-thumb_inner_line.tangent_at(),
+                other=center_line2,
+                mode=bd.Mode.PRIVATE
+            )
+
+            front_center_arc = bd.CenterArc(
+                center=const_line.end_point(),
+                radius=const_line.length,
+                start_angle=0,
+                arc_size=45
+            )
+            # front_center_arc = bd.JernArc(
+            #     start=thumb_inner_line.start_point(),
+            #     tangent=-thumb_inner_line.perpendicular_line(1, 0).tangent_at(),
+            #     radius=20,
+            #     arc_size=45
+            # )
         bd.make_face()
 
     return sketch.face()

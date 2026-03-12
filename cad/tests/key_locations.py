@@ -30,7 +30,15 @@ with bd.BuildPart(bd.Plane.XY) as keys:
         )
 keys.label = 'Keys'
 with bd.BuildPart(bd.Plane.XY) as plate:
-    bd.extrude(bd.offset(plate_outline(kl, spacing, 80), amount=4), -1)
+    bd.extrude(
+        # bd.offset(
+            plate_outline(kl, spacing, 80),
+        #     amount=4,
+        #     side=bd.Side.LEFT,
+        #     closed=False
+        # ),
+        -1
+    )
 plate.color = 'Plum'
 plate.label = 'Plate outline'
 show(keys, plate)
