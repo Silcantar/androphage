@@ -4,7 +4,7 @@ from os import PathLike
 
 import build123d as bd
 
-from androphage_common import *
+from common import *
 
 class Androphage(bd.BasePartObject):
     def __init__(self, yamlpath: PathLike):

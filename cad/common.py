@@ -2,6 +2,7 @@ import typing
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from math import cos, sin, radians
+from os import PathLike
 
 import build123d as bd
 
@@ -53,9 +54,9 @@ class Component(bd.BasePartObject):
     def __init__(
         self,
         align: AlignLike = bd.Align.NONE,
-        color: bd.ColorLike | str = 'CornflowerBlue',
+        color: bd.ColorLike = 'CornflowerBlue',
         mode: bd.Mode = bd.Mode.ADD,
-        rotation: bd.RotationLike = [0, 0, 0],
+        rotation: bd.RotationLike = (0, 0, 0),
     ):
         self.align = align
         # self.color = color
@@ -100,9 +101,15 @@ class LocationDict(dict):
         return bd.LocationList(list(self.values()))
 
 
+def load_parameters(parameter_path: PathLike) -> dict[str, any]:
+    import yaml
+    with open(parameter_path) as parameter_file:
+        return yaml.safe_load(parameter_file)
+
+
 def key_locations(
     column_defs: dict[str, any],
-    spacing: Sequence[float, float]
+    spacing: bd.VectorLike
 ) -> LocationDict:
     spc = bd.Vector(spacing)
     locations = LocationDict()
@@ -129,7 +136,7 @@ def key_locations(
 
 def plate_outline(
     key_locations: LocationDict,
-    spacing: Sequence[float, float],
+    spacing: bd.VectorLike,
     hinge_length: float,
     offset: float = 0,
 ) -> bd.Face:
@@ -165,12 +172,17 @@ def plate_outline(
 
     thumb_home_front_loc = (
         key_locations['thumb_home_0']
-        * bd.Pos(right, bottom)
+        * bd.Pos(center, bottom)
     )
 
     thumb_outer2_front_loc = (
         key_locations['thumb_outer2_0']
         * bd.Pos(center, bottom)
+    )
+
+    ring_front_loc = (
+        key_locations['finger_ring_0']
+        * bd.Pos(right, bottom)
     )
 
     pinky_front_loc = (
@@ -194,10 +206,15 @@ def plate_outline(
                 thumb_home_front_loc.position,
                 thumb_outer2_front_loc.position
             )
-            front_outer_arc = bd.TangentArc(
+            front_middle_arc = bd.TangentArc(
                 front_arc.end_point(),
-                pinky_front_loc.position,
+                ring_front_loc.position,
                 tangent=front_arc.tangent_at(1)
+            )
+            front_outer_arc = bd.TangentArc(
+                front_middle_arc.end_point(),
+                pinky_front_loc.position,
+                tangent=front_middle_arc.tangent_at(1)
             )
             outside_line = bd.Line(
                 front_outer_arc.end_point(),
@@ -221,10 +238,9 @@ def plate_outline(
                 (key_locations['thumb_inner_0'] * bd.Pos(left, top)).position,
             )
             center_line2 = bd.PolarLine(
-                start=(key_locations['thumb_inner_0'] * bd.Pos(left, top)).position,
+                start=center_line.end_point(),
                 direction=center_line.tangent_at(),
-                length=100,
-                mode=bd.Mode.PRIVATE
+                length=100
             )
             const_line = bd.IntersectingLine(
                 start=thumb_inner_line.start_point(),
@@ -232,19 +248,16 @@ def plate_outline(
                 other=center_line2,
                 mode=bd.Mode.PRIVATE
             )
-
             front_center_arc = bd.CenterArc(
                 center=const_line.end_point(),
                 radius=const_line.length,
                 start_angle=0,
                 arc_size=45
             )
-            # front_center_arc = bd.JernArc(
-            #     start=thumb_inner_line.start_point(),
-            #     tangent=-thumb_inner_line.perpendicular_line(1, 0).tangent_at(),
-            #     radius=20,
-            #     arc_size=45
-            # )
         bd.make_face()
 
     return sketch.face()
+
+if __name__ == '__main__':
+    from tests import key_locations
+    key_locations

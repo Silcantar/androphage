@@ -4,7 +4,7 @@ import yaml
 import build123d as bd
 from ocp_vscode import show
 
-from androphage_common import *
+from common import *
 
 try:
     with open('/home/joshua/Repositories/androphage/cad/androphage.yaml') as yamlfile:

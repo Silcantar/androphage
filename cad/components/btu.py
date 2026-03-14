@@ -3,7 +3,7 @@ from collections.abc import Iterable
 
 import build123d as bd
 
-from androphage_common import *
+from common import *
 
 class BTU(Component):
     '''
@@ -16,10 +16,6 @@ class BTU(Component):
     '''
     def __init__(
         self,
-        align: AlignLike = bd.Align.NONE,
-        color: bd.ColorLike = 'DarkGray',
-        mode: bd.Mode = bd.Mode.ADD,
-        rotation: bd.RotationLike = (0, 0, 0),
         angles: bd.RotationLike = (60, 0, 45),
         a: float = 1.9,
         b: float = 3.2,
@@ -28,7 +24,9 @@ class BTU(Component):
         D1: float = 17,
         h: float = 4.8,
         H: float = 11.2,
-        clearance: float = 10.0
+        clearance: float = 10.0,
+        color: bd.ColorLike = 'DarkGray',
+        **kwargs
     ):
         self.angles = angles
         self.a = a
@@ -39,7 +37,7 @@ class BTU(Component):
         self.h = h
         self.H = H
         self.clearance = clearance
-        super().__init__(align, color, mode, rotation)
+        super().__init__(color=color, **kwargs)
 
     def build(self):
         with bd.BuildPart() as btu:

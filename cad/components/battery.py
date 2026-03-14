@@ -3,7 +3,7 @@ import typing
 
 import build123d as bd
 
-from androphage_common import *
+from common import *
 
 class Battery(Component):
     '''
@@ -11,14 +11,12 @@ class Battery(Component):
     '''
     def __init__(
         self,
-        align: AlignLike = bd.Align.NONE,
         color: bd.ColorLike = 'Silver',
-        mode: bd.Mode = bd.Mode.ADD,
-        rotation: bd.RotationLike = (0, 0, 0),
-        size: bd.VectorLike = (34, 4.0, 50)
+        size: bd.VectorLike = (34, 4.0, 50),
+        **kwargs
     ):
-        self.size: bd.Vector = size
-        super().__init__(align, color, mode, rotation)
+        self.size = size
+        super().__init__(color=color, **kwargs)
 
     def build(self) -> bd.Part:
         with bd.BuildPart() as battery:
