@@ -1,7 +1,7 @@
 # Androphage Parameters
 spacing: [18, 17]
-cutout: [14, 14]
-columns:
+angles: [ 0, 7, 15 ]
+Columns:
   thumb_inner:
     spread: 0
   thumb_home:
@@ -33,208 +33,146 @@ columns:
     skip: true
     keys: 2
     stagger: 0.75
-outlines:
-  outline:
-    - what: Line
-      points:
-        - ref: thumb_inner_0
-          adjust:
-            shift: [-0.5, 0.5]
-
-    - what: Line
-      points:
-        - ref: thumb_inner_0
-          adjust.shift: [-0.5, -0.5]
-        - ref: thumb_inner_0
-          adjust.shift: [-0.5, 0.5]
-    - what: ThreePointArc
-      points:
-        - ref: thumb_inner_0
-          adjust.shift: [0, -0.5]
-        - ref: thumb_home_0
-          adjust.shift: [0.5, -0.5]
-        - ref: thumb_outer2_0
-          adjust.shift: [0, -0.5]
-    - what:
-components:
-  Battery:
-    visible: true
-    size:
-      value: [ 12, 30, 3 ]
-      range: [ 0, 100 ]
-      description: Dimensions of battery.
-  Frame:
-    visible: true
-    chordAngle:
-      value: 5
-      range: [ 0, 10 ]
-      description: Angle between the chord of the main arc and vertical.
-    filletRadius: 1
-    lipDepth: 1
-    mainRadius: 50
-    notchDepth: 6
-    thickness:
-      value: 5
-      range: [ 1, 5 ]
-    extraLength: 3
-  CenterBlock:
-    visible: true
-    ribSize: [ 2, 2 ]
-    screwCount: 3
-    wallThickness: 2
-  Desk:
-    visible: true
-    size: [ 300, 200, 1 ]
-    position: [ 0, 0, -40 ]
-  Screw:
-    visible: true
-    diameter: 2
-    minorDiameter: 1.6
-    headDiameter: 4
-    headAngle: 90
-    offset: 3
-  Insert:
-    visible: true
-    diameter: 3
-    height: 3
-    holeDiameter: 2.8
-    holeDepth: 4
-    wallThickness: 1.6
-  Halves:
-    visible: true
-    angles:
-      value: [ 0, 7, 15 ]
-      range: [ -45, 45 ]
-    clearance: 1
-  Hinge:
-    visible: true
-    diameter: 4.42
-    knuckleDepth:
-      value: 12.7
-      range: [ 0, 25 ]
-    length: 90
-    leafThickness: 0.04
-    leafWidth: 13.5
-    offset: 5
-    pinDiameter: 2.4
-  Keycap:
-    visible: true
-    clearance: 1
-    testClearance: false
-    profile:
-      value: lame
-      range: [ cherry, dsa, lame, mbk, steno ]
-    saddle: false
-    spacingType:
-      value: choc
-      range: [ choc, mx, custom ]
-    customSpacing: [ 16, 16 ]
-  LED:
-    visible: true
-    present: true
-    count: 4
-    holeRadius: 0.2
-    holeShape:
-      value: square
-      range: [ square, circle ]
-    holeSize: 3
-    holeSpacing: [ 4.5, 0 ]
-    positionY: -13
-  MagneticConnector:
-    visible: true
-    size: [ 4.7, 26.5, 6.0 ]
-    lip: [ 1.0, 28.5, 8.0 ]
-    lipOffset: 1.0
-  MCU:
-    visible: true
-    chipSize: [ 12, 10, 1.5 ]
-    location:
-      value: main PCB
-      range: [ trackball sensor, magnetic connector, main PCB ]
-    radius: 2
-    size: [ 17.8, 21, 1.2 ]
-    usbOverhang: 1.5
-    usbRadius: 1.2
-    usbSize: [ 9, 7.35, 3.2 ]
-    usbCutSize: [ 12, 10, 7 ]
-  OLED:
-    visible: true
-    present: false
-    holeRadius: 0.5
-    pcbSize: [ 15.5, 13 ]
-    position: [ 0, 0 ]
-    screenSize: [ 12.58, 6.98 ]
-  PCB:
-    visible: true
-    color: DarkGreen
-    thickness: 1.2
-  BottomPlate:
-    visible: true
-    thickness:
-      value: 1.2
-      range: [ 1, 2, 0.2 ]
-    clearance:
-      value: 3
-      range: [ 1, 10 ]
-  SwitchPlate:
-    visible: true
-    present: true
-    clearance: 0.2
-    edge:
-      value: 2
-      range: [ 0, 5 ]
-    radius: 1
-  TopPlate:
-    visible: true
-    thickness: 1.2
-    innerRadius:
-      value: 2
-      range: [ 0, 5, 0.1 ]
-  Plate:
-    centerArcRadius: 20
-    backArcRadius: 120
-    backCornerAngle: 43
-    sketch: false
-  Switch:
-    radius: 0.5
-    type:
-      value: glp
-      choices: [ chocv1, chocv2, mx, glp ]
-    travel: 0
-    maxTravel: 3.3
-    chocColor:
-      value: Sunset
-      choices: [ Red, Blue, Brown, Pro Red, Pink, Robin, Sunset, Twilight, Nocturnal, Sunrise, Bokeh ]
-    glpColor:
-      value: Banana
-      choices: [ Banana, Blue, Brown, Chocolate, Red, Aloe, Cowberry, Daisy, Moss, Panda, Wisteria ]
-    mxStemColor:
-      value: [ 1, 1, 1, 0.8 ]
-      range: [ 0, 1, 0.01 ]
-    mxTopColor:
-      value: [ 0, 0.9, 1, 0.6 ]
-      range: [ 0, 1, 0.01 ]
-    mxBottomColor:
-      value: [ 0, 0.9, 1, 0.6 ]
-      range: [ 0, 1, 0.01 ]
-  Trackball:
-    diameter: 35
-    positionY: 63
-    clearance: 1
-  TrackBallSensor:
-    pcbSize: [ 16, 25 ]
-    size: [ 10.9, 16.2, 1.65 ]
-    lensSize: [ 8.6, 16.96, 3.4 ]
-    clearance: 2.4
-    holeSize: 8
-    angle: 60
-    holderHeight: 15
-    holderThickness: 5
-  BTU:
-    angles: [ 45, 0, 45 ]
-    d: 4
-    D: 9
-    D1: 7.5
-    H: 1
-    L: 4
-    L1: 1.1
+Battery:
+  visible: true
+  size: [ 12, 30, 3 ] #Dimensions of battery.
+BTU:
+  visible: true
+  angles: [ 45, 0, 45 ]
+  clearance: 10
+  d: 4
+  D: 9
+  D1: 7.5
+  H: 1
+  L: 4
+  L1: 1.1
+Frame:
+  visible: true
+  chordAngle: 5 #Angle between the chord of the main arc and vertical.
+  filletRadius: 1
+  lipDepth: 1
+  mainRadius: 50
+  notchDepth: 6
+  thickness: 5
+  extraLength: 3
+CenterBlock:
+  visible: true
+  ribSize: [ 2, 2 ]
+  screwCount: 3
+  wallThickness: 2
+Desk:
+  visible: true
+  size: [ 300, 200, 1 ]
+  position: [ 0, 0, -40 ]
+Screw:
+  visible: true
+  diameter: 2
+  minorDiameter: 1.6
+  headDiameter: 4
+  headAngle: 90
+  offset: 3
+Insert:
+  visible: true
+  diameter: 3
+  height: 3
+  holeDiameter: 2.8
+  holeDepth: 4
+  wallThickness: 1.6
+Hinge:
+  visible: true
+  diameter: 4.42
+  knuckleDepth: 12.7
+  length: 90
+  leafThickness: 0.04
+  leafWidth: 13.5
+  offset: 5
+  pinDiameter: 2.4
+Keycap:
+  visible: true
+  clearance: 1
+  testClearance: false
+  profile: lame #[ cherry, dsa, lame, mbk, steno ]
+  saddle: false
+  spacingType: choc #[ choc, mx, custom ]
+  customSpacing: [ 16, 16 ]
+LED:
+  visible: true
+  present: true
+  count: 4
+  holeRadius: 0.2
+  holeShape: square #[ square, circle ]
+  holeSize: 3
+  holeSpacing: [ 4.5, 0 ]
+  positionY: -13
+MagneticConnector:
+  visible: true
+  size: [ 4.7, 26.5, 6.0 ]
+  lip: [ 1.0, 28.5, 8.0 ]
+  lipOffset: 1.0
+MCU:
+  visible: true
+  chipSize: [ 12, 10, 1.5 ]
+  location: main PCB #[ trackball sensor, magnetic connector, main PCB ]
+  radius: 2
+  size: [ 17.8, 21, 1.2 ]
+  usbOverhang: 1.5
+  usbRadius: 1.2
+  usbSize: [ 9, 7.35, 3.2 ]
+  usbCutSize: [ 12, 10, 7 ]
+OLED:
+  visible: true
+  present: false
+  holeRadius: 0.5
+  pcbSize: [ 15.5, 13 ]
+  position: [ 0, 0 ]
+  screenSize: [ 12.58, 6.98 ]
+PCB:
+  visible: true
+  color: DarkGreen
+  thickness: 1.2
+BottomPlate:
+  visible: true
+  thickness: 1.2 #[ 1, 2, 0.2 ]
+  clearance: 3 #[ 1, 10 ]
+SwitchPlate:
+  visible: true
+  present: true
+  clearance: 0.2
+  edge: 4 #[ 0, 5 ]
+  radius: 1
+TopPlate:
+  visible: true
+  thickness: 1.2
+  innerRadius: 2 #[ 0, 5, 0.1 ]
+Plate:
+  centerArcRadius: 20
+  backArcRadius: 120
+  backCornerAngle: 43
+  sketch: false
+Switch:
+  visible: true
+  cutout: [14, 14]
+  radius: 0.5
+  type: glp #[ chocv1, chocv2, mx, glp ]
+  travel: 0
+  maxTravel: 3.3
+  chocColor: Sunset #[ Red, Blue, Brown, Pro Red, Pink, Robin, Sunset, Twilight, Nocturnal, Sunrise, Bokeh ]
+  glpColor: Banana #[ Banana, Blue, Brown, Chocolate, Red, Aloe, Cowberry, Daisy, Moss, Panda, Wisteria ]
+  mxStemColor: [ 1.0, 1.0, 1.0, 0.8 ] #[ 0, 1, 0.01 ]
+  mxTopColor: [ 0, 0.9, 1, 0.6 ] #[ 0, 1, 0.01 ]
+  mxBottomColor: [ 0, 0.9, 1, 0.6 ] #[ 0, 1, 0.01 ]
+Trackball:
+  visible: true
+  diameter: 34
+  positionY: 63
+  clearance: 1
+TrackballSensor:
+  visible: true
+  pcbSize: [ 16, 25 ]
+  size: [ 10.9, 16.2, 1.65 ]
+  lensSize: [ 8.6, 16.96, 3.4 ]
+  clearance: 2.4
+  holeSize: 8
+  angle: 60
+  holderHeight: 15
+  holderThickness: 5
