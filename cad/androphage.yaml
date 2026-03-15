@@ -1,35 +1,38 @@
 # Androphage Parameters
-spacing: [18, 17]
-angles: [ 0, 7, 15 ]
+angles: [ 0, 7, 15 ] # Pitch, yaw, tent
 Columns:
-  thumb_inner:
+  # Thumb columns
+  reach:
     spread: 0
-  thumb_home:
+  home:
     keys: 2
     splay: 10
-  thumb_outer1:
+  tuck:
     splay: 10
-  thumb_outer2:
+  tuck2: # This is only used to help calculate the position of the finger columns.
+    skip: true
     splay: 10
-  finger_inner:
+  # Finger columns
+  inner:
     keys: 3
     stagger: 1
     spread: -1
-  finger_index:
-    keys: 3
-    spread: 1
-  finger_middle:
+  index:
     keys: 4
-    stagger: -0.75
-  finger_ring:
+    stagger: -1
+    spread: 1
+  middle:
+    keys: 4
+    stagger: 0.25
+  ring:
     keys: 4
     shift: [0, -0.25]
     stagger: 0 #-0.5
     splay: 5
-  finger_pinky:
+  pinky:
     keys: 3
     splay: 10
-  finger_outer:
+  outer:
     skip: true
     keys: 2
     stagger: 0.75
@@ -82,7 +85,7 @@ Hinge:
   visible: true
   diameter: 4.42
   knuckleDepth: 12.7
-  length: 90
+  length: 80
   leafThickness: 0.04
   leafWidth: 13.5
   offset: 5
@@ -144,11 +147,11 @@ TopPlate:
   visible: true
   thickness: 1.2
   innerRadius: 2 #[ 0, 5, 0.1 ]
-Plate:
-  centerArcRadius: 20
-  backArcRadius: 120
-  backCornerAngle: 43
-  sketch: false
+# Plate:
+#   centerArcRadius: 20
+#   backArcRadius: 120
+#   backCornerAngle: 43
+#   sketch: false
 Switch:
   visible: true
   cutout: [14, 14]

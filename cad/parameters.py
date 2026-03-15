@@ -1,36 +1,18 @@
-# import typing
+import typing
 from dataclasses import dataclass
-from os import PathLike
 
 from dataclass_wizard import YAMLWizard
 
-vector2 = tuple[float, float]
-vector3 = tuple[float, float, float]
-vector4 = tuple[float, float, float, float]
-
-colorLike = any
+from common import vector
 
 @dataclass
 class Column:
     keys: int = 1
-    shift: vector2 = (0, 0)
+    shift: vector[2] = (0, 0)
     skip: bool = False
     splay: float = 0
     spread: float = 1
     stagger: float = 0
-
-@dataclass
-class Columns:
-    thumb_inner: Column = None
-    thumb_home: Column = None
-    thumb_outer1: Column = None
-    thumb_outer2: Column = None
-    finger_inner: Column = None
-    finger_index: Column = None
-    finger_middle: Column = None
-    finger_ring: Column = None
-    finger_pinky: Column = None
-    finger_outer: Column = None
 
 @dataclass
 class Component:
@@ -38,11 +20,11 @@ class Component:
 
 @dataclass
 class Battery(Component):
-    size: vector3
+    size: vector[3]
 
 @dataclass
 class BTU(Component):
-    angles: vector3
+    angles: vector[3]
     clearance: float
     d: float
     D: float
@@ -63,14 +45,14 @@ class Frame(Component):
 
 @dataclass
 class CenterBlock(Component):
-    ribSize: vector2
+    ribSize: vector[2]
     screwCount: int
     wallThickness: float
 
 @dataclass
 class Desk(Component):
-    size: vector3
-    position: vector3
+    size: vector[3]
+    position: vector[3]
 
 @dataclass
 class Hinge(Component):
@@ -97,7 +79,7 @@ class Keycap(Component):
     profile: str
     saddle: bool
     spacingType: str
-    customSpacing: vector2
+    customSpacing: vector[2] | None
 
 @dataclass
 class LED(Component):
@@ -106,37 +88,37 @@ class LED(Component):
     holeRadius: float
     holeShape: str
     holeSize: float
-    holeSpacing: vector2
+    holeSpacing: vector[2]
     positionY: float
 
 @dataclass
 class MagneticConnector(Component):
-    size: vector3
-    lip: vector3
+    size: vector[3]
+    lip: vector[3]
     lipOffset: float
 
 @dataclass
 class MCU(Component):
-    chipSize: vector3
+    chipSize: vector[3]
     location: str
     radius: float
-    size: vector3
+    size: vector[3]
     usbOverhang: float
     usbRadius: float
-    usbSize: vector3
-    usbCutSize: vector3
+    usbSize: vector[3]
+    usbCutSize: vector[3]
 
 @dataclass
 class OLED(Component):
     present: bool
     holeRadius: float
-    pcbSize: vector2
-    position: vector2
-    screenSize: vector2
+    pcbSize: vector[2]
+    position: vector[2]
+    screenSize: vector[2]
 
 @dataclass
 class PCB(Component):
-    color: colorLike
+    color: any
     thickness: float
 
 @dataclass
@@ -166,16 +148,16 @@ class Screw(Component):
 
 @dataclass
 class Switch(Component):
-    cutout: vector2
+    cutout: vector[2]
     radius: float
     type: str
     travel: float
     maxTravel: float
     chocColor: str
     glpColor: str
-    mxStemColor: colorLike
-    mxTopColor: colorLike
-    mxBottomColor: colorLike
+    mxStemColor: any
+    mxTopColor: any
+    mxBottomColor: any
 
 @dataclass
 class Trackball(Component):
@@ -185,9 +167,9 @@ class Trackball(Component):
 
 @dataclass
 class TrackballSensor(Component):
-    pcbSize: vector2
-    size: vector3
-    lensSize: vector3
+    pcbSize: vector[2]
+    size: vector[3]
+    lensSize: vector[3]
     clearance: float
     holeSize: float
     angle: float
@@ -196,9 +178,8 @@ class TrackballSensor(Component):
 
 @dataclass
 class Parameters(YAMLWizard):
-    spacing: vector2
-    angles: vector3
-    Columns: Columns
+    angles: vector[3]
+    Columns: dict[str, Column]
     Battery: Battery
     BTU: BTU
     Frame: Frame
