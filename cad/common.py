@@ -43,6 +43,10 @@ class SpacingType(StrEnum):
     MX_INCH = auto()
     CUSTOM = auto()
 
+class Half(StrEnum):
+    LEFT = auto()
+    RIGHT = auto()
+
 # Alignment Shorthands
 AlignLike = bd.Align | tuple[bd.Align, bd.Align, bd.Align]
 
@@ -83,12 +87,14 @@ class Align:
 # Classes
 class Component(bd.BasePartObject):
     """Extension of Build123d BasePartObject that adds support for
-    setting the part's color and declares a stub method for building
+    setting the part"s color and declares a stub method for building
     the part that should be defined by subclasses.
     """
     def __init__(
         self,
-        color: bd.ColorLike = 'CornflowerBlue',
+        label: str,
+        color: bd.ColorLike = "CornflowerBlue",
+        # visible: bool = true,
         **kwargs
     ):
         part = self.build()
@@ -96,6 +102,7 @@ class Component(bd.BasePartObject):
             part=part,
             **kwargs
         )
+        self.label = label
         self.color = color
 
     def build(self) -> bd.Part:

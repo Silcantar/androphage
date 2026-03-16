@@ -1,44 +1,40 @@
 # Androphage Parameters
 angles: [ 0, 7, 15 ] # Pitch, yaw, tent
 Columns:
-  # Thumb columns
-  reach:
-    spread: 0
-  home:
-    keys: 2
-    splay: 10
-  tuck:
-    splay: 10
-  tuck2: # This is only used to help calculate the position of the finger columns.
-    skip: true
-    splay: 10
   # Finger columns
-  inner:
+  outer:
+    skip: true
+    keys: 2
+  pinky:
     keys: 3
-    stagger: 1
-    spread: -1
-  index:
-    keys: 4
-    stagger: -1
-    spread: 1
-  middle:
-    keys: 4
     stagger: 0.25
   ring:
     keys: 4
     shift: [0, -0.25]
-    stagger: 0 #-0.5
-    splay: 5
-  pinky:
-    keys: 3
     splay: 10
-  outer:
-    skip: true
+  middle:
+    keys: 4
+    splay: 5
+    stagger: 0
+  index:
+    keys: 4
+    stagger: -0.25
+  inner:
+    keys: 3
+    stagger: 1
+  # Thumb columns
+  tuck:
+    splay: 10
+    spread: 0
+    stagger: -1
+  home:
     keys: 2
-    stagger: 0.75
+    splay: 10
+  reach:
+    splay: 10
 Battery:
   visible: true
-  size: [ 12, 30, 3 ] #Dimensions of battery.
+  size: [ 34, 4.0, 50 ] #Dimensions of battery.
 BTU:
   visible: true
   angles: [ 45, 0, 45 ]

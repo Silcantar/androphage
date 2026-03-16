@@ -5,34 +5,42 @@ import build123d as bd
 
 from common import *
 from parameters import *
+from components.battery import Battery
+from components.plate import Plate, PlateType
 
-# Passed to __main__ 
+# Passed to __main__
 test_layout = True
 
 class Androphage(bd.BasePartObject):
     """Build a model of an Androphage keyboard based on a parameter file."""
+
     def __init__(
         self,
-        parameter_path: PathLike = 'cad/androphage.yaml',
+        build: bool = True,
+        parameter_path: PathLike = "cad/androphage.yaml",
         test_layout: bool = False,
+        main_half: Half = Half.LEFT,
         **kwargs
     ):
+        self.main_half = main_half
         self.parameters = self.import_parameters(parameter_path)
         self.spacing = self.get_spacing()
         self.key_locations = self.get_key_locations()
         self.plate_outline = self.get_plate_outline()
-        part = self.build(test_layout)
-        super().__init__(part=part, **kwargs)
+        if build:
+            part = self.build(test_layout)
+            super().__init__(part=part, **kwargs)
 
     def import_parameters(self, parameter_path: PathLike) -> Parameters:
         """Load parameters from a YAML file."""
         return Parameters.from_yaml_file(parameter_path)
 
     def build(self, test_layout) -> bd.Part:
-        compound = bd.Compound(
-            self.test_layout() if test_layout else None
-        )
-        return compound
+        components: list[bd.Part] = []
+        if test_layout:
+            components.append(self.test_layout())
+        # components.append(Battery(size=self.parameters.Battery.size))
+        return bd.Compound(label="Androphage", children=components)
 
     def get_spacing(self) -> bd.Vector:
         """Get the key spacing distance based on the spacing type specified in
@@ -48,7 +56,7 @@ class Androphage(bd.BasePartObject):
             case SpacingType.CUSTOM:
                 return bd.Vector(self.parameters.Keycap.customSpacing)
             case _:
-                print('Info: spacing not provided, defaulting to Choc spacing.')
+                print("Info: spacing not provided, defaulting to Choc spacing.")
                 return bd.Vector(18, 17)
 
     def get_key_locations(self) -> LocationDict:
@@ -59,17 +67,21 @@ class Androphage(bd.BasePartObject):
         for column_key in self.parameters.Columns:
             column = self.parameters.Columns[column_key]
             origin *= bd.Location(
-                position=[column.spread*spc.X, column.stagger*spc.Y],
-                orientation=[0, 0, -column.splay]
+                position=(-0.5*spc.X, -0.5*spc.Y)
+            ) * bd.Location(
+                position=(column.spread*spc.X, column.stagger*spc.Y),
+                orientation=(0, 0, -column.splay)
+            ) * bd.Location(
+                position=(0.5*spc.X, 0.5*spc.Y)
             )
             for i in range(0, column.keys):
                 loc = (
-                    origin * bd.Location(position=[
+                    origin * bd.Location(position=(
                         spc.X*column.shift[0],
                         spc.Y*(i + column.shift[1])
-                    ])
+                    ))
                 )
-                loc.label = f'{column_key}_{i}'
+                loc.label = f"{column_key}_{i}"
                 if not column.skip:
                     locations[loc.label] = loc
         return locations
@@ -78,60 +90,64 @@ class Androphage(bd.BasePartObject):
         """Define the geometry of the plate outline."""
         spc = self.spacing
         kl = self.key_locations
-        bottom = 0
-        top = spc.Y
-        left = 0
-        right = spc.X
-        center = spc.X/2
-        middle = spc.Y/2
+        outside = spc.X/2 * (-1 if self.main_half == Half.LEFT else 1)
+        center = 0 # Horizontal center
+        inside = spc.X/2 * (1 if self.main_half == Half.LEFT else -1)
+        front = -spc.Y/2
+        middle = 0 # Vertical center
+        back = spc.Y/2
         last_column = (
             Finger.PINKY
             if self.parameters.Columns[Finger.OUTER].skip
             else Finger.OUTER
         )
         last_key = self.parameters.Columns[last_column].keys - 1
+        total_splay = sum([
+            self.parameters.Columns[column].splay
+            for column in self.parameters.Columns
+        ])
         hinge_back_loc = (
-            kl['reach_0']
-            * bd.Pos(left, top)
-            * bd.Rot(Z=-45)
+            kl["reach_0"]
+            * bd.Pos(inside, back)
+            * bd.Rot(Z=total_splay)
             * bd.Pos(0, self.parameters.Hinge.length)
         )
         middle_back_loc = (
-            kl['middle_3']
-            * bd.Pos(left, top)
+            kl["middle_3"]
+            * bd.Pos(inside, back)
         )
         reach_front_loc = (
-            kl['reach_0']
-            * bd.Pos(center, bottom)
+            kl["reach_0"]
+            * bd.Pos(center, front)
         )
-        reach_front_left_loc = (
-            kl['reach_0']
-            * bd.Pos(left, bottom)
+        reach_front_inside_loc = (
+            kl["reach_0"]
+            * bd.Pos(inside, front)
         )
         home_front_loc = (
-            kl['home_0']
-            * bd.Pos(center, bottom)
+            kl["home_0"]
+            * bd.Pos(center, front)
         )
         index_front_loc = (
-            kl['index_0']
-            * bd.Pos(center, bottom)
+            kl["index_0"]
+            * bd.Pos(center, front)
         )
         ring_front_loc = (
-            kl['ring_0']
-            * bd.Pos(right, bottom)
+            kl["ring_0"]
+            * bd.Pos(outside, front)
         )
         pinky_front_loc = (
-            kl[f'{last_column}_0']
-            * bd.Pos(right, bottom)
+            kl[f"{last_column}_0"]
+            * bd.Pos(outside, front)
         )
         pinky_back_loc = (
-            kl[f'{last_column}_{last_key}']
-            * bd.Pos(right, top)
+            kl[f"{last_column}_{last_key}"]
+            * bd.Pos(outside, back)
         )
         with bd.BuildSketch() as sketch:
             with bd.BuildLine() as outline:
                 reach_line = bd.Line(
-                    reach_front_left_loc.position,
+                    reach_front_inside_loc.position,
                     reach_front_loc.position
                 )
                 front_arc = bd.ThreePointArc(
@@ -158,7 +174,7 @@ class Androphage(bd.BasePartObject):
                     middle_back_loc.position,
                     tangent=(
                         bd.Rot(hinge_back_loc.orientation)
-                        * bd.Pos(1,0)
+                        * bd.Pos(-1,0)
                     ).position
                 )
                 back_outside_arc = bd.TangentArc(
@@ -168,7 +184,7 @@ class Androphage(bd.BasePartObject):
                 )
                 center_line = bd.Line(
                     hinge_back_loc.position,
-                    (kl['reach_0'] * bd.Pos(left, top)).position,
+                    (kl["reach_0"] * bd.Pos(inside, back)).position,
                 )
                 center_line2 = bd.PolarLine(
                     start=center_line.end_point(),
@@ -184,26 +200,32 @@ class Androphage(bd.BasePartObject):
                 front_center_arc = bd.CenterArc(
                     center=const_line.end_point(),
                     radius=const_line.length,
-                    start_angle=0,
+                    start_angle=90,
                     arc_size=45
                 )
             bd.make_face()
         return sketch.face()
 
     def test_layout(self) -> bd.Part:
-        with bd.BuildPart() as buildpart:
-            outline = bd.extrude(self.plate_outline, amount=-1)
+        with bd.BuildPart() as keys:
             with self.key_locations.locations():
                 bd.Box(
                     self.spacing.X,
                     self.spacing.Y,
                     1,
-                    align=Align.LeftFrontBottom,
-                    # mode=bd.Mode.SUBTRACT
+                    align=Align.Bottom
                 )
-        return buildpart.part
+        with bd.BuildPart() as plate:
+            outline = bd.extrude(self.plate_outline, amount=-1)
+        keys.part.label = "keys"
+        plate.part.label = "plate"
+        plate.part.color = "Plum"
+        return bd.Compound(
+            label="Layout test",
+            children=[keys.part, plate.part]
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     from ocp_vscode import show
     show(Androphage(test_layout=test_layout))

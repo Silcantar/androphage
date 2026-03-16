@@ -6,17 +6,16 @@ import build123d as bd
 from common import *
 
 class Battery(Component):
-    '''
-        Standard lithium-polymer battery. Default size is 403450.
-    '''
+    """Standard lithium-polymer battery. Default size is 403450."""
     def __init__(
         self,
+        label: str = 'Battery',
         color: bd.ColorLike = 'Silver',
         size: bd.VectorLike = (34, 4.0, 50),
         **kwargs
     ):
         self.size = size
-        super().__init__(color=color, **kwargs)
+        super().__init__(label, color=color, **kwargs)
 
     def build(self) -> bd.Part:
         with bd.BuildPart() as battery:

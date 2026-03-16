@@ -202,5 +202,5 @@ class Parameters(YAMLWizard):
     TrackballSensor: TrackballSensor
 
 
-if __name__ == '__main__':
-    print(Parameters.from_yaml_file('cad/androphage.yaml'))
+if __name__ == "__main__":
+    print(Parameters.from_yaml_file("cad/androphage.yaml"))
