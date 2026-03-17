@@ -108,14 +108,27 @@ class Component(bd.BasePartObject):
     def build(self) -> bd.Part:
         raise NotImplementedError()
 
+class KeyLocation(bd.Location):
+    """Extended version of build123d.Location that includes additional
+    information about the key that will be at the location."""
+
+    def __init__(
+        self,
+        row: int,
+        cutout: bool = False,
+        **kwargs
+    ):
+        self.row = row
+        self.cutout = cutout
+        super.__init__(**kwargs)
 
 class LocationDict(dict[str, bd.Location]):
     """Dictionary with string keys and containing Build123d Locations.
 
     Defines one additional method to return a Build123d LocationList.
     """
-    def __init__(self, **kwargs):
-        super().__init__(kwargs)
+    # def __init__(self, **kwargs):
+    #     super().__init__(**kwargs)
 
     def locations(self) -> bd.LocationList:
         return bd.LocationList(list(self.values()))

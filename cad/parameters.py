@@ -7,12 +7,15 @@ from common import vector
 
 @dataclass
 class Column:
+    cutout: bool = False
     keys: int = 1
     shift: vector[2] = (0, 0)
     skip: bool = False
     splay: float = 0
     spread: float = 1
     stagger: float = 0
+
+Columns = dict[str, Column]
 
 @dataclass
 class Component:
@@ -179,7 +182,7 @@ class TrackballSensor(Component):
 @dataclass
 class Parameters(YAMLWizard):
     angles: vector[3]
-    Columns: dict[str, Column]
+    Columns: Columns#dict[str, Column]
     Battery: Battery
     BTU: BTU
     Frame: Frame

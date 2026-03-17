@@ -9,6 +9,7 @@ class MCU(Component):
     def __init__(
         self,
         chipSize: Iterable = [12, 10, 1.5],
+        label: str = "MCU",
         radius: float = 2,
         size: Iterable = [17.8, 21, 1.2],
         usbOverhang: float = 1.5,
@@ -17,7 +18,7 @@ class MCU(Component):
         usbCutSize: Iterable = [12, 10, 7],
         **kwargs
     ):
-        super().__init__(**kwargs)
+        super().__init__(label, **kwargs)
 
     def build(self) -> bd.Part:
         pass

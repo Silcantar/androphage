@@ -17,6 +17,7 @@ Columns:
     splay: 5
     stagger: 0
   index:
+    cutout: true
     keys: 4
     stagger: -0.25
   inner:
@@ -24,13 +25,16 @@ Columns:
     stagger: 1
   # Thumb columns
   tuck:
+    cutout: true
     splay: 10
     spread: 0
     stagger: -1
   home:
+    cutout: true
     keys: 2
     splay: 10
   reach:
+    cutout: true
     splay: 10
 Battery:
   visible: true
@@ -143,11 +147,6 @@ TopPlate:
   visible: true
   thickness: 1.2
   innerRadius: 2 #[ 0, 5, 0.1 ]
-# Plate:
-#   centerArcRadius: 20
-#   backArcRadius: 120
-#   backCornerAngle: 43
-#   sketch: false
 Switch:
   visible: true
   cutout: [14, 14]

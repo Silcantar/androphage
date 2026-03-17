@@ -26,6 +26,7 @@ class BTU(Component):
         H: float = 11.2,
         clearance: float = 10.0,
         color: bd.ColorLike = 'DarkGray',
+        label: str = "BTU",
         **kwargs
     ):
         self.angles = angles
@@ -37,7 +38,7 @@ class BTU(Component):
         self.h = h
         self.H = H
         self.clearance = clearance
-        super().__init__(color=color, **kwargs)
+        super().__init__(label, color=color, **kwargs)
 
     def build(self):
         with bd.BuildPart() as btu:

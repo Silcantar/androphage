@@ -25,8 +25,8 @@ class Androphage(bd.BasePartObject):
         self.main_half = main_half
         self.parameters = self.import_parameters(parameter_path)
         self.spacing = self.get_spacing()
-        self.key_locations = self.get_key_locations()
-        self.plate_outline = self.get_plate_outline()
+        self.key_locations = self.build_key_locations()
+        self.plate_outline = self.build_plate_outline()
         if build:
             part = self.build(test_layout)
             super().__init__(part=part, **kwargs)
@@ -59,7 +59,7 @@ class Androphage(bd.BasePartObject):
                 print("Info: spacing not provided, defaulting to Choc spacing.")
                 return bd.Vector(18, 17)
 
-    def get_key_locations(self) -> LocationDict:
+    def build_key_locations(self) -> LocationDict:
         """Calculate the locations of the keys."""
         spc = self.spacing
         locations = LocationDict()
@@ -86,7 +86,11 @@ class Androphage(bd.BasePartObject):
                     locations[loc.label] = loc
         return locations
 
-    def get_plate_outline(self) -> bd.Face:
+    def build_plate_outline(
+        self,
+        edge: float = 0,
+        # center_width: float = 0
+    ) -> bd.Face:
         """Define the geometry of the plate outline."""
         spc = self.spacing
         kl = self.key_locations
@@ -106,46 +110,67 @@ class Androphage(bd.BasePartObject):
             self.parameters.Columns[column].splay
             for column in self.parameters.Columns
         ])
-        hinge_back_loc = (
+        hinge_front_loc = (
             kl["reach_0"]
             * bd.Pos(inside, back)
             * bd.Rot(Z=total_splay)
-            * bd.Pos(0, self.parameters.Hinge.length)
+            * bd.Pos(0, -edge)
+        )
+        hinge_back_loc = (
+            hinge_front_loc
+            * bd.Pos(0, self.parameters.Hinge.length + 2*edge)
         )
         middle_back_loc = (
             kl["middle_3"]
-            * bd.Pos(inside, back)
+            * bd.Pos(inside, back + edge)
         )
         reach_front_loc = (
             kl["reach_0"]
-            * bd.Pos(center, front)
+            * bd.Pos(center, front - edge)
         )
         reach_front_inside_loc = (
             kl["reach_0"]
-            * bd.Pos(inside, front)
+            * bd.Pos(inside + edge, front - edge)
         )
         home_front_loc = (
             kl["home_0"]
-            * bd.Pos(center, front)
+            * bd.Pos(center, front - edge)
         )
         index_front_loc = (
             kl["index_0"]
-            * bd.Pos(center, front)
+            * bd.Pos(center, front - edge)
         )
         ring_front_loc = (
             kl["ring_0"]
-            * bd.Pos(outside, front)
+            * bd.Pos(outside, front - edge)
         )
         pinky_front_loc = (
             kl[f"{last_column}_0"]
-            * bd.Pos(outside, front)
+            * bd.Pos(outside - edge, front - edge)
         )
         pinky_back_loc = (
             kl[f"{last_column}_{last_key}"]
-            * bd.Pos(outside, back)
+            * bd.Pos(outside - edge, back + edge)
         )
         with bd.BuildSketch() as sketch:
             with bd.BuildLine() as outline:
+                back_center_arc = bd.TangentArc(
+                    hinge_back_loc.position,
+                    middle_back_loc.position,
+                    tangent=(
+                        bd.Rot(hinge_back_loc.orientation)
+                        * bd.Pos(-1,0)
+                    ).position
+                )
+                back_outside_arc = bd.TangentArc(
+                    back_center_arc.end_point(),
+                    pinky_back_loc.position,
+                    tangent=back_center_arc.tangent_at(1)
+                )
+                outside_line = bd.Line(
+                    back_outside_arc.end_point(),
+                    pinky_front_loc.position
+                )
                 reach_line = bd.Line(
                     reach_front_inside_loc.position,
                     reach_front_loc.position
@@ -165,43 +190,31 @@ class Androphage(bd.BasePartObject):
                     pinky_front_loc.position,
                     tangent=front_middle_arc.tangent_at(1)
                 )
-                outside_line = bd.Line(
-                    front_outer_arc.end_point(),
-                    pinky_back_loc.position
-                )
-                back_center_arc = bd.TangentArc(
+                back_center_line = bd.Line(
                     hinge_back_loc.position,
-                    middle_back_loc.position,
-                    tangent=(
-                        bd.Rot(hinge_back_loc.orientation)
-                        * bd.Pos(-1,0)
-                    ).position
+                    hinge_front_loc.position,
                 )
-                back_outside_arc = bd.TangentArc(
-                    back_center_arc.end_point(),
-                    outside_line.end_point(),
-                    tangent=back_center_arc.tangent_at(1)
+                const_center_line = bd.PolarLine(
+                    start=back_center_line.end_point(),
+                    direction=back_center_line.tangent_at(1),
+                    length=100,
+                    mode=bd.Mode.PRIVATE
                 )
-                center_line = bd.Line(
-                    hinge_back_loc.position,
-                    (kl["reach_0"] * bd.Pos(inside, back)).position,
-                )
-                center_line2 = bd.PolarLine(
-                    start=center_line.end_point(),
-                    direction=center_line.tangent_at(),
-                    length=100
-                )
-                const_line = bd.IntersectingLine(
+                const_reach_line = bd.IntersectingLine(
                     start=reach_line.start_point(),
                     direction=-reach_line.tangent_at(),
-                    other=center_line2,
+                    other=const_center_line,
                     mode=bd.Mode.PRIVATE
                 )
                 front_center_arc = bd.CenterArc(
-                    center=const_line.end_point(),
-                    radius=const_line.length,
+                    center=const_reach_line.end_point(),
+                    radius=const_reach_line.length,
                     start_angle=90,
                     arc_size=45
+                )
+                front_center_line = bd.Line(
+                    back_center_line.end_point(),
+                    front_center_arc.start_point()
                 )
             bd.make_face()
         return sketch.face()
@@ -216,7 +229,13 @@ class Androphage(bd.BasePartObject):
                     align=Align.Bottom
                 )
         with bd.BuildPart() as plate:
-            outline = bd.extrude(self.plate_outline, amount=-1)
+            outline = bd.extrude(
+                self.build_plate_outline(
+                    edge=4,
+                    # center_width=5
+                ),
+                amount=-1
+            )
         keys.part.label = "keys"
         plate.part.label = "plate"
         plate.part.color = "Plum"
