@@ -7,6 +7,7 @@ from common import vector
 
 @dataclass
 class Column:
+    connect: int = 0
     cutout: bool = False
     keys: int = 1
     shift: vector[2] = (0, 0)

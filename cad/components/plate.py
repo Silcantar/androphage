@@ -16,13 +16,13 @@ class Plate(Component):
     def __init__(
         self,
         columns: Columns,
-        key_locations: LocationDict,
+        column_locations: KeyLocationDict,
         outline: bd.Face,
         center_width: float = 0,
         color: bd.ColorLike = "CornflowerBlue",
         cutout: bd.VectorLike = (14, 14),
         label: str = None,
-        offset: float = 4,
+        edge: float = 5,
         plate_type: PlateType = PlateType.SWITCH,
         radius_outer: float = 2,
         radius_inner: float = 0.5,
@@ -31,14 +31,14 @@ class Plate(Component):
         **kwargs
     ):
         self.columns = columns
-        self.key_locations = key_locations
+        self.column_locations = column_locations
         self.outline = outline
         self.center_width = center_width
         self.cutout = cutout
-        self.offset = offset
+        self.edge = edge
         self.radius_inner = radius_inner
         self.radius_outer = radius_outer
-        self.spacing = spacing
+        self.spacing = bd.Vector(spacing)
         self.thickness = thickness
         self.plate_type = plate_type
         if label is None:
@@ -56,19 +56,16 @@ class Plate(Component):
                 )
                 # Create the switch-mounting cutouts in the switch plate.
                 if self.plate_type == PlateType.SWITCH:
-                    with self.key_locations.locations():
-                        bd.RectangleRounded(
-                            *self.cutout,
-                            radius=self.radius_inner,
-                            mode=bd.Mode.SUBTRACT
-                        )
+                    bd.add(
+                        self.switch_plate_cutout(),
+                        mode=bd.Mode.SUBTRACT
+                    )
                 # Create the cutout in the top plate.
                 if self.plate_type == PlateType.TOP:
-                    with self.key_locations.locations():
-                        bd.Rectangle(
-                            *self.spacing,
-                            mode=bd.Mode.SUBTRACT
-                        )
+                    bd.add(
+                        self.top_plate_cutout(),
+                        mode=bd.Mode.SUBTRACT
+                    )
             bd.extrude(amount=self.thickness)
             if self.center_width > 0:
                 bd.extrude(
@@ -77,6 +74,59 @@ class Plate(Component):
                 )
         return plate.part
 
+    def switch_plate_cutout(self) -> bd.Sketch:
+        with bd.BuildSketch() as sketch:
+            with bd.Locations([
+                (
+                    self.column_locations[column_key]
+                    * bd.Pos(
+                        self.columns[column_key].shift[0] * self.spacing.X,
+                        (i + self.columns[column_key].shift[1]) * self.spacing.Y
+                    )
+                )
+                for column_key in self.column_locations
+                for i in range(self.columns[column_key].keys)
+            ]):
+                bd.RectangleRounded(
+                    *self.cutout,
+                    radius=self.radius_inner,
+                )
+        return sketch.sketch
+
+    def top_plate_cutout(self) -> bd.Sketch:
+        spc = self.spacing
+        with bd.BuildSketch() as sketch:
+            for column_key in self.column_locations:
+                column = self.columns[column_key]
+                column_location = self.column_locations[column_key]
+                cutout = 2*self.edge if column.cutout else 0
+                with bd.Locations(
+                    column_location
+                    * bd.Pos(
+                        0,
+                        ((column.keys - 1)*spc.Y - cutout)/2,
+                        0
+                    ) * bd.Pos(column.shift[0]*spc.X, column.shift[1]*spc.Y)
+                ):
+                    bd.Rectangle(
+                        spc.X,
+                        column.keys*spc.Y + cutout
+                    )
+                if column.connect > 0:
+                    with bd.Locations(
+                        column_location
+                        * bd.Pos(-spc/2)
+                        * bd.Rot(Z=90)
+                    ):
+                        bd.Circle(
+                            radius=column.connect*spc.Y,
+                            arc_size=column.splay,
+                            align=(bd.Align.MIN, bd.Align.MIN)
+                        )
+            bd.fillet(sketch.vertices(), radius=self.radius_inner)
+        return sketch.sketch
+
+
 if __name__ == "__main__":
     from ocp_vscode import show
     from androphage import Androphage
@@ -84,9 +134,18 @@ if __name__ == "__main__":
     show(
         Plate(
             androphage.parameters.Columns,
-            androphage.build_key_locations(),
+            androphage.build_column_locations(),
             androphage.build_plate_outline(edge=5),
             center_width=5,
-            plate_type=PlateType.TOP
-        )
+            plate_type=PlateType.SWITCH,
+        ),
+        Plate(
+            androphage.parameters.Columns,
+            androphage.build_column_locations(),
+            androphage.build_plate_outline(edge=7),
+            center_width=10,
+            edge=7,
+            plate_type=PlateType.TOP,
+            radius_inner=1
+        ).move(bd.Pos(0, 0, 20))
     )

@@ -25,6 +25,7 @@ class Androphage(bd.BasePartObject):
         self.main_half = main_half
         self.parameters = self.import_parameters(parameter_path)
         self.spacing = self.get_spacing()
+        self.column_locations = self.build_column_locations()
         self.key_locations = self.build_key_locations()
         self.plate_outline = self.build_plate_outline()
         if build:
@@ -59,10 +60,10 @@ class Androphage(bd.BasePartObject):
                 print("Info: spacing not provided, defaulting to Choc spacing.")
                 return bd.Vector(18, 17)
 
-    def build_key_locations(self) -> LocationDict:
-        """Calculate the locations of the keys."""
+    def build_column_locations(self) -> KeyLocationDict:
+        """Calculate the locations of the origin of each column."""
         spc = self.spacing
-        locations = LocationDict()
+        column_locations = KeyLocationDict()
         origin = bd.Location((0, 0))
         for column_key in self.parameters.Columns:
             column = self.parameters.Columns[column_key]
@@ -74,17 +75,31 @@ class Androphage(bd.BasePartObject):
             ) * bd.Location(
                 position=(0.5*spc.X, 0.5*spc.Y)
             )
-            for i in range(0, column.keys):
+            origin.label = column_key
+            if not column.skip:
+                column_locations[column_key] = origin
+        return column_locations
+
+    def build_key_locations(self) -> KeyLocationDict:
+        key_locations = KeyLocationDict()
+        for column_key in self.column_locations:
+            column = self.parameters.Columns[column_key]
+            for i in range(column.keys):
                 loc = (
-                    origin * bd.Location(position=(
-                        spc.X*column.shift[0],
-                        spc.Y*(i + column.shift[1])
+                    self.column_locations[column_key]
+                    * bd.Location(position=(
+                        self.spacing.X*column.shift[0],
+                        self.spacing.Y*(i + column.shift[1])
                     ))
                 )
                 loc.label = f"{column_key}_{i}"
                 if not column.skip:
-                    locations[loc.label] = loc
-        return locations
+                    key_locations[loc.label] = KeyLocation(
+                        loc,
+                        cutout=column.cutout,
+                        row=i
+                    )
+        return key_locations
 
     def build_plate_outline(
         self,

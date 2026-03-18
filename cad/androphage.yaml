@@ -12,28 +12,34 @@ Columns:
     keys: 4
     shift: [0, -0.25]
     splay: 10
+    spread: 1.05556
   middle:
     keys: 4
     splay: 5
+    spread: 1.05556
     stagger: 0
   index:
     cutout: true
     keys: 4
     stagger: -0.25
   inner:
+    cutout: true
     keys: 3
     stagger: 1
   # Thumb columns
   tuck:
+    connect: 1
     cutout: true
     splay: 10
     spread: 0
     stagger: -1
   home:
+    connect: 1
     cutout: true
     keys: 2
     splay: 10
   reach:
+    connect: 1
     cutout: true
     splay: 10
 Battery:
