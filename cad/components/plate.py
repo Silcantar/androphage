@@ -13,6 +13,9 @@ class PlateType(StrEnum):
     TOP = auto()
 
 class Plate(Component):
+    """Class used to generate all plate and plate-like components: top and
+    bottom plates, switch plate, and PCB.
+    """
     def __init__(
         self,
         columns: Columns,
@@ -28,6 +31,8 @@ class Plate(Component):
         radius_inner: float = 0.5,
         spacing: bd.VectorLike = (18, 17),
         thickness: float = 1.2,
+        trackball_cutout_radius: float = 17.5,
+        trackball_position_y: float = 70,
         **kwargs
     ):
         self.columns = columns
@@ -36,11 +41,13 @@ class Plate(Component):
         self.center_width = center_width
         self.cutout = cutout
         self.edge = edge
+        self.plate_type = plate_type
         self.radius_inner = radius_inner
         self.radius_outer = radius_outer
         self.spacing = bd.Vector(spacing)
         self.thickness = thickness
-        self.plate_type = plate_type
+        self.trackball_cutout_radius = trackball_cutout_radius
+        self.trackball_position_y = trackball_position_y
         if label is None:
             self.label = f"{plate_type.title()} Plate"
         super().__init__(self.label, **kwargs)
@@ -50,6 +57,7 @@ class Plate(Component):
             with bd.BuildSketch() as sketch:
                 # Create the outline.
                 bd.add(self.outline)
+                # Fillet all but the right-most group of vertices.
                 bd.fillet(
                     sketch.vertices().group_by(bd.Axis.X)[:-1],
                     radius=self.radius_outer
@@ -66,17 +74,49 @@ class Plate(Component):
                         self.top_plate_cutout(),
                         mode=bd.Mode.SUBTRACT
                     )
+                    # Fillet the two vertices created by the previous step.
+                    first_thumb_key = (
+                        Finger.INDEX if self.columns[Finger.INDEX].cutout
+                        else Finger.TUCK
+                    )
+                    top_plate_transition_vertices = (
+                        sketch.vertices().sort_by_distance((
+                            self.column_locations[first_thumb_key]
+                            * bd.Pos(
+                            -self.spacing.X/2,
+                            -self.spacing.Y/2 - self.edge
+                            )
+                        ).position)[0],
+                        sketch.vertices().sort_by_distance((
+                            self.column_locations[Finger.REACH]
+                            * bd.Pos(
+                            self.spacing.X/2,
+                            -self.spacing.Y/2 - self.edge
+                            )
+                        ).position)[0],
+                    )
+                    bd.fillet(
+                        top_plate_transition_vertices,
+                        radius=self.radius_inner
+                    )
             bd.extrude(amount=self.thickness)
+            # Extend the center of the plate by center_width.
             if self.center_width > 0:
                 bd.extrude(
                     plate.faces().group_by(bd.Axis.X)[-1],
                     amount=self.center_width
                 )
+            # Subtract the trackball cutout.
+            if self.plate_type == PlateType.TOP:
+                bd.add(self.trackball_cutout(), mode=bd.Mode.SUBTRACT)
         return plate.part
 
     def switch_plate_cutout(self) -> bd.Sketch:
+        """Create a sketch for the cutouts in the switch plate."""
         with bd.BuildSketch() as sketch:
             with bd.Locations([
+                # This list comprehension generates all of the key locations
+                # from the column locations.
                 (
                     self.column_locations[column_key]
                     * bd.Pos(
@@ -94,6 +134,7 @@ class Plate(Component):
         return sketch.sketch
 
     def top_plate_cutout(self) -> bd.Sketch:
+        """Generate a sketch for the cutouts in the top plate."""
         spc = self.spacing
         with bd.BuildSketch() as sketch:
             for column_key in self.column_locations:
@@ -106,7 +147,10 @@ class Plate(Component):
                         0,
                         ((column.keys - 1)*spc.Y - cutout)/2,
                         0
-                    ) * bd.Pos(column.shift[0]*spc.X, column.shift[1]*spc.Y)
+                    ) * bd.Pos(
+                        column.shift[0]*spc.X,
+                        column.shift[1]*spc.Y
+                    )
                 ):
                     bd.Rectangle(
                         spc.X,
@@ -125,6 +169,27 @@ class Plate(Component):
                         )
             bd.fillet(sketch.vertices(), radius=self.radius_inner)
         return sketch.sketch
+
+    def trackball_cutout(self) -> bd.Part:
+        """Generate and position a 3d cutout for the trackball."""
+        with bd.BuildPart() as part:
+            trackball_location = (
+                self.outline
+                .vertices()
+                .sort_by(bd.Axis.X)[-1]
+            ).moved(
+                bd.Pos(
+                    self.center_width,
+                    self.trackball_position_y
+                )
+            )
+            with bd.Locations(trackball_location):
+                bd.Cylinder(
+                    radius=self.trackball_cutout_radius,
+                    height=self.thickness,
+                    align=Align.Bottom
+                )
+        return part.part
 
 
 if __name__ == "__main__":

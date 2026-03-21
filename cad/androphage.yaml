@@ -7,7 +7,7 @@ Columns:
     keys: 2
   pinky:
     keys: 3
-    stagger: 0.25
+    stagger: -0.75
   ring:
     keys: 4
     shift: [0, -0.25]
@@ -168,7 +168,7 @@ Switch:
 Trackball:
   visible: true
   diameter: 34
-  positionY: 63
+  positionY: 70
   clearance: 1
 TrackballSensor:
   visible: true
