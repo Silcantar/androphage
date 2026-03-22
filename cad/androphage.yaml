@@ -1,5 +1,11 @@
 # Androphage Parameters
 angles: [ 0, 7, 15 ] # Pitch, yaw, tent
+colors:
+  black: &black 0x303030
+  brass: &brass DarkGoldenrod
+  purple: &purple DarkOrchid
+  silver: &silver Silver
+  steel: &steel DarkGray
 Columns:
   # Finger columns
   outer:
@@ -44,11 +50,13 @@ Columns:
     splay: 10
 Battery:
   visible: true
+  color: *silver
   size: [ 34, 4.0, 50 ] #Dimensions of battery.
 BTU:
   visible: true
   angles: [ 45, 0, 45 ]
   clearance: 10
+  color: *steel
   d: 4
   D: 9
   D1: 7.5
@@ -58,6 +66,7 @@ BTU:
 Frame:
   visible: true
   chordAngle: 5 #Angle between the chord of the main arc and vertical.
+  color: *black
   filletRadius: 1
   lipDepth: 1
   mainRadius: 50
@@ -66,6 +75,7 @@ Frame:
   extraLength: 3
 CenterBlock:
   visible: true
+  color: *purple
   ribSize: [ 2, 2 ]
   screwCount: 3
   wallThickness: 2
@@ -75,6 +85,7 @@ Desk:
   position: [ 0, 0, -40 ]
 Screw:
   visible: true
+  color: *steel
   diameter: 2
   minorDiameter: 1.6
   headDiameter: 4
@@ -82,6 +93,7 @@ Screw:
   offset: 3
 Insert:
   visible: true
+  color: *brass
   diameter: 3
   height: 3
   holeDiameter: 2.8
@@ -89,6 +101,7 @@ Insert:
   wallThickness: 1.6
 Hinge:
   visible: true
+  color: *steel
   diameter: 4.42
   knuckleDepth: 12.7
   length: 80
@@ -99,6 +112,7 @@ Hinge:
 Keycap:
   visible: true
   clearance: 1
+  color: *black
   testClearance: false
   profile: lame #[ cherry, dsa, lame, mbk, steno ]
   saddle: false
@@ -115,6 +129,7 @@ LED:
   positionY: -13
 MagneticConnector:
   visible: true
+  color: *black
   size: [ 4.7, 26.5, 6.0 ]
   lip: [ 1.0, 28.5, 8.0 ]
   lipOffset: 1.0
@@ -141,18 +156,21 @@ PCB:
   thickness: 1.2
 BottomPlate:
   visible: true
-  thickness: 1.2 #[ 1, 2, 0.2 ]
   clearance: 3 #[ 1, 10 ]
+  color: *black
+  thickness: 1.2 #[ 1, 2, 0.2 ]
 SwitchPlate:
   visible: true
   present: true
   clearance: 0.2
+  color: *purple
   edge: 4 #[ 0, 5 ]
   radius: 1
 TopPlate:
   visible: true
-  thickness: 1.2
+  color: *black
   innerRadius: 2 #[ 0, 5, 0.1 ]
+  thickness: 1.2
 Switch:
   visible: true
   cutout: [14, 14]
@@ -167,6 +185,7 @@ Switch:
   mxBottomColor: [ 0, 0.9, 1, 0.6 ] #[ 0, 1, 0.01 ]
 Trackball:
   visible: true
+  color: *purple
   diameter: 34
   positionY: 70
   clearance: 1
