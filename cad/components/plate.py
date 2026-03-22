@@ -21,10 +21,10 @@ class Plate(Component):
         columns: Columns,
         column_locations: KeyLocationDict,
         outline: bd.Face,
-        center_width: float = 0,
         color: bd.ColorLike = "CornflowerBlue",
-        cutout: bd.VectorLike = (14, 14),
         label: str = None,
+        center_width: float = 0,
+        cutout: bd.VectorLike = (14, 14),
         edge: float = 5,
         plate_type: PlateType = PlateType.SWITCH,
         radius_outer: float = 2,
@@ -50,7 +50,7 @@ class Plate(Component):
         self.trackball_position_y = trackball_position_y
         if label is None:
             self.label = f"{plate_type.title()} Plate"
-        super().__init__(self.label, **kwargs)
+        super().__init__(self.label, color=color, **kwargs)
 
     def build(self) -> bd.Part:
         with bd.BuildPart() as plate:
