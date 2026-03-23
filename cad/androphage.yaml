@@ -1,9 +1,10 @@
 # Androphage Parameters
-angles: [ 0, 7, 15 ] # Pitch, yaw, tent
+# angles: [ 0, 7, 15 ] # Pitch, tent, yaw
+tentAngle: 7
 colors:
   black: &black 0x303030
   brass: &brass DarkGoldenrod
-  purple: &purple DarkOrchid
+  purple: &purple MediumPurple
   silver: &silver Silver
   steel: &steel DarkGray
 Columns:

@@ -182,7 +182,8 @@ class TrackballSensor(Component):
 
 @dataclass
 class Parameters(YAMLWizard):
-    angles: vector[3]
+    # angles: vector[3]
+    tentAngle: float
     Columns: Columns#dict[str, Column]
     Battery: Battery
     BTU: BTU
