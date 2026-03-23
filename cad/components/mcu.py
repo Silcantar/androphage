@@ -20,7 +20,7 @@ class MCU(Component):
     ):
         super().__init__(label, **kwargs)
 
-    def build(self) -> bd.Part:
+    def _build(self) -> bd.Part:
         pass
 
 if __name__ == '__main__':

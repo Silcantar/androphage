@@ -102,7 +102,7 @@ class Component(bd.BasePartObject):
         # visible: bool = true,
         **kwargs
     ):
-        part = self.build()
+        part = self._build()
         super().__init__(
             part=part,
             **kwargs
@@ -110,7 +110,7 @@ class Component(bd.BasePartObject):
         self.label = label
         self.color = color
 
-    def build(self) -> bd.Part:
+    def _build(self) -> bd.Part:
         raise NotImplementedError()
 
 

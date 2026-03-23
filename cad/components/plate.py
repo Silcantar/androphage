@@ -52,7 +52,7 @@ class Plate(Component):
             self.label = f"{plate_type.title()} Plate"
         super().__init__(self.label, color=color, **kwargs)
 
-    def build(self) -> bd.Part:
+    def _build(self) -> bd.Part:
         with bd.BuildPart() as plate:
             with bd.BuildSketch() as sketch:
                 # Create the outline.

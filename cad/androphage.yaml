@@ -51,19 +51,20 @@ Columns:
     splay: 10
 Battery:
   visible: true
-  color: *silver
   size: [ 34, 4.0, 50 ] #Dimensions of battery.
+  color: *silver
 BTU:
   visible: true
-  angles: [ 45, 0, 45 ]
+  angles: [ 0, 45, 45 ]
   clearance: 10
   color: *steel
-  d: 4
-  D: 9
-  D1: 7.5
-  H: 1
-  L: 4
-  L1: 1.1
+  a: 1.9
+  b: 3.2
+  d: 7.938
+  D: 12.6
+  D1: 17
+  h: 4.8
+  H: 11.2
 Frame:
   visible: true
   chordAngle: 5 #Angle between the chord of the main arc and vertical.

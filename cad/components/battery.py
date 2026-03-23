@@ -17,7 +17,7 @@ class Battery(Component):
         self.size = size
         super().__init__(label, color=color, **kwargs)
 
-    def build(self) -> bd.Part:
+    def _build(self) -> bd.Part:
         with bd.BuildPart() as battery:
             with bd.BuildSketch() as sketch:
                 bd.RectangleRounded(

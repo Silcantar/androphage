@@ -36,7 +36,7 @@ class Androphage(bd.BasePartObject):
         """Load parameters from a YAML file."""
         return Parameters.from_yaml_file(parameter_path)
 
-    def build(self, test_layout) -> bd.Part:
+    def _build(self, test_layout) -> bd.Part:
         components: list[bd.Part] = []
         if test_layout:
             components.append(self.test_layout())

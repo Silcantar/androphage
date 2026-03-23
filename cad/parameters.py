@@ -25,17 +25,20 @@ class Component:
 @dataclass
 class Battery(Component):
     size: vector[3]
+    color: str | int = None
 
 @dataclass
 class BTU(Component):
     angles: vector[3]
     clearance: float
+    a: float
+    b: float
     d: float
     D: float
     D1: float
+    h: float
     H: float
-    L: float
-    L1: float
+    color: str | int = None
 
 @dataclass
 class Frame(Component):
@@ -46,17 +49,20 @@ class Frame(Component):
     notchDepth: float
     thickness: float
     # extraLength: 3
+    color: str | int = None
 
 @dataclass
 class CenterBlock(Component):
     ribSize: vector[2]
     screwCount: int
     wallThickness: float
+    color: str | int = None
 
 @dataclass
 class Desk(Component):
     size: vector[3]
     position: vector[3]
+    color: str | int = None
 
 @dataclass
 class Hinge(Component):
@@ -67,6 +73,7 @@ class Hinge(Component):
     leafWidth: float
     offset: float
     pinDiameter: float
+    color: str | int = None
 
 @dataclass
 class Insert(Component):
@@ -75,6 +82,7 @@ class Insert(Component):
     holeDiameter: float
     holeDepth: float
     wallThickness: float
+    color: str | int = None
 
 @dataclass
 class Keycap(Component):
@@ -84,6 +92,7 @@ class Keycap(Component):
     saddle: bool
     spacingType: str
     customSpacing: vector[2] | None
+    color: str | int = None
 
 @dataclass
 class LED(Component):
@@ -94,12 +103,14 @@ class LED(Component):
     holeSize: float
     holeSpacing: vector[2]
     positionY: float
+    color: str | int = None
 
 @dataclass
 class MagneticConnector(Component):
     size: vector[3]
     lip: vector[3]
     lipOffset: float
+    color: str | int = None
 
 @dataclass
 class MCU(Component):
@@ -122,13 +133,14 @@ class OLED(Component):
 
 @dataclass
 class PCB(Component):
-    color: any
     thickness: float
+    color: str | int = None
 
 @dataclass
 class BottomPlate(Component):
     thickness: float
     clearance: float
+    color: str | int = None
 
 @dataclass
 class SwitchPlate(Component):
@@ -136,11 +148,13 @@ class SwitchPlate(Component):
     clearance: float
     edge: float
     radius: float
+    color: str | int = None
 
 @dataclass
 class TopPlate(Component):
     thickness: float
     innerRadius: float
+    color: str | int = None
 
 @dataclass
 class Screw(Component):
@@ -149,6 +163,7 @@ class Screw(Component):
     headDiameter: float
     headAngle: float
     offset: float
+    color: str | int = None
 
 @dataclass
 class Switch(Component):
@@ -162,12 +177,14 @@ class Switch(Component):
     mxStemColor: any
     mxTopColor: any
     mxBottomColor: any
+    color: str | int = None
 
 @dataclass
 class Trackball(Component):
     diameter: float
     positionY: float
     clearance: float
+    color: str | int = None
 
 @dataclass
 class TrackballSensor(Component):
@@ -179,6 +196,7 @@ class TrackballSensor(Component):
     angle: float
     holderHeight: float
     holderThickness: float
+    color: str | int = None
 
 @dataclass
 class Parameters(YAMLWizard):
