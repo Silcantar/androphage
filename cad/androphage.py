@@ -29,7 +29,7 @@ class Androphage(bd.BasePartObject):
         self.key_locations = self.build_key_locations()
         self.plate_outline = self.build_plate_outline()
         if build:
-            part = self.build(test_layout)
+            part = self._build(test_layout)
             super().__init__(part=part, **kwargs)
 
     def import_parameters(self, parameter_path: PathLike) -> Parameters:
@@ -47,7 +47,7 @@ class Androphage(bd.BasePartObject):
         """Get the key spacing distance based on the spacing type specified in
         the parameters.
         """
-        match self.parameters.Keycap.spacingType:
+        match self.parameters.Keycap.spacing_type:
             case SpacingType.CHOC:
                 return bd.Vector(18, 17)
             case SpacingType.MX:
@@ -55,7 +55,7 @@ class Androphage(bd.BasePartObject):
             case SpacingType.MX_INCH:
                 return bd.Vector(19.05, 19.05)
             case SpacingType.CUSTOM:
-                return bd.Vector(self.parameters.Keycap.customSpacing)
+                return bd.Vector(self.parameters.Keycap.custom_spacing)
             case _:
                 print("Info: spacing not provided, defaulting to Choc spacing.")
                 return bd.Vector(18, 17)

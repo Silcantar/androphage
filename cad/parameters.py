@@ -29,33 +29,32 @@ class Battery(Component):
 
 @dataclass
 class BTU(Component):
-    angles: vector[3]
     clearance: float
-    a: float
-    b: float
-    d: float
-    D: float
-    D1: float
-    h: float
-    H: float
+    ball_diameter: float
+    ball_height: float
+    flange_diameter: float
+    flange_height: float
+    housing_diameter: float
+    housing_height: float
+    model: str
     color: str | int = None
 
 @dataclass
 class Frame(Component):
-    chordAngle: float
-    filletRadius: float
-    lipDepth: float
-    mainRadius: float
-    notchDepth: float
+    chord_angle: float
+    fillet_radius: float
+    lip_depth: float
+    main_radius: float
+    notch_depth: float
     thickness: float
-    # extraLength: 3
     color: str | int = None
 
 @dataclass
 class CenterBlock(Component):
-    ribSize: vector[2]
-    screwCount: int
-    wallThickness: float
+    btu_angles: vector[3]
+    rib_size: vector[2]
+    screw_count: int
+    wall_thickness: float
     color: str | int = None
 
 @dataclass
@@ -67,69 +66,68 @@ class Desk(Component):
 @dataclass
 class Hinge(Component):
     diameter: float
-    knuckleDepth: float
+    knuckle_depth: float
     length: float
-    leafThickness: float
-    leafWidth: float
+    leaf_thickness: float
+    leaf_width: float
     offset: float
-    pinDiameter: float
+    pin_diameter: float
     color: str | int = None
 
 @dataclass
 class Insert(Component):
     diameter: float
     height: float
-    holeDiameter: float
-    holeDepth: float
-    wallThickness: float
+    hole_diameter: float
+    hole_depth: float
+    wall_thickness: float
     color: str | int = None
 
 @dataclass
 class Keycap(Component):
     clearance: float
-    # testClearance: bool
     profile: str
     saddle: bool
-    spacingType: str
-    customSpacing: vector[2] | None
+    spacing_type: str
+    custom_spacing: vector[2] | None
     color: str | int = None
 
 @dataclass
 class LED(Component):
     present: bool
     count: int
-    holeRadius: float
-    holeShape: str
-    holeSize: float
-    holeSpacing: vector[2]
-    positionY: float
+    hole_radius: float
+    hole_shape: str
+    hole_size: float
+    hole_spacing: vector[2]
+    position_y: float
     color: str | int = None
 
 @dataclass
 class MagneticConnector(Component):
     size: vector[3]
     lip: vector[3]
-    lipOffset: float
+    lip_offset: float
     color: str | int = None
 
 @dataclass
 class MCU(Component):
-    chipSize: vector[3]
+    chip_size: vector[3]
     location: str
     radius: float
     size: vector[3]
-    usbOverhang: float
-    usbRadius: float
-    usbSize: vector[3]
-    usbCutSize: vector[3]
+    usb_overhang: float
+    usb_radius: float
+    usb_size: vector[3]
+    usb_cut_size: vector[3]
 
 @dataclass
 class OLED(Component):
     present: bool
-    holeRadius: float
-    pcbSize: vector[2]
+    hole_radius: float
+    pcb_size: vector[2]
     position: vector[2]
-    screenSize: vector[2]
+    screen_size: vector[2]
 
 @dataclass
 class PCB(Component):
@@ -153,15 +151,15 @@ class SwitchPlate(Component):
 @dataclass
 class TopPlate(Component):
     thickness: float
-    innerRadius: float
+    radius_inner: float
     color: str | int = None
 
 @dataclass
 class Screw(Component):
     diameter: float
-    minorDiameter: float
-    headDiameter: float
-    headAngle: float
+    minor_diameter: float
+    head_diameter: float
+    head_angle: float
     offset: float
     color: str | int = None
 
@@ -171,37 +169,37 @@ class Switch(Component):
     radius: float
     type: str
     travel: float
-    maxTravel: float
-    chocColor: str
-    glpColor: str
-    mxStemColor: any
-    mxTopColor: any
-    mxBottomColor: any
+    max_travel: float
+    choc_color: str
+    glp_color: str
+    mx_stem_color: any
+    mx_top_color: any
+    mx_bottom_color: any
     color: str | int = None
 
 @dataclass
 class Trackball(Component):
     diameter: float
-    positionY: float
+    position_y: float
     clearance: float
     color: str | int = None
 
 @dataclass
 class TrackballSensor(Component):
-    pcbSize: vector[2]
+    pcb_size: vector[2]
     size: vector[3]
-    lensSize: vector[3]
+    lens_size: vector[3]
     clearance: float
-    holeSize: float
+    hole_size: float
     angle: float
-    holderHeight: float
-    holderThickness: float
+    holder_height: float
+    holder_thickness: float
     color: str | int = None
 
 @dataclass
 class Parameters(YAMLWizard):
     # angles: vector[3]
-    tentAngle: float
+    tent_angle: float
     Columns: Columns#dict[str, Column]
     Battery: Battery
     BTU: BTU
