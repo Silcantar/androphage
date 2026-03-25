@@ -1,6 +1,6 @@
 # Androphage Parameters
 # angles: [ 0, 7, 15 ] # Pitch, tent, yaw
-tentAngle: 7
+tent_angle: 7
 colors:
   black: &black 0x303030
   brass: &brass DarkGoldenrod
@@ -58,29 +58,45 @@ BTU:
   angles: [ 0, 45, 45 ]
   clearance: 10
   color: *steel
-  a: 1.9
-  b: 3.2
-  d: 7.938
-  D: 12.6
-  D1: 17
-  h: 4.8
-  H: 11.2
+  model: VCN310
+  Rexroth:
+    ball_diameter: 7.938
+    ball_height: 1.6
+    collar_height: 1.3
+    flange_diameter: 17
+    flange_height: 1.9
+    housing_diameter: 12.6
+    housing_height: 6.4
+  VCN310:
+    ball_diameter: 4
+    ball_height: 1.1
+    flange_diameter: 9
+    flange_height: 1
+    housing_diameter: 7.5
+    housing_height: 4
+  VCN319:
+    ball_diameter: 4.76
+    ball_height: 1.2
+    housing_diameter: 7
+    housing_height: 14.8
+    drive_width: 5
+    drive_depth: 6
 Frame:
   visible: true
-  chordAngle: 5 #Angle between the chord of the main arc and vertical.
+  chord_angle: 5 #Angle between the chord of the main arc and vertical.
   color: *black
-  filletRadius: 1
-  lipDepth: 1
-  mainRadius: 50
-  notchDepth: 6
+  fillet_radius: 1
+  lip_depth: 1
+  main_radius: 50
+  notch_depth: 6
   thickness: 5
-  extraLength: 3
+  # extra_length: 3
 CenterBlock:
   visible: true
   color: *purple
-  ribSize: [ 2, 2 ]
-  screwCount: 3
-  wallThickness: 2
+  rib_size: [ 2, 2 ]
+  screw_count: 3
+  wall_thickness: 2
 Desk:
   visible: true
   size: [ 300, 200, 1 ]
@@ -89,69 +105,69 @@ Screw:
   visible: true
   color: *steel
   diameter: 2
-  minorDiameter: 1.6
-  headDiameter: 4
-  headAngle: 90
+  minor_diameter: 1.6
+  head_diameter: 4
+  head_angle: 90
   offset: 3
 Insert:
   visible: true
   color: *brass
   diameter: 3
   height: 3
-  holeDiameter: 2.8
-  holeDepth: 4
-  wallThickness: 1.6
+  hole_diameter: 2.8
+  hole_depth: 4
+  wall_thickness: 1.6
 Hinge:
   visible: true
   color: *steel
   diameter: 4.42
-  knuckleDepth: 12.7
+  knuckle_depth: 12.7
   length: 80
-  leafThickness: 0.04
-  leafWidth: 13.5
+  leaf_thickness: 0.04
+  leaf_width: 13.5
   offset: 5
-  pinDiameter: 2.4
+  pin_diameter: 2.4
 Keycap:
   visible: true
   clearance: 1
   color: *black
-  testClearance: false
+  test_clearance: false
   profile: lame #[ cherry, dsa, lame, mbk, steno ]
   saddle: false
-  spacingType: choc #[ choc, mx, custom ]
-  customSpacing: [ 16, 16 ]
+  spacing_type: choc #[ choc, mx, custom ]
+  custom_spacing: [ 16, 16 ]
 LED:
   visible: true
   present: true
   count: 4
-  holeRadius: 0.2
-  holeShape: square #[ square, circle ]
-  holeSize: 3
-  holeSpacing: [ 4.5, 0 ]
-  positionY: -13
+  hole_radius: 0.2
+  hole_shape: square #[ square, circle ]
+  hole_size: 3
+  hole_spacing: [ 4.5, 0 ]
+  position_y: -13
 MagneticConnector:
   visible: true
   color: *black
   size: [ 4.7, 26.5, 6.0 ]
   lip: [ 1.0, 28.5, 8.0 ]
-  lipOffset: 1.0
+  lip_offset: 1.0
 MCU:
   visible: true
-  chipSize: [ 12, 10, 1.5 ]
+  chip_size: [ 12, 10, 1.5 ]
   location: main PCB #[ trackball sensor, magnetic connector, main PCB ]
   radius: 2
   size: [ 17.8, 21, 1.2 ]
-  usbOverhang: 1.5
-  usbRadius: 1.2
-  usbSize: [ 9, 7.35, 3.2 ]
-  usbCutSize: [ 12, 10, 7 ]
+  usb_overhang: 1.5
+  usb_radius: 1.2
+  usb_size: [ 9, 7.35, 3.2 ]
+  usb_cut_size: [ 12, 10, 7 ]
 OLED:
   visible: true
   present: false
-  holeRadius: 0.5
-  pcbSize: [ 15.5, 13 ]
+  hole_radius: 0.5
+  pcb_size: [ 15.5, 13 ]
   position: [ 0, 0 ]
-  screenSize: [ 12.58, 6.98 ]
+  screen_size: [ 12.58, 6.98 ]
 PCB:
   visible: true
   color: DarkGreen
@@ -171,7 +187,7 @@ SwitchPlate:
 TopPlate:
   visible: true
   color: *black
-  innerRadius: 2 #[ 0, 5, 0.1 ]
+  radius_inner: 2 #[ 0, 5, 0.1 ]
   thickness: 1.2
 Switch:
   visible: true
@@ -179,25 +195,25 @@ Switch:
   radius: 0.5
   type: glp #[ chocv1, chocv2, mx, glp ]
   travel: 0
-  maxTravel: 3.3
-  chocColor: Sunset #[ Red, Blue, Brown, Pro Red, Pink, Robin, Sunset, Twilight, Nocturnal, Sunrise, Bokeh ]
-  glpColor: Banana #[ Banana, Blue, Brown, Chocolate, Red, Aloe, Cowberry, Daisy, Moss, Panda, Wisteria ]
-  mxStemColor: [ 1.0, 1.0, 1.0, 0.8 ] #[ 0, 1, 0.01 ]
-  mxTopColor: [ 0, 0.9, 1, 0.6 ] #[ 0, 1, 0.01 ]
-  mxBottomColor: [ 0, 0.9, 1, 0.6 ] #[ 0, 1, 0.01 ]
+  max_travel: 3.3
+  choc_color: Sunset #[ Red, Blue, Brown, Pro Red, Pink, Robin, Sunset, Twilight, Nocturnal, Sunrise, Bokeh ]
+  glp_color: Banana #[ Banana, Blue, Brown, Chocolate, Red, Aloe, Cowberry, Daisy, Moss, Panda, Wisteria ]
+  mx_stem_color: [ 1.0, 1.0, 1.0, 0.8 ] #[ 0, 1, 0.01 ]
+  mx_top_color: [ 0, 0.9, 1, 0.6 ] #[ 0, 1, 0.01 ]
+  mx_bottom_color: [ 0, 0.9, 1, 0.6 ] #[ 0, 1, 0.01 ]
 Trackball:
   visible: true
   color: *purple
   diameter: 34
-  positionY: 70
+  position_y: 70
   clearance: 1
 TrackballSensor:
   visible: true
-  pcbSize: [ 16, 25 ]
+  pcb_size: [ 16, 25 ]
   size: [ 10.9, 16.2, 1.65 ]
-  lensSize: [ 8.6, 16.96, 3.4 ]
+  lens_size: [ 8.6, 16.96, 3.4 ]
   clearance: 2.4
-  holeSize: 8
+  hole_size: 8
   angle: 60
-  holderHeight: 15
-  holderThickness: 5
+  holder_height: 15
+  holder_thickness: 5
