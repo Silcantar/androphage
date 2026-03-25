@@ -53,34 +53,47 @@ Battery:
   visible: true
   size: [ 34, 4.0, 50 ] #Dimensions of battery.
   color: *silver
-BTU:
-  visible: true
-  angles: [ 0, 45, 45 ]
-  clearance: 10
-  color: *steel
-  model: VCN310
-  Rexroth:
+
+# BTU Models --------------------------
+BTU_Models:
+  Rexroth: &Rexroth
+    visible: true
     ball_diameter: 7.938
     ball_height: 1.6
+    clearance: 10
     collar_height: 1.3
+    color: *steel
     flange_diameter: 17
     flange_height: 1.9
     housing_diameter: 12.6
     housing_height: 6.4
-  VCN310:
+    model: Rexroth
+  VCN310: &VCN310
+    visible: true
     ball_diameter: 4
     ball_height: 1.1
+    clearance: 10
+    color: *steel
     flange_diameter: 9
     flange_height: 1
     housing_diameter: 7.5
     housing_height: 4
-  VCN319:
+    model: VCN310
+  VCN319: &VCN319
+    visible: true
     ball_diameter: 4.76
     ball_height: 1.2
-    housing_diameter: 7
-    housing_height: 14.8
+    clearance: 10
+    color: *steel
     drive_width: 5
     drive_depth: 6
+    flange_diameter: 7
+    flange_height: 0
+    housing_diameter: 7
+    housing_height: 14.8
+    model: VCN319
+# -------------------------------------
+BTU: *VCN310
 Frame:
   visible: true
   chord_angle: 5 #Angle between the chord of the main arc and vertical.
@@ -93,6 +106,7 @@ Frame:
   # extra_length: 3
 CenterBlock:
   visible: true
+  btu_angles: [ 0, 30, 45 ]
   color: *purple
   rib_size: [ 2, 2 ]
   screw_count: 3
@@ -217,3 +231,4 @@ TrackballSensor:
   angle: 60
   holder_height: 15
   holder_thickness: 5
+
