@@ -13,9 +13,10 @@ class CenterBlock(Component):
         outline: bd.Sketch,
         color: bd.ColorLike = "MediumPurple",
         label: str = "Center Block",
+        btu_model: callable = btu.BTU_VCN310, # btu.BTU_Rexroth, #
         btu_angles: bd.VectorLike = (0, 30, 45),
-        btu_diameter: float = 12.6,
-        btu_height: float = 11.2,
+        btu_diameter: float = 7.5, # 17, #
+        btu_height: float = 6.1, # 11.2, #
         height_: float = 21,
         screw_diameter: float = 2,
         tent_angle: float = 7,
@@ -26,6 +27,7 @@ class CenterBlock(Component):
         **kwargs
     ):
         self.outline = outline
+        self.btu_model = btu_model
         self.btu_angles = bd.Vector(btu_angles)
         self.btu_diameter = btu_diameter
         self.btu_height = btu_height
@@ -53,18 +55,17 @@ class CenterBlock(Component):
                     arc_size3=90 - self.tent_angle,
                     align=Align.LeftFront
                 )
+            with self.btu_locations():
+                bd.add(self.btu_socket())
+                self.btu_model(
+                    subtract=True,
+                    rotation=(180, 0, 0),
+                    mode=bd.Mode.SUBTRACT
+                )
+            with self.trackball_locations():
                 # Subtract trackball clearance.
                 bd.Sphere(
                     radius=self.trackball_radius + self.trackball_clearance,
-                    mode=bd.Mode.SUBTRACT
-                )
-            with self.btu_locations():
-                bd.add(self.btu_socket())
-                bd.add(
-                    btu.BTU(
-                        mode=bd.Mode.SUBTRACT,
-                        rotation=(180, 0, 0)
-                    ),
                     mode=bd.Mode.SUBTRACT
                 )
         return center_block.part
@@ -82,7 +83,10 @@ class CenterBlock(Component):
         with bd.BuildPart() as btu_socket:
             bd.Cylinder(
                 radius=self.btu_diameter/2 + self.wall_thickness,
-                height=self.btu_height + self.wall_thickness,
+                height=(
+                    self.btu_height
+                    + self.wall_thickness
+                ),
                 align=Align.Bottom
             )
             bd.Cylinder(
