@@ -21,7 +21,7 @@ class BTU(Component):
         clearance: float = 10,
         color: bd.ColorLike = "DarkGray",
         label: str = "BTU",
-        mode: bd.Mode = bd.Mode.ADD,
+        subtract: bool = False,
         **kwargs
     ):
         self.ball_diameter = ball_diameter
@@ -31,7 +31,7 @@ class BTU(Component):
         self.housing_diameter = housing_diameter
         self.housing_height = housing_height
         self.clearance = clearance
-        self.mode = mode
+        self.subtract = subtract
         super().__init__(label, color=color, **kwargs)
 
     def _build(self):
@@ -53,7 +53,7 @@ class BTU(Component):
                     align=Align.Top
                 )
                 # Clearance cutter
-                if self.mode == bd.Mode.SUBTRACT:
+                if self.subtract:
                     bd.Cylinder(
                         radius=self.flange_diameter/2,
                         height=self.clearance,
