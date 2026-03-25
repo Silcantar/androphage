@@ -185,7 +185,7 @@ OLED:
 PCB:
   visible: true
   color: DarkGreen
-  thickness: 1.2
+  thickness: &pcb_thickness 1.2
 BottomPlate:
   visible: true
   clearance: 3 #[ 1, 10 ]
@@ -223,8 +223,8 @@ Trackball:
   clearance: 1
 TrackballSensor:
   visible: true
-  pcb_size: [ 16, 25 ]
-  size: [ 10.9, 16.2, 1.65 ]
+  pcb_size: [ 16, 25, *pcb_thickness ]
+  chip_size: [ 10.9, 16.2, 1.65 ]
   lens_size: [ 8.6, 16.96, 3.4 ]
   clearance: 2.4
   hole_size: 8

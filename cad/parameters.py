@@ -186,8 +186,8 @@ class Trackball(Component):
 
 @dataclass
 class TrackballSensor(Component):
-    pcb_size: vector[2]
-    size: vector[3]
+    pcb_size: vector[3]
+    chip_size: vector[3]
     lens_size: vector[3]
     clearance: float
     hole_size: float

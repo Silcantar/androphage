@@ -1,6 +1,6 @@
 import typing
 from dataclasses import dataclass
-from enum import StrEnum, auto
+from enum import Enum, StrEnum, auto
 from math import cos, sin, tan, radians
 
 import build123d as bd
@@ -46,6 +46,9 @@ class SpacingType(StrEnum):
 class Half(StrEnum):
     LEFT = auto()
     RIGHT = auto()
+
+class Color(Enum):
+    black = 0x303030
 
 # Alignment Shorthands
 AlignLike = (
@@ -99,7 +102,6 @@ class Component(bd.BasePartObject):
         self,
         label: str,
         color: bd.ColorLike = "CornflowerBlue",
-        # visible: bool = true,
         **kwargs
     ):
         part = self._build()
@@ -108,7 +110,8 @@ class Component(bd.BasePartObject):
             **kwargs
         )
         self.label = label
-        self.color = color
+        if color is not None:
+            self.color = color
 
     def _build(self) -> bd.Part:
         raise NotImplementedError()
