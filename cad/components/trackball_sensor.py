@@ -13,7 +13,7 @@ class TrackballSensor(Component):
         chip_size: bd.VectorLike = (10.9, 16.2, 1.65),
         lens_size: bd.VectorLike = (8.6, 16.96, 3.4),
         clearance: float = 2.4,
-        hole_size: float = 8,
+        hole_size: float = 5,
         angle: float = 60,
         holder_height: float = 15,
         holder_thickness: float = 5,

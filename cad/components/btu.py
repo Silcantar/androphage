@@ -19,6 +19,7 @@ class BTU(Component):
         housing_diameter: float,
         housing_height: float,
         clearance: float = 10,
+        screw_diameter: float = 1.6, # Minor diameter of an M2 screw.
         color: bd.ColorLike = "DarkGray",
         label: str = "BTU",
         subtract: bool = False,
@@ -31,6 +32,7 @@ class BTU(Component):
         self.housing_diameter = housing_diameter
         self.housing_height = housing_height
         self.clearance = clearance
+        self.screw_diameter = screw_diameter
         self.subtract = subtract
         super().__init__(label, color=color, **kwargs)
 
@@ -52,12 +54,19 @@ class BTU(Component):
                     height=self.housing_height + self.flange_height,
                     align=Align.Top
                 )
-                # Clearance cutter
+                # Clearance cutters
                 if self.subtract:
+                    # Clearance above
                     bd.Cylinder(
                         radius=self.flange_diameter/2,
                         height=self.clearance,
                         align=Align.Bottom
+                    )
+                    # Adjustment screw hole
+                    bd.Cylinder(
+                        radius=self.screw_diameter/2,
+                        height=self.clearance,
+                        align=Align.Top
                     )
         return btu.part
 

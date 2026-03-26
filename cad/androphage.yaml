@@ -54,7 +54,7 @@ Battery:
   size: [ 34, 4.0, 50 ] #Dimensions of battery.
   color: *silver
 
-# BTU Models --------------------------
+# ---- BTU Models ----
 BTU_Models:
   Rexroth: &Rexroth
     visible: true
@@ -92,7 +92,7 @@ BTU_Models:
     housing_diameter: 7
     housing_height: 14.8
     model: VCN319
-# -------------------------------------
+# --------------------
 BTU: *VCN310
 Frame:
   visible: true
@@ -165,6 +165,7 @@ MagneticConnector:
   size: [ 4.7, 26.5, 6.0 ]
   lip: [ 1.0, 28.5, 8.0 ]
   lip_offset: 1.0
+  position_y: 30
 MCU:
   visible: true
   chip_size: [ 12, 10, 1.5 ]
