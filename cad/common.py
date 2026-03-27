@@ -145,6 +145,34 @@ class KeyLocationDict(dict[str, KeyLocation]):
     def locations(self) -> bd.LocationList:
         return bd.LocationList(list(self.values()))
 
+class Tube(bd.BasePartObject):
+    def __init__(
+        self,
+        radius_outer: float,
+        radius_inner: float,
+        height_: float,
+        align: AlignLike = Align.Center,
+        **kwargs
+    ):
+        self.radius_outer = radius_outer
+        self.radius_inner = radius_inner
+        self.height_ = height_
+        self.align = align
+        with bd.BuildPart() as bp:
+            outer = bd.Cylinder(
+                radius_outer,
+                height_,
+                align=align
+            )
+            with bd.Locations(bp.part.center()):
+                bd.Cylinder(
+                    radius_inner,
+                    height_,
+                    align=Align.Center,
+                    mode=bd.Mode.SUBTRACT
+                )
+        super().__init__(bp.part, align=align, **kwargs)
+
 
 class Circle(bd.BaseSketchObject):
     """Sketch Object: Circle

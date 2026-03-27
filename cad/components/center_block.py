@@ -16,14 +16,16 @@ class CenterBlock(Component):
         color: bd.ColorLike = "MediumPurple",
         label: str = "Center Block",
         btu_model: callable = btu.BTU_VCN310,
-        # 47 degrees for the BTU Z angle adds a bit of clearance for the sensor
-        # without significantly affecting the stability of the trackball.
         btu_angles: bd.VectorLike = (0, 30, 47),
         btu_diameter: float = 7.5,
         btu_height: float = 6.1,
         connector_position_y: float = 25,
-        height_: float = 21,
-        # screw_diameter: float = 2,
+        connector_screw_offset: float = 18,
+        height_: float = 20,
+        insert_hole_depth: float = 4,
+        insert_hole_diameter: float = 2.8,
+        insert_wall_thickness: float = 1.6,
+        overhang_angle: float = 45,
         sensor_angle: float = 60,
         sensor_height: float = 7,
         sensor_holder_height: float = 15,
@@ -42,8 +44,12 @@ class CenterBlock(Component):
         self.btu_diameter = btu_diameter
         self.btu_height = btu_height
         self.connector_position_y = connector_position_y
+        self.connector_screw_offset = connector_screw_offset
         self.height_ = height_
-        # self.screw_diameter = screw_diameter
+        self.insert_hole_depth = insert_hole_depth
+        self.insert_hole_diameter = insert_hole_diameter
+        self.insert_wall_thickness = insert_wall_thickness
+        self.overhang_angle = overhang_angle
         self.sensor_angle = sensor_angle
         self.sensor_height = sensor_height
         self.sensor_holder_height = sensor_holder_height
@@ -87,6 +93,13 @@ class CenterBlock(Component):
                 bd.add(self.btu_socket())
             with self.screw_locations():
                 bd.add(self.screw_boss())
+            with self.connector_screw_locations():
+                Tube(
+                    radius_outer=self.insert_hole_diameter/2 + self.insert_wall_thickness,
+                    radius_inner=self.insert_hole_diameter/2,
+                    height_=self.insert_hole_depth,
+                    align=Align.Top
+                )
             # ---- Subtractions ----
             # Subtract trackball sensor from holder.
             with self.sensor_locations():
@@ -107,18 +120,34 @@ class CenterBlock(Component):
                     radius=self.trackball_radius + self.trackball_clearance,
                     mode=bd.Mode.SUBTRACT
                 )
+            # Subtract cutout for magnetic connector.
             with self.connector_locations():
                 MagneticConnector(mode=bd.Mode.SUBTRACT)
+            # Subtract holes for heat-sink inserts.
+            with self.screw_locations():
+                bd.Cylinder(
+                    radius=self.insert_hole_diameter/2,
+                    height=self.insert_hole_depth,
+                    align=Align.Bottom,
+                    mode=bd.Mode.SUBTRACT
+                )
             # Clip off anything extending outside the proper height of the part.
             bd.Box(
                 length=1000,
                 width=1000,
-                height=self.height_ * cosd(self.tent_angle),
+                height=self.height_,
                 align=Align.LeftBottom,
                 mode=bd.Mode.INTERSECT
             )
-        # Move the part so that the hinge pivot is along the Y axis.
-        center_block.part.position -= self.origin_point().position
+        # Move the part so that the center wall is vertical and the hinge pivot
+        # is along the Y axis.
+        center_block.part.orientation += (0, -self.tent_angle, 0)
+        center_block.part.position -= (
+            center_block.part.vertices()
+            .group_by(bd.Axis.Z)[-1].vertices()
+            .group_by(bd.Axis.Y)[0].vertices()
+            .sort_by(bd.Axis.X)[-1].center()
+        )
         return center_block.part
 
     def btu_locations(self) -> bd.Locations:
@@ -149,8 +178,9 @@ class CenterBlock(Component):
                 # Extrude the center edge of the outline into a rectangle.
                 edge = outline.edges().sort_by(bd.Axis.X)[-1]
                 bd.add(bd.Face.extrude(edge, (-2*self.wall_thickness, 0)))
+            extrude_amount = self.height_ / cosd(self.tent_angle)
             bd.extrude(
-                amount=self.height_,
+                amount=extrude_amount,
                 dir=(
                     sind(self.tent_angle),
                     0,
@@ -167,6 +197,13 @@ class CenterBlock(Component):
                 dir=(1, 0, 0),
                 mode=bd.Mode.SUBTRACT
             )
+            # Draft the overhanging face (when printed upside-down) to eliminate
+            # the need for supports.
+            bd.draft(
+                faces=self.center_wall.faces(bd.Select.LAST).sort_by(bd.Axis.Z)[0],
+                neutral_plane=bd.Plane(self.center_wall.faces().sort_by(bd.Axis.X)[0]),
+                angle=self.overhang_angle
+            )
         return self.center_wall.part
 
     def connector_locations(self) -> bd.Locations:
@@ -180,6 +217,14 @@ class CenterBlock(Component):
             * bd.Pos(0, self.connector_position_y, 0)
         )
 
+    def connector_screw_locations(self) -> bd.Locations:
+        return bd.Locations([
+            self.connector_locations().locations[0]
+            * bd.Rot(Y=90)
+            * bd.Pos(0, y_pos, -self.wall_thickness)
+            for y_pos in (-self.connector_screw_offset, self.connector_screw_offset)
+        ])
+
     def origin_point(self) -> bd.Location:
         return bd.Location(
             self.center_wall.faces()
@@ -190,32 +235,43 @@ class CenterBlock(Component):
 
     def screw_boss(self) -> bd.Part:
         with bd.BuildPart() as boss:
-            bd.Box(5, 5, 5, align=Align.RightBottom)
+            width = self.insert_hole_diameter + 2*self.insert_wall_thickness
+            with bd.BuildSketch() as sketch:
+                bd.Rectangle(
+                    width=width/2,
+                    height=width,
+                    align=Align.Left
+                )
+                bd.Circle(radius=width/2)
+            bd.extrude(
+                amount=(
+                    self.insert_hole_depth
+                    + self.insert_wall_thickness
+                    + width*tand(self.overhang_angle)
+                ),
+            )
+            bd.draft(
+                faces=boss.faces().sort_by(bd.Axis.Z)[-1],
+                neutral_plane=bd.Plane(boss.faces().sort_by(bd.Axis.X)[-1]),
+                angle=-self.overhang_angle
+            )
         return boss.part
 
     def screw_locations(self) -> bd.Locations:
+        # Radius of the screw boss.
+        offset = self.insert_hole_diameter/2 + self.insert_wall_thickness
+        # Select the bottom outside edge of the center wall.
         edge = (
             self.center_wall.edges()
             .group_by(bd.Axis.Z)[0].edges()
             .sort_by(bd.Axis.X)[-1]
         )
+        # Put locations in the center and inset from each end of the edge.
         return bd.Locations([
-            edge.start_point() - (0, 5, 0),
-            edge.center(),
-            edge.end_point() + (0, 5, 0)
+            edge.start_point() + (-offset, -offset, 0),
+            edge.center() + (-offset, 0, 0),
+            edge.end_point() + (-offset, offset, 0)
         ])
-
-    def trackball_locations(self) -> bd.Locations:
-        return bd.Locations(
-            self.trackball_position()
-            * bd.Rot(-90, 0, 90 + self.tent_angle)
-        )
-
-    def trackball_position(self) -> bd.Location:
-        return bd.Location(
-            self.origin_point()
-            * bd.Pos(0, self.trackball_position_y, 0)
-        )
 
     def sensor_holder(self) -> bd.Part:
         with bd.BuildPart() as holder:
@@ -239,6 +295,18 @@ class CenterBlock(Component):
             self.trackball_position()
             * bd.Rot(0, 180 + self.sensor_angle, 0)
             * bd.Pos(0, 0, self.trackball_radius)
+        )
+
+    def trackball_locations(self) -> bd.Locations:
+        return bd.Locations(
+            self.trackball_position()
+            * bd.Rot(-90, 0, 90 + self.tent_angle)
+        )
+
+    def trackball_position(self) -> bd.Location:
+        return bd.Location(
+            self.origin_point()
+            * bd.Pos(0, self.trackball_position_y, 0)
         )
 
 

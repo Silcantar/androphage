@@ -1,6 +1,7 @@
 # Androphage Parameters
 # angles: [ 0, 7, 15 ] # Pitch, tent, yaw
 tent_angle: 7
+overhang_angle: 45 # Angle for overhangs on 3d-printed parts.
 colors:
   black: &black 0x303030
   brass: &brass DarkGoldenrod
@@ -96,7 +97,7 @@ BTU_Models:
 BTU: *VCN310
 Frame:
   visible: true
-  chord_angle: 5 #Angle between the chord of the main arc and vertical.
+  chord_angle: 5 # Angle between the chord of the main arc and vertical.
   color: *black
   fillet_radius: 1
   lip_depth: 1
@@ -106,7 +107,9 @@ Frame:
   # extra_length: 3
 CenterBlock:
   visible: true
-  btu_angles: [ 0, 30, 45 ]
+  # 47 degrees for the BTU Z angle adds a bit of clearance for the sensor
+  # without significantly affecting the stability of the trackball.
+  btu_angles: [ 0, 30, 47 ]
   color: *purple
   rib_size: [ 2, 2 ]
   screw_count: 3
@@ -162,10 +165,11 @@ LED:
 MagneticConnector:
   visible: true
   color: *black
-  size: [ 4.7, 26.5, 6.0 ]
   lip: [ 1.0, 28.5, 8.0 ]
   lip_offset: 1.0
   position_y: 30
+  size: [ 4.7, 26.5, 6.0 ]
+  screw_offset: 18
 MCU:
   visible: true
   chip_size: [ 12, 10, 1.5 ]
@@ -224,12 +228,13 @@ Trackball:
   clearance: 1
 TrackballSensor:
   visible: true
-  pcb_size: [ 16, 25, *pcb_thickness ]
-  chip_size: [ 10.9, 16.2, 1.65 ]
-  lens_size: [ 8.6, 16.96, 3.4 ]
-  clearance: 2.4
-  hole_size: 8
   angle: 60
+  chip_size: [ 10.9, 16.2, 1.65 ]
+  clearance: 2.4
   holder_height: 15
   holder_thickness: 5
+  hole_size: 8
+  lens_size: [ 8.6, 16.96, 3.4 ]
+  optical_center: 2.52 # Distance from center of lens to optical center.
+  pcb_size: [ 16, 25, *pcb_thickness ]
 
