@@ -4,6 +4,7 @@ import build123d as bd
 
 from common import *
 import btu
+from fasteners import screw_boss_vertical
 from magnetic_connector import MagneticConnector
 from trackball_sensor import TrackballSensor
 
@@ -92,7 +93,12 @@ class CenterBlock(Component):
             with self.btu_locations():
                 bd.add(self.btu_socket())
             with self.screw_locations():
-                bd.add(self.screw_boss())
+                bd.add(screw_boss_vertical(
+                    hole_depth=self.insert_hole_depth,
+                    hole_diameter=self.insert_hole_diameter,
+                    overhang_angle=self.overhang_angle,
+                    wall_thickness=self.insert_wall_thickness
+                ))
             with self.connector_screw_locations():
                 Tube(
                     radius_outer=self.insert_hole_diameter/2 + self.insert_wall_thickness,
@@ -233,29 +239,9 @@ class CenterBlock(Component):
             .sort_by(bd.Axis.Z)[-1].center()
         )
 
-    def screw_boss(self) -> bd.Part:
-        with bd.BuildPart() as boss:
-            width = self.insert_hole_diameter + 2*self.insert_wall_thickness
-            with bd.BuildSketch() as sketch:
-                bd.Rectangle(
-                    width=width/2,
-                    height=width,
-                    align=Align.Left
-                )
-                bd.Circle(radius=width/2)
-            bd.extrude(
-                amount=(
-                    self.insert_hole_depth
-                    + self.insert_wall_thickness
-                    + width*tand(self.overhang_angle)
-                ),
-            )
-            bd.draft(
-                faces=boss.faces().sort_by(bd.Axis.Z)[-1],
-                neutral_plane=bd.Plane(boss.faces().sort_by(bd.Axis.X)[-1]),
-                angle=-self.overhang_angle
-            )
-        return boss.part
+    # def screw_boss(self) -> bd.Part:
+
+    #     return boss.part
 
     def screw_locations(self) -> bd.Locations:
         # Radius of the screw boss.

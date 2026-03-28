@@ -97,7 +97,7 @@ BTU_Models:
 BTU: *VCN310
 Frame:
   visible: true
-  chord_angle: 5 # Angle between the chord of the main arc and vertical.
+  chord_angle: 4 # Angle between the chord of the main arc and vertical.
   color: *black
   fillet_radius: 1
   lip_depth: 1
