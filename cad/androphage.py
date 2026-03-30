@@ -104,7 +104,7 @@ class Androphage(bd.BasePartObject):
     def build_plate_outline(
         self,
         edge: float = 0,
-        # center_width: float = 0
+        center_width: float = 0
     ) -> bd.Face:
         """Define the geometry of the plate outline."""
         spc = self.spacing
@@ -208,6 +208,7 @@ class Androphage(bd.BasePartObject):
                 back_center_line = bd.Line(
                     hinge_back_loc.position,
                     hinge_front_loc.position,
+                    mode=bd.Mode.PRIVATE
                 )
                 const_center_line = bd.PolarLine(
                     start=back_center_line.end_point(),
@@ -227,11 +228,24 @@ class Androphage(bd.BasePartObject):
                     start_angle=90,
                     arc_size=45
                 )
-                front_center_line = bd.Line(
-                    back_center_line.end_point(),
+                center_line = bd.Line(
+                    hinge_back_loc.position,
                     front_center_arc.start_point()
                 )
+                del back_center_line
+                del const_center_line
+                del const_reach_line
             bd.make_face()
+            if center_width > 0:
+                center_edge = sketch.edges().sort_by(bd.Axis.X)[-1]
+                center_edge.color = "cyan"
+                bd.add(
+                    bd.Face.extrude(
+                        center_edge, 
+                        direction=(center_width, 0)
+                    )
+                )
+            sketch.face().clean()
         return sketch.face()
 
     def test_layout(self) -> bd.Part:
@@ -247,7 +261,7 @@ class Androphage(bd.BasePartObject):
             outline = bd.extrude(
                 self.build_plate_outline(
                     edge=4,
-                    # center_width=5
+                    center_width=5
                 ),
                 amount=-1
             )

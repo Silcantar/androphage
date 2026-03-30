@@ -69,6 +69,15 @@ class Frame(Component):
                     align=Align.Bottom,
                     mode=bd.Mode.SUBTRACT
                 )
+        # Move the part so that the center wall is vertical and the hinge pivot
+        # is along the Y axis.
+        center_block.part.orientation += (0, -self.tent_angle, 0)
+        center_block.part.position -= (
+            center_block.part.vertices()
+            .group_by(bd.Axis.Z)[-1].vertices()
+            .group_by(bd.Axis.Y)[0].vertices()
+            .sort_by(bd.Axis.X)[-1].center()
+        )
         return frame.part
 
     def frame_section(self) -> bd.Sketch:

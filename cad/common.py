@@ -197,11 +197,11 @@ class Circle(bd.BaseSketchObject):
         mode: bd.Mode = bd.Mode.ADD,
     ):
         context: bd.BuildSketch | None = bd.BuildSketch._get_context(self)
-        validate_inputs(context, self)
+        bd.validate_inputs(context, self)
 
         self.radius = radius
         self.arc_size = arc_size
-        self.align = tuplify(align, 2)
+        self.align = bd.tuplify(align, 2)
 
         face = (
             bd.Face(bd.Wire.make_circle(radius))

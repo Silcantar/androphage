@@ -59,7 +59,7 @@ class Plate(Component):
                 bd.add(self.outline)
                 # Fillet all but the right-most group of vertices.
                 bd.fillet(
-                    sketch.vertices().group_by(bd.Axis.X)[:-1],
+                    sketch.vertices().group_by(bd.Axis.X)[:-2 if self.center_width > 0 else -1],
                     radius=self.radius_outer
                 )
                 # Create the switch-mounting cutouts in the switch plate.
@@ -100,15 +100,12 @@ class Plate(Component):
                         radius=self.radius_inner
                     )
             bd.extrude(amount=self.thickness)
-            # Extend the center of the plate by center_width.
-            if self.center_width > 0:
-                bd.extrude(
-                    plate.faces().group_by(bd.Axis.X)[-1],
-                    amount=self.center_width
-                )
             # Subtract the trackball cutout.
             if self.plate_type == PlateType.TOP:
-                bd.add(self.trackball_cutout(), mode=bd.Mode.SUBTRACT)
+                bd.add(
+                    self.trackball_cutout(), 
+                    mode=bd.Mode.SUBTRACT
+                )
         return plate.part
 
     def switch_plate_cutout(self) -> bd.Sketch:
@@ -162,7 +159,7 @@ class Plate(Component):
                         * bd.Pos(-spc/2)
                         * bd.Rot(Z=90)
                     ):
-                        bd.Circle(
+                        Circle(
                             radius=column.connect*spc.Y,
                             arc_size=column.splay,
                             align=(bd.Align.MIN, bd.Align.MIN)
@@ -176,10 +173,11 @@ class Plate(Component):
             trackball_location = (
                 self.outline
                 .vertices()
-                .sort_by(bd.Axis.X)[-1]
+                .group_by(bd.Axis.X)[-1]
+                .sort_by(bd.Axis.Y)[0]
             ).moved(
                 bd.Pos(
-                    self.center_width,
+                    0,
                     self.trackball_position_y
                 )
             )
@@ -200,16 +198,16 @@ if __name__ == "__main__":
         Plate(
             androphage.parameters.Columns,
             androphage.build_column_locations(),
-            androphage.build_plate_outline(edge=5),
-            center_width=5,
+            androphage.build_plate_outline(edge=5, center_width=0),
+            # center_width=5,
             plate_type=PlateType.SWITCH,
         ),
         Plate(
             androphage.parameters.Columns,
             androphage.build_column_locations(),
-            androphage.build_plate_outline(edge=7),
-            center_width=10,
-            edge=7,
+            androphage.build_plate_outline(edge=7, center_width=5),
+            center_width=5,
+            # edge=7,
             plate_type=PlateType.TOP,
             radius_inner=1
         ).move(bd.Pos(0, 0, 20))
