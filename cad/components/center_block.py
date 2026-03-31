@@ -3,10 +3,10 @@ import typing
 import build123d as bd
 
 from common import *
-import btu
-from fasteners import screw_boss_vertical
-from magnetic_connector import MagneticConnector
-from trackball_sensor import TrackballSensor
+from .btu import BTUModel, BTU
+from .fasteners import screw_boss_vertical
+from .magnetic_connector import MagneticConnector
+from .trackball_sensor import TrackballSensor
 
 class CenterBlock(Component):
     """The center block of the Androphage case."""
@@ -16,7 +16,7 @@ class CenterBlock(Component):
         outline: bd.Sketch,
         color: bd.ColorLike = "MediumPurple",
         label: str = "Center Block",
-        btu_model: callable = btu.BTU_VCN310,
+        btu_model: BTUModel | str = BTUModel.VCN310,#callable = btu.BTU_VCN310,
         btu_angles: bd.VectorLike = (0, 30, 47),
         btu_diameter: float = 7.5,
         btu_height: float = 6.1,
@@ -115,7 +115,8 @@ class CenterBlock(Component):
                 )
             # Subtract BTU from socket.
             with self.btu_locations():
-                self.btu_model(
+                BTU.by_model_name(
+                    model=self.btu_model,
                     subtract=True,
                     rotation=(180, 0, 0),
                     mode=bd.Mode.SUBTRACT
