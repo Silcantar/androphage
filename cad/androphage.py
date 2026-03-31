@@ -7,6 +7,8 @@ from common import *
 from parameters import *
 from components.battery import Battery
 from components.plate import Plate, PlateType
+from components.frame import Frame
+from components.center_block import CenterBlock
 
 # Passed to __main__
 test_layout = True
@@ -40,8 +42,88 @@ class Androphage(bd.BasePartObject):
         components: list[bd.Part] = []
         if test_layout:
             components.append(self.test_layout())
-        # components.append(Battery(size=self.parameters.Battery.size))
-        return bd.Compound(label="Androphage", children=components)
+        top_plate_center_width = 20*tand(self.parameters.tent_angle)
+        top_plate_edge = (
+            self.parameters.SwitchPlate.edge
+            + self.parameters.Frame.lip_depth
+        )
+        components.append(Plate(
+            columns=self.parameters.Columns,
+            column_locations=self.build_column_locations(),
+            outline=self.build_plate_outline(
+                edge=top_plate_edge,
+                center_width=top_plate_center_width
+            ),
+            color=self.parameters.TopPlate.color,
+            label="Top Plate",
+            center_width=top_plate_center_width,
+            cutout=self.parameters.Switch.cutout,
+            edge=top_plate_edge,
+            plate_type=PlateType.TOP,
+            radius_inner=self.parameters.TopPlate.radius_inner,
+            radius_outer=0,#self.parameters.SwitchPlate.radius,
+            spacing=self.get_spacing(),
+            thickness=self.parameters.TopPlate.thickness,
+            trackball_cutout_radius=self.parameters.Trackball.diameter/2,
+            trackball_position_y=self.parameters.Trackball.position_y
+        ).rotate(bd.Axis.Y, -self.parameters.tent_angle))
+        components.append(Frame(
+            outline=self.build_plate_outline(
+                edge=top_plate_edge,
+                center_width=top_plate_center_width
+            ),
+            chord_angle=self.parameters.Frame.chord_angle,
+            fillet_radius=self.parameters.Frame.fillet_radius,
+            height_=20,
+            insert_hole_depth=self.parameters.Insert.hole_depth,
+            insert_hole_diameter=self.parameters.Insert.hole_diameter,
+            insert_wall_thickness=self.parameters.Insert.wall_thickness,
+            lip_depth=self.parameters.Frame.lip_depth,
+            main_radius=self.parameters.Frame.main_radius,
+            notch_depth=self.parameters.Frame.notch_depth,
+            overhang_angle=self.parameters.overhang_angle,
+            plate_thickness=self.parameters.TopPlate.thickness,
+            screw_count=self.parameters.Frame.screw_count,
+            tent_angle=self.parameters.tent_angle,
+            thickness=self.parameters.Frame.thickness,
+            label="Frame",
+            color=self.parameters.Frame.color
+        ))
+        sensor_height = (
+            self.parameters.TrackballSensor.lens_size[2]
+            + self.parameters.TrackballSensor.pcb_size[2]
+            + self.parameters.TrackballSensor.clearance
+        )
+        components.append(CenterBlock(
+            outline=self.build_plate_outline(
+                edge=top_plate_edge,
+                center_width=top_plate_center_width
+            ),
+            color=self.parameters.CenterBlock.color,
+            label="Center Block",
+            btu_model=self.parameters.BTU.model,
+            btu_angles=self.parameters.CenterBlock.btu_angles,
+            btu_diameter=self.parameters.BTU.housing_diameter,
+            btu_height=self.parameters.BTU.housing_height,
+            connector_position_y=self.parameters.MagneticConnector.position_y,
+            connector_screw_offset=self.parameters.MagneticConnector.screw_offset,
+            height_=20,
+            insert_hole_depth=self.parameters.Insert.hole_depth,
+            insert_hole_diameter=self.parameters.Insert.hole_diameter,
+            insert_wall_thickness=self.parameters.Insert.wall_thickness,
+            overhang_angle=self.parameters.overhang_angle,
+            sensor_angle=self.parameters.TrackballSensor.angle,
+            sensor_height=sensor_height,
+            sensor_holder_height=self.parameters.TrackballSensor.holder_height,
+            sensor_holder_thickness=self.parameters.TrackballSensor.holder_thickness,
+            sensor_pcb_size=self.parameters.TrackballSensor.pcb_size,
+            tent_angle=self.parameters.tent_angle,
+            trackball_clearance=self.parameters.Trackball.clearance,
+            trackball_position_y=self.parameters.Trackball.position_y,
+            trackball_radius=self.parameters.Trackball.diameter/2,
+            wall_thickness=self.parameters.CenterBlock.wall_thickness
+        ))
+        return bd.Part(label="Androphage", children=components)
 
     def get_spacing(self) -> bd.Vector:
         """Get the key spacing distance based on the spacing type specified in
@@ -241,7 +323,7 @@ class Androphage(bd.BasePartObject):
                 center_edge.color = "cyan"
                 bd.add(
                     bd.Face.extrude(
-                        center_edge, 
+                        center_edge,
                         direction=(center_width, 0)
                     )
                 )
@@ -276,4 +358,4 @@ class Androphage(bd.BasePartObject):
 
 if __name__ == "__main__":
     from ocp_vscode import show
-    show(Androphage(test_layout=test_layout))
+    show(Androphage())
