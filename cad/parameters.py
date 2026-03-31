@@ -40,16 +40,6 @@ class BTU(Component):
     color: str | int = None
 
 @dataclass
-class Frame(Component):
-    chord_angle: float
-    fillet_radius: float
-    lip_depth: float
-    main_radius: float
-    notch_depth: float
-    thickness: float
-    color: str | int = None
-
-@dataclass
 class CenterBlock(Component):
     btu_angles: vector[3]
     rib_size: vector[2]
@@ -61,6 +51,17 @@ class CenterBlock(Component):
 class Desk(Component):
     size: vector[3]
     position: vector[3]
+    color: str | int = None
+
+@dataclass
+class Frame(Component):
+    chord_angle: float
+    fillet_radius: float
+    lip_depth: float
+    main_radius: float
+    notch_depth: float
+    screw_count: int
+    thickness: float
     color: str | int = None
 
 @dataclass
@@ -105,9 +106,11 @@ class LED(Component):
 
 @dataclass
 class MagneticConnector(Component):
-    size: vector[3]
     lip: vector[3]
     lip_offset: float
+    position_y: float
+    screw_offset: float
+    size: vector[3]
     color: str | int = None
 
 @dataclass
@@ -198,9 +201,9 @@ class TrackballSensor(Component):
 
 @dataclass
 class Parameters(YAMLWizard):
-    # angles: vector[3]
+    overhang_angle: float
     tent_angle: float
-    Columns: Columns#dict[str, Column]
+    Columns: Columns
     Battery: Battery
     BTU: BTU
     Frame: Frame
