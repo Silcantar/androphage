@@ -1,9 +1,15 @@
 import typing
 from collections.abc import Iterable
+from enum import StrEnum, auto
 
 import build123d as bd
 
 from common import *
+
+class BTUModel(StrEnum):
+    Rexroth = auto()
+    VCN310 = auto()
+    VCN319 = auto()
 
 class BTU(Component):
     """Common interface for BTU models.
@@ -70,14 +76,23 @@ class BTU(Component):
                     )
         return btu.part
 
+    @classmethod
+    def by_model_name(cls, model: BTUModel | str, **kwargs):
+        if isinstance(model, str):
+            model = model.lower()
+        match model:
+            case BTUModel.Rexroth:
+                return cls.Rexroth(**kwargs)
+            case BTUModel.VCN310:
+                return cls.VCN310(**kwargs)
+            case BTUModel.VCN319:
+                return cls.VCN319(**kwargs)
+            case _:
+                raise ValueError("Invalid BTU model!")
 
-class BTU_Rexroth(BTU):
-    """Bosch Rexroth KU-B8-OFK Ball Transfer Unit.
-
-    https://store.boschrexroth.com/en/us/p/ball-transfer-unit-r053010810
-    """
-    def __init__(
-        self,
+    @classmethod
+    def Rexroth(
+        cls,
         ball_diameter: float = 7.938, # d
         ball_height: float = 1.6, # h - b
         collar_height: float = 1.3, # b - a
@@ -87,8 +102,11 @@ class BTU_Rexroth(BTU):
         housing_height: float = 6.4, # H - h
         **kwargs
     ):
-        self.collar_height = collar_height
-        super().__init__(
+        """Bosch Rexroth KU-B8-OFK Ball Transfer Unit.
+
+        https://store.boschrexroth.com/en/us/p/ball-transfer-unit-r053010810
+        """
+        btu = cls(
             ball_diameter,
             ball_height + collar_height,
             flange_diameter,
@@ -97,15 +115,12 @@ class BTU_Rexroth(BTU):
             housing_height,
             **kwargs
         )
+        btu.collar_height = collar_height
+        return btu
 
-
-class BTU_VCN310(BTU):
-    """Veichu VCN310 BTU.
-
-    https://www.aliexpress.us/item/3256802880089745.html
-    """
-    def __init__(
-        self,
+    @classmethod
+    def VCN310(
+        cls,
         ball_diameter: float = 4, #d
         ball_height: float = 1.1, # L1
         flange_diameter: float = 9, # D
@@ -114,7 +129,11 @@ class BTU_VCN310(BTU):
         housing_height: float = 4, # L
         **kwargs
     ):
-        super().__init__(
+        """Veichu VCN310 BTU.
+
+        https://www.aliexpress.us/item/3256802880089745.html
+        """
+        return cls(
             ball_diameter,
             ball_height,
             flange_diameter,
@@ -124,25 +143,22 @@ class BTU_VCN310(BTU):
             **kwargs
         )
 
-
-class BTU_VCN319(BTU):
-    """Veichu VCN319 BTU.
-
-    https://www.aliexpress.us/item/3256802885551436.html
-    """
-    def __init__(
-        self,
+    @classmethod
+    def VCN319(
+        cls,
         ball_diameter: float = 4.76, # d
         ball_height: float = 1.2, # L1
         housing_height: float = 14.8, # L - L1
         housing_diameter: float = 7, # D
-        drive_width: float = 5, # S
         drive_depth: float = 6, # t
+        drive_width: float = 5, # S
         **kwargs
     ):
-        self.drive_width = drive_width
-        self.drive_depth = drive_depth
-        super().__init__(
+        """Veichu VCN319 BTU.
+
+        https://www.aliexpress.us/item/3256802885551436.html
+        """
+        btu = cls(
             ball_diameter,
             ball_height,
             housing_diameter, # flange_diameter
@@ -151,13 +167,16 @@ class BTU_VCN319(BTU):
             housing_height,
             **kwargs
         )
+        btu.drive_depth = drive_depth
+        btu.drive_width = drive_width
+        return btu
 
 
 if __name__ == "__main__":
     from ocp_vscode import show
     mode = bd.Mode.ADD
     show(
-        BTU_Rexroth(mode=mode).move(bd.Pos(-20, 0, 0)),
-        BTU_VCN310(mode=mode),
-        BTU_VCN319(mode=mode).move(bd.Pos(20, 0, 0))
+        BTU.Rexroth(mode=mode).move(bd.Pos(-20, 0, 0)),
+        BTU.VCN310(mode=mode),
+        BTU.VCN319(mode=mode).move(bd.Pos(20, 0, 0))
     )
