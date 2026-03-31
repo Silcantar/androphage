@@ -27,8 +27,8 @@ class Plate(Component):
         cutout: bd.VectorLike = (14, 14),
         edge: float = 5,
         plate_type: PlateType = PlateType.SWITCH,
-        radius_outer: float = 2,
         radius_inner: float = 0.5,
+        radius_outer: float = 2,
         spacing: bd.VectorLike = (18, 17),
         thickness: float = 1.2,
         trackball_cutout_radius: float = 17.5,
@@ -50,6 +50,8 @@ class Plate(Component):
         self.trackball_position_y = trackball_position_y
         if label is None:
             self.label = f"{plate_type.title()} Plate"
+        else:
+            self.label = label
         super().__init__(self.label, color=color, **kwargs)
 
     def _build(self) -> bd.Part:
@@ -58,10 +60,13 @@ class Plate(Component):
                 # Create the outline.
                 bd.add(self.outline)
                 # Fillet all but the right-most group of vertices.
-                bd.fillet(
-                    sketch.vertices().group_by(bd.Axis.X)[:-2 if self.center_width > 0 else -1],
-                    radius=self.radius_outer
-                )
+                if self.radius_outer > 0:
+                    bd.fillet(
+                        sketch.vertices().group_by(bd.Axis.X)[
+                            :-2 if self.center_width > 0 else -1
+                        ],
+                        radius=self.radius_outer
+                    )
                 # Create the switch-mounting cutouts in the switch plate.
                 if self.plate_type == PlateType.SWITCH:
                     bd.add(
@@ -75,37 +80,45 @@ class Plate(Component):
                         mode=bd.Mode.SUBTRACT
                     )
                     # Fillet the two vertices created by the previous step.
-                    first_thumb_key = (
-                        Finger.INDEX if self.columns[Finger.INDEX].cutout
-                        else Finger.TUCK
-                    )
-                    top_plate_transition_vertices = (
-                        sketch.vertices().sort_by_distance((
-                            self.column_locations[first_thumb_key]
-                            * bd.Pos(
-                            -self.spacing.X/2,
-                            -self.spacing.Y/2 - self.edge
-                            )
-                        ).position)[0],
-                        sketch.vertices().sort_by_distance((
-                            self.column_locations[Finger.REACH]
-                            * bd.Pos(
-                            self.spacing.X/2,
-                            -self.spacing.Y/2 - self.edge
-                            )
-                        ).position)[0],
-                    )
-                    bd.fillet(
-                        top_plate_transition_vertices,
-                        radius=self.radius_inner
-                    )
+                    if self.radius_outer > 0:
+                        first_thumb_key = (
+                            Finger.INDEX if self.columns[Finger.INDEX].cutout
+                            else Finger.TUCK
+                        )
+                        top_plate_transition_vertices = (
+                            sketch.vertices().sort_by_distance((
+                                self.column_locations[first_thumb_key]
+                                * bd.Pos(
+                                -self.spacing.X/2,
+                                -self.spacing.Y/2 - self.edge
+                                )
+                            ).position)[0],
+                            sketch.vertices().sort_by_distance((
+                                self.column_locations[Finger.REACH]
+                                * bd.Pos(
+                                self.spacing.X/2,
+                                -self.spacing.Y/2 - self.edge
+                                )
+                            ).position)[0],
+                        )
+                        bd.fillet(
+                            top_plate_transition_vertices,
+                            radius=self.radius_outer
+                        )
             bd.extrude(amount=self.thickness)
             # Subtract the trackball cutout.
             if self.plate_type == PlateType.TOP:
                 bd.add(
-                    self.trackball_cutout(), 
+                    self.trackball_cutout(),
                     mode=bd.Mode.SUBTRACT
                 )
+        # Align the front center corner to the origin.
+        plate.part.position -= (
+            plate.part.vertices()
+            .group_by(bd.Axis.X)[-1].vertices()
+            .group_by(bd.Axis.Y)[0].vertices()
+            .sort_by(bd.Axis.Z)[-1].center()
+        )
         return plate.part
 
     def switch_plate_cutout(self) -> bd.Sketch:
