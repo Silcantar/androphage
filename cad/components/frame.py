@@ -3,7 +3,7 @@ import typing
 import build123d as bd
 
 from common import *
-from fasteners import screw_boss_vertical
+from .fasteners import screw_boss_vertical
 
 class Frame(Component):
     """"""
@@ -23,6 +23,7 @@ class Frame(Component):
         overhang_angle: float = 45,
         plate_thickness: float = 1.2,
         screw_count: int = 5,
+        tent_angle: float = 7,
         thickness: float = 5,
         label: str = "Frame",
         **kwargs
@@ -40,14 +41,9 @@ class Frame(Component):
         self.overhang_angle = overhang_angle
         self.plate_thickness = plate_thickness
         self.screw_count = screw_count
+        self.tent_angle = tent_angle
         self.thickness = thickness
         super().__init__(label, **kwargs)
-
-    def sweep_path(self) -> bd.Wire:
-        return bd.Wire(self.outline.edges().sort_by(bd.Axis.X)[:-1])
-
-    def start_loc(self) -> bd.Location:
-        return bd.Location(self.sweep_path().start_point())
 
     def _build(self) -> bd.Part:
         with bd.BuildPart() as frame:
@@ -56,6 +52,7 @@ class Frame(Component):
                 path=self.sweep_path(),
                 transition=bd.Transition.ROUND
             )
+
             with self.screw_locations():
                 bd.add(screw_boss_vertical(
                     hole_depth=self.insert_hole_depth,
@@ -69,15 +66,22 @@ class Frame(Component):
                     align=Align.Bottom,
                     mode=bd.Mode.SUBTRACT
                 )
-        # Move the part so that the center wall is vertical and the hinge pivot
-        # is along the Y axis.
-        center_block.part.orientation += (0, -self.tent_angle, 0)
-        center_block.part.position -= (
-            center_block.part.vertices()
-            .group_by(bd.Axis.Z)[-1].vertices()
-            .group_by(bd.Axis.Y)[0].vertices()
-            .sort_by(bd.Axis.X)[-1].center()
-        )
+            # Move the part so that the center wall is vertical and the hinge pivot
+            # is along the Y axis.
+            frame.part.orientation += (0, -self.tent_angle, 0)
+            frame.part.position -= (
+                frame.part.vertices()
+                .group_by(bd.Axis.Z)[-1].vertices()
+                .group_by(bd.Axis.X)[-1].vertices()
+                .sort_by(bd.Axis.Y)[1].center()
+            )
+            bd.Box(
+                length=1000,
+                width=1000,
+                height=1000,
+                align=Align.Left,
+                mode=bd.Mode.SUBTRACT
+            )
         return frame.part
 
     def frame_section(self) -> bd.Sketch:
@@ -112,20 +116,30 @@ class Frame(Component):
             )
         return sketch.sketch
 
+    def start_loc(self) -> bd.Location:
+        return bd.Location(self.sweep_path().start_point())
+
     def screw_locations(self) -> bd.Locations:
         return bd.Locations([
             self.sweep_path().location_at(
                 (param + 0.5)/self.screw_count,
                 frame_method=bd.FrameMethod.CORRECTED
             )
-            * bd.Rot(X=90)
+            * bd.Rot(X=90, Y=-90)
             * bd.Pos(-self.insert_hole_diameter/2, 0, self.plate_thickness)
             for param in range(self.screw_count)
         ])
+
+    def sweep_path(self) -> bd.Wire:
+        return bd.Wire(self.outline.edges().sort_by(bd.Axis.X)[:-1])
 
 if __name__ == "__main__":
     from ocp_vscode import show
     from androphage import Androphage
     androphage = Androphage(build=False)
-    frame = Frame(androphage.build_plate_outline(edge=5))
+    center_width = 20*tand(7)
+    frame = Frame(androphage.build_plate_outline(
+        edge=5,
+        center_width=center_width
+    ))
     show(frame)
