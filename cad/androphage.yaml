@@ -95,16 +95,6 @@ BTU_Models:
     model: VCN319
 # --------------------
 BTU: *VCN310
-Frame:
-  visible: true
-  chord_angle: 4 # Angle between the chord of the main arc and vertical.
-  color: *black
-  fillet_radius: 1
-  lip_depth: 1
-  main_radius: 50
-  notch_depth: 6
-  thickness: 5
-  # extra_length: 3
 CenterBlock:
   visible: true
   # 47 degrees for the BTU Z angle adds a bit of clearance for the sensor
@@ -118,22 +108,16 @@ Desk:
   visible: true
   size: [ 300, 200, 1 ]
   position: [ 0, 0, -40 ]
-Screw:
+Frame:
   visible: true
-  color: *steel
-  diameter: 2
-  minor_diameter: 1.6
-  head_diameter: 4
-  head_angle: 90
-  offset: 3
-Insert:
-  visible: true
-  color: *brass
-  diameter: 3
-  height: 3
-  hole_diameter: 2.8
-  hole_depth: 4
-  wall_thickness: 1.6
+  chord_angle: 4 # Angle between the chord of the main arc and vertical.
+  color: *black
+  fillet_radius: 1
+  lip_depth: 1
+  main_radius: 50
+  notch_depth: 6
+  screw_count: 5
+  thickness: 5
 Hinge:
   visible: true
   color: *steel
@@ -144,6 +128,14 @@ Hinge:
   leaf_width: 13.5
   offset: 5
   pin_diameter: 2.4
+Insert:
+  visible: true
+  color: *brass
+  diameter: 3
+  height: 3
+  hole_diameter: 2.8
+  hole_depth: 4
+  wall_thickness: 1.6
 Keycap:
   visible: true
   clearance: 1
@@ -202,12 +194,20 @@ SwitchPlate:
   clearance: 0.2
   color: *purple
   edge: 4 #[ 0, 5 ]
-  radius: 1
+  radius: 2
 TopPlate:
   visible: true
   color: *black
   radius_inner: 2 #[ 0, 5, 0.1 ]
   thickness: 1.2
+Screw:
+  visible: true
+  color: *steel
+  diameter: 2
+  minor_diameter: 1.6
+  head_diameter: 4
+  head_angle: 90
+  offset: 3
 Switch:
   visible: true
   cutout: [14, 14]
