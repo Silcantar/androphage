@@ -21,33 +21,44 @@ class Plate(Component):
         columns: Columns,
         column_locations: KeyLocationDict,
         outline: bd.Face,
+        parameters: Parameters,
+        center_width: float = 0,
+        plate_type: PlateType = PlateType.SWITCH,
         color: bd.ColorLike = "CornflowerBlue",
         label: str = None,
-        center_width: float = 0,
-        cutout: bd.VectorLike = (14, 14),
-        edge: float = 5,
-        plate_type: PlateType = PlateType.SWITCH,
-        radius_inner: float = 0.5,
-        radius_outer: float = 2,
-        spacing: bd.VectorLike = (18, 17),
-        thickness: float = 1.2,
-        trackball_cutout_radius: float = 17.5,
-        trackball_position_y: float = 70,
+        # cutout: bd.VectorLike = (14, 14),
+        # edge: float = 5,
+        # radius_inner: float = 0.5,
+        # radius_outer: float = 2,
+        # spacing: bd.VectorLike = (18, 17),
+        # thickness: float = 1.2,
+        # trackball_cutout_radius: float = 17.5,
+        # trackball_position_y: float = 70,
         **kwargs
     ):
         self.columns = columns
         self.column_locations = column_locations
         self.outline = outline
-        self.center_width = center_width
-        self.cutout = cutout
-        self.edge = edge
+        self.parameters = parameters
         self.plate_type = plate_type
-        self.radius_inner = radius_inner
-        self.radius_outer = radius_outer
-        self.spacing = bd.Vector(spacing)
-        self.thickness = thickness
-        self.trackball_cutout_radius = trackball_cutout_radius
-        self.trackball_position_y = trackball_position_y
+        self.center_width = center_width
+        # match self.plate_type:
+        #     case PlateType.BOTTOM:
+        #         self.plate_params = self.parameters.BottomPlate
+        #     case PlateType.PCB:
+        #         self.plate_params = self.parameters.PCB
+        #     case PlateType.SWITCH:
+        #         self.plate_params = self.parameters.SwitchPlate
+        #     case PlateType.TOP:
+        #         self.plate_params = self.parameters.TopPlate
+        # self.cutout = cutout
+        # self.edge = edge
+        # self.radius_inner = radius_inner
+        # self.radius_outer = radius_outer
+        # self.spacing = bd.Vector(spacing)
+        # self.thickness = thickness
+        # self.trackball_cutout_radius = trackball_cutout_radius
+        # self.trackball_position_y = trackball_position_y
         if label is None:
             self.label = f"{plate_type.title()} Plate"
         else:
@@ -60,7 +71,7 @@ class Plate(Component):
                 # Create the outline.
                 bd.add(self.outline)
                 # Fillet all but the right-most group of vertices.
-                if self.radius_outer > 0:
+                if p..radius_outer > 0:
                     bd.fillet(
                         sketch.vertices().group_by(bd.Axis.X)[
                             :-2 if self.center_width > 0 else -1

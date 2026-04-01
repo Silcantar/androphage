@@ -1,13 +1,17 @@
 # Androphage Parameters
-# angles: [ 0, 7, 15 ] # Pitch, tent, yaw
 tent_angle: 7
-overhang_angle: 45 # Angle for overhangs on 3d-printed parts.
+# Angle for overhangs on 3d-printed parts.
+overhang_angle: 45
+# Default thickness for 3d-printed parts.
+print_thickness: &print_thickness 2
 colors:
-  black: &black 0x303030
-  brass: &brass DarkGoldenrod
-  purple: &purple MediumPurple
-  silver: &silver Silver
-  steel: &steel DarkGray
+  black: &black [0x303030, 1]
+  brass: &brass [DarkGoldenrod, 1]
+  clear: &clear [White, 0.3]
+  purple: &purple [MediumPurple, 1]
+  silver: &silver [Silver, 1]
+  smoke: &smoke [Black, 0.3]
+  steel: &steel [DarkGray, 1]
 Columns:
   # Finger columns
   outer:
@@ -55,8 +59,8 @@ Battery:
   size: [ 34, 4.0, 50 ] #Dimensions of battery.
   color: *silver
 
-# ---- BTU Models ----
-BTU_Models:
+# ---- BTU Options ----
+BTU_Options:
   Rexroth: &Rexroth
     visible: true
     ball_diameter: 7.938
@@ -93,7 +97,7 @@ BTU_Models:
     housing_diameter: 7
     housing_height: 14.8
     model: VCN319
-# --------------------
+# ---------------------
 BTU: *VCN310
 CenterBlock:
   visible: true
@@ -103,15 +107,16 @@ CenterBlock:
   color: *purple
   rib_size: [ 2, 2 ]
   screw_count: 3
-  wall_thickness: 2
+  wall_thickness: *print_thickness
 Desk:
   visible: true
+  color: *clear
   size: [ 300, 200, 1 ]
   position: [ 0, 0, -40 ]
 Frame:
   visible: true
-  chord_angle: 4 # Angle between the chord of the main arc and vertical.
   color: *black
+  chord_angle: 4 # Angle between the chord of the main arc and vertical.
   fillet_radius: 1
   lip_depth: 1
   main_radius: 50
@@ -147,6 +152,7 @@ Keycap:
   custom_spacing: [ 16, 16 ]
 LED:
   visible: true
+  color:
   present: true
   count: 4
   hole_radius: 0.2
@@ -164,6 +170,7 @@ MagneticConnector:
   screw_offset: 18
 MCU:
   visible: true
+  color:
   chip_size: [ 12, 10, 1.5 ]
   location: main PCB #[ trackball sensor, magnetic connector, main PCB ]
   radius: 2
@@ -174,32 +181,59 @@ MCU:
   usb_cut_size: [ 12, 10, 7 ]
 OLED:
   visible: true
+  color:
   present: false
   hole_radius: 0.5
   pcb_size: [ 15.5, 13 ]
   position: [ 0, 0 ]
   screen_size: [ 12.58, 6.98 ]
-PCB:
-  visible: true
-  color: DarkGreen
-  thickness: &pcb_thickness 1.2
-BottomPlate:
-  visible: true
-  clearance: 3 #[ 1, 10 ]
-  color: *black
-  thickness: 1.2 #[ 1, 2, 0.2 ]
-SwitchPlate:
-  visible: true
-  present: true
-  clearance: 0.2
-  color: *purple
-  edge: 4 #[ 0, 5 ]
-  radius: 2
-TopPlate:
-  visible: true
-  color: *black
-  radius_inner: 2 #[ 0, 5, 0.1 ]
-  thickness: 1.2
+Plates:
+  Bottom:
+    visible: true
+    color: *smoke
+    radius_outer: 2
+    thickness: 3
+  PCB:
+    visible: true
+    color: DarkGreen
+    clearance: 3
+    radius_outer: 2
+    thickness: &pcb_thickness 1.2
+  Switch:
+    visible: true
+    color: *purple
+    radius_outer: 2
+    # thickness:
+  Top:
+    visible: true
+    color: *black
+    radius_inner: 2
+    radius_outer: 2
+    thickness: *print_thickness
+# PCB:
+#   visible: true
+#   color: DarkGreen
+#   radius_outer: 2
+#   thickness: &pcb_thickness 1.2
+# BottomPlate:
+#   visible: true
+#   clearance: 3 #[ 1, 10 ]
+#   color: *clear
+#   thickness: 3 #1.2 #[ 1, 2, 0.2 ]
+# SwitchPlate:
+#   visible: true
+#   present: true
+#   clearance: 0.2
+#   color: *purple
+#   edge: 4 #[ 0, 5 ]
+#   radius_outer: 2
+#   # thickness: *pcb_thickness
+# TopPlate:
+#   visible: true
+#   color: *black
+#   radius_inner: 2 #[ 0, 5, 0.1 ]
+#   radius_outer: 0
+#   thickness: *print_thickness
 Screw:
   visible: true
   color: *steel
@@ -208,18 +242,163 @@ Screw:
   head_diameter: 4
   head_angle: 90
   offset: 3
+
+# ---- Switch Options ----
+Switch_Color_Options:
+  Aloe: &Aloe
+    bottom: GreenYellow
+    stem: GreenYellow
+    top: *clear
+  Banana: &Banana
+    bottom: *black
+    stem: Yellow
+    top: *clear
+  Black: &Black
+    bottom: *black
+    stem: *black
+    top: *clear
+  Blue: &Blue
+    bottom: *black
+    stem: Blue
+    top: *clear
+  Bokeh: &Bokeh
+    bottom: Indigo
+    stem: Red
+    top: [DodgerBlue, 0.3]
+  Brown: &Brown
+    bottom: *black
+    stem: SaddleBrown
+    top: *clear
+  Burnt_Orange: &Burnt_Orange
+    bottom: *black
+    stem: DarkOrange
+    top: *clear
+  Cherry_Blossom: &Cherry_Blossom
+    bottom: *clear
+    stem: PaleVioletRed
+    top: *clear
+  Chocolate: &Chocolate
+    bottom: SaddleBrown
+    stem: Sienna
+    top: White
+  Cowberry: &Cowberry
+    bottom: Crimson
+    stem: Crimson
+    top: *clear
+  Daisy: &Daisy
+    bottom: Salmon
+    stem: Salmon
+    top: *clear
+  Islet: &Islet
+    bottom: Blue
+    stem: White
+    top: *clear
+  Jade: &Jade
+    bottom: *black
+    stem: DarkSeaGreen
+    top: *clear
+  Moss: &Moss
+    bottom: DarkOliveGreen
+    stem: DarkOliveGreen
+    top: *clear
+  Navy: &Navy
+    bottom: *black
+    stem: MidnightBlue
+    top: *clear
+  Nocturnal: &Nocturnal
+    bottom: *black
+    stem: *black
+    top: *smoke
+  Pale_Blue: &Pale_Blue
+    bottom: *black
+    stem: SteelBlue
+    top: *clear
+  Pink: &Pink
+    bottom: DarkGray
+    stem: LightCoral
+    top: *clear
+  Plum_Blossom: &Plum_Blossom
+    bottom: *clear
+    stem: Orchid
+    top: *clear
+  Pro_Red: &Pro_Red
+    bottom: Red
+    stem: White
+    top: *clear
+  Purple: &Purple
+    bottom: *smoke
+    stem: Purple
+    top: *smoke
+  Red: &Red
+    bottom: *black
+    stem: Red
+    top: *clear
+  Robin: &Robin
+    bottom: Turquoise
+    stem: Turquoise
+    top: *clear
+  Silver: &Silver
+    bottom: *clear
+    stem: Silver
+    top: *clear
+  Sunrise: &Sunrise
+    bottom: *black
+    stem: LightSalmon
+    top: *smoke
+  Sunset: &Sunset
+    bottom: *black
+    stem: OrangeRed
+    top: *smoke
+  Twilight: &Twilight
+    bottom: *black
+    stem: LightGreen
+    top: *smoke
+  Whale: &Whale
+    bottom: Blue
+    stem: SaddleBrown
+    top: *clear
+  White: &White
+    bottom: *black
+    stem: White
+    top: *clear
+  Wisteria: &Wisteria
+    bottom: MediumSlateBlue
+    stem: MediumSlateBlue
+    top: *clear
+  Yellow: &Yellow
+    bottom: *black
+    stem: Yellow
+    top: *clear
+Switch_Options:
+  ChocV1: &ChocV1
+    cutout: [14, 14]
+    max_travel: 3.0
+    name: ChocV1
+    plate_thickness: 1.2
+    radius: 0.5
+  ChocV2: &ChocV2
+    cutout: [14, 14]
+    max_travel: 3.2
+    name: ChocV2
+    plate_thickness: 1.2
+    radius: 0.5
+  GLP: &GLP
+    cutout: [14, 14]
+    max_travel: 3.0
+    name: GLP
+    plate_thickness: 1.2
+    radius: 0.5
+  MX: &MX
+    cutout: [14, 14]
+    max_travel: 4.0
+    name: MX
+    plate_thickness: 1.6
+    radius: 0.5
+# ------------------------
 Switch:
   visible: true
-  cutout: [14, 14]
-  radius: 0.5
-  type: glp #[ chocv1, chocv2, mx, glp ]
-  travel: 0
-  max_travel: 3.3
-  choc_color: Sunset #[ Red, Blue, Brown, Pro Red, Pink, Robin, Sunset, Twilight, Nocturnal, Sunrise, Bokeh ]
-  glp_color: Banana #[ Banana, Blue, Brown, Chocolate, Red, Aloe, Cowberry, Daisy, Moss, Panda, Wisteria ]
-  mx_stem_color: [ 1.0, 1.0, 1.0, 0.8 ] #[ 0, 1, 0.01 ]
-  mx_top_color: [ 0, 0.9, 1, 0.6 ] #[ 0, 1, 0.01 ]
-  mx_bottom_color: [ 0, 0.9, 1, 0.6 ] #[ 0, 1, 0.01 ]
+  color: *Whale
+  model: *ChocV2
 Trackball:
   visible: true
   color: *purple
@@ -228,6 +407,7 @@ Trackball:
   clearance: 1
 TrackballSensor:
   visible: true
+  color:
   angle: 60
   chip_size: [ 10.9, 16.2, 1.65 ]
   clearance: 2.4

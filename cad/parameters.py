@@ -5,6 +5,8 @@ from dataclass_wizard import YAMLWizard
 
 from common import vector
 
+Color = int | str | list[str, float] | list[int, float] | None
+
 @dataclass
 class Column:
     connect: int = 0
@@ -21,11 +23,11 @@ Columns = dict[str, Column]
 @dataclass
 class Component:
     visible: bool
+    color: Color
 
 @dataclass
 class Battery(Component):
     size: vector[3]
-    color: str | int = None
 
 @dataclass
 class BTU(Component):
@@ -37,7 +39,6 @@ class BTU(Component):
     housing_diameter: float
     housing_height: float
     model: str
-    color: str | int = None
 
 @dataclass
 class CenterBlock(Component):
@@ -45,13 +46,11 @@ class CenterBlock(Component):
     rib_size: vector[2]
     screw_count: int
     wall_thickness: float
-    color: str | int = None
 
 @dataclass
 class Desk(Component):
     size: vector[3]
     position: vector[3]
-    color: str | int = None
 
 @dataclass
 class Frame(Component):
@@ -62,7 +61,6 @@ class Frame(Component):
     notch_depth: float
     screw_count: int
     thickness: float
-    color: str | int = None
 
 @dataclass
 class Hinge(Component):
@@ -73,7 +71,6 @@ class Hinge(Component):
     leaf_width: float
     offset: float
     pin_diameter: float
-    color: str | int = None
 
 @dataclass
 class Insert(Component):
@@ -82,7 +79,6 @@ class Insert(Component):
     hole_diameter: float
     hole_depth: float
     wall_thickness: float
-    color: str | int = None
 
 @dataclass
 class Keycap(Component):
@@ -91,7 +87,6 @@ class Keycap(Component):
     saddle: bool
     spacing_type: str
     custom_spacing: vector[2] | None
-    color: str | int = None
 
 @dataclass
 class LED(Component):
@@ -102,7 +97,6 @@ class LED(Component):
     hole_size: float
     hole_spacing: vector[2]
     position_y: float
-    color: str | int = None
 
 @dataclass
 class MagneticConnector(Component):
@@ -111,7 +105,6 @@ class MagneticConnector(Component):
     position_y: float
     screw_offset: float
     size: vector[3]
-    color: str | int = None
 
 @dataclass
 class MCU(Component):
@@ -133,29 +126,35 @@ class OLED(Component):
     screen_size: vector[2]
 
 @dataclass
-class PCB(Component):
-    thickness: float
-    color: str | int = None
+class Plate(Component):
+    radius_outer: float
 
 @dataclass
-class BottomPlate(Component):
+class PCB(Plate):
     thickness: float
     clearance: float
-    color: str | int = None
 
 @dataclass
-class SwitchPlate(Component):
+class BottomPlate(Plate):
+    thickness: float
+
+@dataclass
+class SwitchPlate(Plate):
     present: bool
-    clearance: float
+    # clearance: float
     edge: float
-    radius: float
-    color: str | int = None
 
 @dataclass
-class TopPlate(Component):
+class TopPlate(Plate):
     thickness: float
     radius_inner: float
-    color: str | int = None
+
+@dataclass
+class Plates:
+    Bottom: BottomPlate
+    PCB: PCB
+    Switch: SwitchPlate
+    Top: TopPlate
 
 @dataclass
 class Screw(Component):
@@ -164,28 +163,31 @@ class Screw(Component):
     head_diameter: float
     head_angle: float
     offset: float
-    color: str | int = None
+
+@dataclass
+class SwitchColor:
+    bottom: Color
+    stem: Color
+    top: Color
+
+@dataclass
+class SwitchModel:
+    cutout: vector[2]
+    max_travel: float
+    name: str
+    plate_thickness: float
+    radius: float
 
 @dataclass
 class Switch(Component):
-    cutout: vector[2]
-    radius: float
-    type: str
-    travel: float
-    max_travel: float
-    choc_color: str
-    glp_color: str
-    mx_stem_color: any
-    mx_top_color: any
-    mx_bottom_color: any
-    color: str | int = None
+    color: SwitchColor
+    model: SwitchModel
 
 @dataclass
 class Trackball(Component):
     diameter: float
     position_y: float
     clearance: float
-    color: str | int = None
 
 @dataclass
 class TrackballSensor(Component):
@@ -197,7 +199,6 @@ class TrackballSensor(Component):
     angle: float
     holder_height: float
     holder_thickness: float
-    color: str | int = None
 
 @dataclass
 class Parameters(YAMLWizard):
@@ -216,10 +217,11 @@ class Parameters(YAMLWizard):
     MagneticConnector: MagneticConnector
     MCU: MCU
     OLED: OLED
-    PCB: PCB
-    BottomPlate: BottomPlate
-    SwitchPlate: SwitchPlate
-    TopPlate: TopPlate
+    # PCB: PCB
+    Plates: Plates
+    # BottomPlate: BottomPlate
+    # SwitchPlate: SwitchPlate
+    # TopPlate: TopPlate
     Screw: Screw
     Switch: Switch
     Trackball: Trackball
