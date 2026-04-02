@@ -4,7 +4,7 @@ from enum import StrEnum, auto
 import build123d as bd
 
 from common import *
-from parameters import Columns
+from parameters import Columns, Parameters
 
 class PlateType(StrEnum):
     BOTTOM = auto()
@@ -26,14 +26,6 @@ class Plate(Component):
         plate_type: PlateType = PlateType.SWITCH,
         color: bd.ColorLike = "CornflowerBlue",
         label: str = None,
-        # cutout: bd.VectorLike = (14, 14),
-        # edge: float = 5,
-        # radius_inner: float = 0.5,
-        # radius_outer: float = 2,
-        # spacing: bd.VectorLike = (18, 17),
-        # thickness: float = 1.2,
-        # trackball_cutout_radius: float = 17.5,
-        # trackball_position_y: float = 70,
         **kwargs
     ):
         self.columns = columns
@@ -42,23 +34,21 @@ class Plate(Component):
         self.parameters = parameters
         self.plate_type = plate_type
         self.center_width = center_width
-        # match self.plate_type:
-        #     case PlateType.BOTTOM:
-        #         self.plate_params = self.parameters.BottomPlate
-        #     case PlateType.PCB:
-        #         self.plate_params = self.parameters.PCB
-        #     case PlateType.SWITCH:
-        #         self.plate_params = self.parameters.SwitchPlate
-        #     case PlateType.TOP:
-        #         self.plate_params = self.parameters.TopPlate
-        # self.cutout = cutout
-        # self.edge = edge
-        # self.radius_inner = radius_inner
-        # self.radius_outer = radius_outer
-        # self.spacing = bd.Vector(spacing)
-        # self.thickness = thickness
-        # self.trackball_cutout_radius = trackball_cutout_radius
-        # self.trackball_position_y = trackball_position_y
+        p = self.parameters
+        outer_plate_edge = p.Plates.Switch.edge + p.Frame.lip_depth
+        match self.plate_type:
+            case PlateType.BOTTOM:
+                self.plate_params = p.Plates.Bottom
+                self.plate_params.edge = outer_plate_edge
+            case PlateType.PCB:
+                self.plate_params = p.Plates.PCB
+                self.plate_params.edge = p.Plates.Switch.edge
+            case PlateType.SWITCH:
+                self.plate_params = p.Plates.Switch
+                self.plate_params.thickness = p.Switch.model.plate_thickness
+            case PlateType.TOP:
+                self.plate_params = p.Plates.Top
+                self.plate_params.edge = outer_plate_edge
         if label is None:
             self.label = f"{plate_type.title()} Plate"
         else:
@@ -66,17 +56,18 @@ class Plate(Component):
         super().__init__(self.label, color=color, **kwargs)
 
     def _build(self) -> bd.Part:
+        p = self.parameters
         with bd.BuildPart() as plate:
             with bd.BuildSketch() as sketch:
                 # Create the outline.
                 bd.add(self.outline)
                 # Fillet all but the right-most group of vertices.
-                if p..radius_outer > 0:
+                if self.plate_params.radius_outer > 0:
                     bd.fillet(
                         sketch.vertices().group_by(bd.Axis.X)[
                             :-2 if self.center_width > 0 else -1
                         ],
-                        radius=self.radius_outer
+                        radius=self.plate_params.radius_outer
                     )
                 # Create the switch-mounting cutouts in the switch plate.
                 if self.plate_type == PlateType.SWITCH:
@@ -91,7 +82,7 @@ class Plate(Component):
                         mode=bd.Mode.SUBTRACT
                     )
                     # Fillet the two vertices created by the previous step.
-                    if self.radius_outer > 0:
+                    if self.plate_params.radius_outer > 0:
                         first_thumb_key = (
                             Finger.INDEX if self.columns[Finger.INDEX].cutout
                             else Finger.TUCK
@@ -100,23 +91,23 @@ class Plate(Component):
                             sketch.vertices().sort_by_distance((
                                 self.column_locations[first_thumb_key]
                                 * bd.Pos(
-                                -self.spacing.X/2,
-                                -self.spacing.Y/2 - self.edge
+                                -p.spacing.X/2,
+                                -p.spacing.Y/2 - self.plate_params.edge
                                 )
                             ).position)[0],
                             sketch.vertices().sort_by_distance((
                                 self.column_locations[Finger.REACH]
                                 * bd.Pos(
-                                self.spacing.X/2,
-                                -self.spacing.Y/2 - self.edge
+                                p.spacing.X/2,
+                                -p.spacing.Y/2 - self.plate_params.edge
                                 )
                             ).position)[0],
                         )
                         bd.fillet(
                             top_plate_transition_vertices,
-                            radius=self.radius_outer
+                            radius=self.plate_params.radius_outer
                         )
-            bd.extrude(amount=self.thickness)
+            bd.extrude(amount=self.plate_params.thickness)
             # Subtract the trackball cutout.
             if self.plate_type == PlateType.TOP:
                 bd.add(
@@ -134,6 +125,7 @@ class Plate(Component):
 
     def switch_plate_cutout(self) -> bd.Sketch:
         """Create a sketch for the cutouts in the switch plate."""
+        p = self.parameters
         with bd.BuildSketch() as sketch:
             with bd.Locations([
                 # This list comprehension generates all of the key locations
@@ -141,27 +133,28 @@ class Plate(Component):
                 (
                     self.column_locations[column_key]
                     * bd.Pos(
-                        self.columns[column_key].shift[0] * self.spacing.X,
-                        (i + self.columns[column_key].shift[1]) * self.spacing.Y
+                        self.columns[column_key].shift[0] * p.spacing.X,
+                        (i + self.columns[column_key].shift[1]) * p.spacing.Y
                     )
                 )
                 for column_key in self.column_locations
                 for i in range(self.columns[column_key].keys)
             ]):
                 bd.RectangleRounded(
-                    *self.cutout,
-                    radius=self.radius_inner,
+                    *p.Switch.model.cutout,
+                    radius=p.Switch.model.radius
                 )
         return sketch.sketch
 
     def top_plate_cutout(self) -> bd.Sketch:
         """Generate a sketch for the cutouts in the top plate."""
-        spc = self.spacing
+        # p = self.parameters
+        spc = self.parameters.spacing
         with bd.BuildSketch() as sketch:
             for column_key in self.column_locations:
                 column = self.columns[column_key]
                 column_location = self.column_locations[column_key]
-                cutout = 2*self.edge if column.cutout else 0
+                cutout = 2*self.plate_params.edge if column.cutout else 0
                 with bd.Locations(
                     column_location
                     * bd.Pos(
@@ -188,11 +181,12 @@ class Plate(Component):
                             arc_size=column.splay,
                             align=(bd.Align.MIN, bd.Align.MIN)
                         )
-            bd.fillet(sketch.vertices(), radius=self.radius_inner)
+            bd.fillet(sketch.vertices(), radius=self.plate_params.radius_inner)
         return sketch.sketch
 
     def trackball_cutout(self) -> bd.Part:
         """Generate and position a 3d cutout for the trackball."""
+        p = self.parameters
         with bd.BuildPart() as part:
             trackball_location = (
                 self.outline
@@ -202,13 +196,13 @@ class Plate(Component):
             ).moved(
                 bd.Pos(
                     0,
-                    self.trackball_position_y
+                    p.Trackball.position_y
                 )
             )
             with bd.Locations(trackball_location):
                 bd.Cylinder(
-                    radius=self.trackball_cutout_radius,
-                    height=self.thickness,
+                    radius=p.Trackball.diameter/2 + p.Trackball.clearance,
+                    height=self.plate_params.thickness,
                     align=Align.Bottom
                 )
         return part.part
@@ -218,21 +212,29 @@ if __name__ == "__main__":
     from ocp_vscode import show
     from androphage import Androphage
     androphage = Androphage(build=False)
-    show(
+    zpos = {
+        PlateType.BOTTOM: 0,
+        PlateType.PCB: 20,
+        PlateType.SWITCH: 40,
+        PlateType.TOP: 60
+    }
+    edge = {
+        PlateType.BOTTOM: 6,
+        PlateType.PCB: 5,
+        PlateType.SWITCH: 5,
+        PlateType.TOP: 6
+    }
+    show([
         Plate(
             androphage.parameters.Columns,
             androphage.build_column_locations(),
-            androphage.build_plate_outline(edge=5, center_width=0),
-            # center_width=5,
-            plate_type=PlateType.SWITCH,
-        ),
-        Plate(
-            androphage.parameters.Columns,
-            androphage.build_column_locations(),
-            androphage.build_plate_outline(edge=7, center_width=5),
-            center_width=5,
-            # edge=7,
-            plate_type=PlateType.TOP,
-            radius_inner=1
-        ).move(bd.Pos(0, 0, 20))
-    )
+            androphage.build_plate_outline(
+                edge=edge[plate_type],
+                center_width=zpos[plate_type] * tand(7)
+            ),
+            androphage.parameters,
+            center_width=zpos[plate_type] * tand(7),
+            plate_type=plate_type,
+        ).move(bd.Pos(0, 0, zpos[plate_type]))
+        for plate_type in PlateType
+    ])

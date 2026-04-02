@@ -4,7 +4,7 @@ import build123d as bd
 
 from common import *
 from parameters import Parameters
-from btu import BTUModel, BTU
+from btu import BTU
 from fasteners import screw_boss_vertical
 from magnetic_connector import MagneticConnector
 from trackball_sensor import TrackballSensor
@@ -18,54 +18,12 @@ class CenterBlock(Component):
         parameters: Parameters,
         color: bd.ColorLike = "MediumPurple",
         label: str = "Center Block",
-        # btu_model: BTUModel | str = BTUModel.VCN310,#callable = btu.BTU_VCN310,
-        # btu_angles: bd.VectorLike = (0, 30, 47),
-        # btu_diameter: float = 7.5,
-        # btu_height: float = 6.1,
-        # connector_position_y: float = 25,
-        # connector_screw_offset: float = 18,
         height_: float = 20,
-        # insert_hole_depth: float = 4,
-        # insert_hole_diameter: float = 2.8,
-        # insert_wall_thickness: float = 1.6,
-        # overhang_angle: float = 45,
-        # plate_thickness: float = 1.2,
-        # sensor_angle: float = 60,
-        # sensor_height: float = 7,
-        # sensor_holder_height: float = 15,
-        # sensor_holder_thickness: float = 5,
-        # sensor_pcb_size: bd.VectorLike = (16, 25, 1.2),
-        # tent_angle: float = 7,
-        # trackball_clearance: float = 1,
-        # trackball_position_y: float = 70,
-        # trackball_radius: float = 17.5,
-        # wall_thickness: float = 2,
         **kwargs
     ):
         self.outline = outline
         self.parameters = parameters
-        # self.btu_model = btu_model
-        # self.btu_angles = bd.Vector(btu_angles)
-        # self.btu_diameter = btu_diameter
-        # self.btu_height = btu_height
-        # self.connector_position_y = connector_position_y
-        # self.connector_screw_offset = connector_screw_offset
         self.height_ = height_
-        # self.insert_hole_depth = insert_hole_depth
-        # self.insert_hole_diameter = insert_hole_diameter
-        # self.insert_wall_thickness = insert_wall_thickness
-        # self.overhang_angle = overhang_angle
-        # self.plate_thickness = plate_thickness
-        # self.sensor_angle = sensor_angle
-        # self.sensor_height = sensor_height
-        # self.sensor_holder_height = sensor_holder_height
-        # self.sensor_holder_thickness = sensor_holder_thickness
-        # self.sensor_pcb_size = bd.Vector(sensor_pcb_size)
-        # self.tent_angle = tent_angle
-        # self.trackball_clearance = trackball_clearance
-        # self.trackball_position_y = trackball_position_y
-        # self.trackball_radius = trackball_radius
-        # self.wall_thickness = wall_thickness
         super().__init__(label, color=color, **kwargs)
 
     def _build(self) -> bd.Part:
@@ -121,8 +79,8 @@ class CenterBlock(Component):
                 )
             # Subtract BTU from socket.
             with self.btu_locations():
-                BTU.by_model_name(
-                    model=p.BTU.model,
+                BTU(
+                    parameters=self.parameters,
                     subtract=True,
                     rotation=(180, 0, 0),
                     mode=bd.Mode.SUBTRACT
@@ -135,7 +93,7 @@ class CenterBlock(Component):
                 )
             # Subtract cutout for magnetic connector.
             with self.connector_locations():
-                MagneticConnector(mode=bd.Mode.SUBTRACT)
+                MagneticConnector(self.parameters, mode=bd.Mode.SUBTRACT)
             # Subtract holes for heat-sink inserts.
             with self.screw_locations():
                 bd.Cylinder(
@@ -160,6 +118,7 @@ class CenterBlock(Component):
             .group_by(bd.Axis.Z)[-1].vertices()
             .group_by(bd.Axis.Y)[0].vertices()
             .sort_by(bd.Axis.X)[-1].center()
+            + (0, 0, p.Plates.Top.thickness * cosd(p.tent_angle))
         )
         return center_block.part
 

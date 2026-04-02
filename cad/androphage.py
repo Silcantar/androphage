@@ -5,10 +5,6 @@ import build123d as bd
 
 from common import *
 from parameters import *
-from components.battery import Battery
-from components.plate import Plate, PlateType
-from components.frame import Frame
-from components.center_block import CenterBlock
 
 # Passed to __main__
 test_layout = True
@@ -26,16 +22,12 @@ class Androphage(bd.BasePartObject):
     ):
         self.main_half = main_half
         self.parameters = self.import_parameters(parameter_path)
-        self.spacing = self.get_spacing()
+        self.parameters.spacing = self.get_spacing()
         self.column_locations = self.build_column_locations()
         self.key_locations = self.build_key_locations()
         self.plate_outline = self.build_plate_outline()
         if build:
             part = self._build(test_layout)
-            # part = bd.Part(children=[
-            #     bd.Box(10,10,10),
-            #     bd.Cylinder(5,30)
-            # ])
             super().__init__(part=part, **kwargs)
 
     def import_parameters(self, parameter_path: PathLike) -> Parameters:
@@ -43,6 +35,10 @@ class Androphage(bd.BasePartObject):
         return Parameters.from_yaml_file(parameter_path)
 
     def _build(self, test_layout) -> bd.Part:
+        from components.battery import Battery
+        from components.plate import Plate, PlateType
+        from components.frame import Frame
+        from components.center_block import CenterBlock
         p = self.parameters
         components: list[bd.Part] = []
         if test_layout:
@@ -132,7 +128,7 @@ class Androphage(bd.BasePartObject):
     def build_column_locations(self) -> KeyLocationDict:
         """Calculate the locations of the origin of each column."""
         p = self.parameters
-        spc = self.spacing
+        spc = p.spacing
         column_locations = KeyLocationDict()
         origin = bd.Location((0, 0))
         for column_key in p.Columns:
@@ -151,15 +147,16 @@ class Androphage(bd.BasePartObject):
         return column_locations
 
     def build_key_locations(self) -> KeyLocationDict:
+        p = self.parameters
         key_locations = KeyLocationDict()
         for column_key in self.column_locations:
-            column = self.parameters.Columns[column_key]
+            column = p.Columns[column_key]
             for i in range(column.keys):
                 loc = (
                     self.column_locations[column_key]
                     * bd.Location(position=(
-                        self.spacing.X*column.shift[0],
-                        self.spacing.Y*(i + column.shift[1])
+                        p.spacing.X*column.shift[0],
+                        p.spacing.Y*(i + column.shift[1])
                     ))
                 )
                 loc.label = f"{column_key}_{i}"
@@ -178,7 +175,7 @@ class Androphage(bd.BasePartObject):
     ) -> bd.Face:
         """Define the geometry of the plate outline."""
         p = self.parameters
-        spc = self.spacing
+        spc = p.spacing
         kl = self.key_locations
         outside = spc.X/2 * (-1 if self.main_half == Half.LEFT else 1)
         center = 0 # Horizontal center
@@ -323,8 +320,8 @@ class Androphage(bd.BasePartObject):
         with bd.BuildPart() as keys:
             with self.key_locations.locations():
                 bd.Box(
-                    self.spacing.X,
-                    self.spacing.Y,
+                    self.parameters.spacing.X,
+                    self.parameters.spacing.Y,
                     1,
                     align=Align.Bottom
                 )

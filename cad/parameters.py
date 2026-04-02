@@ -31,9 +31,10 @@ class Battery(Component):
 
 @dataclass
 class BTU(Component):
-    clearance: float
+    adjust_screw: bool
     ball_diameter: float
     ball_height: float
+    clearance: float
     flange_diameter: float
     flange_height: float
     housing_diameter: float
@@ -140,8 +141,6 @@ class BottomPlate(Plate):
 
 @dataclass
 class SwitchPlate(Plate):
-    present: bool
-    # clearance: float
     edge: float
 
 @dataclass
@@ -217,11 +216,7 @@ class Parameters(YAMLWizard):
     MagneticConnector: MagneticConnector
     MCU: MCU
     OLED: OLED
-    # PCB: PCB
     Plates: Plates
-    # BottomPlate: BottomPlate
-    # SwitchPlate: SwitchPlate
-    # TopPlate: TopPlate
     Screw: Screw
     Switch: Switch
     Trackball: Trackball

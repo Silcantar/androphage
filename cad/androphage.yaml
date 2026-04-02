@@ -63,6 +63,7 @@ Battery:
 BTU_Options:
   Rexroth: &Rexroth
     visible: true
+    adjust_screw: true
     ball_diameter: 7.938
     ball_height: 1.6
     clearance: 10
@@ -75,6 +76,7 @@ BTU_Options:
     model: Rexroth
   VCN310: &VCN310
     visible: true
+    adjust_screw: true
     ball_diameter: 4
     ball_height: 1.1
     clearance: 10
@@ -86,6 +88,7 @@ BTU_Options:
     model: VCN310
   VCN319: &VCN319
     visible: true
+    adjust_screw: false
     ball_diameter: 4.76
     ball_height: 1.2
     clearance: 10
@@ -202,6 +205,7 @@ Plates:
   Switch:
     visible: true
     color: *purple
+    edge: 5
     radius_outer: 2
     # thickness:
   Top:
