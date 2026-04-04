@@ -4,10 +4,10 @@ import build123d as bd
 
 from common import *
 from parameters import Parameters
-from btu import BTU
-from fasteners import screw_boss_vertical
-from magnetic_connector import MagneticConnector
-from trackball_sensor import TrackballSensor
+from components.btu import BTU
+from components.fasteners import screw_boss_vertical
+from components.magnetic_connector import MagneticConnector
+from components.trackball_sensor import TrackballSensor
 
 class CenterBlock(Component):
     """The center block of the Androphage case."""

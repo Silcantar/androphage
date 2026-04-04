@@ -34,6 +34,11 @@ class Androphage(bd.BasePartObject):
         """Load parameters from a YAML file."""
         return Parameters.from_yaml_file(parameter_path)
 
+    def _box(self) -> bd.Part:
+        with bd.BuildPart() as box:
+            bd.Box(10,10,10)
+        return bd.Part(children=[box.part, box.part.moved(bd.Pos(X=20))])
+
     def _build(self, test_layout) -> bd.Part:
         from components.battery import Battery
         from components.plate import Plate, PlateType
@@ -45,66 +50,47 @@ class Androphage(bd.BasePartObject):
             components.append(self.test_layout())
         top_plate_center_width = 20*tand(p.tent_angle)
         top_plate_edge = (
-            p.SwitchPlate.edge
+            p.Plates.Switch.edge
             + p.Frame.lip_depth
         )
-        components.append(Plate(
-            columns=p.Columns,
-            column_locations=self.build_column_locations(),
-            outline=self.build_plate_outline(
-                edge=top_plate_edge,
-                center_width=top_plate_center_width
-            ),
-            color=p.TopPlate.color,
-            label="Top Plate",
-            center_width=top_plate_center_width,
-            cutout=p.Switch.cutout,
-            edge=top_plate_edge,
-            plate_type=PlateType.TOP,
-            radius_inner=p.TopPlate.radius_inner,
-            radius_outer=0,#p.SwitchPlate.radius,
-            spacing=self.get_spacing(),
-            thickness=p.TopPlate.thickness,
-            trackball_cutout_radius=p.Trackball.diameter/2,
-            trackball_position_y=p.Trackball.position_y
-        ).rotate(bd.Axis.Y, -p.tent_angle))
-        components.append(Frame(
-            outline=self.build_plate_outline(
-                edge=top_plate_edge,
-                center_width=top_plate_center_width
-            ),
-            chord_angle=p.Frame.chord_angle,
-            fillet_radius=p.Frame.fillet_radius,
-            height_=20,
-            insert_hole_depth=p.Insert.hole_depth,
-            insert_hole_diameter=p.Insert.hole_diameter,
-            insert_wall_thickness=p.Insert.wall_thickness,
-            lip_depth=p.Frame.lip_depth,
-            main_radius=p.Frame.main_radius,
-            notch_depth=p.Frame.notch_depth,
-            overhang_angle=p.overhang_angle,
-            plate_thickness=p.TopPlate.thickness,
-            screw_count=p.Frame.screw_count,
-            tent_angle=p.tent_angle,
-            thickness=p.Frame.thickness,
-            label="Frame",
-            color=p.Frame.color
-        ))
+        components.append(
+            Plate(
+                columns=p.Columns,
+                column_locations=self.build_column_locations(),
+                outline=self.build_plate_outline(
+                    edge=top_plate_edge,
+                    center_width=top_plate_center_width
+                ),
+                parameters=self.parameters,
+                center_width=top_plate_center_width,
+                plate_type=PlateType.TOP
+            ).rotate(bd.Axis.Y, -p.tent_angle)
+        )
+        components.append(
+            Frame(
+                outline=self.build_plate_outline(
+                    edge=top_plate_edge,
+                    center_width=top_plate_center_width
+                ),
+                parameters=self.parameters
+            )
+        )
         sensor_height = (
             p.TrackballSensor.lens_size[2]
             + p.TrackballSensor.pcb_size[2]
             + p.TrackballSensor.clearance
         )
-        components.append(CenterBlock(
-            outline=self.build_plate_outline(
-                edge=top_plate_edge,
-                center_width=top_plate_center_width
-            ),
-            parameters=self.parameters,
-            height_=20,
-            color=p.CenterBlock.color,
-            label="Center Block",
-        ))
+        components.append(
+            CenterBlock(
+                outline=self.build_plate_outline(
+                    edge=top_plate_edge,
+                    center_width=top_plate_center_width
+                ),
+                parameters=self.parameters,
+                height_=20,
+                label="Center Block",
+            )
+        )
         return bd.Part(label="Androphage", children=components)
 
     def get_spacing(self) -> bd.Vector:
@@ -344,4 +330,5 @@ class Androphage(bd.BasePartObject):
 
 if __name__ == "__main__":
     from ocp_vscode import show
-    show(Androphage())
+    androphage = Androphage()
+    show(androphage)
