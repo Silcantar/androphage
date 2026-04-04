@@ -190,14 +190,15 @@ class Trackball(Component):
 
 @dataclass
 class TrackballSensor(Component):
-    pcb_size: vector[3]
-    chip_size: vector[3]
-    lens_size: vector[3]
-    clearance: float
-    hole_size: float
     angle: float
+    chip_size: vector[3]
+    clearance: float
     holder_height: float
     holder_thickness: float
+    hole_size: float
+    lens_size: vector[3]
+    optical_center: float
+    pcb_size: vector[3]
 
 @dataclass
 class Parameters(YAMLWizard):
