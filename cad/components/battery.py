@@ -11,11 +11,13 @@ class Battery(Component):
         self,
         parameters: Parameters,
         label: str = "Battery",
-        color: bd.ColorLike = "Silver",
         **kwargs
     ):
         self.parameters = parameters
-        # self.size = size
+        try:
+            color
+        except NameError:
+            color = seq_to_color(self.parameters.Battery.color)
         super().__init__(label, color=color, **kwargs)
 
     def _build(self) -> bd.Part:

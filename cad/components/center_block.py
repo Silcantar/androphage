@@ -16,7 +16,6 @@ class CenterBlock(Component):
         self,
         outline: bd.Sketch,
         parameters: Parameters,
-        color: bd.ColorLike = "MediumPurple",
         label: str = "Center Block",
         height_: float = 20,
         **kwargs
@@ -24,6 +23,10 @@ class CenterBlock(Component):
         self.outline = outline
         self.parameters = parameters
         self.height_ = height_
+        try:
+            color
+        except NameError:
+            color = seq_to_color(self.parameters.CenterBlock.color)
         super().__init__(label, color=color, **kwargs)
 
     def _build(self) -> bd.Part:

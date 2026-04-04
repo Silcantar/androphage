@@ -11,11 +11,14 @@ class MagneticConnector(Component):
     def __init__(
         self,
         parameters: Parameters,
-        color: bd.ColorLike = 0x303030,
         label: str = "Magnetic Connector",
         **kwargs
     ):
         self.parameters = parameters
+        try:
+            color
+        except NameError:
+            color = seq_to_color(self.parameters.MagneticConnector.color)
         super().__init__(label, color=color, **kwargs)
 
     def _build(self) -> bd.Part:

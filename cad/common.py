@@ -1,4 +1,5 @@
 import typing
+from collections.abc import Sequence
 from dataclasses import dataclass
 from enum import Enum, StrEnum, auto
 from math import cos, sin, tan, radians
@@ -16,6 +17,43 @@ def sind(angle: float) -> float:
 
 def tand(angle: float) -> float:
     return tan(radians(angle))
+
+# Utility Functions
+def seq_to_color(color_seq: Sequence = []) -> bd.Color:
+    if color_seq is None:
+        return bd.Color()
+    if isinstance(color_seq, str):
+        return bd.Color(color_seq)
+    match len(color_seq):
+        case 0:
+            return bd.Color()
+        case 1:
+            return bd.Color(color_seq[0])
+        case 2:
+            if isinstance(color_seq[0], str):
+                return bd.Color(
+                    name=color_seq[0],
+                    alpha=color_seq[1]
+                )
+            else:
+                return bd.Color(
+                    color_code=color_seq[0],
+                    alpha=color_seq[1]
+                )
+        case 3:
+            return bd.Color(
+                red=color_seq[0],
+                green=color_seq[1],
+                blue=color_seq[2]
+            )
+        case n if n >= 4:
+            return bd.Color(
+                red=color_seq[0],
+                green=color_seq[1],
+                blue=color_seq[2],
+                alpha=color_seq[3]
+            )
+
 
 # Datatype Definitions
 vector = {

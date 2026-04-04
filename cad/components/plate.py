@@ -24,7 +24,6 @@ class Plate(Component):
         parameters: Parameters,
         center_width: float = 0,
         plate_type: PlateType = PlateType.SWITCH,
-        color: bd.ColorLike = "CornflowerBlue",
         label: str = None,
         **kwargs
     ):
@@ -53,6 +52,10 @@ class Plate(Component):
             self.label = f"{plate_type.title()} Plate"
         else:
             self.label = label
+        try:
+            color
+        except NameError:
+            color = seq_to_color(self.plate_params.color)
         super().__init__(self.label, color=color, **kwargs)
 
     def _build(self) -> bd.Part:
