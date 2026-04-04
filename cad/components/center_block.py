@@ -34,7 +34,7 @@ class CenterBlock(Component):
         with bd.BuildPart() as center_block:
             # ---- Additions ----
             # Add center wall.
-            bd.add(self.center_wall())
+            self.center_wall = bd.add(self.center_wall())
             # Add trackball case.
             with self.trackball_locations():
                 bd.Sphere(
@@ -156,7 +156,7 @@ class CenterBlock(Component):
 
     def center_wall(self) -> bd.Part:
         p = self.parameters
-        with bd.BuildPart() as self.center_wall:
+        with bd.BuildPart() as center_wall:
             with bd.BuildSketch() as sketch:
                 outline = bd.add(self.outline, mode=bd.Mode.PRIVATE)
                 # Extrude the center edge of the outline into a rectangle.
@@ -174,7 +174,7 @@ class CenterBlock(Component):
                     cosd(p.tent_angle)
                 )
             )
-            outer_face = self.center_wall.faces().sort_by(bd.Axis.X)[0]
+            outer_face = center_wall.faces().sort_by(bd.Axis.X)[0]
             # Subtract the volume between the reinforcing ribs.
             with bd.BuildSketch(outer_face) as rib_sketch:
                 bd.project(outer_face)
@@ -187,11 +187,11 @@ class CenterBlock(Component):
             # Draft the overhanging face (when printed upside-down) to eliminate
             # the need for supports.
             bd.draft(
-                faces=self.center_wall.faces(bd.Select.LAST).sort_by(bd.Axis.Z)[0],
-                neutral_plane=bd.Plane(self.center_wall.faces().sort_by(bd.Axis.X)[0]),
+                faces=center_wall.faces(bd.Select.LAST).sort_by(bd.Axis.Z)[0],
+                neutral_plane=bd.Plane(center_wall.faces().sort_by(bd.Axis.X)[0]),
                 angle=p.overhang_angle
             )
-        return self.center_wall.part
+        return center_wall.part
 
     def connector_locations(self) -> bd.Locations:
         p = self.parameters
