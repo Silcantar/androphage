@@ -77,7 +77,7 @@ class CenterBlock(Component):
             # Subtract trackball sensor from holder.
             with self.sensor_locations():
                 TrackballSensor(
-                    subtract=True,
+                    parameters=self.parameters,
                     mode=bd.Mode.SUBTRACT
                 )
             # Subtract BTU from socket.
