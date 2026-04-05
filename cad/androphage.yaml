@@ -144,6 +144,12 @@ Insert:
   hole_diameter: 2.8
   hole_depth: 4
   wall_thickness: 1.6
+Keycap_Options:
+  Lamé: &Lamé
+    height: 6.5
+  Chicago_Steno: &Chicago_Steno
+    height: 7
+
 Keycap:
   visible: true
   clearance: 1
@@ -352,28 +358,52 @@ Switch_Color_Options:
 Switch_Options:
   ChocV1: &ChocV1
     cutout: [14, 14]
+    height: # overall: 11.0
+      stem: 0
+      upper: 5.8
+      lower: 2.2
+      legs: 3
     max_travel: 3.0
     name: ChocV1
     plate_thickness: 1.2
     radius: 0.5
+    spacing: [18, 17]
   ChocV2: &ChocV2
     cutout: [14, 14]
+    height: # overall: 11.9
+      stem: 3.3
+      upper: 3.1
+      lower: 2.2
+      legs: 3.3
     max_travel: 3.2
     name: ChocV2
-    plate_thickness: 1.2
+    plate_thickness: 1.6
     radius: 0.5
+    spacing: [18, 17]
   GLP: &GLP
     cutout: [14, 14]
+    height: # overall: 12.1
+      stem: 3.2
+      upper: 3.4
+      lower: 2.5
+      legs: 3
     max_travel: 3.0
     name: GLP
     plate_thickness: 1.2
     radius: 0.5
+    spacing: [18, 17]
   MX: &MX
     cutout: [14, 14]
+    height: # overall: 18.5
+      stem: 3.6
+      upper: 6.6
+      lower: 5
+      legs: 3.3
     max_travel: 4.0
     name: MX
     plate_thickness: 1.6
     radius: 0.5
+    spacing: [19, 19]
 # ------------------------
 Switch:
   visible: true
