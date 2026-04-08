@@ -1,4 +1,5 @@
 # Androphage Parameters
+main_half: left
 tent_angle: 7
 Print:
   # Angle for overhangs on 3d-printed parts.
@@ -7,7 +8,7 @@ Print:
   wall_thickness: &wall_thickness 2
   min_wall_thickness: 1
 colors:
-  black: &black [0x303030, 1]
+  black: &black [0x202020, 1]
   brass: &brass [DarkGoldenrod, 1]
   clear: &clear [White, 0.3]
   purple: &purple [MediumPurple, 1]
@@ -222,6 +223,7 @@ Plates:
     radius_inner: 2
     radius_outer: 2
     thickness: *wall_thickness
+    thumb_cutout_fillet: false
 Screw:
   visible: true
   color: *steel

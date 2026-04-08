@@ -4,6 +4,7 @@ from enum import StrEnum, auto
 import build123d as bd
 
 from common import *
+import layout
 from parameters import Columns, Parameters
 
 class PlateType(StrEnum):
@@ -18,36 +19,30 @@ class Plate(Component):
     """
     def __init__(
         self,
-        columns: Columns,
-        column_locations: KeyLocationDict,
-        outline: bd.Face,
         parameters: Parameters,
-        center_width: float = 0,
         plate_type: PlateType = PlateType.SWITCH,
         label: str = None,
         **kwargs
     ):
-        self.columns = columns
-        self.column_locations = column_locations
-        self.outline = outline
         self.parameters = parameters
         self.plate_type = plate_type
-        self.center_width = center_width
         p = self.parameters
-        outer_plate_edge = p.Plates.Switch.edge + p.Frame.lip_depth
         match self.plate_type:
             case PlateType.BOTTOM:
                 self.plate_params = p.Plates.Bottom
-                self.plate_params.edge = outer_plate_edge
             case PlateType.PCB:
                 self.plate_params = p.Plates.PCB
-                self.plate_params.edge = p.Plates.Switch.edge
             case PlateType.SWITCH:
                 self.plate_params = p.Plates.Switch
-                self.plate_params.thickness = p.Switch.model.plate_thickness
             case PlateType.TOP:
                 self.plate_params = p.Plates.Top
-                self.plate_params.edge = outer_plate_edge
+        self.column_locations = layout.build_column_locations(p)
+        self.outline = layout.build_plate_outline(
+            p,
+            edge=self.plate_params.edge,
+            center_width=self.plate_params.center_width,
+            fillet_radius=self.plate_params.radius_outer
+        )
         if label is None:
             self.label = f"{plate_type.title()} Plate"
         else:
@@ -64,14 +59,6 @@ class Plate(Component):
             with bd.BuildSketch() as sketch:
                 # Create the outline.
                 bd.add(self.outline)
-                # Fillet all but the right-most group of vertices.
-                if self.plate_params.radius_outer > 0:
-                    bd.fillet(
-                        sketch.vertices().group_by(bd.Axis.X)[
-                            :-2 if self.center_width > 0 else -1
-                        ],
-                        radius=self.plate_params.radius_outer
-                    )
                 # Create the switch-mounting cutouts in the switch plate.
                 if self.plate_type == PlateType.SWITCH:
                     bd.add(
@@ -85,7 +72,10 @@ class Plate(Component):
                         mode=bd.Mode.SUBTRACT
                     )
                     # Fillet the two vertices created by the previous step.
-                    if self.plate_params.radius_outer > 0:
+                    if (
+                        self.plate_params.radius_outer > 0 
+                        and p.Plates.Top.thumb_cutout_fillet
+                    ):
                         first_thumb_key = (
                             Finger.INDEX if self.columns[Finger.INDEX].cutout
                             else Finger.TUCK
@@ -130,19 +120,7 @@ class Plate(Component):
         """Create a sketch for the cutouts in the switch plate."""
         p = self.parameters
         with bd.BuildSketch() as sketch:
-            with bd.Locations([
-                # This list comprehension generates all of the key locations
-                # from the column locations.
-                (
-                    self.column_locations[column_key]
-                    * bd.Pos(
-                        self.columns[column_key].shift[0] * p.spacing.X,
-                        (i + self.columns[column_key].shift[1]) * p.spacing.Y
-                    )
-                )
-                for column_key in self.column_locations
-                for i in range(self.columns[column_key].keys)
-            ]):
+            with bd.Locations(list(layout.build_key_locations(p).values())):
                 bd.RectangleRounded(
                     *p.Switch.model.cutout,
                     radius=p.Switch.model.radius
@@ -151,11 +129,11 @@ class Plate(Component):
 
     def top_plate_cutout(self) -> bd.Sketch:
         """Generate a sketch for the cutouts in the top plate."""
-        # p = self.parameters
-        spc = self.parameters.spacing
+        p = self.parameters
+        spc = p.spacing
         with bd.BuildSketch() as sketch:
             for column_key in self.column_locations:
-                column = self.columns[column_key]
+                column = p.Columns[column_key]
                 column_location = self.column_locations[column_key]
                 cutout = 2*self.plate_params.edge if column.cutout else 0
                 with bd.Locations(
@@ -229,14 +207,7 @@ if __name__ == "__main__":
     }
     show([
         Plate(
-            androphage.parameters.Columns,
-            androphage._build_column_locations(),
-            androphage._build_plate_outline(
-                edge=edge[plate_type],
-                center_width=zpos[plate_type] * tand(7)
-            ),
             androphage.parameters,
-            center_width=zpos[plate_type] * tand(7),
             plate_type=plate_type,
         ).move(bd.Pos(0, 0, zpos[plate_type]))
         for plate_type in PlateType

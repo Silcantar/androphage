@@ -3,6 +3,7 @@ import typing
 import build123d as bd
 
 from common import *
+import layout
 from parameters import Parameters
 from components.btu import BTU
 from components.fasteners import screw_boss_vertical
@@ -14,13 +15,16 @@ class CenterBlock(Component):
 
     def __init__(
         self,
-        outline: bd.Sketch,
         parameters: Parameters,
         label: str = "Center Block",
         **kwargs
     ):
-        self.outline = outline
         self.parameters = parameters
+        self.outline = layout.build_plate_outline(
+            self.parameters,
+            edge=self.parameters.Plates.Top.edge,
+            fillet_radius=self.parameters.Plates.Top.radius_outer
+        )
         self.height_ = (
             self.parameters.height
             - self.parameters.Plates.Top.thickness
@@ -173,10 +177,6 @@ class CenterBlock(Component):
                     height=edge.length - 2*p.Frame.lip_depth,
                     align=Align.LeftFront
                 )
-                # bd.add(bd.Face.extrude(
-                #     edge,
-                #     (-2*p.CenterBlock.wall_thickness, 0)
-                # ))
             extrude_amount = (
                 p.height
                 - p.Plates.Top.thickness
@@ -314,9 +314,4 @@ if __name__ == "__main__":
     from ocp_vscode import show
     from androphage import Androphage
     androphage = Androphage(build=False)
-    show(
-        CenterBlock(
-            androphage._build_plate_outline(edge=5),
-            androphage.parameters
-        )
-    )
+    show(CenterBlock(androphage.parameters))

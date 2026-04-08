@@ -3,6 +3,7 @@ import typing
 import build123d as bd
 
 from common import *
+import layout
 from parameters import Parameters
 from components.fasteners import screw_boss_vertical
 
@@ -11,13 +12,17 @@ class Frame(Component):
 
     def __init__(
         self,
-        outline: bd.Sketch,
         parameters: Parameters,
         label: str = "Frame",
         **kwargs
     ):
-        self.outline = outline
         self.parameters = parameters
+        self.outline = layout.build_plate_outline(
+            self.parameters,
+            edge=self.parameters.Plates.Top.edge,
+            center_width=self.parameters.Plates.Top.center_width,
+            fillet_radius=self.parameters.Plates.Top.radius_outer
+        )
         try:
             color
         except NameError:
@@ -46,8 +51,8 @@ class Frame(Component):
                     align=Align.Bottom,
                     mode=bd.Mode.SUBTRACT
                 )
-            # Move the part so that the center wall is vertical and the hinge pivot
-            # is along the Y axis.
+            # Move the part so that the center wall is vertical and the hinge
+            # pivot is along the Y axis.
             frame.part.orientation += (0, -p.tent_angle, 0)
             frame.part.position -= (
                 frame.part.vertices()
@@ -97,20 +102,42 @@ class Frame(Component):
             )
         return sketch.sketch
 
+    def notch_cutter(self) -> bd.Sketch:
+        p = self.parameters
+        with bd.BuildSketch() as cutter:
+            bd.Rectangle(
+                width=p.Frame.thickness,
+                height=10,
+                align=Align.Front
+            )
+            bd.Circle(
+                radius=
+            )
+        return cutter.sketch
+
     def start_loc(self) -> bd.Location:
         return bd.Location(self.sweep_path().start_point())
 
     def screw_locations(self) -> bd.Locations:
         p = self.parameters
-        return bd.Locations([
-            self.sweep_path().location_at(
-                (param + 0.5)/p.Frame.screw_count,
-                frame_method=bd.FrameMethod.CORRECTED
-            )
-            * bd.Rot(X=90, Y=-90)
-            * bd.Pos(-p.Insert.hole_diameter/2, 0, p.Plates.Bottom.thickness)
-            for param in range(p.Frame.screw_count)
-        ])
+        locations: list[bd.Location] = []
+        for param in range(p.Frame.screw_count):
+            loc = self.sweep_path().location_at(
+                (param + 0.5)/p.Frame.screw_count
+            ) * bd.Rot(X=90)
+            # The following conditionals correct the weirdnesses of the
+            # orientations produced by location_at().
+            if loc.orientation.X != 0:
+                loc.orientation = (0, 0, 180 - loc.orientation.Z)
+            if loc.orientation.Y != 0:
+                loc.orientation = (0, 0, -loc.orientation.Z)
+            loc.position += (bd.Rot(loc.orientation) * bd.Pos(
+                -p.Insert.diameter/2,
+                0,
+                p.Plates.Bottom.thickness
+            )).position
+            locations.append(loc)
+        return bd.Locations(locations)
 
     def sweep_path(self) -> bd.Wire:
         return bd.Wire(self.outline.edges().sort_by(bd.Axis.X)[:-1])
@@ -119,12 +146,5 @@ if __name__ == "__main__":
     from ocp_vscode import show
     from androphage import Androphage
     androphage = Androphage(build=False)
-    center_width = 20*tand(7)
-    frame = Frame(
-        androphage._build_plate_outline(
-            edge=5,
-            center_width=center_width
-        ),
-        androphage.parameters
-    )
+    frame = Frame(androphage.parameters)
     show(frame)

@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 from dataclass_wizard import YAMLWizard
 
-from common import vector
+from common import Half, vector
 
 Color = int | str | list[str, float] | list[int, float] | None
 
@@ -146,8 +146,9 @@ class SwitchPlate(Plate):
 
 @dataclass
 class TopPlate(Plate):
-    thickness: float
     radius_inner: float
+    thickness: float
+    thumb_cutout_fillet: bool
 
 @dataclass
 class Plates:
@@ -217,6 +218,7 @@ class TrackballSensor(Component):
 
 @dataclass
 class Parameters(YAMLWizard):
+    main_half: Half
     tent_angle: float
     Print: PrintParameters
     Columns: Columns
