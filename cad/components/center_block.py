@@ -17,12 +17,15 @@ class CenterBlock(Component):
         outline: bd.Sketch,
         parameters: Parameters,
         label: str = "Center Block",
-        height_: float = 20,
         **kwargs
     ):
         self.outline = outline
         self.parameters = parameters
-        self.height_ = height_
+        self.height_ = (
+            self.parameters.height
+            - self.parameters.Plates.Top.thickness
+            - self.parameters.Plates.Bottom.thickness
+        )
         try:
             color
         except NameError:
@@ -63,7 +66,7 @@ class CenterBlock(Component):
                 bd.add(screw_boss_vertical(
                     hole_depth=p.Insert.hole_depth,
                     hole_diameter=p.Insert.hole_diameter,
-                    overhang_angle=p.overhang_angle,
+                    overhang_angle=p.Print.overhang_angle,
                     wall_thickness=p.Insert.wall_thickness
                 ))
             with self.connector_screw_locations():
@@ -110,18 +113,22 @@ class CenterBlock(Component):
                 length=1000,
                 width=1000,
                 height=self.height_,
-                align=Align.LeftBottom,
+                align=Align.Bottom,
                 mode=bd.Mode.INTERSECT
             )
         # Move the part so that the center wall is vertical and the hinge pivot
         # is along the Y axis.
         center_block.part.orientation += (0, -p.tent_angle, 0)
-        center_block.part.position -= (
-            center_block.part.vertices()
+        center_block.part.position += (
+            -center_block.part.vertices()
             .group_by(bd.Axis.Z)[-1].vertices()
             .group_by(bd.Axis.Y)[0].vertices()
             .sort_by(bd.Axis.X)[-1].center()
-            + (0, 0, p.Plates.Top.thickness * cosd(p.tent_angle))
+            + (
+                0,
+                p.Frame.lip_depth,
+                -p.Plates.Top.thickness * cosd(p.tent_angle)
+            )
         )
         return center_block.part
 
@@ -161,11 +168,19 @@ class CenterBlock(Component):
                 outline = bd.add(self.outline, mode=bd.Mode.PRIVATE)
                 # Extrude the center edge of the outline into a rectangle.
                 edge = outline.edges().sort_by(bd.Axis.X)[-1]
-                bd.add(bd.Face.extrude(
-                    edge,
-                    (-2*p.CenterBlock.wall_thickness, 0)
-                ))
-            extrude_amount = self.height_ / cosd(p.tent_angle)
+                bd.Rectangle(
+                    width=-2*p.CenterBlock.wall_thickness,
+                    height=edge.length - 2*p.Frame.lip_depth,
+                    align=Align.LeftFront
+                )
+                # bd.add(bd.Face.extrude(
+                #     edge,
+                #     (-2*p.CenterBlock.wall_thickness, 0)
+                # ))
+            extrude_amount = (
+                p.height
+                - p.Plates.Top.thickness
+            ) / cosd(p.tent_angle)
             bd.extrude(
                 amount=extrude_amount,
                 dir=(
@@ -189,7 +204,7 @@ class CenterBlock(Component):
             bd.draft(
                 faces=center_wall.faces(bd.Select.LAST).sort_by(bd.Axis.Z)[0],
                 neutral_plane=bd.Plane(center_wall.faces().sort_by(bd.Axis.X)[0]),
-                angle=p.overhang_angle
+                angle=p.Print.overhang_angle
             )
         return center_wall.part
 
@@ -235,9 +250,9 @@ class CenterBlock(Component):
         )
         # Put locations in the center and inset from each end of the edge.
         return bd.Locations([
-            edge.start_point() + (-offset, -offset, 0),
+            edge.start_point() + (-offset, offset, 0),
             edge.center() + (-offset, 0, 0),
-            edge.end_point() + (-offset, offset, 0)
+            edge.end_point() + (-offset, -offset, 0)
         ])
 
     def sensor_holder(self) -> bd.Part:
@@ -291,7 +306,7 @@ class CenterBlock(Component):
         p = self.parameters
         return bd.Location(
             self.origin_point()
-            * bd.Pos(0, p.Trackball.position_y, 0)
+            * bd.Pos(0, p.Trackball.position_y - p.Frame.lip_depth, 0)
         )
 
 
@@ -301,7 +316,7 @@ if __name__ == "__main__":
     androphage = Androphage(build=False)
     show(
         CenterBlock(
-            androphage.build_plate_outline(edge=5),
+            androphage._build_plate_outline(edge=5),
             androphage.parameters
         )
     )

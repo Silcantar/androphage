@@ -230,8 +230,8 @@ if __name__ == "__main__":
     show([
         Plate(
             androphage.parameters.Columns,
-            androphage.build_column_locations(),
-            androphage.build_plate_outline(
+            androphage._build_column_locations(),
+            androphage._build_plate_outline(
                 edge=edge[plate_type],
                 center_width=zpos[plate_type] * tand(7)
             ),

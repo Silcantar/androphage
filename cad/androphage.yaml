@@ -1,9 +1,11 @@
 # Androphage Parameters
 tent_angle: 7
-# Angle for overhangs on 3d-printed parts.
-overhang_angle: 45
-# Default thickness for 3d-printed parts.
-print_thickness: &print_thickness 2
+Print:
+  # Angle for overhangs on 3d-printed parts.
+  overhang_angle: 45
+  # Default thickness for 3d-printed parts.
+  wall_thickness: &wall_thickness 2
+  min_wall_thickness: 1
 colors:
   black: &black [0x303030, 1]
   brass: &brass [DarkGoldenrod, 1]
@@ -110,7 +112,7 @@ CenterBlock:
   color: *purple
   rib_size: [ 2, 2 ]
   screw_count: 3
-  wall_thickness: *print_thickness
+  wall_thickness: *wall_thickness
 Desk:
   visible: true
   color: *clear
@@ -144,21 +146,20 @@ Insert:
   hole_diameter: 2.8
   hole_depth: 4
   wall_thickness: 1.6
-Keycap_Options:
-  Lamé: &Lamé
+Keycap_Profile_Options:
+  Lame: &Lame
     height: 6.5
   Chicago_Steno: &Chicago_Steno
     height: 7
-
+Keycap_Spacing_Options:
+  Choc: &Choc [18, 17]
+  MX: &MX_Metric [19, 19]
+  MX_Inch: &MX_Inch [19.05, 19.05]
 Keycap:
   visible: true
-  clearance: 1
   color: *black
-  test_clearance: false
-  profile: lame #[ cherry, dsa, lame, mbk, steno ]
-  saddle: false
-  spacing_type: choc #[ choc, mx, custom ]
-  custom_spacing: [ 16, 16 ]
+  profile: *Chicago_Steno
+  spacing: *Choc
 LED:
   visible: true
   color:
@@ -205,6 +206,7 @@ Plates:
   PCB:
     visible: true
     color: DarkGreen
+    # This both ensures clearance between the PCB and bottom plate and
     clearance: 3
     radius_outer: 2
     thickness: &pcb_thickness 1.2
@@ -219,7 +221,7 @@ Plates:
     color: *black
     radius_inner: 2
     radius_outer: 2
-    thickness: *print_thickness
+    thickness: *wall_thickness
 Screw:
   visible: true
   color: *steel

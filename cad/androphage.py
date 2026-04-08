@@ -22,10 +22,10 @@ class Androphage(bd.BasePartObject):
     ):
         self.main_half = main_half
         self.parameters = self.import_parameters(parameter_path)
-        self.parameters.spacing = self.get_spacing()
-        self.column_locations = self.build_column_locations()
-        self.key_locations = self.build_key_locations()
-        self.plate_outline = self.build_plate_outline()
+        self._set_derived_parameters()
+        self.column_locations = self._build_column_locations()
+        self.key_locations = self._build_key_locations()
+        self.plate_outline = self._build_plate_outline()
         if build:
             part = self._build(test_layout)
             super().__init__(part=part, **kwargs)
@@ -33,11 +33,6 @@ class Androphage(bd.BasePartObject):
     def import_parameters(self, parameter_path: PathLike) -> Parameters:
         """Load parameters from a YAML file."""
         return Parameters.from_yaml_file(parameter_path)
-
-    def _box(self) -> bd.Part:
-        with bd.BuildPart() as box:
-            bd.Box(10,10,10)
-        return bd.Part(children=[box.part, box.part.moved(bd.Pos(X=20))])
 
     def _build(self, test_layout) -> bd.Part:
         from components.battery import Battery
@@ -56,8 +51,8 @@ class Androphage(bd.BasePartObject):
         components.append(
             Plate(
                 columns=p.Columns,
-                column_locations=self.build_column_locations(),
-                outline=self.build_plate_outline(
+                column_locations=self._build_column_locations(),
+                outline=self._build_plate_outline(
                     edge=top_plate_edge,
                     center_width=top_plate_center_width
                 ),
@@ -68,7 +63,7 @@ class Androphage(bd.BasePartObject):
         )
         components.append(
             Frame(
-                outline=self.build_plate_outline(
+                outline=self._build_plate_outline(
                     edge=top_plate_edge,
                     center_width=top_plate_center_width
                 ),
@@ -82,36 +77,41 @@ class Androphage(bd.BasePartObject):
         )
         components.append(
             CenterBlock(
-                outline=self.build_plate_outline(
+                outline=self._build_plate_outline(
                     edge=top_plate_edge,
                     center_width=top_plate_center_width
                 ),
                 parameters=self.parameters,
-                height_=20,
                 label="Center Block",
             )
         )
         return bd.Part(label="Androphage", children=components)
 
-    def get_spacing(self) -> bd.Vector:
+    def _set_derived_parameters(self):
         """Get the key spacing distance based on the spacing type specified in
         the parameters.
         """
         p = self.parameters
-        match p.Keycap.spacing_type:
-            case SpacingType.CHOC:
-                return bd.Vector(18, 17)
-            case SpacingType.MX:
-                return bd.Vector(19, 19)
-            case SpacingType.MX_INCH:
-                return bd.Vector(19.05, 19.05)
-            case SpacingType.CUSTOM:
-                return bd.Vector(p.Keycap.custom_spacing)
-            case _:
-                print("Info: spacing not provided, defaulting to Choc spacing.")
-                return bd.Vector(18, 17)
+        p.spacing = bd.Vector(p.Keycap.spacing)
+        p.key_height = (
+            p.Switch.model.height.lower
+            + p.Switch.model.height.upper
+            + p.Keycap.profile.height
+        )
+        p.height = max(
+            (
+                p.key_height
+                + p.Plates.PCB.clearance
+                + p.Plates.Bottom.thickness
+            ),
+            (
+                p.Trackball.diameter/2
+                + p.Plates.Bottom.thickness
+                + p.Print.min_wall_thickness
+            )
+        )
 
-    def build_column_locations(self) -> KeyLocationDict:
+    def _build_column_locations(self) -> KeyLocationDict:
         """Calculate the locations of the origin of each column."""
         p = self.parameters
         spc = p.spacing
@@ -132,7 +132,7 @@ class Androphage(bd.BasePartObject):
                 column_locations[column_key] = origin
         return column_locations
 
-    def build_key_locations(self) -> KeyLocationDict:
+    def _build_key_locations(self) -> KeyLocationDict:
         p = self.parameters
         key_locations = KeyLocationDict()
         for column_key in self.column_locations:
@@ -154,7 +154,7 @@ class Androphage(bd.BasePartObject):
                     )
         return key_locations
 
-    def build_plate_outline(
+    def _build_plate_outline(
         self,
         edge: float = 0,
         center_width: float = 0
@@ -313,7 +313,7 @@ class Androphage(bd.BasePartObject):
                 )
         with bd.BuildPart() as plate:
             outline = bd.extrude(
-                self.build_plate_outline(
+                self._build_plate_outline(
                     edge=4,
                     center_width=5
                 ),

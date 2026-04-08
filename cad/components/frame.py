@@ -13,13 +13,11 @@ class Frame(Component):
         self,
         outline: bd.Sketch,
         parameters: Parameters,
-        height_: float = 20,
         label: str = "Frame",
         **kwargs
     ):
         self.outline = outline
         self.parameters = parameters
-        self.height_ = height_
         try:
             color
         except NameError:
@@ -39,7 +37,7 @@ class Frame(Component):
                 bd.add(screw_boss_vertical(
                     hole_depth=p.Insert.hole_depth,
                     hole_diameter=p.Insert.hole_diameter,
-                    overhang_angle=p.overhang_angle,
+                    overhang_angle=p.Print.overhang_angle,
                     wall_thickness=p.Insert.wall_thickness
                 ))
                 bd.Cylinder(
@@ -75,16 +73,16 @@ class Frame(Component):
                     (0, 0),
                     (0, p.Plates.Bottom.thickness),
                     (-p.Frame.lip_depth, p.Plates.Bottom.thickness),
-                    (-p.Frame.lip_depth, self.height_ - p.Plates.Top.thickness),
-                    (0, self.height_ - p.Plates.Top.thickness),
-                    (0, self.height_),
+                    (-p.Frame.lip_depth, p.height - p.Plates.Top.thickness),
+                    (0, p.height - p.Plates.Top.thickness),
+                    (0, p.height),
                     (
                         (
                             p.Frame.thickness
                             - p.Frame.lip_depth
-                            - self.height_*tand(p.Frame.chord_angle)
+                            - p.height*tand(p.Frame.chord_angle)
                         ),
-                        self.height_
+                        p.height
                     )
                 )
                 bd.RadiusArc(
@@ -123,7 +121,7 @@ if __name__ == "__main__":
     androphage = Androphage(build=False)
     center_width = 20*tand(7)
     frame = Frame(
-        androphage.build_plate_outline(
+        androphage._build_plate_outline(
             edge=5,
             center_width=center_width
         ),

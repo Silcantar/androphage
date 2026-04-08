@@ -82,12 +82,13 @@ class Insert(Component):
     wall_thickness: float
 
 @dataclass
+class KeycapProfile:
+    height: float
+
+@dataclass
 class Keycap(Component):
-    clearance: float
-    profile: str
-    saddle: bool
-    spacing_type: str
-    custom_spacing: vector[2] | None
+    profile: KeycapProfile
+    spacing: vector[2]
 
 @dataclass
 class LED(Component):
@@ -156,6 +157,12 @@ class Plates:
     Top: TopPlate
 
 @dataclass
+class PrintParameters:
+    overhang_angle: float
+    wall_thickness: float
+    min_wall_thickness: float
+
+@dataclass
 class Screw(Component):
     diameter: float
     minor_diameter: float
@@ -170,8 +177,16 @@ class SwitchColor:
     top: Color
 
 @dataclass
+class SwitchHeight:
+    stem: float
+    upper: float
+    lower: float
+    legs: float
+
+@dataclass
 class SwitchModel:
     cutout: vector[2]
+    height: SwitchHeight
     max_travel: float
     name: str
     plate_thickness: float
@@ -202,8 +217,8 @@ class TrackballSensor(Component):
 
 @dataclass
 class Parameters(YAMLWizard):
-    overhang_angle: float
     tent_angle: float
+    Print: PrintParameters
     Columns: Columns
     Battery: Battery
     BTU: BTU
