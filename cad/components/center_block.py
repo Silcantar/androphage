@@ -128,11 +128,6 @@ class CenterBlock(Component):
             .group_by(bd.Axis.Z)[-1].vertices()
             .group_by(bd.Axis.Y)[0].vertices()
             .sort_by(bd.Axis.X)[-1].center()
-            + (
-                0,
-                p.Frame.lip_depth,
-                -p.Plates.Top.thickness * cosd(p.tent_angle)
-            )
         )
         return center_block.part
 

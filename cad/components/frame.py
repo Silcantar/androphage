@@ -20,7 +20,10 @@ class Frame(Component):
         self.outline = layout.build_plate_outline(
             self.parameters,
             edge=self.parameters.Plates.Top.edge,
-            center_width=self.parameters.Plates.Top.center_width,
+            center_width=(
+                self.parameters.height
+                * tand(self.parameters.tent_angle)
+            ),
             fillet_radius=self.parameters.Plates.Top.radius_outer
         )
         try:
@@ -74,20 +77,22 @@ class Frame(Component):
         with bd.BuildSketch(bd.Plane.YZ.move(self.start_loc())) as sketch:
             with bd.BuildLine() as line:
                 pl = bd.Polyline(
-                    (p.Frame.thickness - p.Frame.lip_depth, 0),
+                    (p.Frame.thickness - p.Frame.lip_depth, -p.height),
+                    (0, -p.height),
+                    (0, -p.height + p.Plates.Bottom.thickness),
+                    (-p.Frame.lip_depth, -p.height + p.Plates.Bottom.thickness),
+                    (-p.Frame.lip_depth, -p.Keycap.profile.height - p.Switch.model.height.upper),
+                    (-2*p.Frame.lip_depth, -p.Keycap.profile.height - p.Switch.model.height.upper),
+                    (-2*p.Frame.lip_depth, -p.Plates.Top.thickness),
+                    (0, -p.Plates.Top.thickness),
                     (0, 0),
-                    (0, p.Plates.Bottom.thickness),
-                    (-p.Frame.lip_depth, p.Plates.Bottom.thickness),
-                    (-p.Frame.lip_depth, p.height - p.Plates.Top.thickness),
-                    (0, p.height - p.Plates.Top.thickness),
-                    (0, p.height),
                     (
                         (
                             p.Frame.thickness
                             - p.Frame.lip_depth
                             - p.height*tand(p.Frame.chord_angle)
                         ),
-                        p.height
+                        0
                     )
                 )
                 bd.RadiusArc(
@@ -111,7 +116,8 @@ class Frame(Component):
                 align=Align.Front
             )
             bd.Circle(
-                radius=
+                radius=p.Frame.thickness,
+                mode=bd.Mode.SUBTRACT
             )
         return cutter.sketch
 
@@ -123,19 +129,18 @@ class Frame(Component):
         locations: list[bd.Location] = []
         for param in range(p.Frame.screw_count):
             loc = self.sweep_path().location_at(
-                (param + 0.5)/p.Frame.screw_count
-            ) * bd.Rot(X=90)
-            # The following conditionals correct the weirdnesses of the
-            # orientations produced by location_at().
-            if loc.orientation.X != 0:
-                loc.orientation = (0, 0, 180 - loc.orientation.Z)
-            if loc.orientation.Y != 0:
-                loc.orientation = (0, 0, -loc.orientation.Z)
-            loc.position += (bd.Rot(loc.orientation) * bd.Pos(
-                -p.Insert.diameter/2,
+                (param + 0.5)/p.Frame.screw_count,
+                frame_method=bd.FrameMethod.FRENET,
+                x_dir=(0, 0, 1)
+            ) * bd.Rot(
+                90,
+                90,
+                0
+            ) * bd.Pos(
+                -p.Insert.diameter,
                 0,
-                p.Plates.Bottom.thickness
-            )).position
+                p.Plates.Bottom.thickness - p.height
+            )
             locations.append(loc)
         return bd.Locations(locations)
 

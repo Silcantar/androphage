@@ -13,7 +13,7 @@ colors:
   clear: &clear [White, 0.3]
   purple: &purple [MediumPurple, 1]
   silver: &silver [Silver, 1]
-  smoke: &smoke [Black, 0.3]
+  smoke: &smoke [Black, 0.5]
   steel: &steel [DarkGray, 1]
 Columns:
   # Finger columns
@@ -110,7 +110,7 @@ CenterBlock:
   # 47 degrees for the BTU Z angle adds a bit of clearance for the sensor
   # without significantly affecting the stability of the trackball.
   btu_angles: [ 0, 30, 47 ]
-  color: *purple
+  color: *black
   rib_size: [ 2, 2 ]
   screw_count: 3
   wall_thickness: *wall_thickness
@@ -206,7 +206,7 @@ Plates:
     thickness: 3
   PCB:
     visible: true
-    color: DarkGreen
+    color: *purple
     # This both ensures clearance between the PCB and bottom plate and
     clearance: 3
     radius_outer: 2

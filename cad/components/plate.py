@@ -73,7 +73,7 @@ class Plate(Component):
                     )
                     # Fillet the two vertices created by the previous step.
                     if (
-                        self.plate_params.radius_outer > 0 
+                        self.plate_params.radius_outer > 0
                         and p.Plates.Top.thumb_cutout_fillet
                     ):
                         first_thumb_key = (
@@ -107,12 +107,13 @@ class Plate(Component):
                     self.trackball_cutout(),
                     mode=bd.Mode.SUBTRACT
                 )
+        plate.part.orientation -= (0, p.tent_angle, 0)
         # Align the front center corner to the origin.
         plate.part.position -= (
             plate.part.vertices()
             .group_by(bd.Axis.X)[-1].vertices()
             .group_by(bd.Axis.Y)[0].vertices()
-            .sort_by(bd.Axis.Z)[-1].center()
+            .sort_by(bd.Axis.Z)[0].center()
         )
         return plate.part
 

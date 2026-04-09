@@ -43,19 +43,40 @@ class Androphage(bd.BasePartObject):
         components: list[bd.Part] = []
         if test_layout:
             components.append(self.test_layout())
+        # Top Plate
         components.append(
             Plate(
                 parameters=self.parameters,
                 plate_type=PlateType.TOP
-            ).rotate(bd.Axis.Y, -p.tent_angle)
+            ).move(bd.Pos(Z=p.Plates.Top.z_pos))
         )
+        # Frame
         components.append(Frame(parameters=self.parameters))
-        # sensor_height = (
-        #     p.TrackballSensor.lens_size[2]
-        #     + p.TrackballSensor.pcb_size[2]
-        #     + p.TrackballSensor.clearance
-        # )
-        components.append(CenterBlock(parameters=self.parameters))
+        # Center Block
+        components.append(
+            CenterBlock(
+                parameters=self.parameters
+            ).move(bd.Pos(0, p.Frame.lip_depth, p.Plates.Top.z_pos))
+        )
+        components.append(
+            Plate(
+                parameters=self.parameters,
+                plate_type=PlateType.SWITCH
+            ).move(bd.Pos(0, p.Frame.lip_depth, p.Plates.Switch.z_pos))
+        )
+        components.append(
+            Plate(
+                parameters=self.parameters,
+                plate_type=PlateType.PCB,
+            ).move(bd.Pos(0, p.Frame.lip_depth, p.Plates.PCB.z_pos))
+        )
+        # Bottom Plate
+        components.append(
+            Plate(
+                parameters=self.parameters,
+                plate_type=PlateType.BOTTOM
+            ).move(bd.Pos(Z=p.Plates.Bottom.z_pos))
+        )
         return bd.Part(label="Androphage", children=components)
 
     def _set_derived_parameters(self, p: Parameters) -> Parameters:
@@ -63,6 +84,7 @@ class Androphage(bd.BasePartObject):
         the parameters.
         """
         p.spacing = bd.Vector(p.Keycap.spacing)
+        # Heights
         p.key_height = (
             p.Switch.model.height.lower
             + p.Switch.model.height.upper
@@ -80,19 +102,19 @@ class Androphage(bd.BasePartObject):
                 + p.Print.min_wall_thickness
             )
         )
-        p.Plates.Top.z_pos = 0
+        # Plate Parameters
+        p.Plates.Switch.thickness = p.Switch.model.plate_thickness
+        p.Plates.Top.z_pos = -p.Plates.Top.thickness / cosd(p.tent_angle)
         p.Plates.Switch.z_pos = (
             - p.Keycap.profile.height
             - p.Switch.model.height.upper
-        )
-        p.Plates.PCB.z_pos = (
-            p.Plates.Switch.z_pos 
+            - p.Plates.Switch.thickness
+        ) / cosd(p.tent_angle)
+        p.Plates.PCB.z_pos = p.Plates.Switch.z_pos + (
             - p.Switch.model.height.lower
-        )
-        p.Plates.Bottom.z_pos = (
-            -p.height 
-            + p.Plates.Bottom.thickness
-        )
+            - p.Plates.PCB.thickness
+        ) / cosd(p.tent_angle)
+        p.Plates.Bottom.z_pos = -p.height / cosd(p.tent_angle)
         p.Plates.Top.center_width = (
             p.Plates.Top.z_pos
             - p.Plates.Bottom.z_pos
@@ -102,14 +124,13 @@ class Androphage(bd.BasePartObject):
             - p.Plates.Bottom.z_pos
         ) * tand(p.tent_angle)
         p.Plates.PCB.center_width = (
-            p.Plates.PCB.z_pos 
+            p.Plates.PCB.z_pos
             - p.Plates.Bottom.z_pos
         ) * tand(p.tent_angle)
         p.Plates.Bottom.center_width = 0
         p.Plates.Top.edge = p.Plates.Switch.edge + p.Frame.lip_depth
         p.Plates.PCB.edge = p.Plates.Switch.edge
         p.Plates.Bottom.edge = p.Plates.Top.edge
-        p.Plates.Switch.thickness = p.Switch.model.plate_thickness
         return p
 
     def test_layout(self) -> bd.Part:
