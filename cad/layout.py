@@ -183,21 +183,21 @@ def build_plate_outline(
             del const_center_line
             del const_reach_line
         bd.make_face()
-        if center_width > 0:
+        full_center_width = center_width + p.center_width
+        if full_center_width > 0:
             center_edge = sketch.edges().sort_by(bd.Axis.X)[-1]
             center_edge.color = "cyan"
             bd.add(
                 bd.Face.extrude(
                     center_edge,
-                    direction=(center_width, 0)
+                    direction=(full_center_width, 0)
                 )
             )
         # Fillet all but the right-most group of vertices.
         if fillet_radius > 0:
+            fillet_index = -2 if full_center_width > 0 else -1
             bd.fillet(
-                sketch.vertices().group_by(bd.Axis.X)[
-                    :-2 if center_width > 0 else -1
-                ],
+                sketch.vertices().group_by(bd.Axis.X)[:fillet_index],
                 radius=fillet_radius
             )
         sketch.face().clean()

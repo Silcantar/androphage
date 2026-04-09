@@ -112,6 +112,18 @@ class CenterBlock(Component):
                     align=Align.Bottom,
                     mode=bd.Mode.SUBTRACT
                 )
+            with self.lip_locations():
+                bd.Box(
+                    length=1000,
+                    width=2*p.Frame.lip_depth,
+                    height=(
+                        -p.Plates.Top.thickness 
+                        - p.Plates.Switch.thickness
+                        - p.Plates.Switch.z_pos
+                    ) * cosd(p.tent_angle),
+                    align=Align.Top,
+                    mode=bd.Mode.SUBTRACT
+                )
             # Clip off anything extending outside the proper height of the part.
             bd.Box(
                 length=1000,
@@ -175,6 +187,7 @@ class CenterBlock(Component):
             extrude_amount = (
                 p.height
                 - p.Plates.Top.thickness
+                - p.Plates.Bottom.thickness
             ) / cosd(p.tent_angle)
             bd.extrude(
                 amount=extrude_amount,
@@ -224,6 +237,13 @@ class CenterBlock(Component):
             * bd.Pos(0, y_pos, -p.CenterBlock.wall_thickness)
             for y_pos in (-screw_offset, screw_offset)
         ])
+
+    def lip_locations(self) -> bd.Locations:
+        return bd.Locations(
+            self.center_wall.vertices()
+            .group_by(bd.Axis.Z)[-1].vertices()
+            .group_by(bd.Axis.X)[-1].vertices()
+        )
 
     def origin_point(self) -> bd.Location:
         return bd.Location(
@@ -301,7 +321,11 @@ class CenterBlock(Component):
         p = self.parameters
         return bd.Location(
             self.origin_point()
-            * bd.Pos(0, p.Trackball.position_y - p.Frame.lip_depth, 0)
+            * bd.Pos(
+                0, 
+                p.Trackball.position_y - p.Frame.lip_depth, 
+                p.Plates.Top.thickness
+            )
         )
 
 

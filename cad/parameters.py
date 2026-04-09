@@ -220,6 +220,7 @@ class TrackballSensor(Component):
 class Parameters(YAMLWizard):
     main_half: Half
     tent_angle: float
+    center_width: float
     Print: PrintParameters
     Columns: Columns
     Battery: Battery

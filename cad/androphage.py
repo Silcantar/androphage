@@ -56,7 +56,7 @@ class Androphage(bd.BasePartObject):
         components.append(
             CenterBlock(
                 parameters=self.parameters
-            ).move(bd.Pos(0, p.Frame.lip_depth, p.Plates.Top.z_pos))
+            ).move(bd.Pos(0, 2*p.Frame.lip_depth, p.Plates.Top.z_pos))
         )
         components.append(
             Plate(
