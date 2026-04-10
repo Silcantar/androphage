@@ -18,7 +18,7 @@ class Battery(Component):
             color
         except NameError:
             color = seq_to_color(self.parameters.Battery.color)
-        super().__init__(label, color=color, **kwargs)
+        super().__init__(label=label, color=color, **kwargs)
 
     def _build(self) -> bd.Part:
         size = bd.Vector(self.parameters.Battery.size)

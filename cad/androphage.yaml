@@ -202,11 +202,13 @@ OLED:
 Plates:
   Bottom:
     visible: true
+    add_center: true
     color: *smoke
     radius_outer: 2
     thickness: 3
   PCB:
     visible: true
+    add_center: false
     color: *purple
     # This both ensures clearance between the PCB and bottom plate and
     clearance: 3
@@ -214,12 +216,14 @@ Plates:
     thickness: &pcb_thickness 1.2
   Switch:
     visible: true
+    add_center: false
     color: *purple
     edge: 5
     radius_outer: 2
     # thickness:
   Top:
     visible: true
+    add_center: true
     color: *black
     radius_inner: 2
     radius_outer: 2

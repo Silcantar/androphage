@@ -130,6 +130,7 @@ class OLED(Component):
 @dataclass
 class Plate(Component):
     radius_outer: float
+    add_center: bool
 
 @dataclass
 class PCB(Plate):

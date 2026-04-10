@@ -138,21 +138,32 @@ class Component(bd.BasePartObject):
     """
     def __init__(
         self,
-        label: str,
+        build: bool = True,
         color: bd.ColorLike = "CornflowerBlue",
+        label: str = None,
+        locate: bool = True,
         **kwargs
     ):
-        part = self._build()
+        if build:
+            part = self._build()
+        else:
+            part = None
         super().__init__(
             part=part,
             **kwargs
         )
-        self.label = label
+        if locate:
+            self._locate()
+        if label is not None:
+            self.label = label
         if color is not None:
             self.color = color
 
     def _build(self) -> bd.Part:
         raise NotImplementedError()
+
+    def _locate(self):
+        pass
 
 
 class KeyLocation(bd.Location):

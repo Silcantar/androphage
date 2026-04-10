@@ -25,7 +25,7 @@ class BTU(Component):
             color
         except NameError:
             color = seq_to_color(self.parameters.BTU.color)
-        super().__init__(label, color=color, **kwargs)
+        super().__init__(label=label, color=color, **kwargs)
 
     def _build(self):
         p = self.parameters

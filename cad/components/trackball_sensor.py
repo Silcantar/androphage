@@ -17,7 +17,7 @@ class TrackballSensor(Component):
     ):
         self.parameters = parameters
         self.mode = mode
-        super().__init__(label, mode=mode, **kwargs)
+        super().__init__(label=label, mode=mode, **kwargs)
 
     def _build(self) -> bd.Compound:
         p = self.parameters

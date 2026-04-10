@@ -49,6 +49,7 @@ def build_key_locations(p: Parameters) -> KeyLocationDict:
 
 def build_plate_outline(
     p: Parameters,
+    add_center: bool = True,
     edge: float = 0,
     center_width: float = 0,
     fillet_radius: float = 0,
@@ -184,7 +185,7 @@ def build_plate_outline(
             del const_reach_line
         bd.make_face()
         full_center_width = center_width + p.center_width
-        if full_center_width > 0:
+        if add_center:
             center_edge = sketch.edges().sort_by(bd.Axis.X)[-1]
             center_edge.color = "cyan"
             bd.add(
@@ -195,10 +196,14 @@ def build_plate_outline(
             )
         # Fillet all but the right-most group of vertices.
         if fillet_radius > 0:
-            fillet_index = -2 if full_center_width > 0 else -1
+            fillet_index = -2 if add_center else -1
             bd.fillet(
                 sketch.vertices().group_by(bd.Axis.X)[:fillet_index],
                 radius=fillet_radius
             )
-        sketch.face().clean()
     return sketch.face()
+
+if __name__ == "__main__":
+    from ocp_vscode import show
+    from androphage import Androphage
+    show(Androphage())

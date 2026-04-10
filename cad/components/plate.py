@@ -21,11 +21,13 @@ class Plate(Component):
         self,
         parameters: Parameters,
         plate_type: PlateType = PlateType.SWITCH,
+        draft_center: bool = False,
         label: str = None,
         **kwargs
     ):
         self.parameters = parameters
         self.plate_type = plate_type
+        self.draft_center = draft_center
         p = self.parameters
         match self.plate_type:
             case PlateType.BOTTOM:
@@ -40,6 +42,7 @@ class Plate(Component):
         self.outline = layout.build_plate_outline(
             p,
             edge=self.plate_params.edge,
+            add_center=self.plate_params.add_center,
             center_width=self.plate_params.center_width,
             fillet_radius=self.plate_params.radius_outer
         )
@@ -51,7 +54,7 @@ class Plate(Component):
             color
         except NameError:
             color = seq_to_color(self.plate_params.color)
-        super().__init__(self.label, color=color, **kwargs)
+        super().__init__(label=self.label, color=color, **kwargs)
 
     def _build(self) -> bd.Part:
         p = self.parameters
@@ -101,21 +104,40 @@ class Plate(Component):
                             radius=self.plate_params.radius_outer
                         )
             bd.extrude(amount=self.plate_params.thickness)
+            if self.draft_center:
+                bd.draft(
+                    plate.faces().sort_by(bd.Axis.X)[-1], 
+                    neutral_plane=bd.Plane.XY,
+                    angle=-p.tent_angle
+                )
             # Subtract the trackball cutout.
             if self.plate_type == PlateType.TOP:
                 bd.add(
                     self.trackball_cutout(),
                     mode=bd.Mode.SUBTRACT
                 )
-        plate.part.orientation -= (0, p.tent_angle, 0)
+        return plate.part
+
+    def _locate(self):
+        p = self.parameters
+        self.orientation += (0, -p.tent_angle, 0)
         # Align the front center corner to the origin.
-        plate.part.position -= (
-            plate.part.vertices()
+        self.position -= (
+            self.vertices()
             .group_by(bd.Axis.X)[-1].vertices()
             .group_by(bd.Axis.Y)[0].vertices()
             .sort_by(bd.Axis.Z)[0].center()
         )
-        return plate.part
+        if not self.plate_params.add_center:
+            self.position += (
+                (self.plate_params.center_width + p.center_width)
+                * bd.Vector(
+                    -cosd(p.tent_angle),
+                    0,
+                    -sind(p.tent_angle)
+                ) + (0, -sind(self.parameters.tent_angle), 0)
+            )
+
 
     def switch_plate_cutout(self) -> bd.Sketch:
         """Create a sketch for the cutouts in the switch plate."""
@@ -210,6 +232,7 @@ if __name__ == "__main__":
         Plate(
             androphage.parameters,
             plate_type=plate_type,
+            draft_center=True
         ).move(bd.Pos(0, 0, zpos[plate_type]))
         for plate_type in PlateType
     ])
