@@ -53,6 +53,7 @@ def build_plate_outline(
     edge: float = 0,
     center_width: float = 0,
     fillet_radius: float = 0,
+    sensor_cutout: bool = False,
 ) -> bd.Face:
     """Define the geometry of the plate outline."""
     spc = p.spacing
@@ -71,49 +72,53 @@ def build_plate_outline(
     last_key = p.Columns[last_column].keys - 1
     total_splay = sum([
         p.Columns[column].splay
-        for column in p.Columns
+        for column in p.Columns if not p.Columns[column].skip
     ])
     hinge_front_loc = (
         kl["reach_0"]
         * bd.Pos(inside, back)
         * bd.Rot(Z=total_splay)
-        * bd.Pos(0, -edge)
+        * bd.Pos(0, 0*-edge)
     )
     hinge_back_loc = (
         hinge_front_loc
-        * bd.Pos(0, p.Hinge.length + 2*edge)
+        * bd.Pos(0, p.Hinge.length + 0*2*edge)
     )
     middle_back_loc = (
         kl["middle_3"]
-        * bd.Pos(inside, back + edge)
+        * bd.Pos(inside, back + 0*edge)
     )
     reach_front_loc = (
         kl["reach_0"]
-        * bd.Pos(center, front - edge)
+        * bd.Pos(center, front - 0*edge)
     )
     reach_front_inside_loc = (
         kl["reach_0"]
-        * bd.Pos(inside + edge, front - edge)
+        * bd.Pos(inside + 0*edge, front - 0*edge)
     )
     home_front_loc = (
         kl["home_0"]
-        * bd.Pos(center, front - edge)
+        * bd.Pos(center, front - 0*edge)
+    )
+    home_back_loc = (
+        kl["home_1"]
+        * bd.Pos(outside + 0*edge, back + 0*edge)
     )
     index_front_loc = (
         kl["index_0"]
-        * bd.Pos(center, front - edge)
+        * bd.Pos(center, front - 0*edge)
     )
     ring_front_loc = (
         kl["ring_0"]
-        * bd.Pos(outside, front - edge)
+        * bd.Pos(outside, front - 0*edge)
     )
     pinky_front_loc = (
         kl[f"{last_column}_0"]
-        * bd.Pos(outside - edge, front - edge)
+        * bd.Pos(outside - 0*edge, front - 0*edge)
     )
     pinky_back_loc = (
         kl[f"{last_column}_{last_key}"]
-        * bd.Pos(outside - edge, back + edge)
+        * bd.Pos(outside - 0*edge, back + 0*edge)
     )
     with bd.BuildSketch() as sketch:
         with bd.BuildLine() as outline:
@@ -176,13 +181,24 @@ def build_plate_outline(
                 start_angle=90,
                 arc_size=45
             )
-            center_line = bd.Line(
-                hinge_back_loc.position,
-                front_center_arc.start_point()
+            # center_line = bd.Line(
+            #     hinge_back_loc.position,
+            #     front_center_arc.start_point()
+            # )
+            bd.offset(
+                # outline.edges(),
+                amount=edge,
+                side=bd.Side.LEFT,
+                closed=False,
+                kind=bd.Kind.INTERSECTION
             )
-            del back_center_line
-            del const_center_line
-            del const_reach_line
+            outline_wire = bd.Wire(outline.edges())
+            if fillet_radius > 0:
+                outline_wire = bd.fillet(
+                    outline_wire.vertices(),
+                    radius=fillet_radius
+                )
+            bd.add(outline_wire.close())
         bd.make_face()
         full_center_width = center_width + p.center_width
         if add_center:
@@ -194,13 +210,29 @@ def build_plate_outline(
                     direction=(full_center_width, 0)
                 )
             )
-        # Fillet all but the right-most group of vertices.
-        if fillet_radius > 0:
-            fillet_index = -2 if add_center else -1
-            bd.fillet(
-                sketch.vertices().group_by(bd.Axis.X)[:fillet_index],
-                radius=fillet_radius
-            )
+        if sensor_cutout:
+            home_angle = total_splay - p.Columns[Finger.REACH].splay
+            with bd.BuildLine():
+                sensor_front_line = bd.PolarLine(
+                    start=home_back_loc.position,
+                    angle=-home_angle,
+                    length=100
+                )
+                sensor_outside_line = bd.PolarLine(
+                    start=home_back_loc.position,
+                    direction=(0, 1),
+                    length=100
+                )
+                sensor_back_line = bd.PolarLine(
+                    start=sensor_outside_line.end_point(),
+                    angle=-home_angle,
+                    length=100
+                )
+                sensor_center_line = bd.Line(
+                    sensor_back_line.end_point(),
+                    sensor_front_line.end_point()
+                )
+            bd.make_face(mode=bd.Mode.SUBTRACT)
     return sketch.face()
 
 if __name__ == "__main__":

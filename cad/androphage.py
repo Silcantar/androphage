@@ -47,7 +47,8 @@ class Androphage(bd.BasePartObject):
         components.append(
             Plate(
                 parameters=self.parameters,
-                plate_type=PlateType.TOP
+                plate_type=PlateType.TOP,
+                draft_center=True
             ).move(bd.Pos(Z=p.Plates.Top.z_pos))
         )
         # Frame

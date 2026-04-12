@@ -44,7 +44,8 @@ class Plate(Component):
             edge=self.plate_params.edge,
             add_center=self.plate_params.add_center,
             center_width=self.plate_params.center_width,
-            fillet_radius=self.plate_params.radius_outer
+            fillet_radius=self.plate_params.radius_outer,
+            sensor_cutout=(self.plate_type in (PlateType.PCB, PlateType.SWITCH))
         )
         if label is None:
             self.label = f"{plate_type.title()} Plate"
@@ -62,6 +63,8 @@ class Plate(Component):
             with bd.BuildSketch() as sketch:
                 # Create the outline.
                 bd.add(self.outline)
+                if self.plate_type in (PlateType.SWITCH, PlateType.PCB):
+                    pass
                 # Create the switch-mounting cutouts in the switch plate.
                 if self.plate_type == PlateType.SWITCH:
                     bd.add(
@@ -106,7 +109,7 @@ class Plate(Component):
             bd.extrude(amount=self.plate_params.thickness)
             if self.draft_center:
                 bd.draft(
-                    plate.faces().sort_by(bd.Axis.X)[-1], 
+                    plate.faces().sort_by(bd.Axis.X)[-1],
                     neutral_plane=bd.Plane.XY,
                     angle=-p.tent_angle
                 )
