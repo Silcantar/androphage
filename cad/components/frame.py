@@ -126,17 +126,20 @@ class Frame(Component):
 
     def screw_locations(self) -> bd.Locations:
         p = self.parameters
+        rotations = [
+            (90, 90, 0),
+            (90, 90, 0),
+            (90, 90, 0),
+            (-90, 90, 0),
+            (-90, 90, 0)
+        ]
         locations: list[bd.Location] = []
-        for param in range(p.Frame.screw_count):
+        for i in range(p.Frame.screw_count):
             loc = self.sweep_path().location_at(
-                (param + 0.5)/p.Frame.screw_count,
+                (i + 0.5)/p.Frame.screw_count,
                 frame_method=bd.FrameMethod.FRENET,
                 x_dir=(0, 0, 1)
-            ) * bd.Rot(
-                90,
-                90,
-                0
-            ) * bd.Pos(
+            ) * bd.Rot(*rotations[i]) * bd.Pos(
                 -p.Insert.diameter,
                 0,
                 p.Plates.Bottom.thickness - p.height
