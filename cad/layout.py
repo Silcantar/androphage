@@ -141,7 +141,7 @@ def build_plate_outline(
             )
             reach_line = bd.Line(
                 reach_front_inside_loc.position,
-                reach_front_loc.position
+                reach_front_loc.position,
             )
             front_arc = bd.ThreePointArc(
                 reach_line.end_point(),
@@ -179,25 +179,27 @@ def build_plate_outline(
                 center=const_reach_line.end_point(),
                 radius=const_reach_line.length,
                 start_angle=90,
-                arc_size=45
+                arc_size=45 - EPS
             )
-            # center_line = bd.Line(
-            #     hinge_back_loc.position,
-            #     front_center_arc.start_point()
-            # )
+            front_corner_line = bd.Line(
+                front_center_arc.end_point(),
+                reach_line.start_point(),
+            )
             bd.offset(
-                # outline.edges(),
                 amount=edge,
                 side=bd.Side.LEFT,
                 closed=False,
                 kind=bd.Kind.INTERSECTION
             )
-            outline_wire = bd.Wire(outline.edges())
             if fillet_radius > 0:
-                outline_wire = bd.fillet(
-                    outline_wire.vertices(),
+                bd.fillet(
+                    [
+                        outline.vertices().group_by(bd.Axis.X)[0],
+                        outline.vertices().sort_by(bd.Axis.Y)[0]
+                    ],
                     radius=fillet_radius
                 )
+            outline_wire = bd.Wire(outline.edges())
             bd.add(outline_wire.close())
         bd.make_face()
         full_center_width = center_width + p.center_width
