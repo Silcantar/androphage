@@ -217,8 +217,9 @@ Plates:
   Switch:
     visible: true
     add_center: false
+    clearance: 0.5 # Must be less than Frame.lip_depth
     color: *purple
-    edge: 5
+    edge: 4.5
     radius_outer: 2
     # thickness:
   Top:

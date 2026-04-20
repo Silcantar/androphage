@@ -59,17 +59,27 @@ class Androphage(bd.BasePartObject):
                 parameters=self.parameters
             ).move(bd.Pos(0, 2*p.Frame.lip_depth, p.Plates.Top.z_pos))
         )
+        # Switch Plate
         components.append(
             Plate(
                 parameters=self.parameters,
                 plate_type=PlateType.SWITCH
-            ).move(bd.Pos(0, p.Frame.lip_depth, p.Plates.Switch.z_pos))
+            ).move(bd.Pos(
+                0,
+                p.Plates.Top.edge - p.Plates.Switch.edge,
+                p.Plates.Switch.z_pos
+            ))
         )
+        # PCB
         components.append(
             Plate(
                 parameters=self.parameters,
                 plate_type=PlateType.PCB,
-            ).move(bd.Pos(0, p.Frame.lip_depth, p.Plates.PCB.z_pos))
+            ).move(bd.Pos(
+                0,
+                p.Plates.Top.edge - p.Plates.Switch.edge,
+                p.Plates.PCB.z_pos
+            ))
         )
         # Bottom Plate
         components.append(
@@ -129,7 +139,11 @@ class Androphage(bd.BasePartObject):
             - p.Plates.Bottom.z_pos
         ) * tand(p.tent_angle)
         p.Plates.Bottom.center_width = 0
-        p.Plates.Top.edge = p.Plates.Switch.edge + p.Frame.lip_depth
+        p.Plates.Top.edge = (
+            p.Plates.Switch.edge
+            + p.Plates.Switch.clearance
+            + p.Frame.lip_depth
+        )
         p.Plates.PCB.edge = p.Plates.Switch.edge
         p.Plates.Bottom.edge = p.Plates.Top.edge
         return p

@@ -143,6 +143,7 @@ class BottomPlate(Plate):
 
 @dataclass
 class SwitchPlate(Plate):
+    clearance: float
     edge: float
 
 @dataclass

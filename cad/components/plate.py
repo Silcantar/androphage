@@ -225,17 +225,12 @@ if __name__ == "__main__":
         PlateType.SWITCH: 40,
         PlateType.TOP: 60
     }
-    edge = {
-        PlateType.BOTTOM: 6,
-        PlateType.PCB: 5,
-        PlateType.SWITCH: 5,
-        PlateType.TOP: 6
-    }
     show([
         Plate(
             androphage.parameters,
             plate_type=plate_type,
-            draft_center=True
+            draft_center=True,
+            locate=True
         ).move(bd.Pos(0, 0, zpos[plate_type]))
         for plate_type in PlateType
     ])
