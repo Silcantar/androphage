@@ -63,8 +63,33 @@ class Plate(Component):
             with bd.BuildSketch() as sketch:
                 # Create the outline.
                 bd.add(self.outline)
+                # Add cutouts for frame screw bosses.
                 if self.plate_type in (PlateType.SWITCH, PlateType.PCB):
-                    pass
+                    top_plate_outline = layout.build_plate_outline(
+                        p,
+                        edge=p.Plates.Top.edge,
+                        add_center=True,
+                        center_width=p.Plates.Top.center_width,
+                        fillet_radius=p.Plates.Top.radius_outer,
+                        sensor_cutout=False
+                    )
+                    with layout.screw_locations(top_plate_outline):
+                        boss_radius = (
+                            p.Insert.hole_diameter/2
+                            + p.Insert.wall_thickness
+                            + p.Plates.Switch.clearance
+                        )
+                        bd.RectangleRounded(
+                            width=(
+                                2*boss_radius
+                                + p.Insert.diameter
+                                + 2*p.Plates.Top.edge
+                                - 2*self.plate_params.edge
+                            ),
+                            height=2*boss_radius,
+                            radius=boss_radius - EPS,
+                            mode=bd.Mode.SUBTRACT
+                        )
                 # Create the switch-mounting cutouts in the switch plate.
                 if self.plate_type == PlateType.SWITCH:
                     bd.add(
@@ -78,34 +103,34 @@ class Plate(Component):
                         mode=bd.Mode.SUBTRACT
                     )
                     # Fillet the two vertices created by the previous step.
-                    if (
-                        self.plate_params.radius_outer > 0
-                        and p.Plates.Top.thumb_cutout_fillet
-                    ):
-                        first_thumb_key = (
-                            Finger.INDEX if self.columns[Finger.INDEX].cutout
-                            else Finger.TUCK
-                        )
-                        top_plate_transition_vertices = (
-                            sketch.vertices().sort_by_distance((
-                                self.column_locations[first_thumb_key]
-                                * bd.Pos(
-                                -p.spacing.X/2,
-                                -p.spacing.Y/2 - self.plate_params.edge
-                                )
-                            ).position)[0],
-                            sketch.vertices().sort_by_distance((
-                                self.column_locations[Finger.REACH]
-                                * bd.Pos(
-                                p.spacing.X/2,
-                                -p.spacing.Y/2 - self.plate_params.edge
-                                )
-                            ).position)[0],
-                        )
-                        bd.fillet(
-                            top_plate_transition_vertices,
-                            radius=self.plate_params.radius_outer
-                        )
+                    # if (
+                    #     self.plate_params.radius_outer > 0
+                    #     and p.Plates.Top.thumb_cutout_fillet
+                    # ):
+                    #     first_thumb_key = (
+                    #         Finger.INDEX if self.columns[Finger.INDEX].cutout
+                    #         else Finger.TUCK
+                    #     )
+                    #     top_plate_transition_vertices = (
+                    #         sketch.vertices().sort_by_distance((
+                    #             self.column_locations[first_thumb_key]
+                    #             * bd.Pos(
+                    #             -p.spacing.X/2,
+                    #             -p.spacing.Y/2 - self.plate_params.edge
+                    #             )
+                    #         ).position)[0],
+                    #         sketch.vertices().sort_by_distance((
+                    #             self.column_locations[Finger.REACH]
+                    #             * bd.Pos(
+                    #             p.spacing.X/2,
+                    #             -p.spacing.Y/2 - self.plate_params.edge
+                    #             )
+                    #         ).position)[0],
+                    #     )
+                    #     bd.fillet(
+                    #         top_plate_transition_vertices,
+                    #         radius=self.plate_params.radius_outer
+                    #     )
             bd.extrude(amount=self.plate_params.thickness)
             if self.draft_center:
                 bd.draft(
@@ -230,7 +255,7 @@ if __name__ == "__main__":
             androphage.parameters,
             plate_type=plate_type,
             draft_center=True,
-            locate=True
+            locate=False
         ).move(bd.Pos(0, 0, zpos[plate_type]))
         for plate_type in PlateType
     ])

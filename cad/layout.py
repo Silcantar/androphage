@@ -237,16 +237,15 @@ def build_plate_outline(
             bd.make_face(mode=bd.Mode.SUBTRACT)
     return sketch.face()
 
-def screw_locations(outline: bd.Face) -> bd.Locations:
-    back_outside_edge = outline.edges().sort_by(bd.Axis.Y)[-1]
-    back_center_edge = outline.edges().sort_by_distance(
-        back_outside_edge.start_point()
-    )[0]
-    outside_edge = outline.edges().sort_by(bd.Axis.X)[0]
-    front_outside_edge = outline.edges().sort_by_distance(
-        outside_edge.end_point()
-    )[3]
-    front_center_edge = outline.edges().sort_by(bd.Axis.Y)[2]
+def screw_locations(outline: bd.Face, min_length: float = 10) -> bd.Locations:
+    long_edges = outline.edges().filter_by(
+        lambda e: e.length >= min_length
+    ).edges().filter_by(lambda e: e.tangent_at() != (0, 1, 0))
+    back_outside_edge = long_edges.sort_by(bd.Axis.Y)[-1]
+    back_center_edge = long_edges.sort_by(bd.Axis.Y)[-2]
+    outside_edge = long_edges.sort_by(bd.Axis.X)[0]
+    front_outside_edge = long_edges.sort_by(bd.Axis.Y)[2]
+    front_center_edge = long_edges.sort_by(bd.Axis.Y)[0]
     edges = [
         back_center_edge,
         back_outside_edge,
