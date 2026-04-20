@@ -40,8 +40,15 @@ class Frame(Component):
                 path=self.sweep_path(),
                 transition=bd.Transition.ROUND
             )
-
-            with self.screw_locations():
+            screw_locations = bd.Locations([
+                location * bd.Pos(
+                    -p.Insert.diameter,
+                    0,
+                    p.Plates.Bottom.thickness - p.height
+                )
+                for location in layout.screw_locations(self.sweep_path())
+            ])
+            with screw_locations:
                 bd.add(screw_boss_vertical(
                     hole_depth=p.Insert.hole_depth,
                     hole_diameter=p.Insert.hole_diameter,
@@ -54,23 +61,33 @@ class Frame(Component):
                     align=Align.Bottom,
                     mode=bd.Mode.SUBTRACT
                 )
-            # Move the part so that the center wall is vertical and the hinge
-            # pivot is along the Y axis.
-            frame.part.orientation += (0, -p.tent_angle, 0)
-            frame.part.position -= (
-                frame.part.vertices()
+            with bd.Locations(
+                frame.vertices()
                 .group_by(bd.Axis.Z)[-1].vertices()
                 .group_by(bd.Axis.X)[-1].vertices()
-                .sort_by(bd.Axis.Y)[1].center()
-            )
-            bd.Box(
-                length=1000,
-                width=1000,
-                height=1000,
-                align=Align.Left,
-                mode=bd.Mode.SUBTRACT
-            )
+                .sort_by(bd.Axis.Y)[1]
+            ):
+                bd.Box(
+                    length=1000,
+                    width=1000,
+                    height=1000,
+                    align=Align.Left,
+                    rotation=(0, p.tent_angle, 0),
+                    mode=bd.Mode.SUBTRACT
+                )
         return frame.part
+
+    def _locate(self):
+        p = self.parameters
+        # Move the part so that the center wall is vertical and the hinge
+        # pivot is along the Y axis.
+        self.orientation += (0, -p.tent_angle, 0)
+        self.position -= (
+            self.vertices()
+            .group_by(bd.Axis.Z)[-1].vertices()
+            .group_by(bd.Axis.X)[-1].vertices()
+            .sort_by(bd.Axis.Y)[1].center()
+        )
 
     def frame_section(self) -> bd.Sketch:
         p = self.parameters
@@ -124,29 +141,6 @@ class Frame(Component):
     def start_loc(self) -> bd.Location:
         return bd.Location(self.sweep_path().start_point())
 
-    def screw_locations(self) -> bd.Locations:
-        p = self.parameters
-        rotations = [
-            (90, 90, 0),
-            (90, 90, 0),
-            (90, 90, 0),
-            (-90, 90, 0),
-            (-90, 90, 0)
-        ]
-        locations: list[bd.Location] = []
-        for i in range(p.Frame.screw_count):
-            loc = self.sweep_path().location_at(
-                (i + 0.5)/p.Frame.screw_count,
-                frame_method=bd.FrameMethod.FRENET,
-                x_dir=(0, 0, 1)
-            ) * bd.Rot(*rotations[i]) * bd.Pos(
-                -p.Insert.diameter,
-                0,
-                p.Plates.Bottom.thickness - p.height
-            )
-            locations.append(loc)
-        return bd.Locations(locations)
-
     def sweep_path(self) -> bd.Wire:
         return bd.Wire(self.outline.edges().sort_by(bd.Axis.X)[:-1])
 
@@ -154,5 +148,5 @@ if __name__ == "__main__":
     from ocp_vscode import show
     from androphage import Androphage
     androphage = Androphage(build=False)
-    frame = Frame(androphage.parameters)
+    frame = Frame(androphage.parameters, locate=False)
     show(frame)

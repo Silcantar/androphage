@@ -237,6 +237,29 @@ def build_plate_outline(
             bd.make_face(mode=bd.Mode.SUBTRACT)
     return sketch.face()
 
+def screw_locations(outline: bd.Face) -> bd.Locations:
+    back_outside_edge = outline.edges().sort_by(bd.Axis.Y)[-1]
+    back_center_edge = outline.edges().sort_by_distance(
+        back_outside_edge.start_point()
+    )[0]
+    outside_edge = outline.edges().sort_by(bd.Axis.X)[0]
+    front_outside_edge = outline.edges().sort_by_distance(
+        outside_edge.end_point()
+    )[3]
+    front_center_edge = outline.edges().sort_by(bd.Axis.Y)[2]
+    edges = [
+        back_center_edge,
+        back_outside_edge,
+        outside_edge,
+        front_outside_edge,
+        front_center_edge
+    ]
+    return bd.Locations([
+        edge.location_at(0.5, x_dir=(0, 0, 1)) * bd.Rot(90, 90, 0)
+        for edge in edges
+    ])
+
+
 if __name__ == "__main__":
     from ocp_vscode import show
     from androphage import Androphage
