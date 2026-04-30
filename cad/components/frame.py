@@ -83,10 +83,16 @@ class Frame(Component):
         # pivot is along the Y axis.
         self.orientation += (0, -p.tent_angle, 0)
         self.position -= (
-            self.vertices()
+            self.faces()
+            .group_by(bd.Axis.X)[-1].faces()
+            .sort_by(bd.Axis.Y)[0].vertices()
             .group_by(bd.Axis.Z)[-1].vertices()
-            .group_by(bd.Axis.X)[-1].vertices()
-            .sort_by(bd.Axis.Y)[1].center()
+            .sort_by(bd.Axis.Y)[-1].center()
+            
+            # self.vertices()
+            # .group_by(bd.Axis.Z)[-1].vertices()
+            # .group_by(bd.Axis.X)[-1].vertices()
+            # .sort_by(bd.Axis.Y)[2].center()
         )
 
     def frame_section(self) -> bd.Sketch:
@@ -148,5 +154,5 @@ if __name__ == "__main__":
     from ocp_vscode import show
     from androphage import Androphage
     androphage = Androphage(build=False)
-    frame = Frame(androphage.parameters, locate=False)
+    frame = Frame(androphage.parameters, locate=True)
     show(frame)
