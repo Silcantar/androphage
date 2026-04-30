@@ -135,11 +135,12 @@ class Plate(Component):
 
 @dataclass
 class PCB(Plate):
-    thickness: float
     clearance: float
+    thickness: float
 
 @dataclass
 class BottomPlate(Plate):
+    clearance: float
     thickness: float
 
 @dataclass
@@ -168,11 +169,13 @@ class PrintParameters:
 
 @dataclass
 class Screw(Component):
+    counter_sink_diameter: float
     diameter: float
-    minor_diameter: float
     head_diameter: float
     head_angle: float
-    offset: float
+    hole_diameter: float
+    minor_diameter: float
+    # offset: float
 
 @dataclass
 class SwitchColor:

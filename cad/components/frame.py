@@ -42,11 +42,11 @@ class Frame(Component):
             )
             screw_locations = bd.Locations([
                 location * bd.Pos(
-                    -p.Insert.diameter,
+                    -p.Screw.offset,
                     0,
                     p.Plates.Bottom.thickness - p.height
                 )
-                for location in layout.screw_locations(self.sweep_path())
+                for location in layout.frame_screw_locations(self.sweep_path())
             ])
             with screw_locations:
                 bd.add(screw_boss_vertical(

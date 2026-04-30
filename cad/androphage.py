@@ -81,7 +81,11 @@ class Androphage(bd.BasePartObject):
         bottom_plate = Plate(
             parameters=self.parameters,
             plate_type=PlateType.BOTTOM
-        ).move(bd.Pos(Z=p.Plates.Bottom.z_pos))
+        ).move(bd.Pos(
+            0,
+            p.Plates.Top.edge - p.Plates.Bottom.edge,
+            p.Plates.Bottom.z_pos
+        ))
         component_list.append(bottom_plate)
         # Magnetic Connector
         from components.magnetic_connector import MagneticConnector
@@ -158,7 +162,9 @@ class Androphage(bd.BasePartObject):
             + p.Frame.lip_depth
         )
         p.Plates.PCB.edge = p.Plates.Switch.edge
-        p.Plates.Bottom.edge = p.Plates.Top.edge
+        p.Plates.Bottom.edge = p.Plates.Top.edge - p.Plates.Bottom.clearance
+        # Miscellany
+        p.Screw.offset = p.Insert.hole_diameter/2 + p.Insert.wall_thickness
         return p
 
     def test_layout(self) -> bd.Part:

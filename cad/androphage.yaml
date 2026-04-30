@@ -205,14 +205,17 @@ Plates:
   Bottom:
     visible: true
     add_center: true
-    color: *smoke
+    clearance: 0.2
+    color: *purple
+    # color: *smoke
     radius_outer: 2
-    thickness: 3
+    thickness: *pcb_thickness
+    # thickness: 3
   PCB:
     visible: true
     add_center: false
     color: *purple
-    # This both ensures clearance between the PCB and bottom plate and
+    # This ensures clearance between the PCB and bottom plate
     clearance: 3
     radius_outer: 2
     thickness: *pcb_thickness
@@ -235,11 +238,12 @@ Plates:
 Screw:
   visible: true
   color: *steel
+  counter_sink_diameter: 4.4
   diameter: 2
-  minor_diameter: 1.6
   head_diameter: 4
   head_angle: 90
-  offset: 3
+  hole_diameter: 2.4
+  minor_diameter: 1.6
 
 # ---- Switch Options ----
 Switch_Color_Options:

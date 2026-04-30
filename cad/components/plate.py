@@ -63,31 +63,31 @@ class Plate(Component):
             with bd.BuildSketch() as sketch:
                 # Create the outline.
                 bd.add(self.outline)
-                # Add cutouts for frame screw bosses.
+                top_plate_outline = layout.build_plate_outline(
+                    p,
+                    edge=p.Plates.Top.edge,
+                    add_center=True,
+                    center_width=p.Plates.Top.center_width,
+                    fillet_radius=p.Plates.Top.radius_outer,
+                    sensor_cutout=False
+                )
+                boss_radius = (
+                    p.Insert.hole_diameter/2
+                    + p.Insert.wall_thickness
+                )
                 if self.plate_type in (PlateType.SWITCH, PlateType.PCB):
-                    top_plate_outline = layout.build_plate_outline(
-                        p,
-                        edge=p.Plates.Top.edge,
-                        add_center=True,
-                        center_width=p.Plates.Top.center_width,
-                        fillet_radius=p.Plates.Top.radius_outer,
-                        sensor_cutout=False
-                    )
-                    with layout.screw_locations(top_plate_outline):
-                        boss_radius = (
-                            p.Insert.hole_diameter/2
-                            + p.Insert.wall_thickness
-                            + p.Plates.Switch.clearance
-                        )
+                    # Add cutouts for frame screw bosses.
+                    cutout_radius = boss_radius + p.Plates.Switch.clearance
+                    with layout.frame_screw_locations(top_plate_outline):
                         bd.RectangleRounded(
                             width=(
-                                2*boss_radius
-                                + p.Insert.diameter
+                                2*cutout_radius
+                                + p.Screw.offset
                                 + 2*p.Plates.Top.edge
                                 - 2*self.plate_params.edge
                             ),
-                            height=2*boss_radius,
-                            radius=boss_radius - EPS,
+                            height=2*cutout_radius,
+                            radius=cutout_radius - EPS,
                             mode=bd.Mode.SUBTRACT
                         )
                 # Create the switch-mounting cutouts in the switch plate.
@@ -132,6 +132,32 @@ class Plate(Component):
                     #         radius=self.plate_params.radius_outer
                     #     )
             bd.extrude(amount=self.plate_params.thickness)
+            if self.plate_type == PlateType.BOTTOM:
+                offset = (
+                    boss_radius
+                    - p.Plates.Top.edge
+                    + self.plate_params.edge
+                    + p.Frame.lip_depth
+                )
+                # Add screw holes.
+                with layout.screw_locations(
+                    outline=self.outline,
+                    x_offset=p.Plates.Bottom.thickness*tand(p.tent_angle) - p.Plates.Bottom.clearance,
+                    y_offsets=[offset, 2*boss_radius, -offset]
+                ):
+                    with bd.Locations(bd.Location(
+                        position=((
+                            -p.Screw.offset
+                            + p.Plates.Top.edge
+                            - self.plate_params.edge
+                        ), 0, 0),
+                        orientation=(180, 0, 0)
+                    )):
+                        bd.CounterSinkHole(
+                            radius=p.Screw.hole_diameter/2,
+                            counter_sink_radius=p.Screw.counter_sink_diameter/2,
+                            counter_sink_angle=p.Screw.head_angle
+                        )
             if self.draft_center:
                 bd.draft(
                     plate.faces().sort_by(bd.Axis.X)[-1],

@@ -1,4 +1,5 @@
 import typing
+from collections.abc import Sequence
 
 import build123d as bd
 
@@ -237,7 +238,10 @@ def build_plate_outline(
             bd.make_face(mode=bd.Mode.SUBTRACT)
     return sketch.face()
 
-def screw_locations(outline: bd.Face, min_length: float = 10) -> bd.Locations:
+def frame_screw_locations(
+    outline: bd.Face,
+    min_length: float = 10
+) -> bd.Locations:
     long_edges = outline.edges().filter_by(
         lambda e: e.length >= min_length
     ).edges().filter_by(lambda e: e.tangent_at() != (0, 1, 0))
@@ -257,6 +261,29 @@ def screw_locations(outline: bd.Face, min_length: float = 10) -> bd.Locations:
         edge.location_at(0.5, x_dir=(0, 0, 1)) * bd.Rot(90, 90, 0)
         for edge in edges
     ])
+
+def center_screw_locations(
+    outline: bd.Face,
+    x_offset: float = 0,
+    y_offsets: Sequence[float] = [0, 0, 0]
+) -> bd.Locations:
+    center_edge = outline.edges().sort_by(bd.Axis.X)[-1]
+    return bd.Locations([
+        center_edge.start_point() + (x_offset, y_offsets[0], 0),
+        center_edge.center() + (x_offset, y_offsets[1], 0),
+        center_edge.end_point() + (x_offset, y_offsets[2], 0)
+    ])
+
+def screw_locations(
+    outline: bd.Face,
+    min_length: float = 10,
+    x_offset: float = 0,
+    y_offsets: Sequence[float] = [0, 0, 0]
+) -> bd.Locations:
+    return bd.Locations(
+        frame_screw_locations(outline, min_length).locations
+        + center_screw_locations(outline, x_offset, y_offsets).locations
+    )
 
 
 if __name__ == "__main__":

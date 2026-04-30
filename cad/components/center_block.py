@@ -261,7 +261,6 @@ class CenterBlock(Component):
     def screw_locations(self) -> bd.Locations:
         p = self.parameters
         # Radius of the screw boss.
-        offset = p.Insert.hole_diameter/2 + p.Insert.wall_thickness
         # Select the bottom outside edge of the center wall.
         edge = (
             self.center_wall.edges()
@@ -270,9 +269,9 @@ class CenterBlock(Component):
         )
         # Put locations in the center and inset from each end of the edge.
         return bd.Locations([
-            edge.start_point() + (-offset, offset, 0),
-            edge.center() + (-offset, 2*offset, 0),
-            edge.end_point() + (-offset, -offset, 0)
+            edge.start_point() + (-p.Screw.offset, p.Screw.offset, 0),
+            edge.center() + (-p.Screw.offset, 2*p.Screw.offset, 0),
+            edge.end_point() + (-p.Screw.offset, -p.Screw.offset, 0)
         ])
 
     def sensor_holder(self) -> bd.Part:
