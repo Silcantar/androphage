@@ -166,10 +166,22 @@ class Plate(Component):
                 )
             # Subtract the trackball cutout.
             if self.plate_type == PlateType.TOP:
-                bd.add(
-                    self.trackball_cutout(),
-                    mode=bd.Mode.SUBTRACT
+                trackball_locations = bd.Locations(
+                    plate.vertices()
+                    .group_by(bd.Axis.Z)[-1].vertices()
+                    .group_by(bd.Axis.X)[-1].vertices()
+                    .sort_by(bd.Axis.Y)[0].center()
+                    + (0, p.Trackball.position_y, 0)
                 )
+                with trackball_locations:
+                    bd.Sphere(
+                        radius=p.Trackball.diameter/2 + p.Trackball.clearance,
+                        mode=bd.Mode.SUBTRACT
+                    )
+                # bd.add(
+                #     self.trackball_cutout(),
+                #     mode=bd.Mode.SUBTRACT
+                # )
         return plate.part
 
     def _locate(self):
@@ -247,9 +259,9 @@ class Plate(Component):
         p = self.parameters
         with bd.BuildPart() as part:
             trackball_location = (
-                self.outline
-                .vertices()
-                .group_by(bd.Axis.X)[-1]
+                self.vertices()
+                .group_by(bd.Axis.Z)[-1].vertices()
+                .group_by(bd.Axis.X)[-1].vertices()
                 .sort_by(bd.Axis.Y)[0]
             ).moved(
                 bd.Pos(
@@ -258,11 +270,14 @@ class Plate(Component):
                 )
             )
             with bd.Locations(trackball_location):
-                bd.Cylinder(
-                    radius=p.Trackball.diameter/2 + p.Trackball.clearance,
-                    height=self.plate_params.thickness,
-                    align=Align.Bottom
+                bd.Sphere(
+                    radius=p.Trackball.diameter/2 + p.Trackball.clearance
                 )
+                # bd.Cylinder(
+                #     radius=p.Trackball.diameter/2 + p.Trackball.clearance,
+                #     height=self.plate_params.thickness,
+                #     align=Align.Bottom
+                # )
         return part.part
 
 
