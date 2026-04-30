@@ -32,7 +32,7 @@ class TrackballSensor(Component):
         with bd.BuildPart() as pcb:
             with bd.Locations((0, 0, ps.clearance + ps.lens_size[2])):
                 bd.Box(*ps.pcb_size, align=Align.Bottom)
-        pcb.part.color = "DarkGreen"
+        pcb.part.color = seq_to_color(p.Plates.PCB.color)#"DarkGreen"
         pcb.part.label = "PCB"
         components.append(pcb.part)
         with bd.BuildPart() as chip:

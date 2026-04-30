@@ -55,7 +55,7 @@ class Androphage(bd.BasePartObject):
         from components.center_block import CenterBlock
         center_block = CenterBlock(
             parameters=self.parameters
-        ).move(bd.Pos(0, 2*p.Frame.lip_depth, p.Plates.Top.z_pos))
+        ).move(bd.Pos(0, p.Frame.lip_depth, p.Plates.Top.z_pos))
         component_list.append(center_block)
         # Switch Plate
         switch_plate = Plate(
@@ -104,6 +104,24 @@ class Androphage(bd.BasePartObject):
             + (0, magcon_size.Y/2, 0)
         ))
         component_list.append(magnetic_connector)
+        # Trackball
+        trackball_location = bd.Pos(Y=p.Trackball.position_y)
+        trackball = bd.Sphere(
+            radius=p.Trackball.diameter/2
+        ).move(trackball_location)
+        trackball.color = seq_to_color(p.Trackball.color)
+        trackball.label = "Trackball"
+        component_list.append(trackball)
+        # Trackball Sensor
+        from components.trackball_sensor import TrackballSensor
+        trackball_sensor = TrackballSensor(parameters=self.parameters).move(
+            trackball_location
+            # I don't know why the next line is necessary.
+            * bd.Pos(X=-p.Plates.Top.thickness*sind(p.tent_angle)) 
+            * bd.Rot(Y=180 + p.TrackballSensor.angle)
+            * bd.Pos(Z=p.Trackball.diameter/2)
+        )
+        component_list.append(trackball_sensor)
         from components.battery import Battery
         return bd.Part(label="Androphage", children=component_list)
 

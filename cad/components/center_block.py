@@ -51,7 +51,8 @@ class CenterBlock(Component):
                         + p.CenterBlock.wall_thickness
                     ),
                     arc_size3=90 - p.tent_angle,
-                    align=Align.LeftFront
+                    align=Align.LeftFront,
+                    rotation=(-90, 0, 90 + p.tent_angle)
                 )
             # Add trackball sensor holder.
             with self.sensor_locations():
@@ -134,18 +135,18 @@ class CenterBlock(Component):
                 length=1000,
                 width=1000,
                 height=self.height_,
-                align=Align.Bottom,
+                align=Align.Top,
                 mode=bd.Mode.INTERSECT
             )
         # Move the part so that the center wall is vertical and the hinge pivot
         # is along the Y axis.
         center_block.part.orientation += (0, -p.tent_angle, 0)
-        center_block.part.position += (
-            -center_block.part.vertices()
-            .group_by(bd.Axis.Z)[-1].vertices()
-            .group_by(bd.Axis.Y)[0].vertices()
-            .sort_by(bd.Axis.X)[-1].center()
-        )
+        # center_block.part.position += (
+        #     -center_block.part.vertices()
+        #     .group_by(bd.Axis.Z)[-1].vertices()
+        #     .group_by(bd.Axis.Y)[0].vertices()
+        #     .sort_by(bd.Axis.X)[-1].center()
+        # )
         return center_block.part
 
     def btu_locations(self) -> bd.Locations:
@@ -153,8 +154,12 @@ class CenterBlock(Component):
         btu_angles = bd.Vector(p.CenterBlock.btu_angles)
         return bd.Locations([
             self.trackball_position()
-            * bd.Rot(0, 0, z_angle)
-            * bd.Rot(0, -90 - btu_angles.Y, 0)
+            * bd.Rot(
+                0, 
+                180 + btu_angles.Y + p.tent_angle, 
+                z_angle, 
+                ordering=bd.Extrinsic.XYZ
+            )
             * bd.Pos(0, 0, p.Trackball.diameter/2)
             for z_angle in (-btu_angles.Z, btu_angles.Z)
         ])
@@ -187,7 +192,7 @@ class CenterBlock(Component):
                 bd.Rectangle(
                     width=-2*p.CenterBlock.wall_thickness,
                     height=edge.length - 2*p.Frame.lip_depth,
-                    align=Align.LeftFront
+                    align=Align.RightFront
                 )
             extrude_amount = (
                 p.height
@@ -197,9 +202,9 @@ class CenterBlock(Component):
             bd.extrude(
                 amount=extrude_amount,
                 dir=(
-                    sind(p.tent_angle),
+                    -sind(p.tent_angle),
                     0,
-                    cosd(p.tent_angle)
+                    -cosd(p.tent_angle)
                 )
             )
             outer_face = center_wall.faces().sort_by(bd.Axis.X)[0]
@@ -250,13 +255,13 @@ class CenterBlock(Component):
             .group_by(bd.Axis.X)[-1].vertices()
         )
 
-    def origin_point(self) -> bd.Location:
-        return bd.Location(
-            self.center_wall.faces()
-            .sort_by(bd.Axis.Y)[0].vertices()
-            .group_by(bd.Axis.X)[-1].vertices()
-            .sort_by(bd.Axis.Z)[-1].center()
-        )
+    # def origin_point(self) -> bd.Location:
+    #     return bd.Location(
+    #         self.center_wall.faces()
+    #         .sort_by(bd.Axis.Y)[0].vertices()
+    #         .group_by(bd.Axis.X)[-1].vertices()
+    #         .sort_by(bd.Axis.Z)[-1].center()
+    #     )
 
     def screw_locations(self) -> bd.Locations:
         p = self.parameters
@@ -310,7 +315,7 @@ class CenterBlock(Component):
         p = self.parameters
         return bd.Locations(
             self.trackball_position()
-            * bd.Rot(0, 180 + p.TrackballSensor.angle, 0)
+            * bd.Rot(0, 180 + p.TrackballSensor.angle + p.tent_angle, 0)
             * bd.Pos(0, 0, p.Trackball.diameter/2)
         )
 
@@ -318,17 +323,17 @@ class CenterBlock(Component):
         p = self.parameters
         return bd.Locations(
             self.trackball_position()
-            * bd.Rot(-90, 0, 90 + p.tent_angle)
+            # * bd.Rot(-90, 0, 90 + p.tent_angle)
         )
 
     def trackball_position(self) -> bd.Location:
         p = self.parameters
         return bd.Location(
-            self.origin_point()
-            * bd.Pos(
+            # self.origin_point()
+            bd.Pos(
                 0,
                 p.Trackball.position_y - p.Frame.lip_depth,
-                p.Plates.Top.thickness
+                p.Plates.Top.thickness/cosd(p.tent_angle)
             )
         )
 
