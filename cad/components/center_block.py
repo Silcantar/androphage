@@ -74,11 +74,16 @@ class CenterBlock(Component):
                     wall_thickness=p.Insert.wall_thickness
                 ))
             with self.connector_screw_locations():
-                Tube(
-                    radius_outer=p.Insert.hole_diameter/2 + p.Insert.wall_thickness,
-                    radius_inner=p.Insert.hole_diameter/2,
-                    height_=p.Insert.hole_depth,
-                    align=Align.Top
+                bd.Cylinder(
+                    radius=p.Insert.hole_diameter/2 + p.Insert.wall_thickness,
+                    height=p.MagneticConnector.size[0],
+                    align=Align.Bottom
+                )
+                bd.Cylinder(
+                    radius=p.Insert.hole_diameter/2,
+                    height=p.Insert.hole_depth,
+                    align=Align.Bottom,
+                    mode=bd.Mode.SUBTRACT
                 )
             # ---- Subtractions ----
             # Subtract trackball sensor from holder.
@@ -117,7 +122,7 @@ class CenterBlock(Component):
                     length=1000,
                     width=2*p.Frame.lip_depth,
                     height=(
-                        -p.Plates.Top.thickness 
+                        -p.Plates.Top.thickness
                         - p.Plates.Switch.thickness
                         - p.Plates.Switch.z_pos
                     ) * cosd(p.tent_angle),
@@ -234,7 +239,7 @@ class CenterBlock(Component):
         return bd.Locations([
             self.connector_locations().locations[0]
             * bd.Rot(Y=90)
-            * bd.Pos(0, y_pos, -p.CenterBlock.wall_thickness)
+            * bd.Pos(0, y_pos, -p.MagneticConnector.size[0])
             for y_pos in (-screw_offset, screw_offset)
         ])
 
@@ -266,7 +271,7 @@ class CenterBlock(Component):
         # Put locations in the center and inset from each end of the edge.
         return bd.Locations([
             edge.start_point() + (-offset, offset, 0),
-            edge.center() + (-offset, 0, 0),
+            edge.center() + (-offset, 2*offset, 0),
             edge.end_point() + (-offset, -offset, 0)
         ])
 
@@ -322,8 +327,8 @@ class CenterBlock(Component):
         return bd.Location(
             self.origin_point()
             * bd.Pos(
-                0, 
-                p.Trackball.position_y - p.Frame.lip_depth, 
+                0,
+                p.Trackball.position_y - p.Frame.lip_depth,
                 p.Plates.Top.thickness
             )
         )

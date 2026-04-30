@@ -104,6 +104,7 @@ class LED(Component):
 class MagneticConnector(Component):
     lip: vector[3]
     lip_offset: float
+    pcb_size: vector[3]
     position_y: float
     screw_offset: float
     size: vector[3]

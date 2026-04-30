@@ -35,60 +35,73 @@ class Androphage(bd.BasePartObject):
         )
 
     def _build(self, test_layout) -> bd.Part:
-        from components.battery import Battery
-        from components.plate import Plate, PlateType
         from components.frame import Frame
-        from components.center_block import CenterBlock
         p = self.parameters
-        components: list[bd.Part] = []
+        component_list: list[bd.Part] = []
         if test_layout:
-            components.append(self.test_layout())
+            return self.test_layout()
         # Top Plate
-        components.append(
-            Plate(
-                parameters=self.parameters,
-                plate_type=PlateType.TOP,
-                draft_center=True
-            ).move(bd.Pos(Z=p.Plates.Top.z_pos))
-        )
+        from components.plate import Plate, PlateType
+        top_plate = Plate(
+            parameters=self.parameters,
+            plate_type=PlateType.TOP,
+            draft_center=True
+        ).move(bd.Pos(Z=p.Plates.Top.z_pos))
+        component_list.append(top_plate)
         # Frame
-        components.append(Frame(parameters=self.parameters))
+        frame = Frame(parameters=self.parameters)
+        component_list.append(frame)
         # Center Block
-        components.append(
-            CenterBlock(
-                parameters=self.parameters
-            ).move(bd.Pos(0, 2*p.Frame.lip_depth, p.Plates.Top.z_pos))
-        )
+        from components.center_block import CenterBlock
+        center_block = CenterBlock(
+            parameters=self.parameters
+        ).move(bd.Pos(0, 2*p.Frame.lip_depth, p.Plates.Top.z_pos))
+        component_list.append(center_block)
         # Switch Plate
-        components.append(
-            Plate(
-                parameters=self.parameters,
-                plate_type=PlateType.SWITCH
-            ).move(bd.Pos(
-                0,
-                p.Plates.Top.edge - p.Plates.Switch.edge,
-                p.Plates.Switch.z_pos
-            ))
-        )
+        switch_plate = Plate(
+            parameters=self.parameters,
+            plate_type=PlateType.SWITCH
+        ).move(bd.Pos(
+            0,
+            p.Plates.Top.edge - p.Plates.Switch.edge,
+            p.Plates.Switch.z_pos
+        ))
+        component_list.append(switch_plate)
         # PCB
-        components.append(
-            Plate(
-                parameters=self.parameters,
-                plate_type=PlateType.PCB,
-            ).move(bd.Pos(
-                0,
-                p.Plates.Top.edge - p.Plates.Switch.edge,
-                p.Plates.PCB.z_pos
-            ))
-        )
+        pcb = Plate(
+            parameters=self.parameters,
+            plate_type=PlateType.PCB,
+        ).move(bd.Pos(
+            0,
+            p.Plates.Top.edge - p.Plates.Switch.edge,
+            p.Plates.PCB.z_pos
+        ))
+        component_list.append(pcb)
         # Bottom Plate
-        components.append(
-            Plate(
-                parameters=self.parameters,
-                plate_type=PlateType.BOTTOM
-            ).move(bd.Pos(Z=p.Plates.Bottom.z_pos))
-        )
-        return bd.Part(label="Androphage", children=components)
+        bottom_plate = Plate(
+            parameters=self.parameters,
+            plate_type=PlateType.BOTTOM
+        ).move(bd.Pos(Z=p.Plates.Bottom.z_pos))
+        component_list.append(bottom_plate)
+        # Magnetic Connector
+        from components.magnetic_connector import MagneticConnector
+        magcon_size = bd.Vector(p.MagneticConnector.size)
+        magnetic_connector = MagneticConnector(
+            parameters=self.parameters
+        ).move(bd.Pos(
+            center_block.edges()
+            .group_by(bd.Axis.X)[-1].edges()
+            .filter_by(bd.GeomType.CIRCLE).edges()
+            .filter_by(
+                lambda e: e.radius == magcon_size.Z/2 - EPS
+            ).edges()
+            .group_by(bd.Axis.Y)[0].edges()
+            .sort_by(bd.Axis.Z)[0].edge().start_point()
+            + (0, magcon_size.Y/2, 0)
+        ))
+        component_list.append(magnetic_connector)
+        from components.battery import Battery
+        return bd.Part(label="Androphage", children=component_list)
 
     def _set_derived_parameters(self, p: Parameters) -> Parameters:
         """Get the key spacing distance based on the spacing type specified in

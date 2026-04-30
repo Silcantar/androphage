@@ -6,7 +6,7 @@ from common import *
 from parameters import Parameters
 
 class MagneticConnector(Component):
-    """12-pin magnetic pogo pin connector."""
+    """12-pin magnetic pogo pin connector with VIK connector PCB."""
 
     def __init__(
         self,
@@ -16,15 +16,17 @@ class MagneticConnector(Component):
     ):
         self.parameters = parameters
         try:
-            color
+            self.color = color
         except NameError:
-            color = seq_to_color(self.parameters.MagneticConnector.color)
-        super().__init__(label=label, color=color, **kwargs)
+            self.color = seq_to_color(self.parameters.MagneticConnector.color)
+        super().__init__(label=label, color=None, **kwargs)
 
     def _build(self) -> bd.Part:
         p = self.parameters.MagneticConnector
         size = bd.Vector(p.size)
         lip = bd.Vector(p.lip)
+        pcb_size = bd.Vector(p.pcb_size)
+        components: list[bd.Part] = []
         with bd.BuildPart() as mag_con:
             with bd.BuildSketch(bd.Plane.YZ) as main_sketch:
                 bd.RectangleRounded(
@@ -41,7 +43,27 @@ class MagneticConnector(Component):
                     radius=lip.Z/2 - EPS
                 )
             bd.extrude(amount=lip.X, dir=(-1, 0, 0))
-        return mag_con.part
+        mag_con.part.color = self.color
+        mag_con.part.label = "Connector"
+        components.append(mag_con.part)
+        pcb_plane = bd.Plane(mag_con.part.faces().sort_by(bd.Axis.X)[0])
+        with bd.BuildPart() as pcb:
+            with bd.BuildSketch(pcb_plane):
+                bd.RectangleRounded(
+                    width=pcb_size.Y,
+                    height=pcb_size.Z,
+                    radius=self.parameters.Plates.PCB.radius_outer
+                )
+                with bd.Locations([(i*p.screw_offset, 0, 0) for i in [1, -1]]):
+                    bd.Circle(
+                        radius=self.parameters.Screw.diameter/2,
+                        mode=bd.Mode.SUBTRACT
+                    )
+            bd.extrude(amount=pcb_size.X)
+        pcb.part.color = seq_to_color(self.parameters.Plates.PCB.color)
+        pcb.part.label = "PCB"
+        components.append(pcb.part)
+        return bd.Part(children=components)
 
 
 if __name__ == "__main__":
