@@ -40,6 +40,11 @@ class Frame(Component):
                 path=self.sweep_path(),
                 transition=bd.Transition.ROUND
             )
+            bd.sweep(
+                sections=self.notch_cutter(),
+                path=self.notch_path(),
+                mode=bd.Mode.SUBTRACT
+            )
             screw_locations = bd.Locations([
                 location * bd.Pos(
                     -p.Screws.M2.offset,
@@ -61,6 +66,7 @@ class Frame(Component):
                     align=Align.Bottom,
                     mode=bd.Mode.SUBTRACT
                 )
+            # Cut excess from ends.
             with bd.Locations(
                 frame.vertices()
                 .group_by(bd.Axis.Z)[-1].vertices()
@@ -127,17 +133,32 @@ class Frame(Component):
 
     def notch_cutter(self) -> bd.Sketch:
         p = self.parameters
-        with bd.BuildSketch() as cutter:
+        plane = bd.Plane(
+            origin=self.notch_path().start_point(),
+            z_dir=self.notch_path().tangent_at(0)
+        )
+        with bd.BuildSketch(plane) as cutter:
             bd.Rectangle(
-                width=p.Frame.thickness,
-                height=10,
-                align=Align.Front
-            )
-            bd.Circle(
-                radius=p.Frame.thickness,
-                mode=bd.Mode.SUBTRACT
+                width=p.Frame.thickness*2,
+                height=p.Frame.notch_depth,
+                align=Align.Back
             )
         return cutter.sketch
+
+    def notch_path(self) -> bd.Wire:
+        p = self.parameters
+        straight_length = p.spacing.X/2 - p.Frame.notch_depth
+        return bd.Wire([
+            self.outline.edges()[4].trim_to_length(
+                start=0,
+                length=straight_length
+            ),
+            self.outline.edges()[5],
+            self.outline.edges()[6].trim_to_length(
+                start=1,
+                length=-straight_length
+            )
+        ]).move(bd.Pos(0, 0, -p.Frame.notch_depth))
 
     def start_loc(self) -> bd.Location:
         return bd.Location(self.sweep_path().start_point())
@@ -149,5 +170,5 @@ if __name__ == "__main__":
     from ocp_vscode import show
     from androphage import Androphage
     androphage = Androphage(build=False)
-    frame = Frame(androphage.parameters, locate=True)
+    frame = Frame(androphage.parameters, locate=False)
     show(frame)
