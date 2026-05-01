@@ -46,7 +46,7 @@ class Androphage(bd.BasePartObject):
             parameters=self.parameters,
             plate_type=PlateType.TOP,
             draft_center=True
-        ).move(bd.Pos(Z=p.Plates.Top.z_pos))
+        ).move(bd.Pos(Z=p.Plates.Top.position_z))
         component_list.append(top_plate)
         # Frame
         frame = Frame(parameters=self.parameters)
@@ -55,7 +55,7 @@ class Androphage(bd.BasePartObject):
         from components.center_block import CenterBlock
         center_block = CenterBlock(
             parameters=self.parameters
-        ).move(bd.Pos(0, p.Frame.lip_depth, p.Plates.Top.z_pos))
+        ).move(bd.Pos(0, p.Frame.lip_depth, p.Plates.Top.position_z))
         component_list.append(center_block)
         # Switch Plate
         switch_plate = Plate(
@@ -64,7 +64,7 @@ class Androphage(bd.BasePartObject):
         ).move(bd.Pos(
             0,
             p.Plates.Top.edge - p.Plates.Switch.edge,
-            p.Plates.Switch.z_pos
+            p.Plates.Switch.position_z
         ))
         component_list.append(switch_plate)
         # PCB
@@ -74,7 +74,7 @@ class Androphage(bd.BasePartObject):
         ).move(bd.Pos(
             0,
             p.Plates.Top.edge - p.Plates.Switch.edge,
-            p.Plates.PCB.z_pos
+            p.Plates.PCB.position_z
         ))
         component_list.append(pcb)
         # Bottom Plate
@@ -84,24 +84,16 @@ class Androphage(bd.BasePartObject):
         ).move(bd.Pos(
             0,
             p.Plates.Top.edge - p.Plates.Bottom.edge,
-            p.Plates.Bottom.z_pos
+            p.Plates.Bottom.position_z
         ))
         component_list.append(bottom_plate)
         # Magnetic Connector
         from components.magnetic_connector import MagneticConnector
-        magcon_size = bd.Vector(p.MagneticConnector.size)
         magnetic_connector = MagneticConnector(
             parameters=self.parameters
         ).move(bd.Pos(
-            center_block.edges()
-            .group_by(bd.Axis.X)[-1].edges()
-            .filter_by(bd.GeomType.CIRCLE).edges()
-            .filter_by(
-                lambda e: e.radius == magcon_size.Z/2 - EPS
-            ).edges()
-            .group_by(bd.Axis.Y)[0].edges()
-            .sort_by(bd.Axis.Z)[0].edge().start_point()
-            + (0, magcon_size.Y/2, 0)
+            bd.Vector(p.MagneticConnector.position)
+            + (0, p.Frame.lip_depth, p.Plates.Top.position_z)
         ))
         component_list.append(magnetic_connector)
         # Trackball
@@ -116,12 +108,36 @@ class Androphage(bd.BasePartObject):
         from components.trackball_sensor import TrackballSensor
         trackball_sensor = TrackballSensor(parameters=self.parameters).move(
             trackball_location
-            # I don't know why the next line is necessary.
-            * bd.Pos(X=-p.Plates.Top.thickness*sind(p.tent_angle)) 
             * bd.Rot(Y=180 + p.TrackballSensor.angle)
             * bd.Pos(Z=p.Trackball.diameter/2)
         )
         component_list.append(trackball_sensor)
+        # Hinge
+        from components.hinge import Hinge
+        hinge = Hinge(
+            parameters=self.parameters
+        ).move(bd.Pos(0, p.Hinge.position_y + p.Frame.lip_depth, 0))
+        component_list.append(hinge)
+        # BTUs
+        from components.btu import BTU
+        btu_locations = bd.Locations([
+            trackball_location
+            * bd.Rot(
+                0,
+                p.CenterBlock.btu_angles[1],
+                i*p.CenterBlock.btu_angles[2],
+                ordering=bd.Extrinsic.XYZ
+            )
+            * bd.Pos(Z=-p.Trackball.diameter/2)
+            for i in (1, -1)
+        ])
+        btu_list: list[bd.Part] = []
+        for loc in btu_locations.locations:
+            btu = BTU(
+                parameters=self.parameters
+            ).move(loc)
+            btu_list.append(btu)
+        component_list.append(bd.Part(children=btu_list))
         from components.battery import Battery
         return bd.Part(label="Androphage", children=component_list)
 
@@ -150,28 +166,28 @@ class Androphage(bd.BasePartObject):
         )
         # Plate Parameters
         p.Plates.Switch.thickness = p.Switch.model.plate_thickness
-        p.Plates.Top.z_pos = -p.Plates.Top.thickness / cosd(p.tent_angle)
-        p.Plates.Switch.z_pos = (
+        p.Plates.Top.position_z = -p.Plates.Top.thickness / cosd(p.tent_angle)
+        p.Plates.Switch.position_z = (
             - p.Keycap.profile.height
             - p.Switch.model.height.upper
             - p.Plates.Switch.thickness
         ) / cosd(p.tent_angle)
-        p.Plates.PCB.z_pos = p.Plates.Switch.z_pos + (
+        p.Plates.PCB.position_z = p.Plates.Switch.position_z + (
             - p.Switch.model.height.lower
             - p.Plates.PCB.thickness
         ) / cosd(p.tent_angle)
-        p.Plates.Bottom.z_pos = -p.height / cosd(p.tent_angle)
+        p.Plates.Bottom.position_z = -p.height / cosd(p.tent_angle)
         p.Plates.Top.center_width = (
-            p.Plates.Top.z_pos
-            - p.Plates.Bottom.z_pos
+            p.Plates.Top.position_z
+            - p.Plates.Bottom.position_z
         ) * tand(p.tent_angle)
         p.Plates.Switch.center_width = (
-            p.Plates.Switch.z_pos
-            - p.Plates.Bottom.z_pos
+            p.Plates.Switch.position_z
+            - p.Plates.Bottom.position_z
         ) * tand(p.tent_angle)
         p.Plates.PCB.center_width = (
-            p.Plates.PCB.z_pos
-            - p.Plates.Bottom.z_pos
+            p.Plates.PCB.position_z
+            - p.Plates.Bottom.position_z
         ) * tand(p.tent_angle)
         p.Plates.Bottom.center_width = 0
         p.Plates.Top.edge = (
@@ -183,6 +199,9 @@ class Androphage(bd.BasePartObject):
         p.Plates.Bottom.edge = p.Plates.Top.edge - p.Plates.Bottom.clearance
         # Miscellany
         p.Screw.offset = p.Insert.hole_diameter/2 + p.Insert.wall_thickness
+        p.Hinge.diameter = p.Hinge.pin_diameter + 2*p.Hinge.leaf_thickness
+        p.Hinge.leaf_width = (p.Hinge.width - p.Hinge.diameter)/2
+        p.Hinge.length = p.Hinge.knuckle_length * p.Hinge.knuckle_count
         return p
 
     def test_layout(self) -> bd.Part:

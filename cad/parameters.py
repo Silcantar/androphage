@@ -65,13 +65,12 @@ class Frame(Component):
 
 @dataclass
 class Hinge(Component):
-    diameter: float
-    knuckle_depth: float
-    length: float
+    knuckle_count: float
+    knuckle_length: float
     leaf_thickness: float
-    leaf_width: float
-    offset: float
     pin_diameter: float
+    width: float
+    position_y: float
 
 @dataclass
 class Insert(Component):
@@ -105,7 +104,7 @@ class MagneticConnector(Component):
     lip: vector[3]
     lip_offset: float
     pcb_size: vector[3]
-    position_y: float
+    position: vector[3]
     screw_offset: float
     size: vector[3]
 
@@ -227,6 +226,7 @@ class Parameters(YAMLWizard):
     main_half: Half
     tent_angle: float
     center_width: float
+    pivot_depth: float
     Print: PrintParameters
     Columns: Columns
     Battery: Battery

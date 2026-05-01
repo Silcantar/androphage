@@ -7,6 +7,7 @@ import layout
 from parameters import Parameters
 from components.btu import BTU
 from components.fasteners import screw_boss_vertical
+from components.hinge import Hinge
 from components.magnetic_connector import MagneticConnector
 from components.trackball_sensor import TrackballSensor
 
@@ -52,7 +53,7 @@ class CenterBlock(Component):
                     ),
                     arc_size3=90 - p.tent_angle,
                     align=Align.LeftFront,
-                    rotation=(-90, 0, 90 + p.tent_angle)
+                    rotation=(-90, 0, 90)
                 )
             # Add trackball sensor holder.
             with self.sensor_locations():
@@ -67,25 +68,7 @@ class CenterBlock(Component):
             # Add BTU sockets.
             with self.btu_locations():
                 bd.add(self.btu_socket())
-            with self.screw_locations():
-                bd.add(screw_boss_vertical(
-                    hole_depth=p.Insert.hole_depth,
-                    hole_diameter=p.Insert.hole_diameter,
-                    overhang_angle=p.Print.overhang_angle,
-                    wall_thickness=p.Insert.wall_thickness
-                ))
-            with self.connector_screw_locations():
-                bd.Cylinder(
-                    radius=p.Insert.hole_diameter/2 + p.Insert.wall_thickness,
-                    height=p.MagneticConnector.size[0],
-                    align=Align.Bottom
-                )
-                bd.Cylinder(
-                    radius=p.Insert.hole_diameter/2,
-                    height=p.Insert.hole_depth,
-                    align=Align.Bottom,
-                    mode=bd.Mode.SUBTRACT
-                )
+          
             # ---- Subtractions ----
             # Subtract trackball sensor from holder.
             with self.sensor_locations():
@@ -108,45 +91,56 @@ class CenterBlock(Component):
                     mode=bd.Mode.SUBTRACT
                 )
             # Subtract cutout for magnetic connector.
-            with self.connector_locations():
+            with bd.Locations(p.MagneticConnector.position):
                 MagneticConnector(self.parameters, mode=bd.Mode.SUBTRACT)
-            # Subtract holes for heat-sink inserts.
-            with self.screw_locations():
-                bd.Cylinder(
-                    radius=p.Insert.hole_diameter/2,
-                    height=p.Insert.hole_depth,
-                    align=Align.Bottom,
-                    mode=bd.Mode.SUBTRACT
-                )
-            with self.lip_locations():
+                with bd.Locations([
+                    (
+                        -p.MagneticConnector.size[0], 
+                        i*p.MagneticConnector.screw_offset, 
+                        0
+                    ) 
+                    for i in (1, -1)
+                ]):
+                    bd.Cylinder(
+                        radius=(
+                            p.Insert.hole_diameter/2 
+                            + p.Insert.wall_thickness
+                        ),
+                        height=p.MagneticConnector.size[0],
+                        align=Align.Bottom,
+                        rotation=(0, 90, 0)
+                    )
+                    bd.Cylinder(
+                        radius=p.Screw.hole_diameter/2,
+                        height=BIG,
+                        # radius=p.Insert.hole_diameter/2,
+                        # height=p.Insert.hole_depth,
+                        align=Align.Bottom,
+                        rotation=(0, 90, 0),
+                        mode=bd.Mode.SUBTRACT
+                    )
+            # Subtract cutout for hinge.
+            with bd.Locations((0, p.Hinge.position_y, 0)):
                 bd.Box(
-                    length=1000,
-                    width=2*p.Frame.lip_depth,
-                    height=(
-                        -p.Plates.Top.thickness
-                        - p.Plates.Switch.thickness
-                        - p.Plates.Switch.z_pos
-                    ) * cosd(p.tent_angle),
-                    align=Align.Top,
+                    length=p.Hinge.leaf_thickness,
+                    width=p.Hinge.length,
+                    height=BIG,
+                    align=Align.RightFront,
                     mode=bd.Mode.SUBTRACT
                 )
+                # Hinge(
+                #     parameters=self.parameters,
+                #     mode=bd.Mode.SUBTRACT
+                # )
             # Clip off anything extending outside the proper height of the part.
             bd.Box(
-                length=1000,
-                width=1000,
+                length=BIG,
+                width=BIG,
                 height=self.height_,
                 align=Align.Top,
+                rotation=(0, -p.tent_angle, 0),
                 mode=bd.Mode.INTERSECT
             )
-        # Move the part so that the center wall is vertical and the hinge pivot
-        # is along the Y axis.
-        center_block.part.orientation += (0, -p.tent_angle, 0)
-        # center_block.part.position += (
-        #     -center_block.part.vertices()
-        #     .group_by(bd.Axis.Z)[-1].vertices()
-        #     .group_by(bd.Axis.Y)[0].vertices()
-        #     .sort_by(bd.Axis.X)[-1].center()
-        # )
         return center_block.part
 
     def btu_locations(self) -> bd.Locations:
@@ -156,12 +150,12 @@ class CenterBlock(Component):
             self.trackball_position()
             * bd.Rot(
                 0, 
-                180 + btu_angles.Y + p.tent_angle, 
-                z_angle, 
+                180 + btu_angles.Y,# + p.tent_angle, 
+                i*btu_angles.Z, 
                 ordering=bd.Extrinsic.XYZ
             )
             * bd.Pos(0, 0, p.Trackball.diameter/2)
-            for z_angle in (-btu_angles.Z, btu_angles.Z)
+            for i in (1, -1)
         ])
 
     def btu_socket(self) -> bd.Part:
@@ -224,60 +218,75 @@ class CenterBlock(Component):
                 neutral_plane=bd.Plane(center_wall.faces().sort_by(bd.Axis.X)[0]),
                 angle=p.Print.overhang_angle
             )
+            # Radius of the screw boss.
+            # Select the bottom outside edge of the center wall.
+            edge = (
+                center_wall.edges()
+                .group_by(bd.Axis.Z)[0].edges()
+                .sort_by(bd.Axis.X)[-1]
+            )
+            # Put locations in the center and inset from each end of the edge.
+            screw_locations = bd.Locations([
+                edge.start_point() + (-p.Screw.offset, p.Screw.offset, 0),
+                edge.center() + (-p.Screw.offset, 2*p.Screw.offset, 0),
+                edge.end_point() + (-p.Screw.offset, -p.Screw.offset, 0)
+            ])
+            # Add bosses for heat-sink inserts.
+            with screw_locations:
+                bd.add(screw_boss_vertical(
+                    hole_depth=p.Insert.hole_depth,
+                    hole_diameter=p.Insert.hole_diameter,
+                    overhang_angle=p.Print.overhang_angle,
+                    wall_thickness=p.Insert.wall_thickness
+                ))
+                bd.Cylinder(
+                    radius=p.Insert.hole_diameter/2,
+                    height=p.Insert.hole_depth,
+                    align=Align.Bottom,
+                    mode=bd.Mode.SUBTRACT
+                )
+            # Subtract cutouts for frame lips.
+            lip_locations = bd.Locations(
+                center_wall.vertices()
+                .group_by(bd.Axis.Z)[-1].vertices()
+                .group_by(bd.Axis.X)[-1].vertices()
+            )
+            with lip_locations:
+                bd.Box(
+                    length=BIG,
+                    width=2*p.Frame.lip_depth,
+                    height=(
+                        -p.Plates.Top.thickness
+                        - p.Plates.Switch.thickness
+                        - p.Plates.Switch.position_z
+                    ) * cosd(p.tent_angle),
+                    align=Align.Top,
+                    mode=bd.Mode.SUBTRACT
+                )
+            # Move the part so that the center wall is vertical and the hinge
+            # pivot is along the Y axis.
+            center_wall.part.orientation += (0, -p.tent_angle, 0)
         return center_wall.part
 
-    def connector_locations(self) -> bd.Locations:
-        p = self.parameters
-        return bd.Locations(
-            bd.Location(
-                self.center_wall.edges()
-                .group_by(bd.Axis.Y)[0].edges()
-                .sort_by(bd.Axis.X)[-1].center()
-            )
-            * bd.Rot(0, p.tent_angle, 0)
-            * bd.Pos(0, p.MagneticConnector.position_y, 0)
-        )
+    # def connector_screw_locations(self) -> bd.Locations:
+    #     p = self.parameters
+    #     screw_offset = p.MagneticConnector.screw_offset
+    #     return bd.Locations([
+    #         bd.Location(
+    #             position=(
+    #                 bd.Vector(p.MagneticConnector.position) 
+    #                 + (0, i*screw_offset, 0)
+    #             ),
+    #             orientation=(0, -90, 0)
+    #         )
+    #         for i in (1, -1)
+    #     ])
 
-    def connector_screw_locations(self) -> bd.Locations:
-        p = self.parameters
-        screw_offset = p.MagneticConnector.screw_offset
-        return bd.Locations([
-            self.connector_locations().locations[0]
-            * bd.Rot(Y=90)
-            * bd.Pos(0, y_pos, -p.MagneticConnector.size[0])
-            for y_pos in (-screw_offset, screw_offset)
-        ])
-
-    def lip_locations(self) -> bd.Locations:
-        return bd.Locations(
-            self.center_wall.vertices()
-            .group_by(bd.Axis.Z)[-1].vertices()
-            .group_by(bd.Axis.X)[-1].vertices()
-        )
-
-    # def origin_point(self) -> bd.Location:
-    #     return bd.Location(
-    #         self.center_wall.faces()
-    #         .sort_by(bd.Axis.Y)[0].vertices()
-    #         .group_by(bd.Axis.X)[-1].vertices()
-    #         .sort_by(bd.Axis.Z)[-1].center()
-    #     )
+    # def lip_locations(self) -> bd.Locations:
+    #     return 
 
     def screw_locations(self) -> bd.Locations:
         p = self.parameters
-        # Radius of the screw boss.
-        # Select the bottom outside edge of the center wall.
-        edge = (
-            self.center_wall.edges()
-            .group_by(bd.Axis.Z)[0].edges()
-            .sort_by(bd.Axis.X)[-1]
-        )
-        # Put locations in the center and inset from each end of the edge.
-        return bd.Locations([
-            edge.start_point() + (-p.Screw.offset, p.Screw.offset, 0),
-            edge.center() + (-p.Screw.offset, 2*p.Screw.offset, 0),
-            edge.end_point() + (-p.Screw.offset, -p.Screw.offset, 0)
-        ])
 
     def sensor_holder(self) -> bd.Part:
         p = self.parameters
@@ -315,7 +324,7 @@ class CenterBlock(Component):
         p = self.parameters
         return bd.Locations(
             self.trackball_position()
-            * bd.Rot(0, 180 + p.TrackballSensor.angle + p.tent_angle, 0)
+            * bd.Rot(0, 180 + p.TrackballSensor.angle, 0)
             * bd.Pos(0, 0, p.Trackball.diameter/2)
         )
 

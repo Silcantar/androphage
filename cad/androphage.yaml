@@ -4,6 +4,7 @@ main_half: left
 tent_angle: 7
 center_width: 7
 pcb_thickness: &pcb_thickness 1.6
+pivot_depth: 80
 colors:
   black: &black [0x202020, 1]
   brass: &brass [DarkGoldenrod, 1]
@@ -113,7 +114,7 @@ CenterBlock:
   visible: true
   # 47 degrees for the BTU Z angle adds a bit of clearance for the sensor
   # without significantly affecting the stability of the trackball.
-  btu_angles: [ 0, 60, 45 ]
+  btu_angles: [ 0, 60, 47 ]
   color: *black
   rib_size: [ 2, 2 ]
   screw_count: 3
@@ -134,15 +135,17 @@ Frame:
   screw_count: 5
   thickness: 5
 Hinge:
+  # https://www.mcmaster.com/11555A61/ or https://www.mcmaster.com/1624A62/
   visible: true
   color: *steel
-  diameter: 4.42
-  knuckle_depth: 12.7
-  length: 80
-  leaf_thickness: 0.04
-  leaf_width: 13.5
-  offset: 5
-  pin_diameter: 2.4
+  knuckle_count: 4
+  knuckle_length: 12.7
+  leaf_thickness: 1.016
+  pin_diameter: 2.3876
+  screw_count: 3
+  width: 36.27 # Cut-down width
+  # width: 38.1 # Factory width
+  position_y: 1
 Insert:
   visible: true
   color: *brass
@@ -181,7 +184,7 @@ MagneticConnector:
   lip: [ 1.0, 28.5, 8.0 ]
   lip_offset: 1.0
   pcb_size: [*pcb_thickness, 40, 10]
-  position_y: 28
+  position: [0, 26.4, -8]
   size: [ 4.7, 26.5, 6.0 ]
   screw_offset: 18
 MCU:
@@ -233,7 +236,7 @@ Plates:
     color: *pcb_color
     edge: 4.5
     radius_outer: 2
-    # thickness:
+    # thickness: *pcb_thickness
   Top:
     visible: true
     add_center: true
@@ -436,7 +439,7 @@ Trackball:
   visible: true
   color: *purple
   diameter: 34
-  position_y: 70
+  position_y: 72
   clearance: 1
 TrackballSensor:
   visible: true

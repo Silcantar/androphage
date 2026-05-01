@@ -68,9 +68,9 @@ class Frame(Component):
                 .sort_by(bd.Axis.Y)[1]
             ):
                 bd.Box(
-                    length=1000,
-                    width=1000,
-                    height=1000,
+                    length=BIG,
+                    width=BIG,
+                    height=BIG,
                     align=Align.Left,
                     rotation=(0, p.tent_angle, 0),
                     mode=bd.Mode.SUBTRACT
@@ -88,11 +88,6 @@ class Frame(Component):
             .sort_by(bd.Axis.Y)[0].vertices()
             .group_by(bd.Axis.Z)[-1].vertices()
             .sort_by(bd.Axis.Y)[-1].center()
-            
-            # self.vertices()
-            # .group_by(bd.Axis.Z)[-1].vertices()
-            # .group_by(bd.Axis.X)[-1].vertices()
-            # .sort_by(bd.Axis.Y)[2].center()
         )
 
     def frame_section(self) -> bd.Sketch:

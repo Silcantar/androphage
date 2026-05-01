@@ -7,6 +7,7 @@ from math import cos, sin, tan, radians
 import build123d as bd
 
 # Geometry Definitions
+BIG = 1000
 EPS = 0.001
 
 def cosd(angle: float) -> float:

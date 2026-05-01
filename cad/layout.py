@@ -83,7 +83,7 @@ def build_plate_outline(
     )
     hinge_back_loc = (
         hinge_front_loc
-        * bd.Pos(0, p.Hinge.length + 0*2*edge)
+        * bd.Pos(0, p.pivot_depth + 0*2*edge)
     )
     middle_back_loc = (
         kl["middle_3"]

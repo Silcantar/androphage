@@ -12,14 +12,16 @@ class MagneticConnector(Component):
         self,
         parameters: Parameters,
         label: str = "Magnetic Connector",
+        mode: bd.Mode = bd.Mode.ADD,
         **kwargs
     ):
         self.parameters = parameters
+        self.mode = mode
         try:
             self.color = color
         except NameError:
             self.color = seq_to_color(self.parameters.MagneticConnector.color)
-        super().__init__(label=label, color=None, **kwargs)
+        super().__init__(label=label, color=None, mode=mode, **kwargs)
 
     def _build(self) -> bd.Part:
         p = self.parameters.MagneticConnector
@@ -42,7 +44,11 @@ class MagneticConnector(Component):
                     height=lip.Z,
                     radius=lip.Z/2 - EPS
                 )
-            bd.extrude(amount=lip.X, dir=(-1, 0, 0))
+            lip_thickness = (
+                lip.X if self.mode != bd.Mode.SUBTRACT 
+                else size.Y - p.lip_offset
+            )
+            bd.extrude(amount=lip_thickness, dir=(-1, 0, 0))
         mag_con.part.color = self.color
         mag_con.part.label = "Connector"
         components.append(mag_con.part)
@@ -56,7 +62,7 @@ class MagneticConnector(Component):
                 )
                 with bd.Locations([(i*p.screw_offset, 0, 0) for i in [1, -1]]):
                     bd.Circle(
-                        radius=self.parameters.Screw.diameter/2,
+                        radius=self.parameters.Screw.hole_diameter/2,
                         mode=bd.Mode.SUBTRACT
                     )
             bd.extrude(amount=pcb_size.X)

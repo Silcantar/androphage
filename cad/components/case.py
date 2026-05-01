@@ -23,7 +23,7 @@ case_left += Plate(
     p, 
     plate_type=PlateType.TOP,
     draft_center=True
-).move(bd.Pos(0, 0, p.Plates.Top.z_pos))
+).move(bd.Pos(0, 0, p.Plates.Top.position_z))
 
 case_left = bd.Rot(Y=p.tent_angle) * case_left
 

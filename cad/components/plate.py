@@ -6,6 +6,7 @@ import build123d as bd
 from common import *
 import layout
 from parameters import Columns, Parameters
+from components.hinge import Hinge
 
 class PlateType(StrEnum):
     BOTTOM = auto()
@@ -22,12 +23,14 @@ class Plate(Component):
         parameters: Parameters,
         plate_type: PlateType = PlateType.SWITCH,
         draft_center: bool = False,
+        fillet_front_corners: bool = False,
         label: str = None,
         **kwargs
     ):
         self.parameters = parameters
         self.plate_type = plate_type
         self.draft_center = draft_center
+        self.fillet_front_corners = fillet_front_corners
         p = self.parameters
         match self.plate_type:
             case PlateType.BOTTOM:
@@ -103,34 +106,35 @@ class Plate(Component):
                         mode=bd.Mode.SUBTRACT
                     )
                     # Fillet the two vertices created by the previous step.
-                    # if (
-                    #     self.plate_params.radius_outer > 0
-                    #     and p.Plates.Top.thumb_cutout_fillet
-                    # ):
-                    #     first_thumb_key = (
-                    #         Finger.INDEX if self.columns[Finger.INDEX].cutout
-                    #         else Finger.TUCK
-                    #     )
-                    #     top_plate_transition_vertices = (
-                    #         sketch.vertices().sort_by_distance((
-                    #             self.column_locations[first_thumb_key]
-                    #             * bd.Pos(
-                    #             -p.spacing.X/2,
-                    #             -p.spacing.Y/2 - self.plate_params.edge
-                    #             )
-                    #         ).position)[0],
-                    #         sketch.vertices().sort_by_distance((
-                    #             self.column_locations[Finger.REACH]
-                    #             * bd.Pos(
-                    #             p.spacing.X/2,
-                    #             -p.spacing.Y/2 - self.plate_params.edge
-                    #             )
-                    #         ).position)[0],
-                    #     )
-                    #     bd.fillet(
-                    #         top_plate_transition_vertices,
-                    #         radius=self.plate_params.radius_outer
-                    #     )
+                    if (
+                        self.fillet_front_corners
+                        and self.plate_params.radius_outer > 0
+                        and p.Plates.Top.thumb_cutout_fillet
+                    ):
+                        first_thumb_key = (
+                            Finger.INDEX if self.columns[Finger.INDEX].cutout
+                            else Finger.TUCK
+                        )
+                        top_plate_transition_vertices = (
+                            sketch.vertices().sort_by_distance((
+                                self.column_locations[first_thumb_key]
+                                * bd.Pos(
+                                -p.spacing.X/2,
+                                -p.spacing.Y/2 - self.plate_params.edge
+                                )
+                            ).position)[0],
+                            sketch.vertices().sort_by_distance((
+                                self.column_locations[Finger.REACH]
+                                * bd.Pos(
+                                p.spacing.X/2,
+                                -p.spacing.Y/2 - self.plate_params.edge
+                                )
+                            ).position)[0],
+                        )
+                        bd.fillet(
+                            top_plate_transition_vertices,
+                            radius=self.plate_params.radius_outer
+                        )
             bd.extrude(amount=self.plate_params.thickness)
             if self.plate_type == PlateType.BOTTOM:
                 offset = (
@@ -142,7 +146,10 @@ class Plate(Component):
                 # Add screw holes.
                 with layout.screw_locations(
                     outline=self.outline,
-                    x_offset=p.Plates.Bottom.thickness*tand(p.tent_angle) - p.Plates.Bottom.clearance,
+                    x_offset=(
+                        p.Plates.Bottom.thickness*tand(p.tent_angle) 
+                        - p.Plates.Bottom.clearance
+                    ),
                     y_offsets=[offset, 2*boss_radius, -offset]
                 ):
                     with bd.Locations(bd.Location(
@@ -164,13 +171,16 @@ class Plate(Component):
                     neutral_plane=bd.Plane.XY,
                     angle=-p.tent_angle
                 )
-            # Subtract the trackball cutout.
             if self.plate_type == PlateType.TOP:
-                trackball_locations = bd.Locations(
+                origin = (
                     plate.vertices()
                     .group_by(bd.Axis.Z)[-1].vertices()
                     .group_by(bd.Axis.X)[-1].vertices()
                     .sort_by(bd.Axis.Y)[0].center()
+                )
+                # Subtract the trackball cutout.
+                trackball_locations = bd.Locations(
+                    origin
                     + (0, p.Trackball.position_y, 0)
                 )
                 with trackball_locations:
@@ -178,10 +188,19 @@ class Plate(Component):
                         radius=p.Trackball.diameter/2 + p.Trackball.clearance,
                         mode=bd.Mode.SUBTRACT
                     )
-                # bd.add(
-                #     self.trackball_cutout(),
-                #     mode=bd.Mode.SUBTRACT
-                # )
+                # Subtract the hinge cutout.
+                hinge_locations = bd.Locations(bd.Location(
+                    position=(
+                        origin
+                        + (0, p.Hinge.position_y + p.Frame.lip_depth, 0)
+                    ),
+                    orientation=(0, p.tent_angle, 0)
+                ))
+                with hinge_locations:
+                    Hinge(
+                        parameters=self.parameters,
+                        mode=bd.Mode.SUBTRACT
+                    )
         return plate.part
 
     def _locate(self):
@@ -273,11 +292,6 @@ class Plate(Component):
                 bd.Sphere(
                     radius=p.Trackball.diameter/2 + p.Trackball.clearance
                 )
-                # bd.Cylinder(
-                #     radius=p.Trackball.diameter/2 + p.Trackball.clearance,
-                #     height=self.plate_params.thickness,
-                #     align=Align.Bottom
-                # )
         return part.part
 
 
