@@ -103,7 +103,7 @@ def build_plate_outline(
     )
     home_back_loc = (
         kl["home_1"]
-        * bd.Pos(outside + 0*edge, back + 0*edge)
+        * bd.Pos(outside, back + edge)
     )
     index_front_loc = (
         kl["index_0"]
