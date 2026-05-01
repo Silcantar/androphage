@@ -132,12 +132,14 @@ class Androphage(bd.BasePartObject):
             for i in (1, -1)
         ])
         btu_list: list[bd.Part] = []
-        for loc in btu_locations.locations:
+        for i in range(len(btu_locations.locations)):
+            loc = btu_locations.locations[i]
             btu = BTU(
                 parameters=self.parameters
             ).move(loc)
+            btu.label = f"BTU {i+1}"
             btu_list.append(btu)
-        component_list.append(bd.Part(children=btu_list))
+        component_list.append(bd.Part(children=btu_list, label="BTUs"))
         from components.battery import Battery
         return bd.Part(label="Androphage", children=component_list)
 
