@@ -19,7 +19,7 @@ class TrackballSensor(Component):
         self.mode = mode
         super().__init__(label=label, color=None, mode=mode, **kwargs)
 
-    def _build(self) -> bd.Compound:
+    def _build(self) -> bd.Part:
         p = self.parameters
         ps = self.parameters.TrackballSensor
         components: list[bd.Part] = []
@@ -32,7 +32,7 @@ class TrackballSensor(Component):
         with bd.BuildPart() as pcb:
             with bd.Locations((0, 0, ps.clearance + ps.lens_size[2])):
                 bd.Box(*ps.pcb_size, align=Align.Bottom)
-        pcb.part.color = seq_to_color(p.Plates.PCB.color)#"DarkGreen"
+        pcb.part.color = seq_to_color(p.Plates.PCB.color)
         pcb.part.label = "PCB"
         components.append(pcb.part)
         with bd.BuildPart() as chip:

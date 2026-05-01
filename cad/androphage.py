@@ -1,5 +1,6 @@
 import typing
 from os import PathLike
+import copy
 
 import build123d as bd
 
@@ -96,28 +97,15 @@ class Androphage(bd.BasePartObject):
             + (0, p.Frame.lip_depth, p.Plates.Top.position_z)
         ))
         component_list.append(magnetic_connector)
-        # Trackball
-        trackball_location = bd.Pos(Y=p.Trackball.position_y)
-        trackball = bd.Sphere(
-            radius=p.Trackball.diameter/2
-        ).move(trackball_location)
-        trackball.color = seq_to_color(p.Trackball.color)
-        trackball.label = "Trackball"
-        component_list.append(trackball)
         # Trackball Sensor
         from components.trackball_sensor import TrackballSensor
+        trackball_location = bd.Pos(Y=p.Trackball.position_y)
         trackball_sensor = TrackballSensor(parameters=self.parameters).move(
             trackball_location
             * bd.Rot(Y=180 + p.TrackballSensor.angle)
             * bd.Pos(Z=p.Trackball.diameter/2)
         )
         component_list.append(trackball_sensor)
-        # Hinge
-        from components.hinge import Hinge
-        hinge = Hinge(
-            parameters=self.parameters
-        ).move(bd.Pos(0, p.Hinge.position_y + p.Frame.lip_depth, 0))
-        component_list.append(hinge)
         # BTUs
         from components.btu import BTU
         btu_locations = bd.Locations([
@@ -141,7 +129,26 @@ class Androphage(bd.BasePartObject):
             btu_list.append(btu)
         component_list.append(bd.Part(children=btu_list, label="BTUs"))
         from components.battery import Battery
-        return bd.Part(label="Androphage", children=component_list)
+        left_half = bd.Part(label="Left Half", children=component_list)
+        right_half = bd.Part(
+            label="Right Half",
+            children=mirror_preserve(component_list, about=bd.Plane.YZ)
+        )
+        # Hinge
+        from components.hinge import Hinge
+        hinge = Hinge(
+            parameters=self.parameters
+        ).move(bd.Pos(0, p.Hinge.position_y + p.Frame.lip_depth, 0))
+        # Trackball
+        trackball = bd.Sphere(
+            radius=p.Trackball.diameter/2
+        ).move(trackball_location)
+        trackball.color = seq_to_color(p.Trackball.color)
+        trackball.label = "Trackball"
+        return bd.Part(
+            label="Androphage",
+            children=[left_half, right_half, hinge, trackball]
+        )
 
     def _set_derived_parameters(self, p: Parameters) -> Parameters:
         """Get the key spacing distance based on the spacing type specified in

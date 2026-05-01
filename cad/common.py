@@ -1,8 +1,9 @@
 import typing
-from collections.abc import Sequence
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from enum import Enum, StrEnum, auto
 from math import cos, sin, tan, radians
+import copy as copy_module
 
 import build123d as bd
 
@@ -54,6 +55,38 @@ def seq_to_color(color_seq: Sequence = []) -> bd.Color:
                 blue=color_seq[2],
                 alpha=color_seq[3]
             )
+
+
+def mirror_preserve(
+    objects: bd.MirrorType | Iterable[bd.MirrorType] | None = None,
+    about: bd.Plane = bd.Plane.XZ,
+    mode: bd.Mode = bd.Mode.ADD,
+) -> list[bd.MirrorType]:
+    """Wrapper for build123d.mirror that preserves object metadata."""
+    mirrored: list[bd.MirrorType] = []
+    for obj in objects:
+        if len(obj.children) > 0:
+            metadata = (obj.label, obj.color)
+            location = obj.location
+            mirrored_obj = bd.Part(
+                children=mirror_preserve(
+                    objects=obj.children,
+                    about=about,
+                    mode=mode
+                )
+            )
+            (mirrored_obj.label, mirrored_obj.color) = metadata
+            if mirrored_obj.label == "Trackball Sensor":
+                # Bodge the trackball sensor location.
+                mirrored_obj.location = location.mirror(bd.Plane.YZ) * bd.Rot(Z=180)
+            else:
+                mirrored_obj.location = location
+        else:
+            metadata = (obj.label, obj.color)
+            mirrored_obj = bd.mirror(obj, about=about, mode=mode)
+            (mirrored_obj.label, mirrored_obj.color) = metadata
+        mirrored.append(mirrored_obj)
+    return mirrored
 
 
 # Datatype Definitions
@@ -194,6 +227,7 @@ class KeyLocationDict(dict[str, KeyLocation]):
 
     def locations(self) -> bd.LocationList:
         return bd.LocationList(list(self.values()))
+
 
 class Tube(bd.BasePartObject):
     def __init__(
