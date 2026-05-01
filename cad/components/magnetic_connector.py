@@ -62,7 +62,7 @@ class MagneticConnector(Component):
                 )
                 with bd.Locations([(i*p.screw_offset, 0, 0) for i in [1, -1]]):
                     bd.Circle(
-                        radius=self.parameters.Screw.hole_diameter/2,
+                        radius=self.parameters.Screws.M3.hole_diameter/2,
                         mode=bd.Mode.SUBTRACT
                     )
             bd.extrude(amount=pcb_size.X)

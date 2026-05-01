@@ -83,10 +83,10 @@ class Hinge(Component):
                         ) for i in (1, -1)
                     ]):
                         bd.CounterSinkHole(
-                            radius=p.Screw.hole_diameter/2,
-                            counter_sink_radius=p.Screw.counter_sink_diameter/2,
+                            radius=p.Screws.M3.hole_diameter/2,
+                            counter_sink_radius=p.Screws.M3.counter_sink_diameter/2,
                             depth=BIG,
-                            counter_sink_angle=p.Screw.head_angle,
+                            counter_sink_angle=p.Screws.M3.head_angle,
                             mode=bd.Mode.SUBTRACT
                         )
         left_leaf.part.label = "Left Leaf"

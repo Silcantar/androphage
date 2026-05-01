@@ -245,15 +245,40 @@ Plates:
     radius_outer: 2
     thickness: *wall_thickness
     thumb_cutout_fillet: false
-Screw:
-  visible: true
-  color: *steel
-  counter_sink_diameter: 4.4
-  diameter: 2
-  head_diameter: 4
-  head_angle: 90
-  hole_diameter: 2.4
-  minor_diameter: 1.6
+Screws:
+  M2:
+    visible: true
+    color: *steel
+    counter_sink_diameter: 4.4
+    diameter: 2
+    drive_depth: 1
+    drive_width: 1.3
+    head_diameter: 4
+    head_angle: 90
+    hole_diameter: 2.4
+    minor_diameter: 1.6
+  M3:
+    visible: true
+    color: *steel
+    counter_sink_diameter: 6.6
+    diameter: 3
+    drive_depth: 1.1
+    drive_width: 2
+    head_diameter: 6
+    head_angle: 90
+    hole_diameter: 3.6
+    minor_diameter: 2.5
+  M4:
+    visible: true
+    color: *steel
+    counter_sink_diameter: 8.8
+    diameter: 4
+    drive_depth: 1.5
+    drive_width: 2.5
+    head_diameter: 8
+    head_angle: 90
+    hole_diameter: 4.8
+    minor_diameter: 3.3
 
 # ---- Switch Options ----
 Switch_Color_Options:

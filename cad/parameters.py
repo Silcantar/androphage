@@ -170,11 +170,30 @@ class PrintParameters:
 class Screw(Component):
     counter_sink_diameter: float
     diameter: float
+    drive_depth: float
+    drive_width: float
     head_diameter: float
     head_angle: float
     hole_diameter: float
     minor_diameter: float
-    # offset: float
+
+@dataclass
+class M2(Screw):
+    pass
+
+@dataclass
+class M3(Screw):
+    pass
+
+@dataclass
+class M4(Screw):
+    pass
+
+@dataclass
+class Screws:
+    M2: M2
+    M3: M3
+    M4: M4
 
 @dataclass
 class SwitchColor:
@@ -242,7 +261,7 @@ class Parameters(YAMLWizard):
     MCU: MCU
     OLED: OLED
     Plates: Plates
-    Screw: Screw
+    Screws: Screws
     Switch: Switch
     Trackball: Trackball
     TrackballSensor: TrackballSensor

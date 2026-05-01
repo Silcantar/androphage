@@ -85,7 +85,7 @@ class Plate(Component):
                         bd.RectangleRounded(
                             width=(
                                 2*cutout_radius
-                                + p.Screw.offset
+                                + p.Screws.M2.offset
                                 + 2*p.Plates.Top.edge
                                 - 2*self.plate_params.edge
                             ),
@@ -154,16 +154,16 @@ class Plate(Component):
                 ):
                     with bd.Locations(bd.Location(
                         position=((
-                            -p.Screw.offset
+                            -p.Screws.M2.offset
                             + p.Plates.Top.edge
                             - self.plate_params.edge
                         ), 0, 0),
                         orientation=(180, 0, 0)
                     )):
                         bd.CounterSinkHole(
-                            radius=p.Screw.hole_diameter/2,
-                            counter_sink_radius=p.Screw.counter_sink_diameter/2,
-                            counter_sink_angle=p.Screw.head_angle
+                            radius=p.Screws.M2.hole_diameter/2,
+                            counter_sink_radius=p.Screws.M2.counter_sink_diameter/2,
+                            counter_sink_angle=p.Screws.M2.head_angle
                         )
             if self.draft_center:
                 bd.draft(

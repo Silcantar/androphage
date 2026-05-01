@@ -198,7 +198,7 @@ class Androphage(bd.BasePartObject):
         p.Plates.PCB.edge = p.Plates.Switch.edge
         p.Plates.Bottom.edge = p.Plates.Top.edge - p.Plates.Bottom.clearance
         # Miscellany
-        p.Screw.offset = p.Insert.hole_diameter/2 + p.Insert.wall_thickness
+        p.Screws.M2.offset = p.Insert.hole_diameter/2 + p.Insert.wall_thickness
         p.Hinge.diameter = p.Hinge.pin_diameter + 2*p.Hinge.leaf_thickness
         p.Hinge.leaf_width = (p.Hinge.width - p.Hinge.diameter)/2
         p.Hinge.length = p.Hinge.knuckle_length * p.Hinge.knuckle_count

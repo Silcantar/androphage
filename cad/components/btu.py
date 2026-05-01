@@ -57,7 +57,7 @@ class BTU(Component):
                     # Adjustment screw hole
                     if p.BTU.adjust_screw:
                         bd.Cylinder(
-                            radius=p.Screw.minor_diameter/2,
+                            radius=p.Screws.M2.minor_diameter/2,
                             height=p.BTU.clearance,
                             align=Align.Top
                         )

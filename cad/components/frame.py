@@ -42,7 +42,7 @@ class Frame(Component):
             )
             screw_locations = bd.Locations([
                 location * bd.Pos(
-                    -p.Screw.offset,
+                    -p.Screws.M2.offset,
                     0,
                     p.Plates.Bottom.thickness - p.height
                 )

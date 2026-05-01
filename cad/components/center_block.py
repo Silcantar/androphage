@@ -95,7 +95,7 @@ class CenterBlock(Component):
                 MagneticConnector(self.parameters, mode=bd.Mode.SUBTRACT)
                 with bd.Locations([
                     (
-                        -p.MagneticConnector.size[0], 
+                        0,#-p.MagneticConnector.size[0], 
                         i*p.MagneticConnector.screw_offset, 
                         0
                     ) 
@@ -103,22 +103,21 @@ class CenterBlock(Component):
                 ]):
                     bd.Cylinder(
                         radius=(
-                            p.Insert.hole_diameter/2 
+                            # p.Insert.hole_diameter/2 
+                            p.Screws.M3.hole_diameter/2 
                             + p.Insert.wall_thickness
                         ),
                         height=p.MagneticConnector.size[0],
-                        align=Align.Bottom,
+                        align=Align.Top,
                         rotation=(0, 90, 0)
                     )
-                    bd.Cylinder(
-                        radius=p.Screw.hole_diameter/2,
-                        height=BIG,
-                        # radius=p.Insert.hole_diameter/2,
-                        # height=p.Insert.hole_depth,
-                        align=Align.Bottom,
-                        rotation=(0, 90, 0),
-                        mode=bd.Mode.SUBTRACT
-                    )
+                    with bd.Locations(bd.Rot(0, 90, 0)):
+                        bd.CounterSinkHole(
+                            radius=p.Screws.M3.hole_diameter/2,
+                            counter_sink_radius=p.Screws.M3.counter_sink_diameter/2,
+                            depth=BIG,
+                            counter_sink_angle=p.Screws.M3.head_angle,
+                        )
             # Subtract cutout for hinge.
             with bd.Locations((0, p.Hinge.position_y, 0)):
                 bd.Box(
@@ -128,10 +127,6 @@ class CenterBlock(Component):
                     align=Align.RightFront,
                     mode=bd.Mode.SUBTRACT
                 )
-                # Hinge(
-                #     parameters=self.parameters,
-                #     mode=bd.Mode.SUBTRACT
-                # )
             # Clip off anything extending outside the proper height of the part.
             bd.Box(
                 length=BIG,
@@ -227,9 +222,9 @@ class CenterBlock(Component):
             )
             # Put locations in the center and inset from each end of the edge.
             screw_locations = bd.Locations([
-                edge.start_point() + (-p.Screw.offset, p.Screw.offset, 0),
-                edge.center() + (-p.Screw.offset, 2*p.Screw.offset, 0),
-                edge.end_point() + (-p.Screw.offset, -p.Screw.offset, 0)
+                edge.start_point() + (-p.Screws.M2.offset, p.Screws.M2.offset, 0),
+                edge.center() + (-p.Screws.M2.offset, 2*p.Screws.M2.offset, 0),
+                edge.end_point() + (-p.Screws.M2.offset, -p.Screws.M2.offset, 0)
             ])
             # Add bosses for heat-sink inserts.
             with screw_locations:
