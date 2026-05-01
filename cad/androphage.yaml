@@ -140,7 +140,7 @@ Hinge:
   color: *steel
   knuckle_count: 4
   knuckle_length: 12.7
-  leaf_thickness: 1.016
+  leaf_thickness: 1
   pin_diameter: 2.3876
   screw_count: 3
   width: 36.27 # Cut-down width
@@ -183,8 +183,8 @@ MagneticConnector:
   color: *black
   lip: [ 1.0, 28.5, 8.0 ]
   lip_offset: 1.0
-  pcb_size: [*pcb_thickness, 40, 10]
-  position: [0, 26.4, -8]
+  pcb_size: [*pcb_thickness, 44, 10]
+  position: [0, 28, -8]
   size: [ 4.7, 26.5, 6.0 ]
   screw_offset: 18
 MCU:
