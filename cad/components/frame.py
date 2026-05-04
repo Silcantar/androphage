@@ -40,10 +40,20 @@ class Frame(Component):
                 path=self.sweep_path(),
                 transition=bd.Transition.ROUND
             )
-            bd.sweep(
+            cutter = bd.sweep(
                 sections=self.notch_cutter(),
                 path=self.notch_path(),
+                # mode=bd.Mode.SUBTRACT
+            )
+            bd.thicken(
+                to_thicken=cutter,
+                amount=-p.Frame.notch_depth,
                 mode=bd.Mode.SUBTRACT
+            )
+            fillet_edge = frame.edges(bd.Select.NEW).sort_by(bd.SortBy.LENGTH)[-2]
+            bd.fillet(
+                objects=fillet_edge,
+                radius=p.Frame.fillet_radius# - 0.06 # Magic number
             )
             screw_locations = bd.Locations([
                 location * bd.Pos(
@@ -131,34 +141,80 @@ class Frame(Component):
             )
         return sketch.sketch
 
-    def notch_cutter(self) -> bd.Sketch:
+    def notch_cutter(self) -> bd.Curve:
         p = self.parameters
-        plane = bd.Plane(
-            origin=self.notch_path().start_point(),
-            z_dir=self.notch_path().tangent_at(0)
-        )
-        with bd.BuildSketch(plane) as cutter:
-            bd.Rectangle(
-                width=p.Frame.thickness*2,
-                height=p.Frame.notch_depth,
-                align=Align.Back
+        path = self.notch_path()
+        loc = bd.Location(
+            position=path.edges()[0].start_point(),
+            orientation=(
+                path.edges()
+                .sort_by(bd.SortBy.LENGTH)[-1]
+                .location_at(0).orientation
             )
-        return cutter.sketch
+        ) #* bd.Rot(X=90)
+        with bd.BuildLine(loc) as cutter:
+            bd.Line([(i*p.Frame.thickness, 0, 0) for i in (-1, 1)])
+        # with bd.BuildSketch(loc) as cutter:
+        #     bd.Rectangle(
+        #         width=p.Frame.thickness*2,
+        #         height=p.Frame.notch_depth,
+        #         align=Align.Back
+        #     )
+        return cutter.line
 
     def notch_path(self) -> bd.Wire:
         p = self.parameters
-        straight_length = p.spacing.X/2 - p.Frame.notch_depth
-        return bd.Wire([
-            self.outline.edges()[4].trim_to_length(
+        arc_radius = p.Frame.notch_depth - p.Plates.Top.thickness
+        straight_length = p.spacing.X/2 - arc_radius
+        edges: list[bd.Edge] = []
+        edges.append(
+            self.outline.edges()[6].trim_to_length(
                 start=0,
                 length=straight_length
-            ),
-            self.outline.edges()[5],
-            self.outline.edges()[6].trim_to_length(
+            )
+        )
+        edges.append(self.outline.edges()[7])
+        edges.append(
+            self.outline.edges()[8].trim_to_length(
                 start=1,
                 length=-straight_length
             )
-        ]).move(bd.Pos(0, 0, -p.Frame.notch_depth))
+        )
+        arc1_plane = bd.Plane(
+            origin=edges[0].end_point(),
+            x_dir=edges[0].tangent_at(1),
+            y_dir=(0, 0, 1)
+        )
+        with bd.BuildLine(arc1_plane) as arc1:
+            arc = bd.CenterArc(
+                center=edges[0].end_point() + (0, arc_radius, 0),
+                radius=arc_radius,
+                start_angle=-90,
+                arc_size=90
+            )
+            bd.Line(
+                arc.end_point(),
+                arc.end_point() + (0, p.Plates.Top.thickness, 0)
+            )
+        for edge in arc1.edges(): edges.append(edge)
+        arc2_plane = bd.Plane(
+            origin=edges[2].end_point(),
+            x_dir=edges[2].tangent_at(1),
+            y_dir=(0, 0, 1)
+        )
+        with bd.BuildLine(arc2_plane) as arc2:
+            arc = bd.CenterArc(
+                center=edges[2].end_point() + (0, arc_radius, 0),
+                radius=arc_radius,
+                start_angle=-90,
+                arc_size=90
+            )
+            bd.Line(
+                arc.end_point(),
+                arc.end_point() + (0, p.Plates.Top.thickness, 0)
+            )
+        for edge in arc2.edges(): edges.append(edge)
+        return bd.Wire(edges).move(bd.Pos(0, 0, -p.Frame.notch_depth))
 
     def start_loc(self) -> bd.Location:
         return bd.Location(self.sweep_path().start_point())
