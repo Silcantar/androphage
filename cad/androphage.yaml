@@ -32,11 +32,11 @@ Columns:
     keys: 4
     shift: [0, -0.25]
     splay: 10
-    spread: 1.05556
+    spread: 1.111 # 20 mm
   middle:
     keys: 4
     splay: 5
-    spread: 1.05556
+    spread: 1.111 # 20 mm
     stagger: 0
   index:
     cutout: true

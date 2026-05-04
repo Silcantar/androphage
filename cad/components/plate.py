@@ -101,10 +101,6 @@ class Plate(Component):
                     )
                 # Create the cutout in the top plate.
                 if self.plate_type == PlateType.TOP:
-                    bd.add(
-                        self.top_plate_cutout(),
-                        mode=bd.Mode.SUBTRACT
-                    )
                     # Fillet the two vertices created by the previous step.
                     if (
                         self.fillet_front_corners
@@ -147,7 +143,7 @@ class Plate(Component):
                 with layout.screw_locations(
                     outline=self.outline,
                     x_offset=(
-                        p.Plates.Bottom.thickness*tand(p.tent_angle) 
+                        p.Plates.Bottom.thickness*tand(p.tent_angle)
                         - p.Plates.Bottom.clearance
                     ),
                     y_offsets=[offset, 2*boss_radius, -offset]
@@ -177,6 +173,33 @@ class Plate(Component):
                     .group_by(bd.Axis.Z)[-1].vertices()
                     .group_by(bd.Axis.X)[-1].vertices()
                     .sort_by(bd.Axis.Y)[0].center()
+                )
+                bd.extrude(
+                    to_extrude=self.top_plate_cutout(),
+                    amount=self.plate_params.thickness,
+                    mode=bd.Mode.SUBTRACT
+                )
+                # Select the inside edges created by the previous cut.
+                fillet_edges = (
+                    plate.edges(bd.Select.LAST)
+                    .group_by(bd.Axis.Z)[-1]    # We only want edges on the top surface
+                    .sort_by(bd.Axis.Y)[1:]     # We don't want the frontmost edge.
+                    # The following filters out the front middle edge (a segment
+                    # of a large circle) by selecting edges that are linear OR
+                    # have a small radius.
+                    .filter_by(
+                        lambda e: (
+                            e.geom_type == bd.GeomType.LINE
+                            or (
+                                e.geom_type == bd.GeomType.CIRCLE
+                                and e.radius <= p.spacing.X
+                            )
+                        )
+                    )
+                )
+                bd.fillet(
+                    objects=fillet_edges,
+                    radius=p.Frame.fillet_radius
                 )
                 # Subtract the trackball cutout.
                 trackball_locations = bd.Locations(
