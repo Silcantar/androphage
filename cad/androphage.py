@@ -4,9 +4,10 @@ import copy
 
 import build123d as bd
 
-from common import *
 import layout
-from parameters import *
+from components.frame import Frame
+from common import *
+from parameters import Parameters
 
 # Passed to __main__
 test_layout = True
@@ -209,6 +210,27 @@ class Androphage(bd.BasePartObject):
         p.Plates.Bottom.edge = p.Plates.Top.edge - p.Plates.Bottom.clearance
         # Miscellany
         p.Screws.M2.offset = p.Insert.hole_diameter/2 + p.Insert.wall_thickness
+        bottom_plate_outline = layout.build_plate_outline(
+            p,
+            edge=p.Plates.Bottom.edge,
+            add_center=p.Plates.Bottom.add_center,
+            center_width=p.Plates.Bottom.center_width,
+            fillet_radius=p.Plates.Bottom.radius_outer,
+            sensor_cutout=False
+        )
+        frame = Frame(p)
+        frame_section = frame.frame_section(parameters=p)
+        frame_bottom_width = frame_section.edges().sort_by(bd.Axis.Z)[0].length
+        p.Base.width = p.height*2
+        p.Base.height = sind(p.tent_angle) * (
+            bottom_plate_outline.length
+            + frame_bottom_width
+        )
+        p.Base.depth = (
+            bottom_plate_outline.edges().sort_by(bd.Axis.X)[-1].length
+            + 2*frame_bottom_width
+        )
+        p.Base.offset = frame_bottom_width
         p.Hinge.diameter = p.Hinge.pin_diameter + 2*p.Hinge.leaf_thickness
         p.Hinge.width = 2*(p.height - p.Plates.Bottom.thickness)/cosd(p.tent_angle)
         p.Hinge.length = p.Hinge.knuckle_length * p.Hinge.knuckle_count

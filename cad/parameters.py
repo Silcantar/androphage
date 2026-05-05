@@ -26,6 +26,11 @@ class Component:
     color: Color
 
 @dataclass
+class Base(Component):
+    pass
+    # width: float
+
+@dataclass
 class Battery(Component):
     size: vector[3]
 
@@ -247,6 +252,7 @@ class Parameters(YAMLWizard):
     pivot_depth: float
     Print: PrintParameters
     Columns: Columns
+    Base: Base
     Battery: Battery
     BTU: BTU
     Frame: Frame

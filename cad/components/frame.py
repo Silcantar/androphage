@@ -106,8 +106,11 @@ class Frame(Component):
             .sort_by(bd.Axis.Y)[-1].center()
         )
 
-    def frame_section(self) -> bd.Sketch:
-        p = self.parameters
+    def frame_section(self, parameters = None) -> bd.Sketch:
+        if parameters is None:
+            p = self.parameters
+        else:
+            p = parameters
         with bd.BuildSketch(bd.Plane.YZ.move(self.start_loc())) as sketch:
             with bd.BuildLine() as line:
                 pl = bd.Polyline(
