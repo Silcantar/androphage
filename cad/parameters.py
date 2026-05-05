@@ -69,7 +69,6 @@ class Hinge(Component):
     knuckle_length: float
     leaf_thickness: float
     pin_diameter: float
-    width: float
     position_y: float
 
 @dataclass

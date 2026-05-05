@@ -161,18 +161,19 @@ class Androphage(bd.BasePartObject):
             + p.Switch.model.height.upper
             + p.Keycap.profile.height
         )
-        p.height = max(
-            (
-                p.key_height
-                + p.Plates.PCB.clearance
-                + p.Plates.Bottom.thickness
-            ),
-            (
-                p.Trackball.diameter/2
-                + p.Plates.Bottom.thickness
-                + p.Print.min_wall_thickness
-            )
+        key_height = (
+            p.key_height
+            + p.Plates.PCB.clearance
+            + p.Plates.Bottom.thickness
         )
+        trackball_height = (
+            p.Trackball.diameter/2
+            + p.Trackball.clearance
+            + p.Plates.Bottom.thickness
+            + p.Print.min_wall_thickness
+        )
+        print(f"key height: {key_height} --- trackball height: {trackball_height}")
+        p.height = max(key_height, trackball_height)
         # Plate Parameters
         p.Plates.Switch.thickness = p.Switch.model.plate_thickness
         p.Plates.Top.position_z = -p.Plates.Top.thickness / cosd(p.tent_angle)
@@ -209,7 +210,7 @@ class Androphage(bd.BasePartObject):
         # Miscellany
         p.Screws.M2.offset = p.Insert.hole_diameter/2 + p.Insert.wall_thickness
         p.Hinge.diameter = p.Hinge.pin_diameter + 2*p.Hinge.leaf_thickness
-        p.Hinge.leaf_width = (p.Hinge.width - p.Hinge.diameter)/2
+        p.Hinge.width = 2*(p.height - p.Plates.Bottom.thickness)/cosd(p.tent_angle)
         p.Hinge.length = p.Hinge.knuckle_length * p.Hinge.knuckle_count
         return p
 

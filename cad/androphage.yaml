@@ -155,10 +155,30 @@ Insert:
   hole_depth: 4
   wall_thickness: 1.6
 Keycap_Profile_Options:
+  Cherry: &Cherry
+    height: 10
+  Chicago_Steno: &Chicago_Steno # Recommended
+    height: 8.5
+  DES: &DES # Not recommended
+    height: 17
+  DSA: &DSA
+    height: 8
+  FMX: &FMX
+    height: 6.3
+  funkmonk: &funkmonk
+    height: 6
+  JWA: &JWA
+    height: 6.7
+  KEA: &KEA
+    height: 5.7
   Lame: &Lame
-    height: 6.5
-  Chicago_Steno: &Chicago_Steno
+    height: 10
+  SCS: &SCS
+    height: 5.5
+  sqdg: &sqdg
     height: 7
+  XDA: &XDA
+    height: 9.5
 Keycap_Spacing_Options:
   Choc: &Choc [18, 17]
   MX: &MX_Metric [19, 19]
