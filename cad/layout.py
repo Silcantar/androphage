@@ -238,6 +238,44 @@ def build_plate_outline(
             bd.make_face(mode=bd.Mode.SUBTRACT)
     return sketch.face()
 
+def frame_section(
+    parameters: Parameters,
+    start_loc: bd.Location = bd.Pos(0, 0, 0)
+) -> bd.Sketch:
+    p = parameters
+    with bd.BuildSketch(bd.Plane.YZ.move(start_loc)) as sketch:
+        with bd.BuildLine() as line:
+            pl = bd.Polyline(
+                (p.Frame.thickness - p.Frame.lip_depth, -p.height),
+                (0, -p.height),
+                (0, -p.height + p.Plates.Bottom.thickness),
+                (-p.Frame.lip_depth, -p.height + p.Plates.Bottom.thickness),
+                (-p.Frame.lip_depth, -p.Keycap.profile.height - p.Switch.model.height.upper),
+                (-2*p.Frame.lip_depth, -p.Keycap.profile.height - p.Switch.model.height.upper),
+                (-2*p.Frame.lip_depth, -p.Plates.Top.thickness),
+                (0, -p.Plates.Top.thickness),
+                (0, 0),
+                (
+                    (
+                        p.Frame.thickness
+                        - p.Frame.lip_depth
+                        - p.height*tand(p.Frame.chord_angle)
+                    ),
+                    0
+                )
+            )
+            bd.RadiusArc(
+                start_point=pl.start_point(),
+                end_point=pl.end_point(),
+                radius=p.Frame.main_radius
+            )
+        bd.make_face()
+        bd.fillet(
+            sketch.vertices().sort_by(bd.Axis.X)[-2:],
+            radius=p.Frame.fillet_radius
+        )
+    return sketch.sketch
+
 def frame_screw_locations(
     outline: bd.Face,
     min_length: float = 10

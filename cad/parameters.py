@@ -28,7 +28,7 @@ class Component:
 @dataclass
 class Base(Component):
     pass
-    # width: float
+    foot_width: float
 
 @dataclass
 class Battery(Component):

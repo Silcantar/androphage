@@ -15,24 +15,27 @@ class Base(Component):
         **kwargs
     ):
         self.parameters = parameters
-        super().__init__(label=label, **kwargs)
+        try:
+            color
+        except NameError:
+            color = seq_to_color(self.parameters.Base.color)
+        super().__init__(label=label, color=color, **kwargs)
 
     def _build(self) -> bd.Part:
         p = self.parameters
-        self.angled_height = p.Base.width*tand(p.tent_angle)/2
-        self.vertical_height = p.Base.height - self.angled_height
         with bd.BuildPart() as base:
-            with bd.Locations((0, -p.Base.offset, 0)):
-                bd.add(self.sketch(hollow=True))
-                bd.extrude(
-                    amount=p.Base.depth,
-                    dir=(0, 1, 0)
+            with bd.BuildSketch(bd.Plane.XZ.move(bd.Pos(Y=-p.Base.offset))):
+                bd.add(self.profile())
+                bd.offset(
+                    objects=self.profile(),
+                    amount=-p.Print.wall_thickness,
+                    mode=bd.Mode.SUBTRACT
                 )
-            with bd.Locations((
-                0,
-                p.Trackball.position_y,
-                -self.vertical_height
-            )):
+            bd.extrude(
+                amount=p.Base.depth,
+                dir=(0, 1, 0)
+            )
+            with bd.Locations((0, p.Trackball.position_y, 0)):
                 inner_radius = p.Trackball.diameter/2 + p.Trackball.clearance
                 outer_radius = inner_radius + p.Print.wall_thickness
                 bd.Sphere(
@@ -40,7 +43,7 @@ class Base(Component):
                 )
                 bd.Cylinder(
                     radius=outer_radius,
-                    height=self.angled_height,
+                    height=p.Base.angled_height,
                     align=Align.Top
                 )
                 bd.Sphere(
@@ -53,49 +56,42 @@ class Base(Component):
                     align=Align.Top,
                     mode=bd.Mode.SUBTRACT
                 )
-            # bd.extrude(
-            #     to_extrude=self.sketch(),
-            #     amount=BIG,#-p.Base.depth,
-            #     both=True,
-            #     mode=bd.Mode.INTERSECT
-            # )
+            bd.extrude(
+                to_extrude=self.profile(),
+                amount=BIG,#-p.Base.depth,
+                both=True,
+                mode=bd.Mode.INTERSECT
+            )
         return base.part
 
     def _locate(self):
         pass
 
-    def sketch(self) -> bd.Sketch:
+    def profile(self) -> bd.Sketch:
         p = self.parameters
         with bd.BuildSketch(bd.Plane.XZ) as sketch:
-            with bd.BuildLine():
-                top_line = bd.PolarLine(
-                    start=(0, 0),
-                    length=p.Base.width/cosd(p.tent_angle)/2,
-                    angle=-p.tent_angle
-                )
-                center_line = bd.PolarLine(
-                    start=top_line.start_point(),
-                    length=self.vertical_height,
-                    direction=(0, -1)
-                )
-                outer_line = bd.PolarLine(
-                    start=top_line.end_point(),
-                    length=self.vertical_height,
-                    direction=(0, -1)
-                )
-                bottom_line = bd.Line(
-                    center_line.end_point(),
-                    outer_line.end_point()
-                )
+            top_point = bd.Vector(0, p.Base.vertical_height)
+            bottom_point = bd.Vector(p.Base.width/2, -p.Base.angled_height)
+            bottom_inner_point = bottom_point + bd.Vector(-p.Base.foot_width, 0)
+            with bd.BuildLine() as outline:
+                bd.Wire(bd.Polyline(
+                    (0, 0),
+                    bottom_inner_point,
+                    bottom_point,
+                    bottom_point + bd.Vector(0, p.Base.vertical_height),
+                    top_point
+                ))
+            bd.mirror(outline.line, about=bd.Plane.YZ)
             bd.make_face()
-        return bd.Sketch([
-            sketch.sketch,
-            bd.mirror(sketch.sketch, about=bd.Plane.YZ)
-        ])
+            bd.fillet(sketch.vertices(), radius=p.Frame.fillet_radius)
+        return sketch.sketch
 
 if __name__ == "__main__":
     from ocp_vscode import show
     from androphage import Androphage
     androphage = Androphage(build=False)
     base = Base(androphage.parameters)
-    show(base, base.sketch())
+    show(
+        base,
+        # base.profile()
+    )

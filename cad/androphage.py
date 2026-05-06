@@ -152,9 +152,24 @@ class Androphage(bd.BasePartObject):
         ).move(trackball_location)
         trackball.color = seq_to_color(p.Trackball.color)
         trackball.label = "Trackball"
+        # Base
+        from components.base import Base
+        match self.angle:
+            case 0:
+                base_location = bd.Pos(
+                    Z=-p.height/cosd(p.tent_angle) - p.Base.vertical_height
+                )
+            case closed_angle if closed_angle == 90 + p.tent_angle:
+                base_location = bd.Rot(Y=180)
+            case _:
+                base_location = bd.Location(
+                    position=(0, 0, -100),
+                    orientation=(0, 180 * self.angle / (90 + p.tent_angle), 0)
+                )
+        base = Base(self.parameters).move(base_location)
         return bd.Part(
             label="Androphage",
-            children=[left_half, right_half, hinge, trackball]
+            children=[left_half, right_half, hinge, trackball, base]
         )
 
     def _set_derived_parameters(self, p: Parameters) -> Parameters:
@@ -224,8 +239,7 @@ class Androphage(bd.BasePartObject):
             fillet_radius=p.Plates.Bottom.radius_outer,
             sensor_cutout=False
         )
-        frame = Frame(p)
-        frame_section = frame.frame_section(parameters=p)
+        frame_section = layout.frame_section(parameters=p)
         frame_bottom_width = frame_section.edges().sort_by(bd.Axis.Z)[0].length
         p.Base.width = p.height*2
         p.Base.height = sind(p.tent_angle) * (
@@ -237,6 +251,11 @@ class Androphage(bd.BasePartObject):
             + 2*frame_bottom_width
         )
         p.Base.offset = frame_bottom_width
+        p.Base.angled_height = (
+            p.Base.width*tand(p.tent_angle)/2
+            - p.Base.foot_width*tand(p.tent_angle)
+        )
+        p.Base.vertical_height = p.Base.height - p.Base.angled_height
         p.Hinge.diameter = p.Hinge.pin_diameter + 2*p.Hinge.leaf_thickness
         p.Hinge.width = 2*(p.height - p.Plates.Bottom.thickness)/cosd(p.tent_angle)
         p.Hinge.length = p.Hinge.knuckle_length * p.Hinge.knuckle_count
@@ -270,5 +289,11 @@ class Androphage(bd.BasePartObject):
 
 if __name__ == "__main__":
     from ocp_vscode import show
-    androphage = Androphage(angle=100)
-    show(androphage)
+    androphage_opened = Androphage(angle=0).move(bd.Pos(Y=-200))
+    androphage_mid = Androphage(angle=55)
+    androphage_closed = Androphage(angle=100).move(bd.Pos(Y=200))
+    show(
+        androphage_opened,
+        androphage_mid,
+        androphage_closed
+    )

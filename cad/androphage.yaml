@@ -112,7 +112,7 @@ BTU_Options:
 Base:
   visible: true
   color: *black
-  # width: 40
+  foot_width: 5
 BTU: *VCN310
 CenterBlock:
   visible: true
@@ -502,4 +502,3 @@ TrackballSensor:
   lens_size: [ 8.6, 16.96, 3.4 ]
   optical_center: 2.52 # Distance from center of lens to optical center.
   pcb_size: [ 16, 25, *pcb_thickness ]
-
