@@ -38,7 +38,7 @@ class Frame(Component):
             bd.sweep(
                 sections=layout.frame_section(
                     self.parameters,
-                    self.start_loc()
+                    self.sweep_start_plane()
                 ),
                 path=self.sweep_path(),
                 transition=bd.Transition.ROUND
@@ -177,8 +177,8 @@ class Frame(Component):
         for edge in arc2.edges(): edges.append(edge)
         return bd.Wire(edges).move(bd.Pos(0, 0, -p.Frame.notch_depth))
 
-    def start_loc(self) -> bd.Location:
-        return bd.Location(self.sweep_path().start_point())
+    def sweep_start_plane(self) -> bd.Plane:
+        return bd.Plane.YZ.move(bd.Location(self.sweep_path().start_point()))
 
     def sweep_path(self) -> bd.Wire:
         return bd.Wire(self.outline.edges().sort_by(bd.Axis.X)[:-1])

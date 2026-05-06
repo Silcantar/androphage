@@ -180,12 +180,12 @@ class Component(bd.BasePartObject):
     ):
         if build:
             part = self._build()
+            super().__init__(
+                part=part,
+                **kwargs
+            )
         else:
             part = None
-        super().__init__(
-            part=part,
-            **kwargs
-        )
         if locate:
             self._locate()
         if label is not None:

@@ -240,18 +240,31 @@ def build_plate_outline(
 
 def frame_section(
     parameters: Parameters,
-    start_loc: bd.Location = bd.Pos(0, 0, 0)
+    plane: bd.Plane = bd.Plane.XY,
+    height: float = None,
+    fillet: bool = True
 ) -> bd.Sketch:
     p = parameters
-    with bd.BuildSketch(bd.Plane.YZ.move(start_loc)) as sketch:
+    if height is None:
+        height = p.height
+        main_radius = p.Frame.main_radius
+    else:
+        main_radius = p.height*p.Frame.main_radius/p.height
+    with bd.BuildSketch(plane) as sketch:
         with bd.BuildLine() as line:
             pl = bd.Polyline(
-                (p.Frame.thickness - p.Frame.lip_depth, -p.height),
-                (0, -p.height),
-                (0, -p.height + p.Plates.Bottom.thickness),
-                (-p.Frame.lip_depth, -p.height + p.Plates.Bottom.thickness),
-                (-p.Frame.lip_depth, -p.Keycap.profile.height - p.Switch.model.height.upper),
-                (-2*p.Frame.lip_depth, -p.Keycap.profile.height - p.Switch.model.height.upper),
+                (p.Frame.thickness - p.Frame.lip_depth, -height),
+                (0, -height),
+                (0, -height + p.Plates.Bottom.thickness),
+                (-p.Frame.lip_depth, -height + p.Plates.Bottom.thickness),
+                (
+                    -p.Frame.lip_depth,
+                    -p.Keycap.profile.height - p.Switch.model.height.upper
+                ),
+                (
+                    -2*p.Frame.lip_depth,
+                    -p.Keycap.profile.height - p.Switch.model.height.upper
+                ),
                 (-2*p.Frame.lip_depth, -p.Plates.Top.thickness),
                 (0, -p.Plates.Top.thickness),
                 (0, 0),
@@ -259,7 +272,7 @@ def frame_section(
                     (
                         p.Frame.thickness
                         - p.Frame.lip_depth
-                        - p.height*tand(p.Frame.chord_angle)
+                        - height*tand(p.Frame.chord_angle)
                     ),
                     0
                 )
@@ -267,13 +280,14 @@ def frame_section(
             bd.RadiusArc(
                 start_point=pl.start_point(),
                 end_point=pl.end_point(),
-                radius=p.Frame.main_radius
+                radius=main_radius
             )
         bd.make_face()
-        bd.fillet(
-            sketch.vertices().sort_by(bd.Axis.X)[-2:],
-            radius=p.Frame.fillet_radius
-        )
+        if fillet:
+            bd.fillet(
+                sketch.vertices().sort_by(bd.Axis.X)[-2:],
+                radius=p.Frame.fillet_radius
+            )
     return sketch.sketch
 
 def frame_screw_locations(
@@ -327,4 +341,7 @@ def screw_locations(
 if __name__ == "__main__":
     from ocp_vscode import show
     from androphage import Androphage
-    show(Androphage())
+    androphage = Androphage()
+    show(
+        frame_section(androphage.parameters)
+    )

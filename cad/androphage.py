@@ -167,6 +167,8 @@ class Androphage(bd.BasePartObject):
                     orientation=(0, 180 * self.angle / (90 + p.tent_angle), 0)
                 )
         base = Base(self.parameters).move(base_location)
+        # Screws
+        # from bd_warehouse.fastener import CounterSunkScrew, HeatSetNut, HexNut
         return bd.Part(
             label="Androphage",
             children=[left_half, right_half, hinge, trackball, base]
@@ -248,9 +250,8 @@ class Androphage(bd.BasePartObject):
         )
         p.Base.depth = (
             bottom_plate_outline.edges().sort_by(bd.Axis.X)[-1].length
-            + 2*frame_bottom_width
         )
-        p.Base.offset = frame_bottom_width
+        # p.Base.offset = 0 # 2*p.Frame.lip_depth
         p.Base.angled_height = (
             p.Base.width*tand(p.tent_angle)/2
             - p.Base.foot_width*tand(p.tent_angle)
@@ -289,11 +290,9 @@ class Androphage(bd.BasePartObject):
 
 if __name__ == "__main__":
     from ocp_vscode import show
-    androphage_opened = Androphage(angle=0).move(bd.Pos(Y=-200))
-    androphage_mid = Androphage(angle=55)
-    androphage_closed = Androphage(angle=100).move(bd.Pos(Y=200))
-    show(
-        androphage_opened,
-        androphage_mid,
-        androphage_closed
-    )
+    androphage = [
+        # Androphage(angle=0).move(bd.Pos(Y=-200)),
+        # Androphage(angle=55),
+        Androphage(angle=100)#.move(bd.Pos(Y=200))
+    ]
+    show(androphage)

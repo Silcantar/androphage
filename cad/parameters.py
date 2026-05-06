@@ -29,6 +29,7 @@ class Component:
 class Base(Component):
     pass
     foot_width: float
+    opening_clearance: float
 
 @dataclass
 class Battery(Component):

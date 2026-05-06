@@ -113,6 +113,7 @@ Base:
   visible: true
   color: *black
   foot_width: 5
+  opening_clearance: 1
 BTU: *VCN310
 CenterBlock:
   visible: true
@@ -488,12 +489,12 @@ Trackball:
   visible: true
   color: *purple
   diameter: 34
-  position_y: 72
+  position_y: 75
   clearance: 1
 TrackballSensor:
   visible: true
   color:
-  angle: 57
+  angle: 55
   chip_size: [ 10.9, 16.2, 1.65 ]
   clearance: 2.4
   holder_height: 15
