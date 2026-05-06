@@ -17,6 +17,7 @@ class Androphage(bd.BasePartObject):
 
     def __init__(
         self,
+        angle: float = 0,
         build: bool = True,
         parameter_path: PathLike = "cad/androphage.yaml",
         test_layout: bool = False,
@@ -25,6 +26,7 @@ class Androphage(bd.BasePartObject):
     ):
         self.main_half = main_half
         self.parameters = self.import_parameters(parameter_path)
+        self.angle = max(0, min(angle, 90 + self.parameters.tent_angle))
         self.column_locations = layout.build_column_locations(self.parameters)
         if build:
             part = self._build(test_layout)
@@ -130,15 +132,19 @@ class Androphage(bd.BasePartObject):
             btu_list.append(btu)
         component_list.append(bd.Part(children=btu_list, label="BTUs"))
         from components.battery import Battery
-        left_half = bd.Part(label="Left Half", children=component_list)
+        left_half = bd.Part(
+            label="Left Half",
+            children=component_list
+        ).rotate(angle=self.angle, axis=bd.Axis.Y)
         right_half = bd.Part(
             label="Right Half",
             children=mirror_preserve(component_list, about=bd.Plane.YZ)
-        )
+        ).rotate(angle=-self.angle, axis=bd.Axis.Y)
         # Hinge
         from components.hinge import Hinge
         hinge = Hinge(
-            parameters=self.parameters
+            parameters=self.parameters,
+            angle=self.angle
         ).move(bd.Pos(0, p.Hinge.position_y + p.Frame.lip_depth, 0))
         # Trackball
         trackball = bd.Sphere(
@@ -264,5 +270,5 @@ class Androphage(bd.BasePartObject):
 
 if __name__ == "__main__":
     from ocp_vscode import show
-    androphage = Androphage()
+    androphage = Androphage(angle=100)
     show(androphage)

@@ -11,11 +11,13 @@ class Hinge(Component):
     def __init__(
         self,
         parameters: Parameters,
+        angle: float = 0,
         label: str = "Hinge",
         mode: bd.Mode = bd.Mode.ADD,
         **kwargs
     ):
         self.parameters = parameters
+        self.angle = angle
         self.mode = mode
         try:
             color
@@ -26,14 +28,14 @@ class Hinge(Component):
     def _build(self):
         p = self.parameters
         component_list: list[bd.Part] = []
-        left_leaf = self.leaf()
+        left_leaf = self.leaf().rotate(angle=self.angle, axis=bd.Axis.Y)
         left_leaf.label = "Left Leaf"
         component_list.append(left_leaf)
         # Duplicate and rotate left leaf to create right leaf.
         right_leaf = self.leaf(right=True).move(bd.Location(
             position=(0, p.Hinge.length, 0),
             orientation=(0, 0, 180)
-        ))
+        )).rotate(angle=-self.angle, axis=bd.Axis.Y)
         right_leaf.label = "Right Leaf"
         component_list.append(right_leaf)
         if self.mode != bd.Mode.SUBTRACT:
@@ -80,7 +82,7 @@ class Hinge(Component):
                     mode=bd.Mode.SUBTRACT
                 )
                 with bd.Locations([
-                    (0, i*p.Hinge.knuckle_length, 0) 
+                    (0, i*p.Hinge.knuckle_length, 0)
                     for i in range(0, int(p.Hinge.knuckle_count), 2)
                 ]):
                     bd.Box(
@@ -96,8 +98,8 @@ class Hinge(Component):
                 offset = p.Hinge.length if right else 0
                 direction = -1 if right else 1
                 distance = (
-                    magcon_position.Y 
-                    - p.Hinge.position_y 
+                    magcon_position.Y
+                    - p.Hinge.position_y
                     # - p.Frame.lip_depth
                 )
                 with bd.Locations((
