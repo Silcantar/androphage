@@ -46,7 +46,6 @@ class Frame(Component):
             cutter = bd.sweep(
                 sections=self.notch_cutter(),
                 path=self.notch_path(),
-                # mode=bd.Mode.SUBTRACT
             )
             bd.thicken(
                 to_thicken=cutter,
@@ -56,7 +55,7 @@ class Frame(Component):
             fillet_edge = frame.edges(bd.Select.NEW).sort_by(bd.SortBy.LENGTH)[-2]
             bd.fillet(
                 objects=fillet_edge,
-                radius=p.Frame.fillet_radius# - 0.06 # Magic number
+                radius=p.Frame.fillet_radius
             )
             screw_locations = bd.Locations([
                 location * bd.Pos(
@@ -119,15 +118,9 @@ class Frame(Component):
                 .sort_by(bd.SortBy.LENGTH)[-1]
                 .location_at(0).orientation
             )
-        ) #* bd.Rot(X=90)
+        )
         with bd.BuildLine(loc) as cutter:
-            bd.Line([(i*p.Frame.thickness, 0, 0) for i in (-1, 1)])
-        # with bd.BuildSketch(loc) as cutter:
-        #     bd.Rectangle(
-        #         width=p.Frame.thickness*2,
-        #         height=p.Frame.notch_depth,
-        #         align=Align.Back
-        #     )
+            bd.Line([(i*p.Frame.thickness, 0, 0) for i in (-2, 2)])
         return cutter.line
 
     def notch_path(self) -> bd.Wire:
