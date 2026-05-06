@@ -68,7 +68,7 @@ class CenterBlock(Component):
             # Add BTU sockets.
             with self.btu_locations():
                 bd.add(self.btu_socket())
-          
+
             # ---- Subtractions ----
             # Subtract trackball sensor from holder.
             with self.sensor_locations():
@@ -95,16 +95,16 @@ class CenterBlock(Component):
                 MagneticConnector(self.parameters, mode=bd.Mode.SUBTRACT)
                 with bd.Locations([
                     (
-                        0,#-p.MagneticConnector.size[0], 
-                        i*p.MagneticConnector.screw_offset, 
+                        0,#-p.MagneticConnector.size[0],
+                        i*p.MagneticConnector.screw_offset,
                         0
-                    ) 
+                    )
                     for i in (1, -1)
                 ]):
                     bd.Cylinder(
                         radius=(
-                            # p.Insert.hole_diameter/2 
-                            p.Screws.M3.hole_diameter/2 
+                            # p.Insert.hole_diameter/2
+                            p.Screws.M3.hole_diameter/2
                             + p.Insert.wall_thickness
                         ),
                         height=p.MagneticConnector.size[0],
@@ -144,9 +144,9 @@ class CenterBlock(Component):
         return bd.Locations([
             self.trackball_position()
             * bd.Rot(
-                0, 
-                180 + btu_angles.Y,# + p.tent_angle, 
-                i*btu_angles.Z, 
+                0,
+                180 + btu_angles.Y,# + p.tent_angle,
+                i*btu_angles.Z,
                 ordering=bd.Extrinsic.XYZ
             )
             * bd.Pos(0, 0, p.Trackball.diameter/2)
@@ -210,7 +210,11 @@ class CenterBlock(Component):
             # the need for supports.
             bd.draft(
                 faces=center_wall.faces(bd.Select.LAST).sort_by(bd.Axis.Z)[0],
-                neutral_plane=bd.Plane(center_wall.faces().sort_by(bd.Axis.X)[0]),
+                neutral_plane=bd.Plane(
+                    center_wall.faces()
+                    .filter_by(lambda f: f.normal_at().X < 0)
+                    .sort_by(bd.Axis.X)[0]
+                ),
                 angle=p.Print.overhang_angle
             )
             # Radius of the screw boss.
@@ -269,7 +273,7 @@ class CenterBlock(Component):
     #     return bd.Locations([
     #         bd.Location(
     #             position=(
-    #                 bd.Vector(p.MagneticConnector.position) 
+    #                 bd.Vector(p.MagneticConnector.position)
     #                 + (0, i*screw_offset, 0)
     #             ),
     #             orientation=(0, -90, 0)
@@ -278,7 +282,7 @@ class CenterBlock(Component):
     #     ])
 
     # def lip_locations(self) -> bd.Locations:
-    #     return 
+    #     return
 
     def screw_locations(self) -> bd.Locations:
         p = self.parameters
