@@ -1,14 +1,12 @@
 
-> ![androphage banner](kle/androphage_kle.png)
+> ![androphage banner](assets/taking_flight.png)
 
 # Androphage
 
-Androphage is a folding unibody split ergonomic keyboard with a 35 mm trackball
+Androphage is a folding unibody split ergonomic keyboard with a 34 mm trackball
 in the center.
 
-Currently in early development phases.
-
-![androphage render](assets/androphage_render.png)
+Currently in development.
 
 > *Well, I saw the thing comin' out of the sky*
 >
