@@ -2,22 +2,12 @@
 	path = pcb/vik
 	url = https://github.com/Silcantar/vik.git
 	branch = dev
-[submodule "cad/library"]
-	path = openscad/library
-	url = https://github.com/Silcantar/openscad_library.git
-	branch = main
-[submodule "cad/keycaps"]
-	path = openscad/keycaps
-	url = https://github.com/Silcantar/keycaps.git
 [submodule "pcb/kleeb"]
 	path = pcb/kleeb
 	url = https://github.com/crides/kleeb.git
 [submodule "pcb/key-switches"]
 	path = pcb/key-switches
 	url = https://github.com/Silcantar/key-switches.git
-[submodule "cad/BOSL2"]
-	path = openscad/BOSL2
-	url = https://github.com/BelfrySCAD/BOSL2.git
 [submodule "cad/build123d"]
 	path = cad/build123d
 	url = https://github.com/gumyr/build123d.git
