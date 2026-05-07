@@ -291,8 +291,8 @@ class Androphage(bd.BasePartObject):
 if __name__ == "__main__":
     from ocp_vscode import show
     androphage = [
-        # Androphage(angle=0).move(bd.Pos(Y=-200)),
-        # Androphage(angle=55),
-        Androphage(angle=100)#.move(bd.Pos(Y=200))
+        Androphage(angle=0).move(bd.Pos(Y=-200)),
+        Androphage(angle=50),
+        Androphage(angle=100).move(bd.Pos(Y=200))
     ]
     show(androphage)
