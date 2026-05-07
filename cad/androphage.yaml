@@ -203,6 +203,11 @@ LED:
   hole_size: 3
   hole_spacing: [ 4.5, 0 ]
   position_y: -13
+Magnet:
+  visible: true
+  color: *silver
+  shape: bar
+  size: [8, 50, 3]
 MagneticConnector:
   visible: true
   color: *black

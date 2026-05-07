@@ -105,6 +105,11 @@ class LED(Component):
     position_y: float
 
 @dataclass
+class Magnet(Component):
+    shape: str
+    size: vector[3]
+
+@dataclass
 class MagneticConnector(Component):
     lip: vector[3]
     lip_offset: float
