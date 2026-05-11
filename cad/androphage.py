@@ -131,7 +131,11 @@ class Androphage(bd.BasePartObject):
             btu.label = f"BTU {i+1}"
             btu_list.append(btu)
         component_list.append(bd.Part(children=btu_list, label="BTUs"))
+        # Battery
         from components.battery import Battery
+        # Key Switches
+        from bd_keyboard.src.key_switch.choc_v2 import ChocV2
+        component_list.append(ChocV2())
         left_half = bd.Part(
             label="Left Half",
             children=component_list

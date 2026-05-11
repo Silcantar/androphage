@@ -11,3 +11,6 @@
 [submodule "cad/build123d"]
 	path = cad/build123d
 	url = https://github.com/gumyr/build123d.git
+[submodule "cad/bd_keyboard"]
+	path = cad/bd_keyboard
+	url = https://github.com/Silcantar/bd_keyboard.git
