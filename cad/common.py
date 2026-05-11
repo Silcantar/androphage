@@ -10,6 +10,7 @@ import build123d as bd
 # Geometry Definitions
 BIG = 1000
 EPS = 0.001
+INCH = 25.4
 
 def cosd(angle: float) -> float:
     return cos(radians(angle))
