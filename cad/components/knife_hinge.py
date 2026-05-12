@@ -18,10 +18,13 @@ class KnifeHinge(Component):
         **kwargs
     ):
         self.parameters = parameters
-        self.parameters.Hinge.diameter = 0.25*INCH
-        self.parameters.Hinge.pin_diameter = 0.0890*INCH # Pilot hole for 4-40 screw
-        self.parameters.Hinge.thickness = 0.25*INCH
-        self.parameters.Hinge.knuckle_length = 0.125*INCH
+        self.parameters.Hinge.diameter = 6
+        self.parameters.Hinge.pin_diameter = 3
+        self.parameters.Hinge.thickness = 3
+        self.parameters.Hinge.plate_thickness = 1/16*INCH
+        self.parameters.Hinge.taper_pin_diameter = 0.0611*INCH
+        self.parameters.Hinge.taper_pin_position = 6
+        self.parameters.Hinge.screw_position = 3.5
         self.hinge_screw = self.parameters.Screws.M2
         self.parameters.Hinge.height = self.parameters.height/cosd(self.parameters.tent_angle)
         try:
@@ -33,86 +36,92 @@ class KnifeHinge(Component):
     def _build(self) -> bd.Part:
         p = self.parameters
         component_list = [
-            self.leaf(),
-            bd.Pos(0, p.Hinge.height/2, 0)*self.screw()
+            bd.Pos(Z=-1.5*p.Hinge.plate_thickness) * self.knuckle_plate(),
+            bd.Pos(Z=-0.5*p.Hinge.plate_thickness) * self.plate(),
+            bd.Pos(Z=0.5*p.Hinge.plate_thickness) * bd.Rot(X=180) * self.knuckle_plate(),
+            bd.Pos(Z=1.5*p.Hinge.plate_thickness) * self.plate()
         ]
-        return bd.Part(children=component_list)
+        hinge = bd.Part(children=component_list)
+        hinge -= (
+            bd.Locations([
+                bd.Location(
+                    position=(p.Hinge.thickness/2, i*p.Hinge.screw_position, 0),
+                    orientation=(0, 90, 0)
+                )
+                for i in [-1, 1]
+            ])
+            * bd.CounterSinkHole(
+                radius=self.hinge_screw.diameter/2,
+                depth=BIG,
+                counter_sink_radius=self.hinge_screw.counter_sink_diameter/2,
+                counter_sink_angle=self.hinge_screw.head_angle
+            )
+        )
+        return hinge
 
-    def leaf(self) -> bd.Part:
+    def plate(self) -> bd.Part:
         p = self.parameters
-        with bd.BuildPart() as hinge:
-            leaf = bd.Box(
-                length=p.Hinge.diameter/2,
-                width=p.Hinge.height,
-                height=p.Hinge.knuckle_length,
-                align=Align.RightTop
+        plate = bd.Box(
+            length=p.Hinge.thickness,
+            width=p.Hinge.height - p.Hinge.diameter,
+            height=p.Hinge.plate_thickness
+        )
+        taper_pin_locs = bd.Locations([
+            (0, i*p.Hinge.taper_pin_position, 0)
+            for i in [-1, 1]
+        ])
+        plate -= (
+            taper_pin_locs
+            * bd.Cylinder(
+                radius=p.Hinge.taper_pin_diameter/2,
+                height=p.Hinge.plate_thickness
             )
-            bd.Box(
-                length=p.Hinge.diameter/2,
-                width=p.Hinge.height - p.Hinge.diameter,
-                height=p.Hinge.thickness,
-                align=Align.Right
-            )
-            with bd.Locations(
-                leaf.vertices()
-                .group_by(bd.Axis.X)[-1]
-                .group_by(bd.Axis.Z)[0]
-            ):
-                bd.Cylinder(
-                    radius = p.Hinge.diameter/2,
-                    height=p.Hinge.knuckle_length,
-                    align=Align.Bottom
-                )
-                bd.Cylinder(
-                    radius=p.Hinge.pin_diameter/2,
-                    height=p.Hinge.knuckle_length,
-                    align=Align.Bottom,
-                    mode=bd.Mode.SUBTRACT
-                )
-            with bd.Locations([bd.Location(
-                position=(
-                    leaf.edges()
-                    .group_by(bd.Axis.X)[-1]
-                    .sort_by(bd.Axis.Z)[-1]
-                    .center()
-                    + (0, i*self.hinge_screw.counter_sink_diameter, 0)
-                ),
-                orientation=(0, 90, 0)
-            ) for i in [-1, 1]]):
-                bd.CounterSinkHole(
-                    radius=self.hinge_screw.diameter/2,
-                    counter_sink_radius=self.hinge_screw.counter_sink_diameter/2,
-                    counter_sink_angle=self.hinge_screw.head_angle
-                )
-        return hinge.part
+        )
+        plate -= bd.Cylinder(
+            radius=self.hinge_screw.diameter/2,
+            height=p.Hinge.plate_thickness
+        )
+        return plate
 
-    def screw(self, simple: bool = True) -> bd.Part:
-        head = bd.Cylinder(
-            radius=0.125*INCH,
-            height=0.125*INCH,
-            align=Align.Bottom
+    def knuckle_plate(self) -> bd.Part:
+        p = self.parameters
+        plate = self.plate()
+        pin_loc = bd.Pos(p.Hinge.thickness/2, p.Hinge.height/2, 0)
+        plate += (
+            pin_loc
+            * bd.Box(
+                length=p.Hinge.thickness,
+                width=p.Hinge.thickness,
+                height=p.Hinge.plate_thickness,
+                align=Align.RightBack
+            )
         )
-        screw = head + SocketHeadCapScrew(
-            size="#4-40",
-            length=9/32*INCH,
-            fastener_type="asme_b18.3",
-            simple=simple
+        plate += (
+            pin_loc
+            * bd.Cylinder(
+                radius=p.Hinge.diameter/2,
+                height=p.Hinge.plate_thickness
+            )
         )
-        screw += bd.Cylinder(
-            radius=0.0625*INCH,
-            height=0.125*INCH,
-            align=Align.Top
+        plate -= (
+            pin_loc
+            * bd.Cylinder(
+                radius=p.Hinge.pin_diameter/2,
+                height=p.Hinge.plate_thickness
+            )
         )
-        screw.label = "Screw"
-        return screw
+        return plate
+
 
 if __name__ == "__main__":
-    from androphage import Androphage
     from ocp_vscode import show
-    androphage = Androphage(build=False)
-    knife_hinge = KnifeHinge(androphage.parameters)
-    show(knife_hinge)
-    bd.export_step(
-        to_export=knife_hinge,
-        file_path="cad/production/knife_hinge.step"
+    import layout, parameters
+    p = layout.set_derived_parameters(
+        parameters.load_parameters("cad/androphage.yaml")
     )
+    knife_hinge = KnifeHinge(p)
+    show(knife_hinge)
+    # bd.export_step(
+    #     to_export=knife_hinge,
+    #     file_path="cad/production/knife_hinge.step"
+    # )
