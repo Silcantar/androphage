@@ -25,7 +25,9 @@ class Androphage(bd.BasePartObject):
         **kwargs
     ):
         self.main_half = main_half
-        self.parameters = load_parameters(parameter_path)
+        self.parameters = layout.set_derived_parameters(
+            load_parameters(parameter_path)
+        )
         self.angle = max(0, min(angle, 90 + self.parameters.tent_angle))
         self.column_locations = layout.build_column_locations(self.parameters)
         if build:
