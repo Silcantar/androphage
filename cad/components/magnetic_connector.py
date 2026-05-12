@@ -37,15 +37,21 @@ class MagneticConnector(Component):
                     radius=size.Z/2 - EPS
                 )
             bd.extrude(amount=size.X, dir=(-1, 0, 0))
-            lip_plane = bd.Plane.YZ.move(bd.Pos(-p.lip_offset, 0, 0))
-            with bd.BuildSketch(lip_plane) as lip_sketch:
+            lip_loc = bd.Location(
+                position=(
+                    mag_con.faces().sort_by(bd.Axis.X)[-1].center()
+                    - (p.lip_offset, 0, 0)
+                ),
+                orientation=(0, 90, 0)
+            )
+            with bd.BuildSketch(lip_loc) as lip_sketch:
                 bd.RectangleRounded(
-                    width=lip.Y,
-                    height=lip.Z,
+                    width=lip.Z,
+                    height=lip.Y,
                     radius=lip.Z/2 - EPS
                 )
             lip_thickness = (
-                lip.X if self.mode != bd.Mode.SUBTRACT 
+                lip.X if self.mode != bd.Mode.SUBTRACT
                 else size.Y - p.lip_offset
             )
             bd.extrude(amount=lip_thickness, dir=(-1, 0, 0))
