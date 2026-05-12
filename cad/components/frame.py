@@ -6,6 +6,7 @@ from common import *
 import layout
 from parameters import Parameters
 from components.fasteners import screw_boss_vertical
+import bd_keyboard.src.connectors.usb_c as usb_c #import USB_C_Port
 
 class Frame(Component):
     """"""
@@ -93,7 +94,27 @@ class Frame(Component):
                     rotation=(0, p.tent_angle, 0),
                     mode=bd.Mode.SUBTRACT
                 )
-        return frame.part
+        frame_part = frame.part
+        usb_c_port_loc = (
+            frame.part.edges()
+            .filter_by(bd.GeomType.CIRCLE)
+            .filter_by(lambda e: e.radius > 110 and e.radius < 120)
+            .filter_by(
+                lambda e:
+                abs(e.center().Z + p.height - p.Plates.Bottom.thickness) < 0.1
+            )
+            .sort_by(bd.SortBy.RADIUS)[0]
+            .location_at(
+                distance=p.USBPort.position[0],
+                position_mode=bd.PositionMode.LENGTH
+            )
+            * bd.Rot(90, 0, -90)
+            * bd.Pos(0, p.USBPort.position[1], -EPS)
+        )
+        with bd.Locations(usb_c_port_loc):
+            usb_c.USB_C_Port(mode=bd.Mode.SUBTRACT)
+        frame_part -= usb_c_port_loc * usb_c.USB_C_Port(mode=bd.Mode.SUBTRACT)
+        return frame_part
 
     def _locate(self):
         p = self.parameters

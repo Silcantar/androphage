@@ -126,10 +126,10 @@ class MCU(Component):
     location: str
     radius: float
     size: vector[3]
-    usb_overhang: float
-    usb_radius: float
-    usb_size: vector[3]
-    usb_cut_size: vector[3]
+    # usb_overhang: float
+    # usb_radius: float
+    # usb_size: vector[3]
+    # usb_cut_size: vector[3]
 
 @dataclass
 class OLED(Component):
@@ -253,6 +253,14 @@ class TrackballSensor(Component):
     pcb_size: vector[3]
 
 @dataclass
+class USBPort(Component):
+    cut_size: vector[3]
+    cut_radius: float
+    position: vector[3]
+    radius: float
+    size: vector[3]
+
+@dataclass
 class Parameters(YAMLWizard):
     main_half: Half
     tent_angle: float
@@ -278,6 +286,7 @@ class Parameters(YAMLWizard):
     Switch: Switch
     Trackball: Trackball
     TrackballSensor: TrackballSensor
+    USBPort: USBPort
 
 
 def load_parameters(parameter_path: PathLike) -> Parameters:

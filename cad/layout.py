@@ -401,7 +401,7 @@ def frame_screw_locations(
     back_outside_edge = long_edges.sort_by(bd.Axis.Y)[-1]
     back_center_edge = long_edges.sort_by(bd.Axis.Y)[-2]
     outside_edge = long_edges.sort_by(bd.Axis.X)[0]
-    front_outside_edge = long_edges.sort_by(bd.Axis.Y)[2]
+    front_outside_edge = long_edges.sort_by(bd.Axis.Y)[3]
     front_center_edge = long_edges.sort_by(bd.Axis.Y)[0]
     edges = [
         back_center_edge,

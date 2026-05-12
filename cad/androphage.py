@@ -135,6 +135,28 @@ class Androphage(bd.BasePartObject):
             btu.label = f"BTU {i+1}"
             btu_list.append(btu)
         component_list.append(bd.Part(children=btu_list, label="BTUs"))
+        # USB-C Port
+        print("Building USB-C Port.")
+        from bd_keyboard.src.connectors.usb_c import USB_C_Port
+        usb_c_port_loc = (
+            bd.Location(
+                bottom_plate.faces()
+                .filter_by(bd.GeomType.CYLINDER)
+                .filter_by(lambda f: f.radius > 110 and f.radius < 120)
+                .edges()
+                .group_by(bd.SortBy.LENGTH)[-1]
+                .sort_by(bd.Axis.Z)[-1]
+                .reversed()
+                .location_at(
+                    distance=p.USBPort.position[0],
+                    position_mode=bd.PositionMode.LENGTH
+                )
+            )
+            * bd.Rot(90, 0, -90)
+            * bd.Pos(0, p.USBPort.position[1], 0)
+        )
+        usb_c_port = usb_c_port_loc * USB_C_Port()
+        component_list.append(usb_c_port)
         # Battery
         from components.battery import Battery
         # Key Switches
@@ -177,20 +199,20 @@ class Androphage(bd.BasePartObject):
         trackball.label = "Trackball"
         # Base
         print("Building Base.")
-        # from components.base import Base
-        # match self.angle:
-        #     case 0:
-        #         base_location = bd.Pos(
-        #             Z=-p.height/cosd(p.tent_angle) - p.Base.vertical_height
-        #         )
-        #     case closed_angle if closed_angle == 90 + p.tent_angle:
-        #         base_location = bd.Rot(Y=180)
-        #     case _:
-        #         base_location = bd.Location(
-        #             position=(0, 0, -100),
-        #             orientation=(0, 180 * self.angle / (90 + p.tent_angle), 0)
-        #         )
-        # base = Base(self.parameters).move(base_location)
+        from components.base import Base
+        match self.angle:
+            case 0:
+                base_location = bd.Pos(
+                    Z=-p.height/cosd(p.tent_angle) - p.Base.vertical_height
+                )
+            case closed_angle if closed_angle == 90 + p.tent_angle:
+                base_location = bd.Rot(Y=180)
+            case _:
+                base_location = bd.Location(
+                    position=(0, 0, -100),
+                    orientation=(0, 180 * self.angle / (90 + p.tent_angle), 0)
+                )
+        base = Base(self.parameters).move(base_location)
         # Screws
         # from bd_warehouse.fastener import CounterSunkScrew, HeatSetNut, HexNut
         return bd.Part(
@@ -200,7 +222,7 @@ class Androphage(bd.BasePartObject):
                 right_half,
                 hinge,
                 trackball,
-                # base
+                base
             ]
         )
 
