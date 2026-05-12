@@ -4,26 +4,33 @@ from collections.abc import Sequence
 import build123d as bd
 
 from common import *
-from parameters import Parameters
+from parameters import *
 
-def build_column_locations(p: Parameters) -> KeyLocationDict:
+def build_column_locations(
+    p: Parameters,
+    start_point: bd.Vector = bd.Vector(0, 0)
+) -> KeyLocationDict:
     """Calculate the locations of the origin of each column."""
     spc = p.spacing
     column_locations = KeyLocationDict()
-    origin = bd.Location((0, 0))
+    column_origin = bd.Location(start_point)
     for column_key in p.Columns:
         column = p.Columns[column_key]
-        origin *= bd.Location(
-            position=(-0.5*spc.X, -0.5*spc.Y)
-        ) * bd.Location(
-            position=(column.spread*spc.X, column.stagger*spc.Y),
-            orientation=(0, 0, -column.splay)
-        ) * bd.Location(
-            position=(0.5*spc.X, 0.5*spc.Y)
+        column_origin *= (
+            bd.Location(
+                position=(0.5*spc.X, -0.5*spc.Y)
+            )
+            * bd.Location(
+                position=(-column.spread*spc.X, column.stagger*spc.Y),
+                orientation=(0, 0, column.splay)
+            )
+            * bd.Location(
+                position=(-0.5*spc.X, 0.5*spc.Y)
+            )
         )
-        origin.label = column_key
+        column_origin.label = column_key
         if not column.skip:
-            column_locations[column_key] = origin
+            column_locations[column_key] = column_origin
     return column_locations
 
 def build_key_locations(p: Parameters) -> KeyLocationDict:
@@ -78,28 +85,27 @@ def build_plate_outline(
     hinge_front_loc = (
         kl["reach_0"]
         * bd.Pos(inside, back)
-        * bd.Rot(Z=total_splay)
-        * bd.Pos(0, 0*-edge)
+        * bd.Rot(Z=-p.Columns[Finger.REACH].splay)
     )
     hinge_back_loc = (
         hinge_front_loc
-        * bd.Pos(0, p.pivot_depth + 0*2*edge)
+        * bd.Pos(0, p.pivot_depth)
     )
     middle_back_loc = (
         kl["middle_3"]
-        * bd.Pos(inside, back + 0*edge)
+        * bd.Pos(inside, back)
     )
     reach_front_loc = (
         kl["reach_0"]
-        * bd.Pos(center, front - 0*edge)
+        * bd.Pos(center, front)
     )
     reach_front_inside_loc = (
         kl["reach_0"]
-        * bd.Pos(inside + 0*edge, front - 0*edge)
+        * bd.Pos(inside, front)
     )
     home_front_loc = (
         kl["home_0"]
-        * bd.Pos(center, front - 0*edge)
+        * bd.Pos(center, front)
     )
     home_back_loc = (
         kl["home_1"]
@@ -107,19 +113,19 @@ def build_plate_outline(
     )
     index_front_loc = (
         kl["index_0"]
-        * bd.Pos(center, front - 0*edge)
+        * bd.Pos(center, front)
     )
     ring_front_loc = (
         kl["ring_0"]
-        * bd.Pos(outside, front - 0*edge)
+        * bd.Pos(outside, front)
     )
     pinky_front_loc = (
         kl[f"{last_column}_0"]
-        * bd.Pos(outside - 0*edge, front - 0*edge)
+        * bd.Pos(outside, front)
     )
     pinky_back_loc = (
         kl[f"{last_column}_{last_key}"]
-        * bd.Pos(outside - 0*edge, back + 0*edge)
+        * bd.Pos(outside, back)
     )
     with bd.BuildSketch() as sketch:
         with bd.BuildLine() as outline:
@@ -214,11 +220,14 @@ def build_plate_outline(
                 )
             )
         if sensor_cutout:
-            home_angle = total_splay - p.Columns[Finger.REACH].splay
+            home_angle = (
+                p.Columns[Finger.HOME].splay
+                + p.Columns[Finger.REACH].splay
+            )
             with bd.BuildLine():
                 sensor_front_line = bd.PolarLine(
                     start=home_back_loc.position,
-                    angle=-home_angle,
+                    angle=home_angle,
                     length=100
                 )
                 sensor_outside_line = bd.PolarLine(
@@ -228,7 +237,7 @@ def build_plate_outline(
                 )
                 sensor_back_line = bd.PolarLine(
                     start=sensor_outside_line.end_point(),
-                    angle=-home_angle,
+                    angle=home_angle,
                     length=100
                 )
                 sensor_center_line = bd.Line(
@@ -340,8 +349,13 @@ def screw_locations(
 
 if __name__ == "__main__":
     from ocp_vscode import show
-    from androphage import Androphage
-    androphage = Androphage()
+    parameters = load_parameters("cad/androphage.yaml")
     show(
-        frame_section(androphage.parameters)
+        # bd.Locations(list(build_key_locations(parameters).values()))
+        # * bd.Rectangle(width=18, height=17)
+        build_plate_outline(
+            parameters,
+            edge=2,
+            fillet_radius=1
+        )
     )

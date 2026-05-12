@@ -177,8 +177,11 @@ class Frame(Component):
         for edge in arc2.edges(): edges.append(edge)
         return bd.Wire(edges).move(bd.Pos(0, 0, -p.Frame.notch_depth))
 
-    def sweep_start_plane(self) -> bd.Plane:
-        return bd.Plane.YZ.move(bd.Location(self.sweep_path().start_point()))
+    def sweep_start_plane(self) -> bd.Location:
+        return bd.Location(
+            position=self.sweep_path().start_point(),
+            orientation=(90, 90, 0)
+        )
 
     def sweep_path(self) -> bd.Wire:
         return bd.Wire(self.outline.edges().sort_by(bd.Axis.X)[:-1])

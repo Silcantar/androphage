@@ -21,47 +21,50 @@ Print:
   wall_thickness: &wall_thickness 2
   min_wall_thickness: 1
 Columns:
-  # Finger columns
-  outer:
-    skip: true
-    keys: 2
-  pinky:
-    keys: 3
-    stagger: -0.75
-  ring:
-    keys: 4
-    shift: [0, -0.25]
-    splay: 10
-    spread: 1.111 # 20 mm
-  middle:
-    keys: 4
-    splay: 5
-    spread: 1.111 # 20 mm
-    stagger: 0
-  index:
-    cutout: true
-    keys: 4
-    stagger: -0.25
-  inner:
-    cutout: true
-    keys: 3
-    stagger: 1
   # Thumb columns
-  tuck:
-    connect: 1
+  reach:
+    # connect: 1
     cutout: true
-    splay: 10
-    spread: 0
-    stagger: -1
+    splay: -45
+    spread: 0.5
+    stagger: 0.5
   home:
     connect: 1
     cutout: true
     keys: 2
     splay: 10
-  reach:
+  tuck:
     connect: 1
     cutout: true
     splay: 10
+  # Finger columns
+  inner:
+    connect: 1
+    cutout: true
+    keys: 3
+    shift: [1, 1]
+    splay: 10
+    spread: 1
+  index:
+    cutout: true
+    keys: 4
+    spread: 0
+  middle:
+    keys: 4
+    stagger: 0.25
+  ring:
+    keys: 4
+    shift: [0, -0.25]
+    splay: 5
+    spread: 1.111 # 20 mm
+  pinky:
+    keys: 3
+    splay: 10
+    spread: 1.111 # 20 mm
+  outer:
+    skip: true
+    keys: 2
+    stagger: 0.75
 Battery:
   visible: true
   size: [ 34, 4.0, 50 ] #Dimensions of battery.

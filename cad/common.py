@@ -258,6 +258,47 @@ class Tube(bd.BasePartObject):
                 )
         super().__init__(bp.part, align=align, **kwargs)
 
+class CenterPie(bd.BaseSketchObject):
+
+    _applies_to = [bd.BuildSketch._tag]
+
+    def __init__(
+        self,
+        center: bd.VectorLike,
+        radius: float,
+        start_angle: float,
+        arc_size: float,
+        align: AlignLike = (bd.Align.CENTER, bd.Align.CENTER),
+        mode: bd.Mode = bd.Mode.ADD,
+    ):
+        context: bd.BuildSketch | None = bd.BuildSketch._get_context(self)
+        bd.validate_inputs(context, self)
+
+        self.center = center
+        self.radius = radius
+        self.start_angle = start_angle
+        self.arc_size = arc_size
+
+        arc = bd.CenterArc(
+            center=center,
+            radius=radius,
+            start_angle=start_angle,
+            arc_size=arc_size
+        )
+        face = bd.make_face([
+            arc,
+            bd.Line(
+                arc.start_point(),
+                center
+            ),
+            bd.Line(
+                center,
+                arc.end_point()
+            )
+        ])
+
+        super().__init__(face, rotation=0, mode=mode)
+
 
 class Circle(bd.BaseSketchObject):
     """Sketch Object: Circle

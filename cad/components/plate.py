@@ -168,17 +168,17 @@ class Plate(Component):
                     angle=-p.tent_angle
                 )
             if self.plate_type == PlateType.TOP:
+                bd.add(
+                    self.top_plate_cutout(),
+                    mode=bd.Mode.SUBTRACT
+                )
                 origin = (
                     plate.vertices()
                     .group_by(bd.Axis.Z)[-1].vertices()
                     .group_by(bd.Axis.X)[-1].vertices()
                     .sort_by(bd.Axis.Y)[0].center()
                 )
-                bd.extrude(
-                    to_extrude=self.top_plate_cutout(),
-                    amount=self.plate_params.thickness,
-                    mode=bd.Mode.SUBTRACT
-                )
+
                 # Select the inside edges created by the previous cut.
                 fillet_edges = (
                     plate.edges(bd.Select.LAST)
@@ -258,43 +258,47 @@ class Plate(Component):
                 )
         return sketch.sketch
 
-    def top_plate_cutout(self) -> bd.Sketch:
+    def top_plate_cutout(self) -> bd.Part:
         """Generate a sketch for the cutouts in the top plate."""
         p = self.parameters
         spc = p.spacing
-        with bd.BuildSketch() as sketch:
-            for column_key in self.column_locations:
-                column = p.Columns[column_key]
-                column_location = self.column_locations[column_key]
-                cutout = 2*self.plate_params.edge if column.cutout else 0
-                with bd.Locations(
-                    column_location
-                    * bd.Pos(
-                        0,
-                        ((column.keys - 1)*spc.Y - cutout)/2,
-                        0
-                    ) * bd.Pos(
-                        column.shift[0]*spc.X,
-                        column.shift[1]*spc.Y
-                    )
-                ):
-                    bd.Rectangle(
-                        spc.X,
-                        column.keys*spc.Y + cutout
-                    )
-                if column.connect > 0:
+        with bd.BuildPart() as part:
+            with bd.BuildSketch() as sketch:
+                for column_key in self.column_locations:
+                    column = p.Columns[column_key]
+                    column_location = self.column_locations[column_key]
+                    cutout = 2*self.plate_params.edge if column.cutout else 0
                     with bd.Locations(
                         column_location
-                        * bd.Pos(-spc/2)
-                        * bd.Rot(Z=90)
-                    ):
-                        Circle(
-                            radius=column.connect*spc.Y,
-                            arc_size=column.splay,
-                            align=(bd.Align.MIN, bd.Align.MIN)
+                        * bd.Pos(
+                            0,
+                            ((column.keys - 1)*spc.Y - cutout)/2
+                        ) * bd.Pos(
+                            column.shift[0]*spc.X,
+                            column.shift[1]*spc.Y
                         )
-            bd.fillet(sketch.vertices(), radius=self.plate_params.radius_inner)
-        return sketch.sketch
+                    ):
+                        bd.Rectangle(
+                            spc.X,
+                            column.keys*spc.Y + cutout
+                        )
+                    if column.connect > 0:
+                        with bd.Locations(
+                            column_location
+                            * bd.Pos(spc.X/2, -spc.Y/2)
+                            * bd.Rot(Z=90)
+                        ):
+                            bd.Circle(
+                                radius=column.connect*spc.Y,
+                                arc_size=-column.splay,
+                                align=(bd.Align.MIN, bd.Align.MAX)
+                            )
+            bd.extrude(amount=self.plate_params.thickness)
+            bd.fillet(
+                objects=part.edges().filter_by(bd.Axis.Z),
+                radius=self.plate_params.radius_inner
+            )
+        return part.part
 
     def trackball_cutout(self) -> bd.Part:
         """Generate and position a 3d cutout for the trackball."""

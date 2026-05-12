@@ -7,7 +7,7 @@ import build123d as bd
 import layout
 from components.frame import Frame
 from common import *
-from parameters import Parameters
+from parameters import *
 
 # Passed to __main__
 test_layout = True
@@ -25,18 +25,12 @@ class Androphage(bd.BasePartObject):
         **kwargs
     ):
         self.main_half = main_half
-        self.parameters = self.import_parameters(parameter_path)
+        self.parameters = load_parameters(parameter_path)
         self.angle = max(0, min(angle, 90 + self.parameters.tent_angle))
         self.column_locations = layout.build_column_locations(self.parameters)
         if build:
             part = self._build(test_layout)
             super().__init__(part=part, **kwargs)
-
-    def import_parameters(self, parameter_path: PathLike) -> Parameters:
-        """Load parameters from a YAML file."""
-        return self._set_derived_parameters(
-            Parameters.from_yaml_file(parameter_path)
-        )
 
     def _build(self, test_layout) -> bd.Part:
         from components.frame import Frame
@@ -53,15 +47,18 @@ class Androphage(bd.BasePartObject):
         ).move(bd.Pos(Z=p.Plates.Top.position_z))
         component_list.append(top_plate)
         # Frame
+        print("Building Frame.")
         frame = Frame(parameters=self.parameters)
         component_list.append(frame)
         # Center Block
+        print("Building Center Block.")
         from components.center_block import CenterBlock
         center_block = CenterBlock(
             parameters=self.parameters
         ).move(bd.Pos(0, p.Frame.lip_depth, p.Plates.Top.position_z))
         component_list.append(center_block)
         # Switch Plate
+        print("Building Switch Plate.")
         switch_plate = Plate(
             parameters=self.parameters,
             plate_type=PlateType.SWITCH
@@ -72,6 +69,7 @@ class Androphage(bd.BasePartObject):
         ))
         component_list.append(switch_plate)
         # PCB
+        print("Building PCB.")
         pcb = Plate(
             parameters=self.parameters,
             plate_type=PlateType.PCB,
@@ -82,6 +80,7 @@ class Androphage(bd.BasePartObject):
         ))
         component_list.append(pcb)
         # Bottom Plate
+        print("Building Bottom Plate.")
         bottom_plate = Plate(
             parameters=self.parameters,
             plate_type=PlateType.BOTTOM
@@ -92,6 +91,7 @@ class Androphage(bd.BasePartObject):
         ))
         component_list.append(bottom_plate)
         # Magnetic Connector
+        print("Building Magnetic Connector.")
         from components.magnetic_connector import MagneticConnector
         magnetic_connector = MagneticConnector(
             parameters=self.parameters
@@ -101,6 +101,7 @@ class Androphage(bd.BasePartObject):
         ))
         component_list.append(magnetic_connector)
         # Trackball Sensor
+        print("Building Trackball Sensor.")
         from components.trackball_sensor import TrackballSensor
         trackball_location = bd.Pos(Y=p.Trackball.position_y)
         trackball_sensor = TrackballSensor(parameters=self.parameters).move(
@@ -110,6 +111,7 @@ class Androphage(bd.BasePartObject):
         )
         component_list.append(trackball_sensor)
         # BTUs
+        print("Building BTUs.")
         from components.btu import BTU
         btu_locations = bd.Locations([
             trackball_location
@@ -134,137 +136,71 @@ class Androphage(bd.BasePartObject):
         # Battery
         from components.battery import Battery
         # Key Switches
-        from bd_keyboard.src.key_switch.choc_v2 import ChocV2
-        component_list.append(ChocV2())
+        print("Building Key Switches.")
+        # from bd_keyboard.src.key_switch.choc_v2 import ChocV2
+        # switch_locations = bd.Locations(
+        #     list(layout.build_key_locations(self.parameters).values())
+        # )
+        # switches = bd.Part(children=(
+        #     switch_locations
+        #     * ChocV2(
+        #         lower_color=seq_to_color(p.Switch.color.bottom),
+        #         stem_color=seq_to_color(p.Switch.color.stem),
+        #         upper_color=seq_to_color(p.Switch.color.top)
+        #     )
+        # ))
+        # component_list.append(switches)
         left_half = bd.Part(
             label="Left Half",
             children=component_list
         ).rotate(angle=self.angle, axis=bd.Axis.Y)
+        print("Building Right Half.")
         right_half = bd.Part(
             label="Right Half",
             children=mirror_preserve(component_list, about=bd.Plane.YZ)
         ).rotate(angle=-self.angle, axis=bd.Axis.Y)
         # Hinge
+        print("Building Hinge.")
         from components.hinge import Hinge
         hinge = Hinge(
             parameters=self.parameters,
             angle=self.angle
         ).move(bd.Pos(0, p.Hinge.position_y + p.Frame.lip_depth, 0))
         # Trackball
+        print("Building Trackball.")
         trackball = bd.Sphere(
             radius=p.Trackball.diameter/2
         ).move(trackball_location)
         trackball.color = seq_to_color(p.Trackball.color)
         trackball.label = "Trackball"
         # Base
-        from components.base import Base
-        match self.angle:
-            case 0:
-                base_location = bd.Pos(
-                    Z=-p.height/cosd(p.tent_angle) - p.Base.vertical_height
-                )
-            case closed_angle if closed_angle == 90 + p.tent_angle:
-                base_location = bd.Rot(Y=180)
-            case _:
-                base_location = bd.Location(
-                    position=(0, 0, -100),
-                    orientation=(0, 180 * self.angle / (90 + p.tent_angle), 0)
-                )
-        base = Base(self.parameters).move(base_location)
+        print("Building Base.")
+        # from components.base import Base
+        # match self.angle:
+        #     case 0:
+        #         base_location = bd.Pos(
+        #             Z=-p.height/cosd(p.tent_angle) - p.Base.vertical_height
+        #         )
+        #     case closed_angle if closed_angle == 90 + p.tent_angle:
+        #         base_location = bd.Rot(Y=180)
+        #     case _:
+        #         base_location = bd.Location(
+        #             position=(0, 0, -100),
+        #             orientation=(0, 180 * self.angle / (90 + p.tent_angle), 0)
+        #         )
+        # base = Base(self.parameters).move(base_location)
         # Screws
         # from bd_warehouse.fastener import CounterSunkScrew, HeatSetNut, HexNut
         return bd.Part(
             label="Androphage",
-            children=[left_half, right_half, hinge, trackball, base]
+            children=[
+                left_half,
+                right_half,
+                hinge,
+                trackball,
+                # base
+            ]
         )
-
-    def _set_derived_parameters(self, p: Parameters) -> Parameters:
-        """Get the key spacing distance based on the spacing type specified in
-        the parameters.
-        """
-        p.spacing = bd.Vector(p.Keycap.spacing)
-        # Heights
-        p.key_height = (
-            p.Switch.model.height.lower
-            + p.Switch.model.height.upper
-            + p.Keycap.profile.height
-        )
-        key_height = (
-            p.key_height
-            + p.Plates.PCB.clearance
-            + p.Plates.Bottom.thickness
-        )
-        trackball_height = (
-            p.Trackball.diameter/2
-            + p.Trackball.clearance
-            + p.Plates.Bottom.thickness
-            + p.Print.min_wall_thickness
-        )
-        print(f"key height: {key_height} --- trackball height: {trackball_height}")
-        p.height = max(key_height, trackball_height)
-        # Plate Parameters
-        p.Plates.Switch.thickness = p.Switch.model.plate_thickness
-        p.Plates.Top.position_z = -p.Plates.Top.thickness / cosd(p.tent_angle)
-        p.Plates.Switch.position_z = (
-            - p.Keycap.profile.height
-            - p.Switch.model.height.upper
-            - p.Plates.Switch.thickness
-        ) / cosd(p.tent_angle)
-        p.Plates.PCB.position_z = p.Plates.Switch.position_z + (
-            - p.Switch.model.height.lower
-            - p.Plates.PCB.thickness
-        ) / cosd(p.tent_angle)
-        p.Plates.Bottom.position_z = -p.height / cosd(p.tent_angle)
-        p.Plates.Top.center_width = (
-            p.Plates.Top.position_z
-            - p.Plates.Bottom.position_z
-        ) * tand(p.tent_angle)
-        p.Plates.Switch.center_width = (
-            p.Plates.Switch.position_z
-            - p.Plates.Bottom.position_z
-        ) * tand(p.tent_angle)
-        p.Plates.PCB.center_width = (
-            p.Plates.PCB.position_z
-            - p.Plates.Bottom.position_z
-        ) * tand(p.tent_angle)
-        p.Plates.Bottom.center_width = 0
-        p.Plates.Top.edge = (
-            p.Plates.Switch.edge
-            + p.Plates.Switch.clearance
-            + p.Frame.lip_depth
-        )
-        p.Plates.PCB.edge = p.Plates.Switch.edge
-        p.Plates.Bottom.edge = p.Plates.Top.edge - p.Plates.Bottom.clearance
-        # Miscellany
-        p.Screws.M2.offset = p.Insert.hole_diameter/2 + p.Insert.wall_thickness
-        bottom_plate_outline = layout.build_plate_outline(
-            p,
-            edge=p.Plates.Bottom.edge,
-            add_center=p.Plates.Bottom.add_center,
-            center_width=p.Plates.Bottom.center_width,
-            fillet_radius=p.Plates.Bottom.radius_outer,
-            sensor_cutout=False
-        )
-        frame_section = layout.frame_section(parameters=p)
-        frame_bottom_width = frame_section.edges().sort_by(bd.Axis.Z)[0].length
-        p.Base.width = p.height*2
-        p.Base.height = sind(p.tent_angle) * (
-            bottom_plate_outline.length
-            + frame_bottom_width
-        )
-        p.Base.depth = (
-            bottom_plate_outline.edges().sort_by(bd.Axis.X)[-1].length
-        )
-        # p.Base.offset = 0 # 2*p.Frame.lip_depth
-        p.Base.angled_height = (
-            p.Base.width*tand(p.tent_angle)/2
-            - p.Base.foot_width*tand(p.tent_angle)
-        )
-        p.Base.vertical_height = p.Base.height - p.Base.angled_height
-        p.Hinge.diameter = p.Hinge.pin_diameter + 2*p.Hinge.leaf_thickness
-        p.Hinge.width = 2*(p.height - p.Plates.Bottom.thickness)/cosd(p.tent_angle)
-        p.Hinge.length = p.Hinge.knuckle_length * p.Hinge.knuckle_count
-        return p
 
     def test_layout(self) -> bd.Part:
         with bd.BuildPart() as keys:
