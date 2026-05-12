@@ -185,11 +185,19 @@ class Androphage(bd.BasePartObject):
         ).rotate(angle=-self.angle, axis=bd.Axis.Y)
         # Hinge
         print("Building Hinge.")
-        from components.hinge import Hinge
-        hinge = Hinge(
-            parameters=self.parameters,
-            angle=self.angle
-        ).move(bd.Pos(0, p.Hinge.position_y + p.Frame.lip_depth, 0))
+        from components.knife_hinge import KnifeHinge
+        hinge = (
+            bd.Location(
+                position=(0, p.Hinge.position_y + p.Frame.lip_depth, 0),
+                orientation=(90, 0, 0)
+            )
+            * KnifeHinge(self.parameters)
+        )
+        # from components.hinge import Hinge
+        # hinge = Hinge(
+        #     parameters=self.parameters,
+        #     angle=self.angle
+        # ).move(bd.Pos(0, p.Hinge.position_y + p.Frame.lip_depth, 0))
         # Trackball
         print("Building Trackball.")
         trackball = bd.Sphere(

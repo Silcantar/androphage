@@ -30,6 +30,7 @@ def set_derived_parameters(p: Parameters) -> Parameters:
     )
     print(f"key height: {key_height} --- trackball height: {trackball_height}")
     p.height = max(key_height, trackball_height)
+    p.Hinge.height = p.height/cosd(p.tent_angle)
     # Plate Parameters
     p.Plates.Switch.thickness = p.Switch.model.plate_thickness
     p.Plates.Top.position_z = -p.Plates.Top.thickness / cosd(p.tent_angle)
@@ -64,7 +65,7 @@ def set_derived_parameters(p: Parameters) -> Parameters:
     p.Plates.PCB.edge = p.Plates.Switch.edge
     p.Plates.Bottom.edge = p.Plates.Top.edge - p.Plates.Bottom.clearance
     # Miscellany
-    p.Screws.M2.offset = p.Insert.hole_diameter/2 + p.Insert.wall_thickness
+    p.Screw_Options.M2.offset = p.Insert.hole_diameter/2 + p.Insert.wall_thickness
     bottom_plate_outline = build_plate_outline(
         p,
         edge=p.Plates.Bottom.edge,
@@ -93,9 +94,9 @@ def set_derived_parameters(p: Parameters) -> Parameters:
         - p.Base.foot_width*tand(p.tent_angle)
     )
     p.Base.vertical_height = p.Base.height - p.Base.angled_height
-    p.Hinge.diameter = p.Hinge.pin_diameter + 2*p.Hinge.leaf_thickness
-    p.Hinge.width = 2*(p.height - p.Plates.Bottom.thickness)/cosd(p.tent_angle)
-    p.Hinge.length = p.Hinge.knuckle_length * p.Hinge.knuckle_count
+    # p.Hinge.diameter = p.Hinge.pin_diameter + 2*p.Hinge.leaf_thickness
+    # p.Hinge.width = 2*(p.height - p.Plates.Bottom.thickness)/cosd(p.tent_angle)
+    # p.Hinge.length = p.Hinge.knuckle_length * p.Hinge.knuckle_count
     return p
 
 def build_column_locations(

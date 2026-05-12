@@ -215,7 +215,7 @@ class Plate(Component):
                 hinge_locations = bd.Locations(bd.Location(
                     position=(
                         origin
-                        + (0, p.Hinge.position_y + p.Frame.lip_depth, 0)
+                        + (0, p.Hinge.position[1] + p.Frame.lip_depth, 0)
                     ),
                     orientation=(0, p.tent_angle, 0)
                 ))

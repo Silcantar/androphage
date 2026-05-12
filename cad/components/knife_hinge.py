@@ -18,15 +18,15 @@ class KnifeHinge(Component):
         **kwargs
     ):
         self.parameters = parameters
-        self.parameters.Hinge.diameter = 6
-        self.parameters.Hinge.pin_diameter = 3
-        self.parameters.Hinge.thickness = 3
-        self.parameters.Hinge.plate_thickness = 1/16*INCH
-        self.parameters.Hinge.taper_pin_diameter = 0.0611*INCH
-        self.parameters.Hinge.taper_pin_position = 6
-        self.parameters.Hinge.screw_position = 3.5
-        self.hinge_screw = self.parameters.Screws.M2
-        self.parameters.Hinge.height = self.parameters.height/cosd(self.parameters.tent_angle)
+        # self.parameters.Hinge.diameter = 6
+        # self.parameters.Hinge.pin_diameter = 3
+        # self.parameters.Hinge.thickness = 3
+        # self.parameters.Hinge.plate_thickness = 1/16*INCH
+        # self.parameters.Hinge.taper_pin_diameter = 0.0611*INCH
+        # self.parameters.Hinge.taper_pin_position = 6
+        # self.parameters.Hinge.screw_position = 3.5
+        # self.hinge_screw = self.parameters.Screws.M2
+        # self.parameters.Hinge.height = self.parameters.height/cosd(self.parameters.tent_angle)
         try:
             color
         except NameError:
@@ -51,10 +51,10 @@ class KnifeHinge(Component):
                 for i in [-1, 1]
             ])
             * bd.CounterSinkHole(
-                radius=self.hinge_screw.diameter/2,
+                radius=p.Hinge.screw.diameter/2,
                 depth=BIG,
-                counter_sink_radius=self.hinge_screw.counter_sink_diameter/2,
-                counter_sink_angle=self.hinge_screw.head_angle
+                counter_sink_radius=p.Hinge.screw.counter_sink_diameter/2,
+                counter_sink_angle=p.Hinge.screw.head_angle
             )
         )
         return hinge
@@ -78,7 +78,7 @@ class KnifeHinge(Component):
             )
         )
         plate -= bd.Cylinder(
-            radius=self.hinge_screw.diameter/2,
+            radius=p.Hinge.screw.diameter/2,
             height=p.Hinge.plate_thickness
         )
         return plate

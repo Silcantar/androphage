@@ -73,11 +73,15 @@ class Frame(Component):
 
 @dataclass
 class Hinge(Component):
-    knuckle_count: float
-    knuckle_length: float
-    leaf_thickness: float
+    diameter: float
     pin_diameter: float
-    position_y: float
+    plate_thickness: float
+    position: vector[3]
+    screw: Screw
+    screw_position: float
+    taper_pin_diameter: float
+    taper_pin_position: float
+    thickness: float
 
 @dataclass
 class Insert(Component):
@@ -126,10 +130,6 @@ class MCU(Component):
     location: str
     radius: float
     size: vector[3]
-    # usb_overhang: float
-    # usb_radius: float
-    # usb_size: vector[3]
-    # usb_cut_size: vector[3]
 
 @dataclass
 class OLED(Component):
@@ -202,7 +202,7 @@ class M4(Screw):
     pass
 
 @dataclass
-class Screws:
+class Screw_Options:
     M2: M2
     M3: M3
     M4: M4
@@ -282,7 +282,7 @@ class Parameters(YAMLWizard):
     MCU: MCU
     OLED: OLED
     Plates: Plates
-    Screws: Screws
+    Screw_Options: Screw_Options
     Switch: Switch
     Trackball: Trackball
     TrackballSensor: TrackballSensor
