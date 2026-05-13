@@ -211,7 +211,7 @@ class Androphage(bd.BasePartObject):
             for i in [0, -1]
         ]
         hinge_list: list[bd.Part] = []
-        for i in range(len(hinge_locations)): #(loc, mirror) in zip(hinge_locations, [False, True]):
+        for i in range(len(hinge_locations)):
             hinge_list.append(
                 hinge_locations[i]
                 * KnifeHinge(
@@ -221,6 +221,7 @@ class Androphage(bd.BasePartObject):
                 )
             )
         hinges = bd.Part(children=hinge_list)
+        hinges.label = "Hinges"
         # Trackball
         print("Building Trackball.")
         trackball = bd.Sphere(

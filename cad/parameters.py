@@ -65,6 +65,7 @@ class CenterBlock(Component):
     btu_angles: vector[3]
     rib_size: vector[2]
     screw_count: int
+    screw_offsets: vector[3]
     wall_thickness: float
 
 @dataclass

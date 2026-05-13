@@ -116,7 +116,7 @@ BTU_Options:
 Screws:
   M2: &M2
     visible: true
-    color: *steel
+    color: *brass
     counter_sink_diameter: 4.4
     diameter: 2
     drive_depth: 1
@@ -127,7 +127,7 @@ Screws:
     minor_diameter: 1.6
   M3: &M3
     visible: true
-    color: *steel
+    color: *brass
     counter_sink_diameter: 6.6
     diameter: 3
     drive_depth: 1.1
@@ -138,7 +138,7 @@ Screws:
     minor_diameter: 2.5
   M4: &M4
     visible: true
-    color: *steel
+    color: *brass
     counter_sink_diameter: 8.8
     diameter: 4
     drive_depth: 1.5
@@ -162,6 +162,7 @@ CenterBlock:
   color: *black
   rib_size: [ 2, 2 ]
   screw_count: 3
+  screw_offsets: [12, -0.511, -12]
   wall_thickness: *wall_thickness
 Desk:
   visible: true
@@ -181,7 +182,7 @@ Frame:
 Hinge:
   # https://www.mcmaster.com/11555A61/ or https://www.mcmaster.com/1624A62/
   visible: true
-  color: *steel
+  color: *brass
   diameter: 6
   pin_diameter: 3 #2.3876
   plate_count: 4
@@ -254,8 +255,8 @@ MagneticConnector:
   color: *black
   lip: [ 1.0, 28.5, 8.0 ]
   lip_offset: 1.0
-  pcb_size: [*pcb_thickness, 44, 10]
-  position: [0, 28, -10]
+  pcb_size: [*pcb_thickness, 40, 10]
+  position: [0, 30, -10]
   size: [ 4.7, 26.5, 6.0 ]
   screw: *M2
   screw_offset: 18
