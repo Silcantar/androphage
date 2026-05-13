@@ -65,7 +65,7 @@ def set_derived_parameters(p: Parameters) -> Parameters:
     p.Plates.PCB.edge = p.Plates.Switch.edge
     p.Plates.Bottom.edge = p.Plates.Top.edge - p.Plates.Bottom.clearance
     # Miscellany
-    p.Screw_Options.M2.offset = p.Insert.hole_diameter/2 + p.Insert.wall_thickness
+    p.Screws.M2.offset = p.Insert.hole_diameter/2 + p.Insert.wall_thickness
     bottom_plate_outline = build_plate_outline(
         p,
         edge=p.Plates.Bottom.edge,

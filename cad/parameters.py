@@ -28,6 +28,17 @@ class Component:
     color: Color
 
 @dataclass
+class Screw(Component):
+    counter_sink_diameter: float
+    diameter: float
+    drive_depth: float
+    drive_width: float
+    head_diameter: float
+    head_angle: float
+    hole_diameter: float
+    minor_diameter: float
+
+@dataclass
 class Base(Component):
     pass
     foot_width: float
@@ -179,17 +190,6 @@ class PrintParameters:
     min_wall_thickness: float
 
 @dataclass
-class Screw(Component):
-    counter_sink_diameter: float
-    diameter: float
-    drive_depth: float
-    drive_width: float
-    head_diameter: float
-    head_angle: float
-    hole_diameter: float
-    minor_diameter: float
-
-@dataclass
 class M2(Screw):
     pass
 
@@ -202,7 +202,7 @@ class M4(Screw):
     pass
 
 @dataclass
-class Screw_Options:
+class Screws:
     M2: M2
     M3: M3
     M4: M4
@@ -282,7 +282,7 @@ class Parameters(YAMLWizard):
     MCU: MCU
     OLED: OLED
     Plates: Plates
-    Screw_Options: Screw_Options
+    Screws: Screws
     Switch: Switch
     Trackball: Trackball
     TrackballSensor: TrackballSensor

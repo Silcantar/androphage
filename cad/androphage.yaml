@@ -113,7 +113,7 @@ BTU_Options:
     model: VCN319
 
 # ---- Screw Options ----
-Screw_Options:
+Screws:
   M2: &M2
     visible: true
     color: *steel
