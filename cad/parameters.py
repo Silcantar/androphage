@@ -86,6 +86,7 @@ class Frame(Component):
 class Hinge(Component):
     diameter: float
     pin_diameter: float
+    plate_count: int
     plate_thickness: float
     position: vector[3]
     screw: Screw
@@ -132,6 +133,7 @@ class MagneticConnector(Component):
     lip_offset: float
     pcb_size: vector[3]
     position: vector[3]
+    screw: Screw
     screw_offset: float
     size: vector[3]
 
@@ -256,9 +258,13 @@ class TrackballSensor(Component):
 class USBPort(Component):
     cut_size: vector[3]
     cut_radius: float
+    inside_depth: float
     position: vector[3]
     radius: float
     size: vector[3]
+    thickness: float
+    tongue_size: vector[3]
+    tongue_radius: float
 
 @dataclass
 class Parameters(YAMLWizard):

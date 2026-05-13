@@ -66,14 +66,15 @@ def set_derived_parameters(p: Parameters) -> Parameters:
     p.Plates.Bottom.edge = p.Plates.Top.edge - p.Plates.Bottom.clearance
     # Miscellany
     p.Screws.M2.offset = p.Insert.hole_diameter/2 + p.Insert.wall_thickness
-    bottom_plate_outline = build_plate_outline(
+    plate_outline = build_plate_outline(
         p,
-        edge=p.Plates.Bottom.edge,
+        edge=p.Plates.Top.edge,
         add_center=p.Plates.Bottom.add_center,
         center_width=p.Plates.Bottom.center_width,
         fillet_radius=p.Plates.Bottom.radius_outer,
         sensor_cutout=False
     )
+    p.Plates.depth = plate_outline.edges().sort_by(bd.Axis.X)[-1].length
     frame_bottom_width = (
         frame_section(parameters=p)
         .edges()
@@ -82,12 +83,10 @@ def set_derived_parameters(p: Parameters) -> Parameters:
     )
     p.Base.width = p.height*2
     p.Base.height = sind(p.tent_angle) * (
-        bottom_plate_outline.length
+        plate_outline.length
         + frame_bottom_width
     )
-    p.Base.depth = (
-        bottom_plate_outline.edges().sort_by(bd.Axis.X)[-1].length
-    )
+    p.Base.depth = p.Plates.depth
     p.Base.offset = 0 # 2*p.Frame.lip_depth
     p.Base.angled_height = (
         p.Base.width*tand(p.tent_angle)/2
@@ -95,7 +94,7 @@ def set_derived_parameters(p: Parameters) -> Parameters:
     )
     p.Base.vertical_height = p.Base.height - p.Base.angled_height
     # p.Hinge.diameter = p.Hinge.pin_diameter + 2*p.Hinge.leaf_thickness
-    # p.Hinge.width = 2*(p.height - p.Plates.Bottom.thickness)/cosd(p.tent_angle)
+    p.Hinge.width = p.Hinge.plate_count * p.Hinge.plate_thickness
     # p.Hinge.length = p.Hinge.knuckle_length * p.Hinge.knuckle_count
     return p
 

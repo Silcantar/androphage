@@ -184,6 +184,7 @@ Hinge:
   color: *steel
   diameter: 6
   pin_diameter: 3 #2.3876
+  plate_count: 4
   plate_thickness: 1.5875
   position: [ 0, 0, 0 ]
   screw: *M2
@@ -256,6 +257,7 @@ MagneticConnector:
   pcb_size: [*pcb_thickness, 44, 10]
   position: [0, 28, -10]
   size: [ 4.7, 26.5, 6.0 ]
+  screw: *M2
   screw_offset: 18
 MCU:
   visible: true
@@ -513,10 +515,13 @@ TrackballSensor:
   pcb_size: [ 16, 25, *pcb_thickness ]
 USBPort:
   visible: true
-  color: [ Silver, 1 ]
-  cut_size: [ 12, 10, 7 ]
+  color: *silver
+  cut_size: [12, 10, 7]
   cut_radius: 3
-  # overhang: 1.5
-  position: [ 10, 1.5, 0 ]
+  inside_depth: 6.2
+  position: [10, 3, 0]
   radius: 1.2
-  size: [ 9, 7.35, 3.2 ]
+  size: [9, 7.35, 3.3]
+  thickness: 0.3
+  tongue_size: [6.690, 4.45, 1.2]
+  tongue_radius: 0.4

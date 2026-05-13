@@ -88,7 +88,12 @@ class Androphage(bd.BasePartObject):
             plate_type=PlateType.BOTTOM
         ).move(bd.Pos(
             0,
-            p.Plates.Top.edge - p.Plates.Bottom.edge,
+            (
+                p.Plates.Top.edge
+                - p.Plates.Bottom.edge
+                + p.Hinge.width
+                + 2*p.Frame.lip_depth
+            ),
             p.Plates.Bottom.position_z
         ))
         component_list.append(bottom_plate)
@@ -184,20 +189,38 @@ class Androphage(bd.BasePartObject):
             children=mirror_preserve(component_list, about=bd.Plane.YZ)
         ).rotate(angle=-self.angle, axis=bd.Axis.Y)
         # Hinge
-        print("Building Hinge.")
+        print("Building Hinges.")
         from components.knife_hinge import KnifeHinge
-        hinge = (
-            bd.Location(
-                position=(0, p.Hinge.position_y + p.Frame.lip_depth, 0),
-                orientation=(90, 0, 0)
+        hinge_locations = [
+            bd.Pos(
+                (
+                    top_plate.edges()
+                    .group_by(bd.Axis.X)[-1]
+                    .group_by(bd.Axis.Z)[-1]
+                    .sort_by(bd.Axis.Y)[i]
+                    .vertices()
+                    .sort_by(bd.Axis.Y)[i]
+                    .center()
+                )
+                + bd.Vector(
+                    -p.Hinge.thickness/2,
+                    (1 + 2*i)*(p.Hinge.width/2 + 2*p.Frame.lip_depth),
+                    -p.Hinge.height/2
+                )
             )
-            * KnifeHinge(self.parameters)
-        )
-        # from components.hinge import Hinge
-        # hinge = Hinge(
-        #     parameters=self.parameters,
-        #     angle=self.angle
-        # ).move(bd.Pos(0, p.Hinge.position_y + p.Frame.lip_depth, 0))
+            for i in [0, -1]
+        ]
+        hinge_list: list[bd.Part] = []
+        for i in range(len(hinge_locations)): #(loc, mirror) in zip(hinge_locations, [False, True]):
+            hinge_list.append(
+                hinge_locations[i]
+                * KnifeHinge(
+                    parameters=self.parameters,
+                    mirror=(i == 1),
+                    rotation=((1 - 2*i)*90, 0, 0)
+                )
+            )
+        hinges = bd.Part(children=hinge_list)
         # Trackball
         print("Building Trackball.")
         trackball = bd.Sphere(
@@ -207,20 +230,20 @@ class Androphage(bd.BasePartObject):
         trackball.label = "Trackball"
         # Base
         print("Building Base.")
-        from components.base import Base
-        match self.angle:
-            case 0:
-                base_location = bd.Pos(
-                    Z=-p.height/cosd(p.tent_angle) - p.Base.vertical_height
-                )
-            case closed_angle if closed_angle == 90 + p.tent_angle:
-                base_location = bd.Rot(Y=180)
-            case _:
-                base_location = bd.Location(
-                    position=(0, 0, -100),
-                    orientation=(0, 180 * self.angle / (90 + p.tent_angle), 0)
-                )
-        base = Base(self.parameters).move(base_location)
+        # from components.base import Base
+        # match self.angle:
+        #     case 0:
+        #         base_location = bd.Pos(
+        #             Z=-p.height/cosd(p.tent_angle) - p.Base.vertical_height
+        #         )
+        #     case closed_angle if closed_angle == 90 + p.tent_angle:
+        #         base_location = bd.Rot(Y=180)
+        #     case _:
+        #         base_location = bd.Location(
+        #             position=(0, 0, -100),
+        #             orientation=(0, 180 * self.angle / (90 + p.tent_angle), 0)
+        #         )
+        # base = Base(self.parameters).move(base_location)
         # Screws
         # from bd_warehouse.fastener import CounterSunkScrew, HeatSetNut, HexNut
         return bd.Part(
@@ -228,9 +251,9 @@ class Androphage(bd.BasePartObject):
             children=[
                 left_half,
                 right_half,
-                hinge,
+                hinges,
                 trackball,
-                base
+                # base
             ]
         )
 

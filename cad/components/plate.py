@@ -6,7 +6,7 @@ import build123d as bd
 from common import *
 import layout
 from parameters import Columns, Parameters
-from components.hinge import Hinge
+from components.knife_hinge import KnifeHinge
 
 class PlateType(StrEnum):
     BOTTOM = auto()
@@ -133,12 +133,12 @@ class Plate(Component):
                         )
             bd.extrude(amount=self.plate_params.thickness)
             if self.plate_type == PlateType.BOTTOM:
-                offset = (
-                    boss_radius
-                    - p.Plates.Top.edge
-                    + self.plate_params.edge
-                    + p.Frame.lip_depth
-                )
+                offset = 12 #(
+                #     boss_radius
+                #     - p.Plates.Top.edge
+                #     + self.plate_params.edge
+                #     + p.Frame.lip_depth
+                # )
                 # Add screw holes.
                 with layout.screw_locations(
                     outline=self.outline,
@@ -211,20 +211,48 @@ class Plate(Component):
                         radius=p.Trackball.diameter/2 + p.Trackball.clearance,
                         mode=bd.Mode.SUBTRACT
                     )
-                # Subtract the hinge cutout.
-                hinge_locations = bd.Locations(bd.Location(
-                    position=(
-                        origin
-                        + (0, p.Hinge.position[1] + p.Frame.lip_depth, 0)
-                    ),
-                    orientation=(0, p.tent_angle, 0)
-                ))
-                with hinge_locations:
-                    Hinge(
-                        parameters=self.parameters,
-                        mode=bd.Mode.SUBTRACT
+        # Subtract the hinge cutout.
+        plate_part = plate.part
+        if self.plate_type in [PlateType.TOP, PlateType.BOTTOM]:
+            is_top = self.plate_type == PlateType.TOP
+            hinge_locations = bd.Locations([
+                bd.Pos(
+                    plate_part.edges()
+                    .group_by(bd.Axis.X)[-1]
+                    .sort_by(bd.Axis.Y)[i]
+                    .vertices()
+                    .sort_by(bd.Axis.Y)[i]
+                    .center()
+                    + bd.Vector(
+                        0,
+                        (1 + 2*i)*(
+                            p.Hinge.width/2
+                            + p.Frame.lip_depth
+                            + (
+                                p.Frame.lip_depth if is_top
+                                else -p.Plates.Bottom.clearance
+                            )
+                        ),
+                        0
                     )
-        return plate.part
+                )
+                for i in [0, -1]
+            ])
+            plate_part -= (
+                hinge_locations
+                * bd.Box(
+                    length=p.Hinge.thickness,
+                    width=p.Hinge.width + (0 if is_top else 2*p.Frame.lip_depth),
+                    height=BIG,
+                    rotation=(
+                        0,
+                        p.tent_angle if is_top else 0,
+                        0
+                    ),
+                    align=Align.Right
+                )
+            )
+        return plate_part
 
     def _locate(self):
         p = self.parameters
@@ -335,15 +363,19 @@ if __name__ == "__main__":
         PlateType.TOP: 60
     }
     plates: list[bd.Part] = []
-    for plate_type in [PlateType.PCB, PlateType.SWITCH]: #PlateType
+    for plate_type in PlateType:
         plate = Plate(
             p,
             plate_type=plate_type,
-            draft_center=True,
+            draft_center=(plate_type == PlateType.TOP),
             locate=False
         ).move(bd.Pos(0, 0, zpos[plate_type]))
         plates.append(plate)
         exporter = bd.ExportDXF()
-        exporter.add_shape(plate.faces().sort_by(bd.Axis.Z)[0])
+        exporter.add_shape(
+            plate.faces()
+            .sort_by(bd.Axis.Z)[0]
+            .project_to_viewport((0, 0, 0))
+        )
         exporter.write(f"cad/production/{plate_type}.dxf")
     show(plates)

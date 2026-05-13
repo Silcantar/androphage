@@ -103,28 +103,40 @@ class CenterBlock(Component):
                 ]):
                     bd.Cylinder(
                         radius=(
-                            # p.Insert.hole_diameter/2
-                            p.Screws.M3.hole_diameter/2
+                            p.MagneticConnector.screw.hole_diameter/2
                             + p.Insert.wall_thickness
                         ),
                         height=p.MagneticConnector.size[0],
                         align=Align.Top,
                         rotation=(0, 90, 0)
                     )
-                    with bd.Locations(bd.Rot(0, 90, 0)):
-                        bd.CounterSinkHole(
-                            radius=p.Screws.M3.hole_diameter/2,
-                            counter_sink_radius=p.Screws.M3.counter_sink_diameter/2,
-                            depth=BIG,
-                            counter_sink_angle=p.Screws.M3.head_angle,
-                        )
+                    # with bd.Locations(bd.Rot(0, 90, 0)):
+                    #     bd.CounterSinkHole(
+                    #         radius=p.Screws.M3.hole_diameter/2,
+                    #         counter_sink_radius=p.Screws.M3.counter_sink_diameter/2,
+                    #         depth=BIG,
+                    #         counter_sink_angle=p.Screws.M3.head_angle,
+                    #     )
             # Subtract cutout for hinge.
-            with bd.Locations((0, p.Hinge.position_y, 0)):
+            with bd.Locations([
+                (
+                    0,
+                    (
+                        i*p.Plates.depth
+                        - p.Frame.lip_depth
+                        + (1 - 2*i)*(
+                            2*p.Frame.lip_depth
+                            + p.Hinge.width/2
+                        )
+                    ),
+                    0
+                ) for i in [0, 1]
+            ]):
                 bd.Box(
-                    length=p.Hinge.leaf_thickness,
-                    width=p.Hinge.length,
+                    length=p.Hinge.thickness,
+                    width=p.Hinge.width,
                     height=BIG,
-                    align=Align.RightFront,
+                    align=Align.Right,
                     mode=bd.Mode.SUBTRACT
                 )
             # Clip off anything extending outside the proper height of the part.
