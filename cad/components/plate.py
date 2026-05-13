@@ -324,20 +324,26 @@ class Plate(Component):
 
 if __name__ == "__main__":
     from ocp_vscode import show
-    from androphage import Androphage
-    androphage = Androphage(build=False)
+    import layout, parameters
+    p = layout.set_derived_parameters(
+        parameters.load_parameters("cad/androphage.yaml")
+    )
     zpos = {
         PlateType.BOTTOM: 0,
         PlateType.PCB: 20,
         PlateType.SWITCH: 40,
         PlateType.TOP: 60
     }
-    show([
-        Plate(
-            androphage.parameters,
+    plates: list[bd.Part] = []
+    for plate_type in [PlateType.PCB, PlateType.SWITCH]: #PlateType
+        plate = Plate(
+            p,
             plate_type=plate_type,
             draft_center=True,
             locate=False
         ).move(bd.Pos(0, 0, zpos[plate_type]))
-        for plate_type in PlateType
-    ])
+        plates.append(plate)
+        exporter = bd.ExportDXF()
+        exporter.add_shape(plate.faces().sort_by(bd.Axis.Z)[0])
+        exporter.write(f"cad/production/{plate_type}.dxf")
+    show(plates)
