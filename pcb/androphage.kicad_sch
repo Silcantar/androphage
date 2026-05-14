@@ -8662,7 +8662,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 215.9 266.7 0)
 			(effects
 				(font
@@ -8922,7 +8922,7 @@
 			(uuid "09ffe378-777c-4c79-934c-82d4cd6e262d")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "R2")
 					(unit 1)
@@ -9163,7 +9163,7 @@
 			(uuid "027150e2-3ca7-40b5-bc28-71f5dc49dbc6")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "R8")
 					(unit 1)
@@ -9344,7 +9344,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 127 251.46 0)
 			(effects
 				(font
@@ -9546,7 +9546,7 @@
 			(uuid "462bbc05-cd29-488d-b8e6-5229b9ce9a06")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "U4")
 					(unit 1)
@@ -9614,7 +9614,7 @@
 			(uuid "027150e2-3ca7-40b5-bc28-71f5dc49dbc7")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "R9")
 					(unit 1)
@@ -9648,7 +9648,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 198.12 234.95 0)
 			(effects
 				(font
@@ -9752,7 +9752,7 @@
 			(uuid "492d3102-d659-4472-b97d-19d8b7f2530a")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "R10")
 					(unit 1)
@@ -9786,7 +9786,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 215.9 251.46 0)
 			(effects
 				(font
@@ -10094,7 +10094,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 215.9 234.95 0)
 			(effects
 				(font
@@ -10214,7 +10214,7 @@
 			(uuid "fb7c28d7-528a-4f3d-a795-a1f9fdbe36eb")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "D2")
 					(unit 1)
@@ -10248,7 +10248,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 127 234.95 0)
 			(effects
 				(font
@@ -10438,7 +10438,7 @@
 			(uuid "b0c07101-b71a-441d-a656-3f2344906826")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "SW6")
 					(unit 1)
@@ -10539,7 +10539,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 144.78 266.7 0)
 			(effects
 				(font
@@ -10641,7 +10641,7 @@
 			(uuid "f31181ce-a686-4a69-82b5-1e7bf6863c23")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "R11")
 					(unit 1)
@@ -10795,7 +10795,7 @@
 			(uuid "f31181ce-a686-4a69-82b5-1e7bf6863c24")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "R12")
 					(unit 1)
@@ -11099,7 +11099,7 @@
 			(uuid "a83fd1a2-b4d4-440e-9026-c3b508fcd9af")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "U2")
 					(unit 1)
@@ -11330,7 +11330,7 @@
 			(uuid "69d5fdb8-db6b-4b21-ba56-a428bd09f0ad")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "J2")
 					(unit 1)
@@ -11364,7 +11364,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 162.56 234.95 0)
 			(effects
 				(font
@@ -11432,7 +11432,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 127 219.71 0)
 			(effects
 				(font
@@ -11576,7 +11576,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 180.34 266.7 0)
 			(effects
 				(font
@@ -11730,7 +11730,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 144.78 251.46 0)
 			(effects
 				(font
@@ -12638,7 +12638,7 @@
 			(uuid "8666cc50-11f2-4e06-b7a0-7b7c97cdf5ca")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "JP1")
 					(unit 1)
@@ -12833,7 +12833,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 198.12 219.71 0)
 			(effects
 				(font
@@ -12901,7 +12901,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 144.78 234.95 0)
 			(effects
 				(font
@@ -13320,7 +13320,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 180.34 234.95 0)
 			(effects
 				(font
@@ -13553,7 +13553,7 @@
 			(uuid "c67a557b-67bf-4a17-93b9-b6a88652c63b")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "J3")
 					(unit 1)
@@ -13741,7 +13741,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 180.34 251.46 0)
 			(effects
 				(font
@@ -13809,7 +13809,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 162.56 266.7 0)
 			(effects
 				(font
@@ -13877,7 +13877,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 198.12 266.7 0)
 			(effects
 				(font
@@ -14321,7 +14321,7 @@
 			(uuid "b52084b6-0d46-4a11-944f-b999a4f9b705")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "Q1")
 					(unit 1)
@@ -14355,7 +14355,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 162.56 251.46 0)
 			(effects
 				(font
@@ -14695,7 +14695,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 144.78 219.71 0)
 			(effects
 				(font
@@ -14892,7 +14892,7 @@
 			(uuid "3ae1a6d5-98b7-4182-93f6-7f733e1e6c2a")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "U3")
 					(unit 1)
@@ -14926,7 +14926,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 162.56 219.71 0)
 			(effects
 				(font
@@ -15028,7 +15028,7 @@
 			(uuid "3fd59d41-cf02-4abb-808b-2bc2664011cf")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "SW7")
 					(unit 1)
@@ -15216,7 +15216,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 198.12 251.46 0)
 			(effects
 				(font
@@ -15318,7 +15318,7 @@
 			(uuid "d8f840d1-6a3b-4b62-9f21-edcee74f9d0a")
 		)
 		(instances
-			(project ""
+			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e"
 					(reference "D1")
 					(unit 1)
@@ -15352,7 +15352,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_double"
+		(property "Footprint" "key-switches:SW_Kailh_Choc_V1V2_HotSwap_PTH_Double"
 			(at 180.34 219.71 0)
 			(effects
 				(font
