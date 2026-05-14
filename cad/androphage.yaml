@@ -505,7 +505,7 @@ Trackball:
 TrackballSensor:
   visible: true
   color:
-  angle: 55
+  angle: 53
   chip_size: [ 10.9, 16.2, 1.65 ]
   clearance: 2.4
   holder_height: 15

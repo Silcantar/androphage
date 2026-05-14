@@ -375,7 +375,6 @@ if __name__ == "__main__":
         exporter.add_shape(
             plate.faces()
             .sort_by(bd.Axis.Z)[0]
-            .project_to_viewport((0, 0, 0))
         )
         exporter.write(f"cad/production/{plate_type}.dxf")
     show(plates)

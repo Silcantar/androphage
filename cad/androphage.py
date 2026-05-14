@@ -93,6 +93,7 @@ class Androphage(bd.BasePartObject):
                 - p.Plates.Bottom.edge
                 + p.Hinge.width
                 + 2*p.Frame.lip_depth
+                - p.Plates.Bottom.clearance
             ),
             p.Plates.Bottom.position_z
         ))
@@ -287,7 +288,7 @@ class Androphage(bd.BasePartObject):
 if __name__ == "__main__":
     from ocp_vscode import show
     androphage = [
-        Androphage(angle=0).move(bd.Pos(Y=-200)),
+        Androphage(angle=0)#.move(bd.Pos(Y=-200)),
         # Androphage(angle=50),
         # Androphage(angle=100).move(bd.Pos(Y=200))
     ]
