@@ -29,15 +29,16 @@ class Plate(Component):
         self.parameters = parameters
         self.plate_type = plate_type
         self.draft_center = draft_center
+        p = self.parameters
         match self.plate_type:
             case PlateType.BOTTOM:
-                self.plate_params = self.parameters.Plates.Bottom
+                self.plate_params = p.Plates.Bottom
             case PlateType.PCB:
-                self.plate_params = self.parameters.Plates.PCB
+                self.plate_params = p.Plates.PCB
             case PlateType.SWITCH:
-                self.plate_params = self.parameters.Plates.Switch
+                self.plate_params = p.Plates.Switch
             case PlateType.TOP:
-                self.plate_params = self.parameters.Plates.Top
+                self.plate_params = p.Plates.Top
         self.column_locations = layout.build_column_locations(self.parameters)
         self.outline = layout.build_plate_outline(
             self.parameters,
@@ -46,6 +47,14 @@ class Plate(Component):
             center_width=self.plate_params.center_width,
             fillet_radius=self.plate_params.radius_outer,
             sensor_cutout=(self.plate_type in (PlateType.PCB, PlateType.SWITCH))
+        )
+        self.generic_plate_outline = layout.build_plate_outline(
+            self.parameters,
+            edge=p.Plates.Top.edge,
+            add_center=True,
+            center_width=p.Plates.Bottom.center_width,
+            fillet_radius=p.Plates.Bottom.radius_outer,
+            sensor_cutout=False
         )
         if label is None:
             self.label = f"{plate_type.title()} Plate"
@@ -170,25 +179,12 @@ class Plate(Component):
             + p.Insert.wall_thickness
         )
         cutout_radius = boss_radius + p.Plates.Switch.clearance
-        top_plate_outline = layout.build_plate_outline(
-            p,
-            edge=p.Plates.Top.edge,
-            add_center=True,
-            center_width=p.Plates.Top.center_width,
-            fillet_radius=p.Plates.Top.radius_outer,
-            sensor_cutout=False
-        )
         boss_locations = layout.frame_screw_locations(
-            top_plate_outline,
-            offset=(0, p.Screws.M2.offset)
+            self.generic_plate_outline,
+            offset=(0, 0)
         )
         cutout_sketch = bd.RectangleRounded(
-            width=(
-                2*cutout_radius
-                + p.Screws.M2.offset
-                + 2*p.Plates.Top.edge
-                - 2*self.plate_params.edge
-            ),
+            width=2*(cutout_radius + p.Screws.M2.offset),
             height=2*cutout_radius,
             radius=cutout_radius - EPS,
             mode=bd.Mode.SUBTRACT
@@ -202,11 +198,11 @@ class Plate(Component):
     def _screw_holes(self, plate: bd.Part) -> bd.Part:
         p = self.parameters
         screw_locations = layout.screw_locations(
-            outline=plate.faces().sort_by(bd.Axis.Z)[0],
+            outline=self.generic_plate_outline,
             default_offset=(0, p.Screws.M2.offset),
             center_offsets=p.CenterBlock.screw_offsets
         )
-        screw_hole = bd.CounterSinkHole(
+        screw_hole = bd.Rot(X=180) * bd.CounterSinkHole(
             radius=p.Screws.M2.hole_diameter/2,
             depth=BIG,
             counter_sink_radius=p.Screws.M2.counter_sink_diameter/2,

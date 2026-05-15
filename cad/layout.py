@@ -393,9 +393,9 @@ def frame_section(
 
 def frame_screw_locations(
     outline: bd.Face,
-    offset: vector[2],
+    offset: vector[2] = (0, 0),
     min_length: float = 12
-) -> bd.Locations:
+) -> list[bd.Location]:
     # Select all the edges that are longer than the cutoff except the rightmost.
     long_edges = (
         outline.edges()
@@ -407,49 +407,51 @@ def frame_screw_locations(
         long_edges.sort_by(bd.Axis.Y)[i]
         for i in [len(long_edges) - 2] + list(range(0, len(long_edges), 2))
     ]
-    return bd.Locations([
+    return [
         edge.location_at(0.5, x_dir=(0, 0, 1))
-        * bd.Rot(0, -90, 0)
+        * bd.Rot(180, 90, 0)
         * bd.Pos(offset)
+        * bd.Rot(Z=-90)
         for edge in edges
-    ])
+    ]
 
 def center_screw_locations(
     edge: bd.Edge,
     default_offset: vector[2],
     offsets: Sequence[vector[2]]
-) -> bd.Locations:
+) -> list[bd.Location]:
     screw_count = len(offsets)
     parameters = (
         [i/(screw_count - 1) for i in range(screw_count)]
         if screw_count > 1
         else [0.5]
     )
-    return bd.Locations([
+    return [
         edge.location_at(parameters[i], x_dir=(0, 0, 1))
-        * bd.Rot(Y=-90)
+        * bd.Rot(180, 90, 0)
         * bd.Pos(default_offset)
         * bd.Pos(offsets[i])
+        * bd.Rot(Z=-90)
         for i in range(screw_count)
-    ])
+    ]
 
 def screw_locations(
     outline: bd.Face,
     default_offset: vector[2],
     center_offsets: Sequence[tuple[float, float]],
     min_length: float = 10
-) -> bd.Locations:
-    return bd.Locations(
+) -> list[bd.Location]:
+    return (
         frame_screw_locations(
             outline,
             offset=default_offset,
             min_length=min_length
-        ).locations
+        )
         + center_screw_locations(
             edge=outline.edges().sort_by(bd.Axis.X)[-1],
             default_offset=default_offset,
             offsets=center_offsets
-        ).locations
+        )
     )
 
 
