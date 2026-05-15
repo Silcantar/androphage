@@ -23,27 +23,24 @@ class Plate(Component):
         parameters: Parameters,
         plate_type: PlateType = PlateType.SWITCH,
         draft_center: bool = False,
-        fillet_front_corners: bool = False,
         label: str = None,
         **kwargs
     ):
         self.parameters = parameters
         self.plate_type = plate_type
         self.draft_center = draft_center
-        self.fillet_front_corners = fillet_front_corners
-        p = self.parameters
         match self.plate_type:
             case PlateType.BOTTOM:
-                self.plate_params = p.Plates.Bottom
+                self.plate_params = self.parameters.Plates.Bottom
             case PlateType.PCB:
-                self.plate_params = p.Plates.PCB
+                self.plate_params = self.parameters.Plates.PCB
             case PlateType.SWITCH:
-                self.plate_params = p.Plates.Switch
+                self.plate_params = self.parameters.Plates.Switch
             case PlateType.TOP:
-                self.plate_params = p.Plates.Top
-        self.column_locations = layout.build_column_locations(p)
+                self.plate_params = self.parameters.Plates.Top
+        self.column_locations = layout.build_column_locations(self.parameters)
         self.outline = layout.build_plate_outline(
-            p,
+            self.parameters,
             edge=self.plate_params.edge,
             add_center=self.plate_params.add_center,
             center_width=self.plate_params.center_width,
@@ -62,197 +59,48 @@ class Plate(Component):
 
     def _build(self) -> bd.Part:
         p = self.parameters
-        with bd.BuildPart() as plate:
-            with bd.BuildSketch() as sketch:
-                # Create the outline.
-                bd.add(self.outline)
-                top_plate_outline = layout.build_plate_outline(
-                    p,
-                    edge=p.Plates.Top.edge,
-                    add_center=True,
-                    center_width=p.Plates.Top.center_width,
-                    fillet_radius=p.Plates.Top.radius_outer,
-                    sensor_cutout=False
-                )
-                boss_radius = (
-                    p.Insert.hole_diameter/2
-                    + p.Insert.wall_thickness
-                )
-                if self.plate_type in (PlateType.SWITCH, PlateType.PCB):
-                    # Add cutouts for frame screw bosses.
-                    cutout_radius = boss_radius + p.Plates.Switch.clearance
-                    with layout.frame_screw_locations(top_plate_outline):
-                        bd.RectangleRounded(
-                            width=(
-                                2*cutout_radius
-                                + p.Screws.M2.offset
-                                + 2*p.Plates.Top.edge
-                                - 2*self.plate_params.edge
-                            ),
-                            height=2*cutout_radius,
-                            radius=cutout_radius - EPS,
-                            mode=bd.Mode.SUBTRACT
-                        )
-                # Create the switch-mounting cutouts in the switch plate.
-                if self.plate_type == PlateType.SWITCH:
-                    bd.add(
-                        self.switch_plate_cutout(),
-                        mode=bd.Mode.SUBTRACT
-                    )
-                # Create the cutout in the top plate.
-                if self.plate_type == PlateType.TOP:
-                    # Fillet the two vertices created by the previous step.
-                    if (
-                        self.fillet_front_corners
-                        and self.plate_params.radius_outer > 0
-                        and p.Plates.Top.thumb_cutout_fillet
-                    ):
-                        first_thumb_key = (
-                            Finger.INDEX if self.columns[Finger.INDEX].cutout
-                            else Finger.TUCK
-                        )
-                        top_plate_transition_vertices = (
-                            sketch.vertices().sort_by_distance((
-                                self.column_locations[first_thumb_key]
-                                * bd.Pos(
-                                -p.spacing.X/2,
-                                -p.spacing.Y/2 - self.plate_params.edge
-                                )
-                            ).position)[0],
-                            sketch.vertices().sort_by_distance((
-                                self.column_locations[Finger.REACH]
-                                * bd.Pos(
-                                p.spacing.X/2,
-                                -p.spacing.Y/2 - self.plate_params.edge
-                                )
-                            ).position)[0],
-                        )
-                        bd.fillet(
-                            top_plate_transition_vertices,
-                            radius=self.plate_params.radius_outer
-                        )
-            bd.extrude(amount=self.plate_params.thickness)
-            if self.plate_type == PlateType.BOTTOM:
-                offset = 12 #(
-                #     boss_radius
-                #     - p.Plates.Top.edge
-                #     + self.plate_params.edge
-                #     + p.Frame.lip_depth
-                # )
-                # Add screw holes.
-                with layout.screw_locations(
-                    outline=self.outline,
-                    x_offset=(
-                        p.Plates.Bottom.thickness*tand(p.tent_angle)
-                        - p.Plates.Bottom.clearance
-                    ),
-                    y_offsets=[offset, 2*boss_radius, -offset]
-                ):
-                    with bd.Locations(bd.Location(
-                        position=((
-                            -p.Screws.M2.offset
-                            + p.Plates.Top.edge
-                            - self.plate_params.edge
-                        ), 0, 0),
-                        orientation=(180, 0, 0)
-                    )):
-                        bd.CounterSinkHole(
-                            radius=p.Screws.M2.hole_diameter/2,
-                            counter_sink_radius=p.Screws.M2.counter_sink_diameter/2,
-                            counter_sink_angle=p.Screws.M2.head_angle
-                        )
-            if self.draft_center:
-                bd.draft(
-                    plate.faces().sort_by(bd.Axis.X)[-1],
-                    neutral_plane=bd.Plane.XY,
-                    angle=-p.tent_angle
-                )
-            if self.plate_type == PlateType.TOP:
-                bd.add(
-                    self.top_plate_cutout(),
-                    mode=bd.Mode.SUBTRACT
-                )
-                origin = (
-                    plate.vertices()
-                    .group_by(bd.Axis.Z)[-1].vertices()
-                    .group_by(bd.Axis.X)[-1].vertices()
-                    .sort_by(bd.Axis.Y)[0].center()
-                )
-
-                # Select the inside edges created by the previous cut.
+        plate = bd.extrude(
+            to_extrude=self.outline,
+            amount=self.plate_params.thickness
+        )
+        if self.draft_center:
+            plate += bd.draft(
+                faces=plate.faces().sort_by(bd.Axis.X)[-1],
+                neutral_plane=bd.Plane.XY,
+                angle=-p.tent_angle
+            )
+        match self.plate_type:
+            case PlateType.BOTTOM:
+                plate -= self._hinge_cutouts(plate)
+                plate -= self._screw_holes(plate)
+            case PlateType.PCB:
+                plate -= self._screw_boss_cutouts()
+            case PlateType.SWITCH:
+                plate -= self._screw_boss_cutouts()
+                plate -= self._switch_plate_cutout()
+            case PlateType.TOP:
+                plate -= self._hinge_cutouts(plate)
+                plate -= self._trackball_cutout(plate)
+                top_plate_cutout = self._top_plate_cutout()
+                plate -= top_plate_cutout
+                # Select the horizontal cutout edges based on their length.
                 fillet_edges = (
-                    plate.edges(bd.Select.LAST)
-                    .group_by(bd.Axis.Z)[-1]    # We only want edges on the top surface
-                    .sort_by(bd.Axis.Y)[1:]     # We don't want the frontmost edge.
-                    # The following filters out the front middle edge (a segment
-                    # of a large circle) by selecting edges that are linear OR
-                    # have a small radius.
+                    plate.edges()
+                    .group_by(bd.Axis.Z)[-1]
                     .filter_by(
-                        lambda e: (
-                            e.geom_type == bd.GeomType.LINE
-                            or (
-                                e.geom_type == bd.GeomType.CIRCLE
-                                and e.radius <= p.spacing.X
-                            )
-                        )
+                        lambda e:
+                        abs(
+                            e.length
+                            - p.spacing.X
+                            + 2*p.Plates.Top.radius_inner
+                        ) < 0.001
                     )
                 )
-                bd.fillet(
+                plate = bd.fillet(
                     objects=fillet_edges,
                     radius=p.Frame.fillet_radius
                 )
-                # Subtract the trackball cutout.
-                trackball_locations = bd.Locations(
-                    origin
-                    + (0, p.Trackball.position_y, 0)
-                )
-                with trackball_locations:
-                    bd.Sphere(
-                        radius=p.Trackball.diameter/2 + p.Trackball.clearance,
-                        mode=bd.Mode.SUBTRACT
-                    )
-        # Subtract the hinge cutout.
-        plate_part = plate.part
-        if self.plate_type in [PlateType.TOP, PlateType.BOTTOM]:
-            is_top = self.plate_type == PlateType.TOP
-            hinge_locations = bd.Locations([
-                bd.Pos(
-                    plate_part.edges()
-                    .group_by(bd.Axis.X)[-1]
-                    .sort_by(bd.Axis.Y)[i]
-                    .vertices()
-                    .sort_by(bd.Axis.Y)[i]
-                    .center()
-                    + bd.Vector(
-                        0,
-                        (1 + 2*i)*(
-                            p.Hinge.width/2
-                            + p.Frame.lip_depth
-                            + (
-                                p.Frame.lip_depth if is_top
-                                else -p.Plates.Bottom.clearance
-                            )
-                        ),
-                        0
-                    )
-                )
-                for i in [0, -1]
-            ])
-            plate_part -= (
-                hinge_locations
-                * bd.Box(
-                    length=p.Hinge.thickness,
-                    width=p.Hinge.width + (0 if is_top else 2*p.Frame.lip_depth),
-                    height=BIG,
-                    rotation=(
-                        0,
-                        p.tent_angle if is_top else 0,
-                        0
-                    ),
-                    align=Align.Right
-                )
-            )
-        return plate_part
+        return plate
 
     def _locate(self):
         p = self.parameters
@@ -274,19 +122,115 @@ class Plate(Component):
                 ) + (0, -sind(self.parameters.tent_angle), 0)
             )
 
+    def _hinge_cutouts(self, part: bd.Part) -> bd.Part:
+        p = self.parameters
+        is_top = self.plate_type == PlateType.TOP
+        hinge_locations = bd.Locations([
+            bd.Pos(
+                part.edges()
+                .group_by(bd.Axis.X)[-1]
+                .sort_by(bd.Axis.Y)[i]
+                .vertices()
+                .sort_by(bd.Axis.Y)[i]
+                .center()
+                + bd.Vector(
+                    0,
+                    (1 + 2*i)*(
+                        p.Hinge.width/2
+                        + p.Frame.lip_depth
+                        + (
+                            p.Frame.lip_depth if is_top
+                            else -p.Plates.Bottom.clearance
+                        )
+                    ),
+                    0
+                )
+            )
+            for i in [0, -1]
+        ])
+        return (
+            hinge_locations
+            * bd.Box(
+                length=p.Hinge.thickness,
+                width=p.Hinge.width + (0 if is_top else 2*p.Frame.lip_depth),
+                height=BIG,
+                rotation=(
+                    0,
+                    p.tent_angle if is_top else 0,
+                    0
+                ),
+                align=Align.Right
+            )
+        )
 
-    def switch_plate_cutout(self) -> bd.Sketch:
+    def _screw_boss_cutouts(self) -> bd.Part:
+        p = self.parameters
+        boss_radius = (
+            p.Insert.hole_diameter/2
+            + p.Insert.wall_thickness
+        )
+        cutout_radius = boss_radius + p.Plates.Switch.clearance
+        top_plate_outline = layout.build_plate_outline(
+            p,
+            edge=p.Plates.Top.edge,
+            add_center=True,
+            center_width=p.Plates.Top.center_width,
+            fillet_radius=p.Plates.Top.radius_outer,
+            sensor_cutout=False
+        )
+        boss_locations = layout.frame_screw_locations(
+            top_plate_outline,
+            offset=(0, p.Screws.M2.offset)
+        )
+        cutout_sketch = bd.RectangleRounded(
+            width=(
+                2*cutout_radius
+                + p.Screws.M2.offset
+                + 2*p.Plates.Top.edge
+                - 2*self.plate_params.edge
+            ),
+            height=2*cutout_radius,
+            radius=cutout_radius - EPS,
+            mode=bd.Mode.SUBTRACT
+        )
+        cutout = bd.extrude(
+            to_extrude=cutout_sketch,
+            amount=self.plate_params.thickness
+        )
+        return boss_locations * cutout
+
+    def _screw_holes(self, plate: bd.Part) -> bd.Part:
+        p = self.parameters
+        screw_locations = layout.screw_locations(
+            outline=plate.faces().sort_by(bd.Axis.Z)[0],
+            default_offset=(0, p.Screws.M2.offset),
+            center_offsets=p.CenterBlock.screw_offsets
+        )
+        screw_hole = bd.CounterSinkHole(
+            radius=p.Screws.M2.hole_diameter/2,
+            depth=BIG,
+            counter_sink_radius=p.Screws.M2.counter_sink_diameter/2,
+            counter_sink_angle=p.Screws.M2.head_angle
+        )
+        return screw_locations * screw_hole
+
+    def _switch_plate_cutout(self) -> bd.Part:
         """Create a sketch for the cutouts in the switch plate."""
         p = self.parameters
-        with bd.BuildSketch() as sketch:
-            with bd.Locations(list(layout.build_key_locations(p).values())):
-                bd.RectangleRounded(
-                    *p.Switch.model.cutout,
-                    radius=p.Switch.model.radius
-                )
-        return sketch.sketch
+        switch_locations = bd.Locations(
+            list(layout.build_key_locations(p).values())
+        )
+        switch_cutout_sketch = bd.RectangleRounded(
+            *p.Switch.model.cutout,
+            radius=p.Switch.model.radius
+        )
+        switch_cutout = bd.extrude(
+            to_extrude=switch_cutout_sketch,
+            amount=self.plate_params.thickness
+        )
+        return switch_locations * switch_cutout
 
-    def top_plate_cutout(self) -> bd.Part:
+    def _top_plate_cutout(self) -> bd.Part:
         """Generate a sketch for the cutouts in the top plate."""
         p = self.parameters
         spc = p.spacing
@@ -328,26 +272,24 @@ class Plate(Component):
             )
         return part.part
 
-    def trackball_cutout(self) -> bd.Part:
+    def _trackball_cutout(self, plate: bd.Part) -> bd.Part:
         """Generate and position a 3d cutout for the trackball."""
         p = self.parameters
-        with bd.BuildPart() as part:
-            trackball_location = (
-                self.vertices()
-                .group_by(bd.Axis.Z)[-1].vertices()
-                .group_by(bd.Axis.X)[-1].vertices()
-                .sort_by(bd.Axis.Y)[0]
-            ).moved(
-                bd.Pos(
-                    0,
-                    p.Trackball.position_y
-                )
-            )
-            with bd.Locations(trackball_location):
-                bd.Sphere(
-                    radius=p.Trackball.diameter/2 + p.Trackball.clearance
-                )
-        return part.part
+        origin = (
+            plate.vertices()
+            .group_by(bd.Axis.Z)[-1].vertices()
+            .group_by(bd.Axis.X)[-1].vertices()
+            .sort_by(bd.Axis.Y)[0].center()
+        )
+        # Subtract the trackball cutout.
+        trackball_locations = bd.Locations(
+            origin
+            + (0, p.Trackball.position_y, 0)
+        )
+        trackball_cutout = bd.Sphere(
+            radius=p.Trackball.diameter/2 + p.Trackball.clearance
+        )
+        return trackball_locations * trackball_cutout
 
 
 if __name__ == "__main__":

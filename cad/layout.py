@@ -393,55 +393,69 @@ def frame_section(
 
 def frame_screw_locations(
     outline: bd.Face,
-    min_length: float = 10
+    offset: vector[2],
+    min_length: float = 12
 ) -> bd.Locations:
-    long_edges = outline.edges().filter_by(
-        lambda e: e.length >= min_length
-    ).edges().filter_by(lambda e: e.tangent_at() != (0, 1, 0))
-    back_outside_edge = long_edges.sort_by(bd.Axis.Y)[-1]
-    back_center_edge = long_edges.sort_by(bd.Axis.Y)[-2]
-    outside_edge = long_edges.sort_by(bd.Axis.X)[0]
-    front_outside_edge = long_edges.sort_by(bd.Axis.Y)[3]
-    front_center_edge = long_edges.sort_by(bd.Axis.Y)[0]
+    # Select all the edges that are longer than the cutoff except the rightmost.
+    long_edges = (
+        outline.edges()
+        .filter_by(lambda e: e.length >= min_length)
+        .sort_by(bd.Axis.X)[:-1]
+    )
+    # Select every other of above edges, plus the second-to-last.
     edges = [
-        back_center_edge,
-        back_outside_edge,
-        outside_edge,
-        front_outside_edge,
-        front_center_edge
+        long_edges.sort_by(bd.Axis.Y)[i]
+        for i in [len(long_edges) - 2] + list(range(0, len(long_edges), 2))
     ]
     return bd.Locations([
-        edge.location_at(0.5, x_dir=(0, 0, 1)) * bd.Rot(90, 90, 0)
+        edge.location_at(0.5, x_dir=(0, 0, 1))
+        * bd.Rot(0, -90, 0)
+        * bd.Pos(offset)
         for edge in edges
     ])
 
 def center_screw_locations(
-    outline: bd.Face,
-    x_offset: float = 0,
-    y_offsets: Sequence[float] = [0, 0, 0]
+    edge: bd.Edge,
+    default_offset: vector[2],
+    offsets: Sequence[vector[2]]
 ) -> bd.Locations:
-    center_edge = outline.edges().sort_by(bd.Axis.X)[-1]
+    screw_count = len(offsets)
+    parameters = (
+        [i/(screw_count - 1) for i in range(screw_count)]
+        if screw_count > 1
+        else [0.5]
+    )
     return bd.Locations([
-        center_edge.start_point() + (x_offset, y_offsets[0], 0),
-        center_edge.center() + (x_offset, y_offsets[1], 0),
-        center_edge.end_point() + (x_offset, y_offsets[2], 0)
+        edge.location_at(parameters[i], x_dir=(0, 0, 1))
+        * bd.Rot(Y=-90)
+        * bd.Pos(default_offset)
+        * bd.Pos(offsets[i])
+        for i in range(screw_count)
     ])
 
 def screw_locations(
     outline: bd.Face,
-    min_length: float = 10,
-    x_offset: float = 0,
-    y_offsets: Sequence[float] = [0, 0, 0]
+    default_offset: vector[2],
+    center_offsets: Sequence[tuple[float, float]],
+    min_length: float = 10
 ) -> bd.Locations:
     return bd.Locations(
-        frame_screw_locations(outline, min_length).locations
-        + center_screw_locations(outline, x_offset, y_offsets).locations
+        frame_screw_locations(
+            outline,
+            offset=default_offset,
+            min_length=min_length
+        ).locations
+        + center_screw_locations(
+            edge=outline.edges().sort_by(bd.Axis.X)[-1],
+            default_offset=default_offset,
+            offsets=center_offsets
+        ).locations
     )
 
 
 if __name__ == "__main__":
     from ocp_vscode import show
-    parameters = load_parameters("cad/androphage.yaml")
+    parameters = set_derived_parameters(load_parameters("cad/androphage.yaml"))
     show(
         # bd.Locations(list(build_key_locations(parameters).values()))
         # * bd.Rectangle(width=18, height=17)
