@@ -19,6 +19,7 @@ def set_derived_parameters(p: Parameters) -> Parameters:
     )
     key_height = (
         p.key_height
+        + p.Plates.PCB.thickness
         + p.Plates.PCB.clearance
         + p.Plates.Bottom.thickness
     )
@@ -201,7 +202,7 @@ def build_plate_outline(
     )
     home_back_loc = (
         kl["home_1"]
-        * bd.Pos(outside, back + edge)
+        * bd.Pos(outside , back + edge)
     )
     index_front_loc = (
         kl["index_0"]
@@ -452,6 +453,18 @@ def screw_locations(
             default_offset=default_offset,
             offsets=center_offsets
         )
+    )
+
+def usb_c_port_location(p: Parameters, outline: bd.Sketch) -> bd.Location:
+    wire = bd.Wire(outline.edges().sort_by(bd.Axis.X)[:-3])
+    return (
+        wire.location_at(
+            distance=p.USBPort.position[0],
+            position_mode=bd.PositionMode.LENGTH,
+            x_dir=(0, 0, 1)
+        )
+        * bd.Rot(0, 90, 0)
+        * bd.Pos(0, p.USBPort.position[1], 0)
     )
 
 

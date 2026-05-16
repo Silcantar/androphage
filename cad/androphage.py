@@ -9,9 +9,6 @@ from components.frame import Frame
 from common import *
 from parameters import *
 
-# Passed to __main__
-test_layout = True
-
 class Androphage(bd.BasePartObject):
     """Build a model of an Androphage keyboard based on a parameter file."""
 
@@ -20,7 +17,6 @@ class Androphage(bd.BasePartObject):
         angle: float = 0,
         build: bool = True,
         parameter_path: PathLike = "cad/androphage.yaml",
-        test_layout: bool = False,
         main_half: Half = Half.LEFT,
         **kwargs
     ):
@@ -31,15 +27,13 @@ class Androphage(bd.BasePartObject):
         self.angle = max(0, min(angle, 90 + self.parameters.tent_angle))
         self.column_locations = layout.build_column_locations(self.parameters)
         if build:
-            part = self._build(test_layout)
+            part = self._build()
             super().__init__(part=part, **kwargs)
 
-    def _build(self, test_layout) -> bd.Part:
+    def _build(self) -> bd.Part:
         from components.frame import Frame
         p = self.parameters
         component_list: list[bd.Part] = []
-        if test_layout:
-            return self.test_layout()
         # Top Plate
         from components.plate import Plate, PlateType
         top_plate = Plate(
@@ -257,31 +251,6 @@ class Androphage(bd.BasePartObject):
                 trackball,
                 # base
             ]
-        )
-
-    def test_layout(self) -> bd.Part:
-        with bd.BuildPart() as keys:
-            with layout.build_key_locations(self.parameters).locations():
-                bd.Box(
-                    self.parameters.spacing.X,
-                    self.parameters.spacing.Y,
-                    1,
-                    align=Align.Bottom
-                )
-        with bd.BuildPart() as plate:
-            outline = bd.extrude(
-                self._build_plate_outline(
-                    edge=4,
-                    center_width=5
-                ),
-                amount=-1
-            )
-        keys.part.label = "keys"
-        plate.part.label = "plate"
-        plate.part.color = "Plum"
-        return bd.Compound(
-            label="Layout test",
-            children=[keys.part, plate.part]
         )
 
 

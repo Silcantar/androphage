@@ -35,86 +35,65 @@ class Frame(Component):
 
     def _build(self) -> bd.Part:
         p = self.parameters
-        with bd.BuildPart() as frame:
-            bd.sweep(
-                sections=layout.frame_section(
-                    self.parameters,
-                    self.sweep_start_plane()
-                ),
-                path=self.sweep_path(),
-                transition=bd.Transition.ROUND
-            )
-            cutter = bd.sweep(
-                sections=self.notch_cutter(),
-                path=self.notch_path(),
-            )
-            bd.thicken(
-                to_thicken=cutter,
-                amount=-p.Frame.notch_depth,
-                mode=bd.Mode.SUBTRACT
-            )
-            fillet_edge = frame.edges(bd.Select.NEW).sort_by(bd.SortBy.LENGTH)[-2]
-            bd.fillet(
-                objects=fillet_edge,
-                radius=p.Frame.fillet_radius
-            )
-            screw_locations = bd.Locations([
-                location * bd.Pos(
-                    -p.Screws.M2.offset,
-                    0,
-                    p.Plates.Bottom.thickness - p.height
-                )
-                for location in layout.frame_screw_locations(self.sweep_path())
-            ])
-            with screw_locations:
-                bd.add(screw_boss_vertical(
-                    hole_depth=p.Insert.hole_depth,
-                    hole_diameter=p.Insert.hole_diameter,
-                    overhang_angle=p.Print.overhang_angle,
-                    wall_thickness=p.Insert.wall_thickness
-                ))
-                bd.Cylinder(
-                    radius=p.Insert.hole_diameter/2,
-                    height=p.Insert.hole_depth,
-                    align=Align.Bottom,
-                    mode=bd.Mode.SUBTRACT
-                )
-            # Cut excess from ends.
-            with bd.Locations(
-                frame.vertices()
-                .group_by(bd.Axis.Z)[-1].vertices()
-                .group_by(bd.Axis.X)[-1].vertices()
-                .sort_by(bd.Axis.Y)[1]
-            ):
-                bd.Box(
-                    length=BIG,
-                    width=BIG,
-                    height=BIG,
-                    align=Align.Left,
-                    rotation=(0, p.tent_angle, 0),
-                    mode=bd.Mode.SUBTRACT
-                )
-        frame_part = frame.part
-        usb_c_port_loc = (
-            frame.part.edges()
-            .filter_by(bd.GeomType.CIRCLE)
-            .filter_by(lambda e: e.radius > 110 and e.radius < 120)
-            .filter_by(
-                lambda e:
-                abs(e.center().Z + p.height - p.Plates.Bottom.thickness) < 0.1
-            )
-            .sort_by(bd.SortBy.RADIUS)[0]
-            .location_at(
-                distance=p.USBPort.position[0],
-                position_mode=bd.PositionMode.LENGTH
-            )
-            * bd.Rot(90, 0, -90)
-            * bd.Pos(0, p.USBPort.position[1], -EPS)
+        frame = bd.sweep(
+            sections=layout.frame_section(
+                self.parameters,
+                self._sweep_start_plane()
+            ),
+            path=self._sweep_path(),
+            transition=bd.Transition.ROUND
         )
-        with bd.Locations(usb_c_port_loc):
-            usb_c.USB_C_Port(mode=bd.Mode.SUBTRACT)
-        frame_part -= usb_c_port_loc * usb_c.USB_C_Port(mode=bd.Mode.SUBTRACT)
-        return frame_part
+        frame -= self._notch_cutter()
+        fillet_edge = (
+            frame.faces()
+            .filter_by(lambda f: f.center().Z == -p.Frame.notch_depth)
+            .edges()
+            .sort_by(bd.SortBy.LENGTH)[-2]
+        )
+        # fillet_edge = frame.edges(bd.Select.NEW).sort_by(bd.SortBy.LENGTH)[-2]
+        frame = bd.fillet(
+            objects=fillet_edge,
+            radius=p.Frame.fillet_radius
+        )
+        screw_locations = (
+            bd.Pos(Z=-p.height + p.Plates.Bottom.thickness)
+            * layout.frame_screw_locations(
+                outline=self.outline,
+                offset=(0, p.Screws.M2.offset)
+            )
+        )
+        frame += screw_locations * screw_boss_vertical(
+            hole_depth=p.Insert.hole_depth,
+            hole_diameter=p.Insert.hole_diameter,
+            overhang_angle=p.Print.overhang_angle,
+            wall_thickness=p.Insert.wall_thickness
+        )
+        frame -= screw_locations * bd.Cylinder(
+            radius=p.Insert.hole_diameter/2,
+            height=p.Insert.hole_depth,
+            align=Align.Bottom
+        )
+        # Cut excess from ends.
+        end_cutter_location = bd.Location(
+            frame.vertices()
+            .group_by(bd.Axis.Z)[-1].vertices()
+            .group_by(bd.Axis.X)[-1].vertices()
+            .sort_by(bd.Axis.Y)[1]
+        )
+        frame -= end_cutter_location * bd.Box(
+            length=BIG,
+            width=BIG,
+            height=BIG,
+            align=Align.Left,
+            rotation=(0, p.tent_angle, 0)
+        )
+        usb_c_location = bd.Pos(Z=-p.height + p.Plates.Bottom.thickness) * layout.usb_c_port_location(self.parameters, outline=self.outline)
+        frame -= (
+            bd.Pos(Z=-p.height + p.Plates.Bottom.thickness)
+            * layout.usb_c_port_location(self.parameters, outline=self.outline)
+            * usb_c.USB_C_Port(mode=bd.Mode.SUBTRACT)
+        )
+        return frame
 
     def _locate(self):
         p = self.parameters
@@ -129,83 +108,46 @@ class Frame(Component):
             .sort_by(bd.Axis.Y)[-1].center()
         )
 
-    def notch_cutter(self) -> bd.Curve:
-        p = self.parameters
-        path = self.notch_path()
-        loc = bd.Location(
-            position=path.edges()[0].start_point(),
-            orientation=(
-                path.edges()
-                .sort_by(bd.SortBy.LENGTH)[-1]
-                .location_at(0).orientation
-            )
-        )
-        with bd.BuildLine(loc) as cutter:
-            bd.Line([(i*p.Frame.thickness, 0, 0) for i in (-2, 2)])
-        return cutter.line
-
-    def notch_path(self) -> bd.Wire:
+    def _notch_cutter(self) -> bd.Part:
         p = self.parameters
         arc_radius = p.Frame.notch_depth - p.Plates.Top.thickness
-        straight_length = p.spacing.X/2 - arc_radius
-        edges: list[bd.Edge] = []
-        edges.append(
+        straight_length = p.spacing.X/2 #- arc_radius
+        wire = bd.Wire([
             self.outline.edges()[6].trim_to_length(
                 start=0,
                 length=straight_length
-            )
-        )
-        edges.append(self.outline.edges()[7])
-        edges.append(
+            ),
+            self.outline.edges()[7],
             self.outline.edges()[8].trim_to_length(
                 start=1,
                 length=-straight_length
             )
+        ])
+        sketch = bd.trace(wire, line_width=4*p.Frame.thickness)
+        notch_cutter = bd.extrude(
+            to_extrude=sketch,
+            amount=-p.Frame.notch_depth
         )
-        arc1_plane = bd.Plane(
-            origin=edges[0].end_point(),
-            x_dir=edges[0].tangent_at(1),
-            y_dir=(0, 0, 1)
+        notch_cutter = bd.fillet(
+            objects=(
+                notch_cutter.edges()
+                .filter_by(bd.GeomType.LINE)
+                .group_by(bd.SortBy.LENGTH)[-1]
+                .group_by(bd.Axis.Z)[0]
+            ),
+            radius=p.Frame.notch_depth - p.Plates.Top.thickness
         )
-        with bd.BuildLine(arc1_plane) as arc1:
-            arc = bd.CenterArc(
-                center=edges[0].end_point() + (0, arc_radius, 0),
-                radius=arc_radius,
-                start_angle=-90,
-                arc_size=90
-            )
-            bd.Line(
-                arc.end_point(),
-                arc.end_point() + (0, p.Plates.Top.thickness, 0)
-            )
-        for edge in arc1.edges(): edges.append(edge)
-        arc2_plane = bd.Plane(
-            origin=edges[2].end_point(),
-            x_dir=edges[2].tangent_at(1),
-            y_dir=(0, 0, 1)
-        )
-        with bd.BuildLine(arc2_plane) as arc2:
-            arc = bd.CenterArc(
-                center=edges[2].end_point() + (0, arc_radius, 0),
-                radius=arc_radius,
-                start_angle=-90,
-                arc_size=90
-            )
-            bd.Line(
-                arc.end_point(),
-                arc.end_point() + (0, p.Plates.Top.thickness, 0)
-            )
-        for edge in arc2.edges(): edges.append(edge)
-        return bd.Wire(edges).move(bd.Pos(0, 0, -p.Frame.notch_depth))
+        return notch_cutter
 
-    def sweep_start_plane(self) -> bd.Location:
+    def _sweep_start_plane(self) -> bd.Location:
         return bd.Location(
-            position=self.sweep_path().start_point(),
+            position=self._sweep_path().start_point(),
             orientation=(90, 90, 0)
         )
 
-    def sweep_path(self) -> bd.Wire:
+    def _sweep_path(self) -> bd.Wire:
         return bd.Wire(self.outline.edges().sort_by(bd.Axis.X)[:-1])
+
 
 if __name__ == "__main__":
     from ocp_vscode import show
