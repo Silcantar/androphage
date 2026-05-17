@@ -153,7 +153,7 @@ class Androphage(bd.BasePartObject):
                 )
             )
             * bd.Rot(90, 0, -90)
-            * bd.Pos(0, p.USBPort.position[1], 0)
+            * bd.Pos(0, p.USBPort.position[1], p.USBPort.position[2])
         )
         usb_c_port = usb_c_port_loc * USB_C_Port()
         component_list.append(usb_c_port)
