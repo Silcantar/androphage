@@ -161,10 +161,9 @@ CenterBlock:
   btu_angles: [ 0, 60, 47 ]
   color: *black
   rib_size: [ 2, 2 ]
-  # screw_count: 3
   screw_offsets: [
     # [12, 0],
-    [6, 0],
+    [7, 0],
     # [-12, 0]
   ]
   wall_thickness: *wall_thickness
@@ -260,11 +259,12 @@ MagneticConnector:
   color: *black
   lip: [ 1.0, 28.5, 8.0 ]
   lip_offset: 1.0
-  pcb_size: [*pcb_thickness, 40, 16]
-  position: [0, 30, -9.5]
+  pcb_position: 10
+  pcb_size: [*pcb_thickness, 42, 12]
+  position: [0, 30.5, -9.5]
   size: [ 4.7, 26.5, 6.0 ]
   screw: *M2
-  screw_offset: 18
+  screw_offset: 18.5 # VIK small module
 MCU:
   visible: true
   color:
@@ -505,7 +505,7 @@ Trackball:
   visible: true
   color: *purple
   diameter: 34
-  position_y: 70
+  position_y: 71
   clearance: 1
 TrackballSensor:
   visible: true
@@ -518,7 +518,7 @@ TrackballSensor:
   hole_size: 5
   lens_size: [ 8.6, 16.96, 3.4 ]
   optical_center: 2.52 # Distance from center of lens to optical center.
-  pcb_size: [ 16, 25, *pcb_thickness ]
+  pcb_size: [ 16, 32, *pcb_thickness ]
 USBPort:
   visible: true
   color: *silver
