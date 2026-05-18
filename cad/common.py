@@ -98,6 +98,14 @@ vector = {
 }
 
 # Enums
+class Color(Enum):
+    black = 0x303030
+
+class CutoutType(StrEnum):
+    NONE = auto()
+    SMALL = auto()
+    BIG = auto()
+
 class Finger(StrEnum):
     REACH = auto()
     HOME = auto()
@@ -110,18 +118,15 @@ class Finger(StrEnum):
     PINKY = auto()
     OUTER = auto()
 
+class Half(StrEnum):
+    LEFT = auto()
+    RIGHT = auto()
+
 class SpacingType(StrEnum):
     CHOC = auto()
     MX = auto()
     MX_INCH = auto()
     CUSTOM = auto()
-
-class Half(StrEnum):
-    LEFT = auto()
-    RIGHT = auto()
-
-class Color(Enum):
-    black = 0x303030
 
 # Alignment Shorthands
 AlignLike = (

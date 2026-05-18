@@ -74,7 +74,7 @@ Battery:
 BTU_Options:
   Rexroth: &Rexroth
     visible: true
-    adjust_screw: true
+    adjust_screw: false
     ball_diameter: 7.938
     ball_height: 1.6
     clearance: 10
@@ -87,7 +87,7 @@ BTU_Options:
     model: Rexroth
   VCN310: &VCN310
     visible: true
-    adjust_screw: true
+    adjust_screw: false
     ball_diameter: 4
     ball_height: 1.1
     clearance: 10
@@ -522,10 +522,11 @@ TrackballSensor:
 USBPort:
   visible: true
   color: *silver
+  clearance: 0.5
   cut_size: [12, 10, 7]
   cut_radius: 3
   inside_depth: 6.2
-  position: [10, 1, 1.6]
+  position: [-10, 2, 0]
   radius: 1.2
   size: [9, 7.35, 3.3]
   thickness: 0.3

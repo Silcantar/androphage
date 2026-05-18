@@ -31,8 +31,8 @@ class Androphage(bd.BasePartObject):
             super().__init__(part=part, **kwargs)
 
     def _build(self) -> bd.Part:
-        from components.frame import Frame
         p = self.parameters
+        from components.frame import Frame
         component_list: list[bd.Part] = []
         # Top Plate
         from components.plate import Plate, PlateType
@@ -138,24 +138,18 @@ class Androphage(bd.BasePartObject):
         # USB-C Port
         print("Building USB-C Port.")
         from bd_keyboard.src.connectors.usb_c import USB_C_Port
-        usb_c_port_loc = (
-            bd.Location(
-                bottom_plate.faces()
-                .filter_by(bd.GeomType.CYLINDER)
-                .filter_by(lambda f: f.radius > 110 and f.radius < 120)
-                .edges()
-                .group_by(bd.SortBy.LENGTH)[-1]
-                .sort_by(bd.Axis.Z)[-1]
-                .reversed()
-                .location_at(
-                    distance=p.USBPort.position[0],
-                    position_mode=bd.PositionMode.LENGTH
+        usb_c_port = (
+            layout.usb_c_port_location(
+                self.parameters,
+                outline=(
+                    # Select the top face of the PCB.
+                    pcb.faces()
+                    .group_by(bd.SortBy.AREA)[-1]
+                    .sort_by(bd.Axis.Z)[-1]
                 )
             )
-            * bd.Rot(90, 0, -90)
-            * bd.Pos(0, p.USBPort.position[1], p.USBPort.position[2])
+            * USB_C_Port()
         )
-        usb_c_port = usb_c_port_loc * USB_C_Port()
         component_list.append(usb_c_port)
         # Battery
         from components.battery import Battery

@@ -87,10 +87,20 @@ class Frame(Component):
             align=Align.Left,
             rotation=(0, p.tent_angle, 0)
         )
-        usb_c_location = bd.Pos(Z=-p.height + p.Plates.Bottom.thickness) * layout.usb_c_port_location(self.parameters, outline=self.outline)
+        usb_face = bd.Face(bd.Wire(
+            self.outline.edges().sort_by(bd.Axis.X)[:-3]
+        ).close())
         frame -= (
-            bd.Pos(Z=-p.height + p.Plates.Bottom.thickness)
-            * layout.usb_c_port_location(self.parameters, outline=self.outline)
+            layout.usb_c_port_location(
+                self.parameters,
+                outline=usb_face
+            )
+            * bd.Pos(
+                0,
+                # -p.Frame.thickness,
+                p.Plates.PCB.edge - p.Plates.Top.edge,
+                p.Plates.PCB.position_z + p.Plates.PCB.thickness
+            )
             * usb_c.USB_C_Port(mode=bd.Mode.SUBTRACT)
         )
         return frame

@@ -5807,7 +5807,7 @@
 		)
 		(uuid "237339a3-744b-4f93-b9fb-1b4de4546f75")
 	)
-	(text "Battery monitor"
+	(text "Battery Monitor"
 		(exclude_from_sim no)
 		(at 22.225 240.665 0)
 		(effects
@@ -5905,6 +5905,17 @@
 			(justify left bottom)
 		)
 		(uuid "ccab5569-de8f-4a35-a88d-0960a8146b09")
+	)
+	(text "External Power"
+		(exclude_from_sim no)
+		(at 56.642 240.538 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+			)
+			(justify left bottom)
+		)
+		(uuid "ccd9bb4b-c564-4e1c-a6f7-92aa1fa088ea")
 	)
 	(text "VIK Display"
 		(exclude_from_sim no)

@@ -73,7 +73,7 @@ def set_derived_parameters(p: Parameters) -> Parameters:
         add_center=p.Plates.Bottom.add_center,
         center_width=p.Plates.Bottom.center_width,
         fillet_radius=p.Plates.Bottom.radius_outer,
-        sensor_cutout=False
+        sensor_cutout=CutoutType.NONE
     )
     p.Plates.depth = plate_outline.edges().sort_by(bd.Axis.X)[-1].length
     frame_bottom_width = (
@@ -154,7 +154,7 @@ def build_plate_outline(
     edge: float = 0,
     center_width: float = 0,
     fillet_radius: float = 0,
-    sensor_cutout: bool = False,
+    sensor_cutout: CutoutType = CutoutType.NONE,
 ) -> bd.Face:
     """Define the geometry of the plate outline."""
     spc = p.spacing
@@ -312,7 +312,7 @@ def build_plate_outline(
                     direction=(full_center_width, 0)
                 )
             )
-        if sensor_cutout:
+        if sensor_cutout != CutoutType.NONE:
             home_angle = (
                 p.Columns[Finger.HOME].splay
                 + p.Columns[Finger.REACH].splay
@@ -321,17 +321,35 @@ def build_plate_outline(
                 sensor_front_line = bd.PolarLine(
                     start=home_back_loc.position,
                     angle=home_angle,
-                    length=100
+                    length=BIG
                 )
-                sensor_outside_line = bd.PolarLine(
-                    start=home_back_loc.position,
-                    direction=(0, 1),
-                    length=100
-                )
+                if sensor_cutout == CutoutType.SMALL:
+                    notch_end_pos = bd.Vector(
+                        home_back_loc.position.X,
+                        (
+                            front_center_arc.start_point().Y
+                            + p.Trackball.position_y
+                            + p.Trackball.diameter/2
+                            # + p.Trackball.clearance
+                            # + p.CenterBlock.wall_thickness
+                            - p.Plates.Switch.edge
+                        )
+                    )
+                    sensor_outside_line = bd.Polyline(
+                        home_back_loc.position,
+                        notch_end_pos,
+                        notch_end_pos + (BIG, 0)
+                    )
+                else:
+                    sensor_outside_line = bd.PolarLine(
+                        start=home_back_loc.position,
+                        length=BIG,
+                        angle=90
+                    )
                 sensor_back_line = bd.PolarLine(
                     start=sensor_outside_line.end_point(),
-                    angle=home_angle,
-                    length=100
+                    angle=0,
+                    length=BIG
                 )
                 sensor_center_line = bd.Line(
                     sensor_back_line.end_point(),
@@ -455,16 +473,19 @@ def screw_locations(
         )
     )
 
-def usb_c_port_location(p: Parameters, outline: bd.Sketch) -> bd.Location:
-    wire = bd.Wire(outline.edges().sort_by(bd.Axis.X)[:-3])
+def usb_c_port_location(
+    p: Parameters,
+    outline: bd.Sketch
+) -> bd.Location:
     return (
-        wire.location_at(
-            distance=p.USBPort.position[0],
-            position_mode=bd.PositionMode.LENGTH,
-            x_dir=(0, 0, 1)
+        bd.Location(
+            outline.vertices()
+            .group_by(bd.Axis.X)[-1]
+            .sort_by(bd.Axis.Y)[-1]
+            .center()
         )
-        * bd.Rot(0, 90, 0)
-        * bd.Pos(0, p.USBPort.position[1], 0)
+        * bd.Rot(outline.orientation)
+        * bd.Pos(p.USBPort.position)
     )
 
 

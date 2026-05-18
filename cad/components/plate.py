@@ -33,12 +33,16 @@ class Plate(Component):
         match self.plate_type:
             case PlateType.BOTTOM:
                 self.plate_params = p.Plates.Bottom
+                self.sensor_cutout = CutoutType.NONE
             case PlateType.PCB:
                 self.plate_params = p.Plates.PCB
+                self.sensor_cutout = CutoutType.SMALL
             case PlateType.SWITCH:
                 self.plate_params = p.Plates.Switch
+                self.sensor_cutout = CutoutType.BIG
             case PlateType.TOP:
                 self.plate_params = p.Plates.Top
+                self.sensor_cutout = CutoutType.NONE
         self.column_locations = layout.build_column_locations(self.parameters)
         self.outline = layout.build_plate_outline(
             self.parameters,
@@ -46,7 +50,7 @@ class Plate(Component):
             add_center=self.plate_params.add_center,
             center_width=self.plate_params.center_width,
             fillet_radius=self.plate_params.radius_outer,
-            sensor_cutout=(self.plate_type in (PlateType.PCB, PlateType.SWITCH))
+            sensor_cutout=self.sensor_cutout
         )
         self.generic_plate_outline = layout.build_plate_outline(
             self.parameters,
@@ -54,7 +58,7 @@ class Plate(Component):
             add_center=True,
             center_width=p.Plates.Bottom.center_width,
             fillet_radius=p.Plates.Bottom.radius_outer,
-            sensor_cutout=False
+            sensor_cutout=CutoutType.NONE
         )
         if label is None:
             self.label = f"{plate_type.title()} Plate"
