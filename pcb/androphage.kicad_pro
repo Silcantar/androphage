@@ -69,7 +69,13 @@
           "thermal_relief_spoke_width": 0.5
         }
       },
-      "diff_pair_dimensions": [],
+      "diff_pair_dimensions": [
+        {
+          "gap": 0.0,
+          "via_gap": 0.0,
+          "width": 0.0
+        }
+      ],
       "drc_exclusions": [],
       "meta": {
         "version": 2
@@ -203,7 +209,11 @@
           "td_width_to_size_filter_ratio": 0.9
         }
       ],
-      "track_widths": [],
+      "track_widths": [
+        0.0,
+        0.2,
+        0.5
+      ],
       "tuning_pattern_settings": {
         "diff_pair_defaults": {
           "corner_radius_percentage": 80,
@@ -230,7 +240,12 @@
           "spacing": 0.6
         }
       },
-      "via_dimensions": [],
+      "via_dimensions": [
+        {
+          "diameter": 0.0,
+          "drill": 0.0
+        }
+      ],
       "zones_allow_external_fillets": false
     },
     "ipc2581": {
@@ -661,13 +676,25 @@
         "uuid": "99196bd8-ec0c-4029-b5c4-fcab8025953e"
       }
     ],
-    "used_designators": "",
+    "used_designators": "R_USB_1-2,J_SWD_1,R_MAT_1-2,R_MAT_11-12,R_MAT_21-22,R_MAT_31,J_USB_1,S_MAT_1-6,S_MAT_10-15,S_MAT_20-25,S_MAT_30-35,U_MAT_1,J_VIK_IN_INTC1,FB_USB_1,F_USB_2,U_USB_1,D_POW_1,Q_POW_1,R_POW_1,JP_CHG_1,SW_RST1,U_MCU_1,U_POW_1,J_VIK_1-3,J_VIK_5-8,Q_EXT_1,R_EXT_1,R_CHG_1-2,R_MON_1-2,U_CHG_1,J_BAT_1,SW_BAT_1,J1,J_HD_2,J_VIK_OUT_INTC1",
     "variants": []
   },
   "sheets": [
     [
       "99196bd8-ec0c-4029-b5c4-fcab8025953e",
       "androphage"
+    ],
+    [
+      "03329968-99ee-418c-ad32-38eba7e68b86",
+      "Switch_Board"
+    ],
+    [
+      "e5037d81-5b20-45f0-88ee-383b64eba813",
+      "Control_Board"
+    ],
+    [
+      "667ad973-8bb8-4c01-9178-3e4adc8109ac",
+      "Power_Board"
     ]
   ],
   "text_variables": {},
