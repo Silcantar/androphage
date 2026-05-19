@@ -14,4 +14,4 @@ pcb/_autosave*.kicad_sch
 __pycache__
 *.egg-info
 .venv
-pcb/.history
+pcb/.history/*

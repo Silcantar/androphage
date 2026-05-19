@@ -515,6 +515,129 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Mechanical:MountingHole_Pad"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "H"
+				(at 0 6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "MountingHole_Pad"
+				(at 0 4.445 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Mounting Hole with connection"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "mounting hole"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "MountingHole*Pad*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "MountingHole_Pad_0_1"
+				(circle
+					(center 0 1.27)
+					(radius 1.27)
+					(stroke
+						(width 1.27)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "MountingHole_Pad_1_1"
+				(pin input line
+					(at 0 -2.54 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "vik:vik-keyboard-connector"
 			(pin_names
 				(offset 1)
@@ -1513,6 +1636,22 @@
 		(color 0 0 0 0)
 		(uuid "628209f1-c7b8-45be-a21d-8e5b50cb5d1c")
 	)
+	(no_connect
+		(at 168.91 97.79)
+		(uuid "2da65bf5-5912-4a39-b2fa-290e7e15a650")
+	)
+	(no_connect
+		(at 168.91 54.61)
+		(uuid "33d3361d-0505-48c4-acff-375c1f78204c")
+	)
+	(no_connect
+		(at 168.91 100.33)
+		(uuid "7e2de125-d344-4e66-87f4-307ba9497121")
+	)
+	(no_connect
+		(at 168.91 92.71)
+		(uuid "a2eeff5b-dbc3-433f-95fa-86f9c167c507")
+	)
 	(wire
 		(pts
 			(xy 57.15 82.55) (xy 58.42 82.55)
@@ -1653,15 +1792,25 @@
 		)
 		(uuid "e497c434-aa70-448e-a7ee-3fc406076189")
 	)
-	(label "D+"
-		(at 168.91 97.79 180)
+	(label "GND"
+		(at 261.62 50.8 270)
 		(effects
 			(font
 				(size 1.524 1.524)
 			)
 			(justify right bottom)
 		)
-		(uuid "0928c65b-cbd8-4001-8740-d21ec55162e7")
+		(uuid "0533f34b-fe2e-417b-8ebf-4289146c9112")
+	)
+	(label "GND"
+		(at 261.62 25.4 270)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "074939e2-d93b-4d72-8792-5c7d4148af5e")
 	)
 	(label "SCLK"
 		(at 123.19 34.29 180)
@@ -1682,6 +1831,26 @@
 			(justify left bottom)
 		)
 		(uuid "0b0e6d1e-cf0b-4ab0-a0a7-b37adff0bee7")
+	)
+	(label "GND"
+		(at 236.22 50.8 270)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "0e06accc-9233-43ac-9298-6d8c07b7e87a")
+	)
+	(label "VEXT"
+		(at 168.91 87.63 180)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "0ef62132-ba20-40f4-b4f4-46d9d4abfa7d")
 	)
 	(label "SDA"
 		(at 168.91 39.37 180)
@@ -1733,16 +1902,6 @@
 		)
 		(uuid "29f46652-ee6b-41c7-ad06-756798a30f67")
 	)
-	(label "VEXT"
-		(at 123.19 90.17 180)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "2bd8e7e4-23bd-4555-9a71-9d77eb893ac7")
-	)
 	(label "GND"
 		(at 123.19 80.01 180)
 		(effects
@@ -1773,6 +1932,16 @@
 		)
 		(uuid "3bbc5a9e-3b1b-4ff5-9509-324849092b6b")
 	)
+	(label "VEXT"
+		(at 168.91 44.45 180)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "3ccbb78e-5b05-47b8-8487-a0a1f10eb8f8")
+	)
 	(label "GP32"
 		(at 123.19 97.79 180)
 		(effects
@@ -1783,16 +1952,6 @@
 		)
 		(uuid "3d1237a5-0449-40c6-8d02-7e8f726280a8")
 	)
-	(label "VEXT"
-		(at 168.91 90.17 180)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "3d40fdf8-9128-493a-9309-3e4b32abb5c3")
-	)
 	(label "MISO"
 		(at 123.19 102.87 180)
 		(effects
@@ -1802,16 +1961,6 @@
 			(justify right bottom)
 		)
 		(uuid "3f00057b-3676-450a-b3c3-24b1382681b5")
-	)
-	(label "RGB_DO2"
-		(at 168.91 87.63 180)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "3fa2c9a6-1dd6-495b-bc2e-c257db332622")
 	)
 	(label "CS_PMW2"
 		(at 123.19 39.37 180)
@@ -1853,6 +2002,26 @@
 		)
 		(uuid "5308d7cf-e2ab-4961-9076-55d0193f234f")
 	)
+	(label "5V"
+		(at 123.19 49.53 180)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "57365e14-fb9b-41b5-bc9e-c4f1459137a6")
+	)
+	(label "VEXT"
+		(at 123.19 87.63 180)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "586e0ea5-981c-465f-a078-ef68f6ff2ce5")
+	)
 	(label "INT_PMW2"
 		(at 168.91 49.53 180)
 		(effects
@@ -1862,16 +2031,6 @@
 			(justify right bottom)
 		)
 		(uuid "58c186dc-7aed-48b0-9e5e-786cec80c34e")
-	)
-	(label "GP22"
-		(at 123.19 41.91 180)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "5be3d7f5-0a61-4cda-b1a5-402af7bc50a0")
 	)
 	(label "SDA"
 		(at 168.91 82.55 180)
@@ -1883,6 +2042,16 @@
 		)
 		(uuid "621e83df-9512-4506-b0ca-438b79ca2433")
 	)
+	(label "BATT_MON"
+		(at 123.19 41.91 180)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "68c0420b-4688-43f1-bf84-e2e7aa1bff7c")
+	)
 	(label "MISO"
 		(at 168.91 102.87 180)
 		(effects
@@ -1892,26 +2061,6 @@
 			(justify right bottom)
 		)
 		(uuid "6b00b8d0-af1d-4a49-8810-2c7b6e0219be")
-	)
-	(label "RGB_DO2"
-		(at 123.19 52.07 180)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "6c37d01e-cb35-4432-b076-2d17e237f65c")
-	)
-	(label "RGB_DO2"
-		(at 123.19 87.63 180)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "6d3167a6-e3eb-494d-8c45-d1236a83f3c0")
 	)
 	(label "CHG_STAT"
 		(at 27.94 82.55 180)
@@ -1932,6 +2081,16 @@
 			(justify right bottom)
 		)
 		(uuid "766dcb17-4c6c-4a36-a765-cbbed988971e")
+	)
+	(label "VEXT"
+		(at 123.19 52.07 180)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "77f90629-f163-4c0d-a046-14fff4ca0bdf")
 	)
 	(label "SDA"
 		(at 123.19 57.15 180)
@@ -1983,6 +2142,16 @@
 		)
 		(uuid "972dbc09-e4f1-4a22-8062-1354b4365479")
 	)
+	(label "GND"
+		(at 236.22 25.4 270)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "99ef7688-371c-4a08-a321-451ad8d75a86")
+	)
 	(label "MOSI"
 		(at 168.91 52.07 180)
 		(effects
@@ -1992,16 +2161,6 @@
 			(justify right bottom)
 		)
 		(uuid "a6689b93-5d97-48ac-8555-b4b0cbb25988")
-	)
-	(label "VEXT"
-		(at 168.91 46.99 180)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "aa3c5d1a-8d4c-4384-965b-04f6a1959227")
 	)
 	(label "MOSI"
 		(at 123.19 95.25 180)
@@ -2043,6 +2202,16 @@
 		)
 		(uuid "b703909f-8583-48a8-ba18-815aa433ed1a")
 	)
+	(label "5V"
+		(at 123.19 90.17 180)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "b7110d5b-af0e-407b-84c9-885a5e466103")
+	)
 	(label "MOSI"
 		(at 168.91 95.25 180)
 		(effects
@@ -2053,6 +2222,16 @@
 		)
 		(uuid "b8844fbc-8f98-4e81-af25-20448b52059b")
 	)
+	(label "5V"
+		(at 168.91 90.17 180)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "b9b78664-c113-4694-bf7c-0f8b9dd74e44")
+	)
 	(label "GND"
 		(at 123.19 59.69 180)
 		(effects
@@ -2062,26 +2241,6 @@
 			(justify right bottom)
 		)
 		(uuid "bb9bbbe6-aea1-4c64-b671-5366927a8f4f")
-	)
-	(label "CS_SW2"
-		(at 168.91 100.33 180)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "bf62555f-2763-480b-9621-87b8f0efbaff")
-	)
-	(label "RGB_DO2"
-		(at 168.91 44.45 180)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "c85031ae-836b-4000-be6c-6b188fc4ad22")
 	)
 	(label "SCLK"
 		(at 123.19 105.41 180)
@@ -2103,16 +2262,6 @@
 		)
 		(uuid "ca19e383-ee4e-4c1c-844a-cac5f0d52882")
 	)
-	(label "D-"
-		(at 168.91 92.71 180)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "cc4587ef-9517-438f-bfa2-5322b7dadabb")
-	)
 	(label "SCLK"
 		(at 168.91 105.41 180)
 		(effects
@@ -2133,25 +2282,15 @@
 		)
 		(uuid "cebce624-ceca-4688-aea3-58919661d011")
 	)
-	(label "GP12"
-		(at 168.91 54.61 180)
+	(label "5V"
+		(at 168.91 46.99 180)
 		(effects
 			(font
 				(size 1.524 1.524)
 			)
 			(justify right bottom)
 		)
-		(uuid "d237ce58-ee1e-4e49-a379-082ead72d1d9")
-	)
-	(label "VEXT"
-		(at 123.19 49.53 180)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "e4616303-0e30-43b5-a6f3-693cacc6ba50")
+		(uuid "dcb6dd2a-24d5-46f3-aad0-5c1d2682c5c3")
 	)
 	(label "SCL"
 		(at 168.91 85.09 180)
@@ -2162,6 +2301,16 @@
 			(justify right bottom)
 		)
 		(uuid "e721d25f-f77e-44f9-b071-626dd970ba4c")
+	)
+	(label "GND"
+		(at 210.82 25.4 270)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "e9b873a3-f965-4da6-82e7-b45e7bb04eb8")
 	)
 	(label "CS_DIS1"
 		(at 123.19 100.33 180)
@@ -2192,6 +2341,16 @@
 			(justify right bottom)
 		)
 		(uuid "ef607c22-b10f-402b-8845-6983e01d1f37")
+	)
+	(label "GND"
+		(at 210.82 50.8 270)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "f07864c4-2e17-4cdc-a602-dabbd82d3809")
 	)
 	(label "MISO"
 		(at 168.91 59.69 180)
@@ -2499,6 +2658,85 @@
 		)
 	)
 	(symbol
+		(lib_id "Mechanical:MountingHole_Pad")
+		(at 261.62 22.86 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "269f70ae-1734-4ec2-9b26-863106d55fae")
+		(property "Reference" "H11"
+			(at 264.16 20.3199 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole_Pad"
+			(at 264.16 22.8599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
+			(at 261.62 22.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 261.62 22.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole with connection"
+			(at 261.62 22.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "f4ce44f4-6d2f-4d9f-98b5-01263dacdae6")
+		)
+		(instances
+			(project "androphage"
+				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e/667ad973-8bb8-4c01-9178-3e4adc8109ac"
+					(reference "H11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 36.83 134.62 0)
 		(unit 1)
@@ -2579,15 +2817,94 @@
 		)
 	)
 	(symbol
+		(lib_id "Mechanical:MountingHole_Pad")
+		(at 210.82 22.86 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "58851e0e-65e5-4066-915a-4eb67bfe4414")
+		(property "Reference" "H7"
+			(at 213.36 20.3199 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole_Pad"
+			(at 213.36 22.8599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
+			(at 210.82 22.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 210.82 22.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole with connection"
+			(at 210.82 22.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "3c80160b-7a4d-41ad-a9bf-aecd116a7232")
+		)
+		(instances
+			(project "androphage"
+				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e/667ad973-8bb8-4c01-9178-3e4adc8109ac"
+					(reference "H7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "vik:vik-keyboard-connector")
 		(at 130.81 90.17 0)
 		(unit 1)
 		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
+		(exclude_from_sim yes)
+		(in_bom no)
+		(on_board no)
+		(in_pos_files no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "5ee677f5-4693-4170-8348-98e45563197d")
 		(property "Reference" "J_VIK_OUT_DISP_02"
@@ -3073,6 +3390,164 @@
 		)
 	)
 	(symbol
+		(lib_id "Mechanical:MountingHole_Pad")
+		(at 261.62 48.26 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "9e3816b2-4886-4db4-abe4-0fcb952e92af")
+		(property "Reference" "H12"
+			(at 264.16 45.7199 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole_Pad"
+			(at 264.16 48.2599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
+			(at 261.62 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 261.62 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole with connection"
+			(at 261.62 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "5c26bc93-13a4-4a57-8e51-29e776c49e9f")
+		)
+		(instances
+			(project "androphage"
+				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e/667ad973-8bb8-4c01-9178-3e4adc8109ac"
+					(reference "H12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole_Pad")
+		(at 236.22 22.86 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "a338fc95-5e8b-4a61-8b67-a74d15d34fa2")
+		(property "Reference" "H9"
+			(at 238.76 20.3199 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole_Pad"
+			(at 238.76 22.8599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
+			(at 236.22 22.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 236.22 22.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole with connection"
+			(at 236.22 22.86 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "655ecbb3-e546-4c2a-a49d-4368862fdd94")
+		)
+		(instances
+			(project "androphage"
+				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e/667ad973-8bb8-4c01-9178-3e4adc8109ac"
+					(reference "H9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:R")
 		(at 66.04 82.55 90)
 		(unit 1)
@@ -3147,6 +3622,164 @@
 			(project "androphage"
 				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e/667ad973-8bb8-4c01-9178-3e4adc8109ac"
 					(reference "R_CHG_02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole_Pad")
+		(at 236.22 48.26 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d197ca12-ce5c-4a4c-baf7-1bb82aba77e9")
+		(property "Reference" "H10"
+			(at 238.76 45.7199 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole_Pad"
+			(at 238.76 48.2599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
+			(at 236.22 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 236.22 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole with connection"
+			(at 236.22 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "d9991dd4-93fc-45c4-bf56-33cb3568e575")
+		)
+		(instances
+			(project "androphage"
+				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e/667ad973-8bb8-4c01-9178-3e4adc8109ac"
+					(reference "H10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole_Pad")
+		(at 210.82 48.26 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d3f26812-0b91-4660-956c-fdca7c924351")
+		(property "Reference" "H8"
+			(at 213.36 45.7199 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole_Pad"
+			(at 213.36 48.2599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
+			(at 210.82 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 210.82 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole with connection"
+			(at 210.82 48.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "3f967b37-e363-4de2-9398-386158c80576")
+		)
+		(instances
+			(project "androphage"
+				(path "/99196bd8-ec0c-4029-b5c4-fcab8025953e/667ad973-8bb8-4c01-9178-3e4adc8109ac"
+					(reference "H8")
 					(unit 1)
 				)
 			)
