@@ -70,20 +70,7 @@
         }
       },
       "diff_pair_dimensions": [],
-      "drc_exclusions": [
-        [
-          "copper_edge_clearance|142355694|34320387|62c494a2-4285-4236-9901-e1ae50453544|7592575e-5e56-48a2-9a66-946c93ed74fd",
-          ""
-        ],
-        [
-          "copper_edge_clearance|18385795|60387428|b22b5611-2f84-4660-a02d-936d5aaec68e|1acc93e1-411d-4dc7-9d4b-7146fc3bc867",
-          ""
-        ],
-        [
-          "starved_thermal|141250000|40445000|aaf2587a-6da9-4d08-843b-3ea1128677bb|ae0f7c35-28a2-4acb-96e8-d23de96206cc|F.Cu",
-          ""
-        ]
-      ],
+      "drc_exclusions": [],
       "meta": {
         "version": 2
       },
@@ -123,9 +110,9 @@
         "missing_tuning_profile": "warning",
         "net_conflict": "warning",
         "nonmirrored_text_on_back_layer": "warning",
-        "npth_inside_courtyard": "ignore",
+        "npth_inside_courtyard": "error",
         "padstack": "warning",
-        "pth_inside_courtyard": "ignore",
+        "pth_inside_courtyard": "error",
         "shorting_items": "error",
         "silk_edge_clearance": "warning",
         "silk_over_copper": "warning",
@@ -166,10 +153,10 @@
         "min_text_height": 0.8,
         "min_text_thickness": 0.08,
         "min_through_hole_diameter": 0.3,
-        "min_track_width": 0.0,
+        "min_track_width": 0.2,
         "min_via_annular_width": 0.1,
         "min_via_diameter": 0.5,
-        "solder_mask_to_copper_clearance": 0.005,
+        "solder_mask_to_copper_clearance": 0.0,
         "use_height_for_length_calcs": true
       },
       "teardrop_options": [
@@ -462,7 +449,6 @@
       "footprint_filter": "ignore",
       "footprint_link_issues": "warning",
       "four_way_junction": "ignore",
-      "global_label_dangling": "warning",
       "ground_pin_not_ground": "warning",
       "hier_label_mismatch": "error",
       "isolated_pin_label": "warning",
@@ -481,7 +467,7 @@
       "pin_not_connected": "error",
       "pin_not_driven": "error",
       "pin_to_pin": "warning",
-      "power_pin_not_driven": "warning",
+      "power_pin_not_driven": "error",
       "same_local_global_label": "warning",
       "similar_label_and_power": "warning",
       "similar_labels": "warning",
@@ -502,7 +488,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "androphage.kicad_pro",
+    "filename": "pcb_plate.kicad_pro",
     "version": 3
   },
   "net_settings": {
@@ -536,14 +522,10 @@
   },
   "pcbnew": {
     "last_paths": {
-      "gencad": "",
       "idf": "",
       "netlist": "",
       "plot": "production/",
-      "pos_files": "",
       "specctra_dsn": "",
-      "step": "",
-      "svg": "",
       "vrml": ""
     },
     "page_layout_descr_file": ""
@@ -654,45 +636,33 @@
     "meta": {
       "version": 1
     },
-    "net_format_name": "",
     "page_layout_descr_file": "",
     "plot_directory": "",
     "reuse_designators": true,
-    "space_save_all_events": true,
-    "spice_current_sheet_as_root": false,
-    "spice_external_command": "spice \"%I\"",
-    "spice_model_current_sheet_as_root": true,
-    "spice_save_all_currents": false,
-    "spice_save_all_dissipations": false,
-    "spice_save_all_voltages": false,
     "subpart_first_id": 65,
     "subpart_id_separator": 0,
     "top_level_sheets": [
       {
-        "filename": "androphage.kicad_sch",
-        "name": "androphage",
-        "uuid": "99196bd8-ec0c-4029-b5c4-fcab8025953e"
+        "filename": "pcb_plate.kicad_sch",
+        "name": "Root",
+        "uuid": "ff6e9c14-03d1-4298-be5c-ff86cb590acc"
       }
     ],
-    "used_designators": "",
+    "used_designators": "U_USB_1,U_MAT_1,SW_RST_1,D_POW_1,F_USB_2,R_POW_1,J1-2,J_BAT_1,J_USB_1,FB_USB_1,SW_BAT_1,J_VIK_IN_SW_1,Q_POW_1,U_POW_1,R_MAT_1-2,R_MAT_11-12,R_MAT_21-22,R_MAT_31,R_USB_1-2,S_MAT_1-6,S_MAT_10-15,S_MAT_20-25,S_MAT_30-35",
     "variants": []
   },
   "sheets": [
     [
-      "99196bd8-ec0c-4029-b5c4-fcab8025953e",
-      "androphage"
+      "ff6e9c14-03d1-4298-be5c-ff86cb590acc",
+      "Root"
     ],
     [
-      "03329968-99ee-418c-ad32-38eba7e68b86",
-      "Switch_Board"
+      "417aa41b-7daf-492f-bffc-85846200bac5",
+      "Left"
     ],
     [
-      "e5037d81-5b20-45f0-88ee-383b64eba813",
-      "Control_Board"
-    ],
-    [
-      "667ad973-8bb8-4c01-9178-3e4adc8109ac",
-      "Power_Board"
+      "4386d739-3b56-4538-90bf-5938d3c74d96",
+      "Right"
     ]
   ],
   "text_variables": {},

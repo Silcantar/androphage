@@ -1,0 +1,137 @@
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "ff6e9c14-03d1-4298-be5c-ff86cb590acc")
+	(paper "A3")
+	(lib_symbols)
+	(text "Right"
+		(exclude_from_sim no)
+		(at 185.42 32.258 0)
+		(effects
+			(font
+				(size 20 20)
+			)
+		)
+		(uuid "def579c3-33cb-4b5d-adb6-9680d209c36d")
+	)
+	(text "Left"
+		(exclude_from_sim no)
+		(at 43.434 32.512 0)
+		(effects
+			(font
+				(size 20 20)
+			)
+		)
+		(uuid "e58894f8-d5da-41fe-909b-6964616aba01")
+	)
+	(sheet
+		(at 15.24 16.51)
+		(size 125.73 262.89)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "417aa41b-7daf-492f-bffc-85846200bac5")
+		(property "Sheetname" "Left"
+			(at 15.24 15.7984 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "left.kicad_sch"
+			(at 15.24 279.9846 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(property "Field2" ""
+			(at 15.24 16.51 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "pcb_plate"
+				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 146.05 16.51)
+		(size 127 262.89)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "4386d739-3b56-4538-90bf-5938d3c74d96")
+		(property "Sheetname" "Right"
+			(at 146.05 15.7984 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "right.kicad_sch"
+			(at 146.05 279.9846 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(instances
+			(project "pcb_plate"
+				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)
