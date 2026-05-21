@@ -1,0 +1,6 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "vik") (type "KiCad") (uri "C:/Users/j.lucas/OneDrive/Repositories/androphage/pcb/vik/kicad/vik.pretty") (options "") (descr ""))
+	(lib (name "mcu") (type "KiCad") (uri "C:/Users/j.lucas/OneDrive/Repositories/androphage/pcb/kleeb/mcu.pretty") (options "") (descr ""))
+	(lib (name "library") (type "KiCad") (uri "C:/Users/j.lucas/OneDrive/Repositories/androphage/pcb/library") (options "") (descr ""))
+)
