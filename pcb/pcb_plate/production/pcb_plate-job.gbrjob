@@ -3,14 +3,14 @@
     "GenerationSoftware": {
       "Vendor": "KiCad",
       "Application": "Pcbnew",
-      "Version": "10.0.3-10.0.3~ubuntu24.04.1"
+      "Version": "10.0.2"
     },
-    "CreationDate": "2026-05-19T22:17:27-05:00"
+    "CreationDate": "2026-05-21T15:46:53-05:00"
   },
   "GeneralSpecs": {
     "ProjectId": {
-      "Name": "androphage_switch",
-      "GUID": "616e6472-6f70-4686-9167-655f73776974",
+      "Name": "pcb_plate",
+      "GUID": "7063625f-706c-4617-9465-2e6b69636164",
       "Revision": "rev?"
     },
     "Size": {
@@ -34,47 +34,47 @@
   ],
   "FilesAttributes": [
     {
-      "Path": "androphage_switch-F_Cu.gbr",
+      "Path": "pcb_plate-F_Cu.gbr",
       "FileFunction": "Copper,L1,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "androphage_switch-B_Cu.gbr",
+      "Path": "pcb_plate-B_Cu.gbr",
       "FileFunction": "Copper,L2,Bot",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "androphage_switch-F_Paste.gbr",
+      "Path": "pcb_plate-F_Paste.gbr",
       "FileFunction": "SolderPaste,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "androphage_switch-B_Paste.gbr",
+      "Path": "pcb_plate-B_Paste.gbr",
       "FileFunction": "SolderPaste,Bot",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "androphage_switch-F_Silkscreen.gbr",
+      "Path": "pcb_plate-F_Silkscreen.gbr",
       "FileFunction": "Legend,Top",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "androphage_switch-B_Silkscreen.gbr",
+      "Path": "pcb_plate-B_Silkscreen.gbr",
       "FileFunction": "Legend,Bot",
       "FilePolarity": "Positive"
     },
     {
-      "Path": "androphage_switch-F_Mask.gbr",
+      "Path": "pcb_plate-F_Mask.gbr",
       "FileFunction": "SolderMask,Top",
       "FilePolarity": "Negative"
     },
     {
-      "Path": "androphage_switch-B_Mask.gbr",
+      "Path": "pcb_plate-B_Mask.gbr",
       "FileFunction": "SolderMask,Bot",
       "FilePolarity": "Negative"
     },
     {
-      "Path": "androphage_switch-Edge_Cuts.gbr",
+      "Path": "pcb_plate-Edge_Cuts.gbr",
       "FileFunction": "Profile",
       "FilePolarity": "Positive"
     }
@@ -90,24 +90,29 @@
     },
     {
       "Type": "SolderMask",
+      "Thickness": 0.01,
       "Name": "Top Solder Mask"
     },
     {
       "Type": "Copper",
+      "Thickness": 0.035,
       "Name": "F.Cu"
     },
     {
       "Type": "Dielectric",
+      "Thickness": 1.51,
       "Material": "FR4",
       "Name": "F.Cu/B.Cu",
       "Notes": "Type: dielectric layer 1 (from F.Cu to B.Cu)"
     },
     {
       "Type": "Copper",
+      "Thickness": 0.035,
       "Name": "B.Cu"
     },
     {
       "Type": "SolderMask",
+      "Thickness": 0.01,
       "Name": "Bottom Solder Mask"
     },
     {
