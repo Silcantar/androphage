@@ -70,7 +70,12 @@
         }
       },
       "diff_pair_dimensions": [],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        [
+          "lib_footprint_mismatch|240000000|65730000|d59530d5-3475-41a5-9413-cc4f4c26005f|00000000-0000-0000-0000-000000000000",
+          ""
+        ]
+      ],
       "meta": {
         "version": 2
       },
@@ -114,13 +119,13 @@
         "padstack": "warning",
         "pth_inside_courtyard": "error",
         "shorting_items": "error",
-        "silk_edge_clearance": "warning",
-        "silk_over_copper": "warning",
-        "silk_overlap": "warning",
+        "silk_edge_clearance": "ignore",
+        "silk_over_copper": "ignore",
+        "silk_overlap": "ignore",
         "skew_out_of_range": "error",
         "solder_mask_bridge": "error",
         "starved_thermal": "error",
-        "text_height": "warning",
+        "text_height": "ignore",
         "text_on_edge_cuts": "error",
         "text_thickness": "warning",
         "through_hole_pad_without_hole": "error",
@@ -648,7 +653,7 @@
         "uuid": "b41c5c8d-a6b2-4633-9a6f-a9fc0b4f40ca"
       }
     ],
-    "used_designators": "U_POW_1,R_MON_3-4",
+    "used_designators": "C1-2,Q_POW_2,R_POW_2,D_POW_2",
     "variants": []
   },
   "sheets": [
