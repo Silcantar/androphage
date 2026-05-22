@@ -75,7 +75,7 @@
 			)
 		)
 		(instances
-			(project "pcb_plate"
+			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc"
 					(page "2")
 				)
@@ -121,7 +121,7 @@
 			)
 		)
 		(instances
-			(project "pcb_plate"
+			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc"
 					(page "3")
 				)
