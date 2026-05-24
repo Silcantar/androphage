@@ -14,12 +14,14 @@ class KnifeHinge(Component):
     def __init__(
         self,
         parameters: Parameters,
+        do_holes: boolean = True,
         knuckle_orientations: tuple[int] = (1, 0, -1, 0),
         label: str = "Knife Hinge",
         mode: bd.Mode = bd.Mode.ADD,
         **kwargs
     ):
         self.parameters = parameters
+        self.do_holes = do_holes
         self.knuckle_orientations = knuckle_orientations
         self.mode = mode
         try:
@@ -31,19 +33,22 @@ class KnifeHinge(Component):
     def _build(self) -> bd.Part:
         p = self.parameters
         component_list: list[bd.Part] = []
+        hinge = bd.Part()
         for i in range(len(self.knuckle_orientations)):
             if self.knuckle_orientations[i] == 0:
-                component_list.append(
+                # component_list.append(
+                hinge += (
                     bd.Pos(Z=(i - 1.5)*p.Hinge.plate_thickness)
                     * self.plate()
                 )
             else:
-                component_list.append(
+                # component_list.append(
+                hinge += (
                     bd.Pos(Z=(i - 1.5)*p.Hinge.plate_thickness)
                     * bd.Rot(X=90 - 90*self.knuckle_orientations[i])
                     * self.knuckle_plate()
                 )
-        hinge = bd.Part(children=component_list)
+        # hinge = bd.Part(component_list)#children=component_list)
         hinge -= (
             bd.Locations([
                 bd.Location(
@@ -77,7 +82,7 @@ class KnifeHinge(Component):
             (-p.Hinge.thickness/2, i*p.Hinge.taper_pin_position, 0)
             for i in [-1, 1]
         ])
-        if self.mode != bd.Mode.SUBTRACT:
+        if self.do_holes:
             plate -= (
                 taper_pin_locs
                 * bd.Cylinder(
@@ -111,14 +116,13 @@ class KnifeHinge(Component):
                 height=p.Hinge.plate_thickness
             )
         )
-        if self.mode != bd.Mode.SUBTRACT:
-            plate -= (
-                knuckle_loc
-                * bd.Cylinder(
-                    radius=p.Hinge.pin_diameter/2,
-                    height=p.Hinge.plate_thickness
-                )
+        plate -= (
+            knuckle_loc
+            * bd.Cylinder(
+                radius=p.Hinge.pin_diameter/2,
+                height=p.Hinge.plate_thickness
             )
+        )
         return plate
 
 
@@ -129,10 +133,54 @@ if __name__ == "__main__":
         parameters.load_parameters("cad/androphage.yaml")
     )
     knife_hinge = KnifeHinge(
-        p
+        p,
+        # do_holes=False
     )
-    show(knife_hinge)
+    count = 4
+    hinge_multi = bd.Part()
+    orientations = (
+        (1, 0, -1, 0),
+        (0, 0, 1, -1),
+        (0, 0, -1, 1),
+        (-1, 0, 1, 0)
+    )
+    for i in range(count):
+        hinge_multi += (
+            bd.Pos(Z=i*(p.Hinge.width + 1))
+            * KnifeHinge(
+                p,
+                do_holes=False,
+                knuckle_orientations=orientations[i]
+            )
+        )
+    hinge_multi += bd.Pos(-p.Hinge.thickness/2, -p.Hinge.height/2, 0) * bd.Box(
+        length=p.Hinge.thickness,
+        width=2,
+        height=p.Hinge.width * (count - 1) + count,
+        align=Align.Bottom
+    )
+    hinge_multi = bd.fillet(
+        objects=hinge_multi.edges().filter_by(bd.Axis.X).group_by(bd.Axis.Y)[2:4],
+        radius=0.5-EPS
+    )
+    show(knife_hinge, hinge_multi)
     bd.export_step(
         to_export=knife_hinge,
         file_path="cad/production/knife_hinge.step"
     )
+    bd.export_step(
+        to_export=hinge_multi,
+        file_path="cad/production/knife_hinge_multi.step"
+    )
+    exporter = bd.ExportDXF()
+    exporter.add_shape(
+        knife_hinge.plate().faces()
+        .sort_by(bd.Axis.Z)[0]
+    )
+    exporter.write("cad/production/hinge_plate.dxf")
+    exporter = bd.ExportDXF()
+    exporter.add_shape(
+        knife_hinge.knuckle_plate().faces()
+        .sort_by(bd.Axis.Z)[0]
+    )
+    exporter.write("cad/production/hinge_knuckle_plate.dxf")
