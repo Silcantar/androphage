@@ -519,6 +519,8 @@ TrackballSensor:
   lens_size: [ 8.6, 16.96, 3.4 ]
   optical_center: 2.52 # Distance from center of lens to optical center.
   pcb_size: [ 16, 32, *pcb_thickness ]
+  screw: *M2
+  screw_position: [0, -13, 0]
 USBPort:
   visible: true
   color: *silver
