@@ -192,23 +192,31 @@ class Androphage(bd.BasePartObject):
                     .center()
                 )
                 + bd.Vector(
-                    -p.Hinge.thickness/2,
+                    0,
                     (1 + 2*i)*(p.Hinge.width/2 + 2*p.Frame.lip_depth),
-                    -p.Hinge.height/2
+                    0
                 )
             )
             for i in [0, -1]
         ]
         hinge_list: list[bd.Part] = []
+        orientations = (
+            (1, 0, -1, 0),
+            (0, 0, 1, -1),
+            (0, 0, -1, 1),
+            (-1, 0, 1, 0)
+        )
         for i in range(len(hinge_locations)):
-            hinge_list.append(
-                hinge_locations[i]
-                * KnifeHinge(
-                    parameters=self.parameters,
-                    mirror=(i == 1),
-                    rotation=((1 - 2*i)*90, 0, 0)
+            for j in range(4):
+                hinge_list.append(
+                    hinge_locations[i]
+                    * bd.Pos(Z=(-p.Hinge.height if (j > 1) else 0))
+                    * KnifeHinge(
+                        parameters=self.parameters,
+                        knuckle_orientations=orientations[j],
+                        rotation=(90, 180*j + 180*i, 0)
+                    )
                 )
-            )
         hinges = bd.Part(children=hinge_list)
         hinges.label = "Hinges"
         # Trackball

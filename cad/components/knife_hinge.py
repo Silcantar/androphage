@@ -14,13 +14,13 @@ class KnifeHinge(Component):
     def __init__(
         self,
         parameters: Parameters,
-        mirror: bool = False,
+        knuckle_orientations: tuple[int] = (1, 0, -1, 0),
         label: str = "Knife Hinge",
         mode: bd.Mode = bd.Mode.ADD,
         **kwargs
     ):
         self.parameters = parameters
-        self.mirror = mirror
+        self.knuckle_orientations = knuckle_orientations
         self.mode = mode
         try:
             color
@@ -30,47 +30,39 @@ class KnifeHinge(Component):
 
     def _build(self) -> bd.Part:
         p = self.parameters
-        if self.mode == bd.Mode.SUBTRACT:
-            component_list = [
-                (
-                    bd.Pos(Z=(i//2 - 1.5)*p.Hinge.plate_thickness)
-                    * bd.Rot(X=180*i)
+        component_list: list[bd.Part] = []
+        for i in range(len(self.knuckle_orientations)):
+            if self.knuckle_orientations[i] == 0:
+                component_list.append(
+                    bd.Pos(Z=(i - 1.5)*p.Hinge.plate_thickness)
+                    * self.plate()
+                )
+            else:
+                component_list.append(
+                    bd.Pos(Z=(i - 1.5)*p.Hinge.plate_thickness)
+                    * bd.Rot(X=90 - 90*self.knuckle_orientations[i])
                     * self.knuckle_plate()
                 )
-                for i in range(8)
-            ]
-        else:
-            component_list = [
-                (
-                    bd.Pos(Z=(i - 1.5)*p.Hinge.plate_thickness)
-                    * bd.Rot(X=180*(i//2 + (1 if self.mirror else 0)))
-                    * (
-                        self.knuckle_plate() if i % 2 == 0
-                        else self.plate()
-                    )
-                )
-                for i in range(4)
-            ]
         hinge = bd.Part(children=component_list)
-        if self.mode != bd.Mode.SUBTRACT:
-            hinge -= (
-                bd.Locations([
-                    bd.Location(
-                        position=(
-                            p.Hinge.thickness/2,
-                            i*p.Hinge.screw_position,
-                            0
-                        ),
-                        orientation=(0, 90, 0)
-                    ) for i in [-1, 1]
-                ])
-                * bd.CounterSinkHole(
-                    radius=p.Hinge.screw.diameter/2,
-                    depth=BIG,
-                    counter_sink_radius=p.Hinge.screw.counter_sink_diameter/2,
-                    counter_sink_angle=p.Hinge.screw.head_angle
-                )
+        hinge -= (
+            bd.Locations([
+                bd.Location(
+                    position=(
+                        0,
+                        i*p.Hinge.screw_position,
+                        0
+                    ),
+                    orientation=(0, 90, 0)
+                ) for i in [-1, 1]
+            ])
+            * bd.CounterSinkHole(
+                radius=p.Hinge.screw.diameter/2,
+                depth=BIG,
+                counter_sink_radius=p.Hinge.screw.counter_sink_diameter/2,
+                counter_sink_angle=p.Hinge.screw.head_angle
             )
+        )
+        hinge.position -= (0, self.parameters.Hinge.height/2, 0)
         return hinge
 
     def plate(self) -> bd.Part:
@@ -78,10 +70,11 @@ class KnifeHinge(Component):
         plate = bd.Box(
             length=p.Hinge.thickness,
             width=p.Hinge.height - p.Hinge.diameter,
-            height=p.Hinge.plate_thickness
+            height=p.Hinge.plate_thickness,
+            align=Align.Right
         )
         taper_pin_locs = bd.Locations([
-            (0, i*p.Hinge.taper_pin_position, 0)
+            (-p.Hinge.thickness/2, i*p.Hinge.taper_pin_position, 0)
             for i in [-1, 1]
         ])
         if self.mode != bd.Mode.SUBTRACT:
@@ -92,7 +85,7 @@ class KnifeHinge(Component):
                     height=p.Hinge.plate_thickness
                 )
             )
-            plate -= bd.Cylinder(
+            plate -= bd.Pos(X=-p.Hinge.thickness/2)*bd.Cylinder(
                 radius=p.Hinge.screw.diameter/2,
                 height=p.Hinge.plate_thickness
             )
@@ -101,7 +94,7 @@ class KnifeHinge(Component):
     def knuckle_plate(self) -> bd.Part:
         p = self.parameters
         plate = self.plate()
-        knuckle_loc = bd.Pos(p.Hinge.thickness/2, p.Hinge.height/2, 0)
+        knuckle_loc = bd.Pos(0, p.Hinge.height/2, 0)
         plate += (
             knuckle_loc
             * bd.Box(
@@ -136,12 +129,10 @@ if __name__ == "__main__":
         parameters.load_parameters("cad/androphage.yaml")
     )
     knife_hinge = KnifeHinge(
-        p,
-        # mirror = True,
-        # mode=bd.Mode.SUBTRACT
+        p
     )
     show(knife_hinge)
-    # bd.export_step(
-    #     to_export=knife_hinge,
-    #     file_path="cad/production/knife_hinge.step"
-    # )
+    bd.export_step(
+        to_export=knife_hinge,
+        file_path="cad/production/knife_hinge.step"
+    )
