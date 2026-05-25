@@ -151,8 +151,10 @@ Screws:
 Base:
   visible: true
   color: *black
-  foot_width: 5
+  cutout_size: []
+  foot_width: 2
   opening_clearance: 1
+  wall_thickness: *wall_thickness
 BTU: *VCN310
 CenterBlock:
   visible: true
@@ -183,11 +185,10 @@ Frame:
   screw_count: 5
   thickness: 5
 Hinge:
-  # https://www.mcmaster.com/11555A61/ or https://www.mcmaster.com/1624A62/
   visible: true
   color: *brass
   diameter: 6
-  pin_diameter: 3 #2.3876
+  pin_diameter: 2 #2.3876
   plate_count: 4
   plate_thickness: 1.5875
   position: [ 0, 0, 0 ]

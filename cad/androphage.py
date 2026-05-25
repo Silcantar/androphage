@@ -228,20 +228,12 @@ class Androphage(bd.BasePartObject):
         trackball.label = "Trackball"
         # Base
         print("Building Base.")
-        # from components.base import Base
-        # match self.angle:
-        #     case 0:
-        #         base_location = bd.Pos(
-        #             Z=-p.height/cosd(p.tent_angle) - p.Base.vertical_height
-        #         )
-        #     case closed_angle if closed_angle == 90 + p.tent_angle:
-        #         base_location = bd.Rot(Y=180)
-        #     case _:
-        #         base_location = bd.Location(
-        #             position=(0, 0, -100),
-        #             orientation=(0, 180 * self.angle / (90 + p.tent_angle), 0)
-        #         )
-        # base = Base(self.parameters).move(base_location)
+        from components.base import Base
+        base_location = bd.Pos(Z=-p.Hinge.height)
+        base_left = base_location * Base(self.parameters, label="Left Base")
+        base_right = bd.mirror(objects=base_left, about=bd.Plane.YZ)
+        base_right.label = "Right Base"
+        base_right.color = seq_to_color(p.Base.color)
         # Screws
         # from bd_warehouse.fastener import CounterSunkScrew, HeatSetNut, HexNut
         return bd.Part(
@@ -251,7 +243,8 @@ class Androphage(bd.BasePartObject):
                 right_half,
                 hinges,
                 trackball,
-                # base
+                base_left,
+                base_right
             ]
         )
 

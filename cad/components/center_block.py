@@ -7,7 +7,6 @@ import layout
 from parameters import Parameters
 from components.btu import BTU
 from components.fasteners import screw_boss_vertical
-from components.hinge import Hinge
 from components.magnetic_connector import MagneticConnector
 from components.trackball_sensor import TrackballSensor
 

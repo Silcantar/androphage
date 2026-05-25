@@ -14,10 +14,12 @@ class Frame(Component):
     def __init__(
         self,
         parameters: Parameters,
+        usb_cutout: bool = False,
         label: str = "Frame",
         **kwargs
     ):
         self.parameters = parameters
+        self.usb_cutout = usb_cutout
         self.outline = layout.build_plate_outline(
             self.parameters,
             edge=self.parameters.Plates.Top.edge,
@@ -87,22 +89,23 @@ class Frame(Component):
             align=Align.Left,
             rotation=(0, p.tent_angle, 0)
         )
-        usb_face = bd.Face(bd.Wire(
-            self.outline.edges().sort_by(bd.Axis.X)[:-3]
-        ).close())
-        frame -= (
-            layout.usb_c_port_location(
-                self.parameters,
-                outline=usb_face
+        if self.usb_cutout:
+            usb_face = bd.Face(bd.Wire(
+                self.outline.edges().sort_by(bd.Axis.X)[:-3]
+            ).close())
+            frame -= (
+                layout.usb_c_port_location(
+                    self.parameters,
+                    outline=usb_face
+                )
+                * bd.Pos(
+                    0,
+                    # -p.Frame.thickness,
+                    p.Plates.PCB.edge - p.Plates.Top.edge,
+                    p.Plates.PCB.position_z + p.Plates.PCB.thickness
+                )
+                * usb_c.USB_C_Port(mode=bd.Mode.SUBTRACT)
             )
-            * bd.Pos(
-                0,
-                # -p.Frame.thickness,
-                p.Plates.PCB.edge - p.Plates.Top.edge,
-                p.Plates.PCB.position_z + p.Plates.PCB.thickness
-            )
-            * usb_c.USB_C_Port(mode=bd.Mode.SUBTRACT)
-        )
         return frame
 
     def _locate(self):
