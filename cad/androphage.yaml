@@ -164,9 +164,7 @@ CenterBlock:
   color: *black
   rib_size: [ 2, 2 ]
   screw_offsets: [
-    # [12, 0],
     [7, 0],
-    # [-12, 0]
   ]
   wall_thickness: *wall_thickness
 Desk:
@@ -183,15 +181,18 @@ Frame:
   main_radius: 50
   notch_depth: 6
   screw_count: 5
-  thickness: 5
+  thickness: 4
 Hinge:
   visible: true
   color: *brass
+  offsets: [0, 0]
   diameter: 6
-  pin_diameter: 2 #2.3876
+  fillet_radius: 1
+  multi_connector_width: 2
+  multi_spacing: 1
+  pin_diameter: 2
   plate_count: 4
   plate_thickness: 1.5875
-  position: [ 0, 0, 0 ]
   screw: *M2
   screw_position: 3.5
   taper_pin_diameter: 1.55194

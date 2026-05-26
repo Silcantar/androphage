@@ -86,11 +86,14 @@ class Frame(Component):
 
 @dataclass
 class Hinge(Component):
+    offsets: list[float]
     diameter: float
+    fillet_radius: float
+    multi_connector_width: float
+    multi_spacing: float
     pin_diameter: float
     plate_count: int
     plate_thickness: float
-    position: vector[3]
     screw: Screw
     screw_position: float
     taper_pin_diameter: float

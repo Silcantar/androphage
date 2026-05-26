@@ -257,10 +257,13 @@ class CenterBlock(Component):
             self._end_locations(center_block)[i]
             * bd.Pos(
                 0,
-                (1 - 2*i)*(p.Hinge.width/2 + p.Frame.lip_depth),
+                (
+                    (1 - 2*i)*(p.Hinge.width/2 + p.Frame.lip_depth)
+                    + p.Hinge.offsets[i]
+                ),
                 -p.Hinge.height/2 + p.Plates.Top.thickness/cosd(p.tent_angle)
             )
-            for i in range(2)
+            for i in range(len(p.Hinge.offsets))
         ]
 
     def _magnetic_connector_screw_boss(self) -> bd.Part:

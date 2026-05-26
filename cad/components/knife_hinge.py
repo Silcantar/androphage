@@ -14,14 +14,14 @@ class KnifeHinge(Component):
     def __init__(
         self,
         parameters: Parameters,
-        do_holes: boolean = True,
+        laminated: boolean = True,
         knuckle_orientations: tuple[int] = (1, 0, -1, 0),
         label: str = "Knife Hinge",
         mode: bd.Mode = bd.Mode.ADD,
         **kwargs
     ):
         self.parameters = parameters
-        self.do_holes = do_holes
+        self.laminated = laminated
         self.knuckle_orientations = knuckle_orientations
         self.mode = mode
         try:
@@ -36,19 +36,16 @@ class KnifeHinge(Component):
         hinge = bd.Part()
         for i in range(len(self.knuckle_orientations)):
             if self.knuckle_orientations[i] == 0:
-                # component_list.append(
                 hinge += (
                     bd.Pos(Z=(i - 1.5)*p.Hinge.plate_thickness)
                     * self.plate()
                 )
             else:
-                # component_list.append(
                 hinge += (
                     bd.Pos(Z=(i - 1.5)*p.Hinge.plate_thickness)
                     * bd.Rot(X=90 - 90*self.knuckle_orientations[i])
                     * self.knuckle_plate()
                 )
-        # hinge = bd.Part(component_list)#children=component_list)
         hinge -= (
             bd.Locations([
                 bd.Location(
@@ -74,7 +71,11 @@ class KnifeHinge(Component):
         p = self.parameters
         plate = bd.Box(
             length=p.Hinge.thickness,
-            width=p.Hinge.height - p.Hinge.diameter,
+            width=(
+                p.Hinge.height
+                - p.Hinge.diameter
+                - (0 if self.laminated else 2*p.Hinge.fillet_radius)
+            ),
             height=p.Hinge.plate_thickness,
             align=Align.Right
         )
@@ -82,7 +83,7 @@ class KnifeHinge(Component):
             (-p.Hinge.thickness/2, i*p.Hinge.taper_pin_position, 0)
             for i in [-1, 1]
         ])
-        if self.do_holes:
+        if self.laminated:
             plate -= (
                 taper_pin_locs
                 * bd.Cylinder(
@@ -104,7 +105,10 @@ class KnifeHinge(Component):
             knuckle_loc
             * bd.Box(
                 length=p.Hinge.thickness,
-                width=p.Hinge.thickness,
+                width=(
+                    p.Hinge.thickness
+                    + (0 if self.laminated else p.Hinge.fillet_radius)
+                ),
                 height=p.Hinge.plate_thickness,
                 align=Align.RightBack
             )
@@ -115,6 +119,15 @@ class KnifeHinge(Component):
                 radius=p.Hinge.diameter/2,
                 height=p.Hinge.plate_thickness
             )
+        )
+        fillet_edge = (
+            plate.edges()
+            .filter_by(bd.Axis.Z)
+            .filter_by(lambda e: e.center().Y == (p.Hinge.height - p.Hinge.diameter)/2)
+        )
+        plate = bd.fillet(
+            objects=fillet_edge,
+            radius=p.Hinge.fillet_radius
         )
         plate -= (
             knuckle_loc
@@ -134,7 +147,7 @@ if __name__ == "__main__":
     )
     knife_hinge = KnifeHinge(
         p,
-        # do_holes=False
+        # laminated=False
     )
     count = 4
     hinge_multi = bd.Part()
@@ -146,17 +159,17 @@ if __name__ == "__main__":
     )
     for i in range(count):
         hinge_multi += (
-            bd.Pos(Z=i*(p.Hinge.width + 1))
+            bd.Pos(Z=i*(p.Hinge.width + p.Hinge.multi_spacing))
             * KnifeHinge(
                 p,
-                do_holes=False,
+                laminated=False,
                 knuckle_orientations=orientations[i]
             )
         )
     hinge_multi += bd.Pos(-p.Hinge.thickness/2, -p.Hinge.height/2, 0) * bd.Box(
         length=p.Hinge.thickness,
-        width=2,
-        height=p.Hinge.width * (count - 1) + count,
+        width=p.Hinge.multi_connector_width,
+        height=p.Hinge.width*(count - 1) + count*p.Hinge.multi_spacing,
         align=Align.Bottom
     )
     hinge_multi = bd.fillet(
