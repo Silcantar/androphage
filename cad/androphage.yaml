@@ -153,6 +153,7 @@ Base:
   color: *black
   cutout_size: []
   foot_width: 2
+  foot_length: 10
   opening_clearance: 1
   wall_thickness: *wall_thickness
 BTU: *VCN310

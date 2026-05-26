@@ -40,7 +40,7 @@ class Screw(Component):
 
 @dataclass
 class Base(Component):
-    pass
+    foot_length: float
     foot_width: float
     opening_clearance: float
     wall_thickness: float

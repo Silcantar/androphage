@@ -38,9 +38,9 @@ class Frame(Component):
     def _build(self) -> bd.Part:
         p = self.parameters
         frame = bd.sweep(
-            sections=layout.frame_section(
-                self.parameters,
+            sections=(
                 self._sweep_start_plane()
+                * layout.frame_section(self.parameters)
             ),
             path=self._sweep_path(),
             transition=bd.Transition.ROUND

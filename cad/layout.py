@@ -360,9 +360,10 @@ def build_plate_outline(
 
 def frame_section(
     parameters: Parameters,
-    plane: bd.Plane = bd.Plane.XY,
+    do_lips: bool = True,
     height: float = None,
-    fillet: bool = True
+    fillet: bool = True,
+    shear_x: float = 0
 ) -> bd.Sketch:
     p = parameters
     if height is None:
@@ -370,42 +371,86 @@ def frame_section(
         main_radius = p.Frame.main_radius
     else:
         main_radius = p.height*p.Frame.main_radius/p.height
-    with bd.BuildSketch(plane) as sketch:
+    with bd.BuildSketch() as sketch:
         with bd.BuildLine() as line:
-            pl = bd.Polyline(
-                (p.Frame.thickness - p.Frame.lip_depth, -height),
-                (0, -height),
-                (0, -height + p.Plates.Bottom.thickness),
-                (-p.Frame.lip_depth, -height + p.Plates.Bottom.thickness),
-                (
-                    -p.Frame.lip_depth,
-                    -p.Keycap.profile.height - p.Switch.model.height.upper
-                ),
-                (
-                    -2*p.Frame.lip_depth,
-                    -p.Keycap.profile.height - p.Switch.model.height.upper
-                ),
-                (-2*p.Frame.lip_depth, -p.Plates.Top.thickness),
-                (0, -p.Plates.Top.thickness),
-                (0, 0),
+            bottom_line = bd.Polyline(
+                (p.Frame.thickness - shear_x*height, -height - 3*EPS),
+                (-shear_x*height, -height - 3*EPS),
+            )
+            if do_lips:
+                inside_line = bd.Polyline(
+                    bottom_line.end_point(),
+                    (
+                        shear_x*(-height+p.Plates.Bottom.thickness),
+                        -height + p.Plates.Bottom.thickness
+                        ),
+                    (
+                        (
+                            -p.Frame.lip_depth
+                            + shear_x*(-height + p.Plates.Bottom.thickness)
+                        ),
+                        -height + p.Plates.Bottom.thickness
+                    ),
+                    (
+                        (
+                            -p.Frame.lip_depth
+                            + shear_x*(
+                                -p.Keycap.profile.height
+                                - p.Switch.model.height.upper
+                            )
+                        ),
+                        -p.Keycap.profile.height - p.Switch.model.height.upper
+                    ),
+                    (
+                        (
+                            -2*p.Frame.lip_depth
+                            + shear_x*(
+                                -p.Keycap.profile.height
+                                - p.Switch.model.height.upper
+                            )
+                        ),
+                        -p.Keycap.profile.height - p.Switch.model.height.upper
+                    ),
+                    (
+                        (
+                            -2*p.Frame.lip_depth
+                            - shear_x*(p.Plates.Top.thickness)
+                        ),
+                        -p.Plates.Top.thickness
+                    ),
+                    (-shear_x*(p.Plates.Top.thickness), -p.Plates.Top.thickness),
+                    (0, 0),
+                )
+            else:
+                inside_line = bd.Polyline(
+                    bottom_line.end_point(),
+                    (0, 0)
+                )
+            top_line = bd.Polyline(
+                inside_line.end_point(),
                 (
                     (
                         p.Frame.thickness
-                        - p.Frame.lip_depth
                         - height*tand(p.Frame.chord_angle)
                     ),
                     0
                 )
             )
             bd.RadiusArc(
-                start_point=pl.start_point(),
-                end_point=pl.end_point(),
+                start_point=bottom_line.start_point(),
+                end_point=top_line.end_point(),
                 radius=main_radius
             )
         bd.make_face()
         if fillet:
+            fillet_vertices = [
+                sketch.vertices()
+                .group_by(bd.Axis.Y)[i]
+                .sort_by(bd.Axis.X)[-1]
+                for i in [0, -1]
+            ]
             bd.fillet(
-                sketch.vertices().sort_by(bd.Axis.X)[-2:],
+                objects=fillet_vertices,
                 radius=p.Frame.fillet_radius
             )
     return sketch.sketch
@@ -495,9 +540,10 @@ if __name__ == "__main__":
     show(
         # bd.Locations(list(build_key_locations(parameters).values()))
         # * bd.Rectangle(width=18, height=17)
-        build_plate_outline(
-            parameters,
-            edge=2,
-            fillet_radius=1
-        )
+        # build_plate_outline(
+        #     parameters,
+        #     edge=2,
+        #     fillet_radius=1
+        # ),
+        frame_section(parameters, do_lips=True, shear_x=0.5)
     )

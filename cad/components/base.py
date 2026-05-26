@@ -25,37 +25,134 @@ class Base(Component):
     def _build(self) -> bd.Part:
         p = self.parameters
         # Build main body.
-        foot_position_x = -(p.Base.height - p.Hinge.height)/tand(p.tent_angle)
-        outer_sketch = bd.Plane.XZ * bd.Polygon(
-            (0, 0),
-            (0, -p.Hinge.height),
-            (foot_position_x, -p.Base.height),
-            (foot_position_x - p.Base.foot_width, -p.Base.height),
-            (
-                foot_position_x - p.Base.foot_width,
-                -p.Base.height + p.Base.wall_thickness
+        foot_position_x = (p.Base.height - p.Hinge.height)/sind(p.tent_angle)
+        top_sketch = bd.Plane.YZ * bd.Rectangle(
+            width=p.Base.depth,
+            height=p.Base.wall_thickness*cosd(p.tent_angle),
+            align=Align.LeftBack
+        )
+        bottom_sketch = (
+            bd.Plane.YZ
+            * bd.Pos(Y=-p.Hinge.height)
+            * bd.Rectangle(
+                width=p.Base.depth,
+                height=p.Base.wall_thickness*cosd(p.tent_angle),
+                align=Align.LeftFront
+            )
+        )
+        top = bd.extrude(
+            to_extrude=top_sketch,
+            dir=(-cosd(p.tent_angle), 0, -sind(p.tent_angle)),
+            amount=BIG
+        )
+        bottom = bd.extrude(
+            to_extrude=bottom_sketch,
+            dir=(-cosd(p.tent_angle), 0, -sind(p.tent_angle)),
+            amount=BIG
+        )
+        # Build sweep path.
+        sweep_plane = bd.Plane.XY * bd.Rot(Y=-p.tent_angle)
+        sweep_paths = [
+            sweep_plane * bd.EllipticalCenterArc(
+                center=(0, p.Trackball.position_y - p.Base.foot_length/2, 0),
+                x_radius=p.Hinge.height,
+                y_radius=p.Trackball.position_y - p.Base.foot_length/2,
+                start_angle=180,
+                arc_size=90
             ),
-            (-p.height, -p.Hinge.height*sind(p.tent_angle))
+            sweep_plane * bd.Line(
+                (-p.Hinge.height, p.Trackball.position_y - p.Base.foot_length/2),
+                (-p.Hinge.height, p.Trackball.position_y + p.Base.foot_length/2)
+            ),
+            sweep_plane * bd.EllipticalCenterArc(
+                center=(0, p.Trackball.position_y + p.Base.foot_length/2, 0),
+                x_radius=p.Hinge.height,
+                y_radius=(
+                    p.Base.depth
+                    - p.Trackball.position_y
+                    - p.Base.foot_length/2
+                ),
+                start_angle=180,
+                arc_size=-90
+            )
+        ]
+        sweep_section1 = layout.frame_section(
+            self.parameters,
+            do_lips=False,
+            height=p.Hinge.height
         )
-        outer_sketch = bd.fillet(
-            objects=outer_sketch.vertices().sort_by(bd.Axis.Z)[-2],
-            radius=10
+        sweep_section2 = layout.frame_section(
+            self.parameters,
+            do_lips=False,
+            height=p.Base.height - p.Hinge.height*sind(p.tent_angle),
+            shear_x=(
+                foot_position_x
+                - p.height
+            )/(
+                p.Base.height
+                - p.Hinge.height*sind(p.tent_angle)
+            )
         )
-        sketch = outer_sketch - bd.offset(
-            objects=outer_sketch,
-            amount=-p.Base.wall_thickness
+        sweep_sections = [
+            (
+                bd.Pos(Z=-p.Hinge.height)
+                * bd.Rot(-90, 90, 0)
+                * sweep_section1
+            ),
+            (
+                bd.Pos(sweep_paths[1] @ 0)
+                * bd.Pos(
+                    p.height - foot_position_x,
+                    0,
+                    p.Hinge.height*sind(p.tent_angle) - p.Base.height
+                )
+                * bd.Rot(-90, 180, 0)
+                * sweep_section2
+            ),
+            (
+                bd.Pos(sweep_paths[1] @ 1)
+                * bd.Pos(
+                    p.height - foot_position_x,
+                    0,
+                    p.Hinge.height*sind(p.tent_angle) - p.Base.height
+                )
+                * bd.Rot(-90, 180, 0)
+                * sweep_section2
+            ),
+            (
+                bd.Pos(0, p.Base.depth, -p.Hinge.height)
+                * bd.Rot(-90, -90, 0)
+                * sweep_section1
+            )
+        ]
+        sweep = bd.sweep(
+            sections=sweep_sections,
+            path=sweep_paths,
+            multisection=True
         )
-        base = bd.extrude(
-            to_extrude=sketch,
-            amount=p.Plates.depth
+        splitter = bd.Shell(
+            sweep.faces()
+            .filter_by(lambda f: f.normal_at().X > 0)
+            .sort_by(bd.SortBy.AREA)[-3:]
+        )
+        bottom = bd.split(
+            objects=bottom,
+            bisect_by=splitter,
+            keep=bd.Keep.TOP
+        )
+        top = bd.split(
+            objects=top,
+            bisect_by=splitter,
+            keep=bd.Keep.TOP
         )
         # Add bosses to hold the hinges.
         hinge_locations = [
             bd.Pos(Y=(
                 i*p.Plates.depth
                 + (1 - 2*i)*(2*p.Frame.lip_depth + p.Hinge.width/2)
+                + p.Hinge.offsets[i]
             ))
-            for i in range(2)
+            for i in range(len(p.Hinge.offsets))
         ]
         base += hinge_locations * bd.Box(
             length=p.Hinge.thickness + p.Insert.hole_depth,
@@ -100,26 +197,6 @@ class Base(Component):
         base -= trackball_location * bd.Sphere(
             radius=p.Trackball.diameter/2 + p.Trackball.clearance
         )
-        end_locations = [
-            bd.Location(
-                position=(0, i*p.Base.depth, -p.Hinge.height),
-                orientation=(
-                    180*i,
-                    (1 - 2*i)*(90 - p.tent_angle),
-                    -90
-                )
-            )
-            for i in range(2)
-        ]
-        end_sketch = bd.Sketch(
-            end_locations
-            * layout.frame_section(self.parameters)
-        )
-        base += bd.extrude(
-            to_extrude=end_sketch,
-            amount=BIG,
-            both=True
-        )
         opening_sketch = (
             bd.Pos(
                 foot_position_x/2,
@@ -137,24 +214,7 @@ class Base(Component):
             amount=p.Base.height - p.Hinge.height + p.Base.wall_thickness
         )
         # Trim off everything extending outside the proper bounding volume.
-        base &= bd.extrude(
-            to_extrude=outer_sketch,
-            amount=BIG,
-            both=True
-        )
-        base = bd.fillet(
-            objects=base.edges().group_by(bd.Axis.X)[0].sort_by(bd.Axis.Z)[0],
-            radius=p.Frame.fillet_radius
-        )
-        fillet_edges = [
-            base.faces().sort_by(bd.Axis.X)[2].edges().sort_by(bd.Axis.Y)[i]
-            for i in [0, -1]
-        ]
-        # print(base.max_fillet(edge_list=fillet_edges, max_iterations=100))
-        base = bd.fillet(
-            objects=fillet_edges,
-            radius=0.9
-        )
+        # base &=
         return base
 
 
