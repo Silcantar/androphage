@@ -76,27 +76,29 @@ def set_derived_parameters(p: Parameters) -> Parameters:
         sensor_cutout=CutoutType.NONE
     )
     p.Plates.depth = plate_outline.edges().sort_by(bd.Axis.X)[-1].length
-    frame_bottom_width = (
+    p.Frame.width = (
         frame_section(parameters=p)
         .edges()
         .sort_by(bd.Axis.Z)[0]
         .length
     )
-    p.Base.width = p.height*2
     p.Base.height = sind(p.tent_angle) * (
         plate_outline.length
-        + frame_bottom_width
+        + p.Frame.width
     )
     p.Base.depth = p.Plates.depth
-    p.Base.offset = 0 # 2*p.Frame.lip_depth
-    p.Base.angled_height = (
-        p.Base.width*tand(p.tent_angle)/2
-        - p.Base.foot_width*tand(p.tent_angle)
+    # Width of the base exclusive of the width of frame_section.
+    p.Base.width = (
+        (p.Base.height - p.Hinge.height)/tand(p.tent_angle)
+        # + p.Base.foot_width
     )
-    p.Base.vertical_height = p.Base.height - p.Base.angled_height
-    # p.Hinge.diameter = p.Hinge.pin_diameter + 2*p.Hinge.leaf_thickness
+    # p.Base.offset = 0 # 2*p.Frame.lip_depth
+    # p.Base.angled_height = (
+    #     p.Base.width*tand(p.tent_angle)/2
+    #     - p.Base.foot_width*tand(p.tent_angle)
+    # )
+    # p.Base.vertical_height = p.Base.height - p.Base.angled_height
     p.Hinge.width = p.Hinge.plate_count * p.Hinge.plate_thickness
-    # p.Hinge.length = p.Hinge.knuckle_length * p.Hinge.knuckle_count
     return p
 
 def build_column_locations(

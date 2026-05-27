@@ -17,133 +17,42 @@ class Base(Component):
     ):
         self.parameters = parameters
         try:
-            color
+            self.color = color
         except NameError:
-            color = seq_to_color(self.parameters.Base.color)
-        super().__init__(label=label, color=color, **kwargs)
+            self.color = seq_to_color(self.parameters.Base.color)
+        super().__init__(label=label, color=None, **kwargs)
 
     def _build(self) -> bd.Part:
         p = self.parameters
         # Build main body.
-        foot_position_x = (p.Base.height - p.Hinge.height)/sind(p.tent_angle)
-        top_sketch = bd.Plane.YZ * bd.Rectangle(
-            width=p.Base.depth,
-            height=p.Base.wall_thickness*cosd(p.tent_angle),
-            align=Align.LeftBack
-        )
-        bottom_sketch = (
-            bd.Plane.YZ
-            * bd.Pos(Y=-p.Hinge.height)
-            * bd.Rectangle(
-                width=p.Base.depth,
-                height=p.Base.wall_thickness*cosd(p.tent_angle),
-                align=Align.LeftFront
+        # Outer wall
+        section = (
+            # bd.Pos(Z=p.height)
+            bd.Rot(90, 90, 180)
+            * layout.frame_section(
+                self.parameters,
+                do_lips=False,
+                fillet=False
             )
         )
-        top = bd.extrude(
+        base = bd.sweep(
+            sections=section,
+            path=self._sweep_paths(),
+        )
+        # Top wall
+        top_sketch = bd.make_hull(base.faces().sort_by(bd.Axis.Z)[-1].edges())
+        base += bd.extrude(
             to_extrude=top_sketch,
-            dir=(-cosd(p.tent_angle), 0, -sind(p.tent_angle)),
-            amount=BIG
+            amount=-p.Base.wall_thickness,
+            taper=20
         )
-        bottom = bd.extrude(
-            to_extrude=bottom_sketch,
-            dir=(-cosd(p.tent_angle), 0, -sind(p.tent_angle)),
-            amount=BIG
-        )
-        # Build sweep path.
-        sweep_plane = bd.Plane.XY * bd.Rot(Y=-p.tent_angle)
-        sweep_paths = [
-            sweep_plane * bd.EllipticalCenterArc(
-                center=(0, p.Trackball.position_y - p.Base.foot_length/2, 0),
-                x_radius=p.Hinge.height,
-                y_radius=p.Trackball.position_y - p.Base.foot_length/2,
-                start_angle=180,
-                arc_size=90
-            ),
-            sweep_plane * bd.Line(
-                (-p.Hinge.height, p.Trackball.position_y - p.Base.foot_length/2),
-                (-p.Hinge.height, p.Trackball.position_y + p.Base.foot_length/2)
-            ),
-            sweep_plane * bd.EllipticalCenterArc(
-                center=(0, p.Trackball.position_y + p.Base.foot_length/2, 0),
-                x_radius=p.Hinge.height,
-                y_radius=(
-                    p.Base.depth
-                    - p.Trackball.position_y
-                    - p.Base.foot_length/2
-                ),
-                start_angle=180,
-                arc_size=-90
-            )
-        ]
-        sweep_section1 = layout.frame_section(
-            self.parameters,
-            do_lips=False,
-            height=p.Hinge.height
-        )
-        sweep_section2 = layout.frame_section(
-            self.parameters,
-            do_lips=False,
-            height=p.Base.height - p.Hinge.height*sind(p.tent_angle),
-            shear_x=(
-                foot_position_x
-                - p.height
-            )/(
-                p.Base.height
-                - p.Hinge.height*sind(p.tent_angle)
-            )
-        )
-        sweep_sections = [
-            (
-                bd.Pos(Z=-p.Hinge.height)
-                * bd.Rot(-90, 90, 0)
-                * sweep_section1
-            ),
-            (
-                bd.Pos(sweep_paths[1] @ 0)
-                * bd.Pos(
-                    p.height - foot_position_x,
-                    0,
-                    p.Hinge.height*sind(p.tent_angle) - p.Base.height
-                )
-                * bd.Rot(-90, 180, 0)
-                * sweep_section2
-            ),
-            (
-                bd.Pos(sweep_paths[1] @ 1)
-                * bd.Pos(
-                    p.height - foot_position_x,
-                    0,
-                    p.Hinge.height*sind(p.tent_angle) - p.Base.height
-                )
-                * bd.Rot(-90, 180, 0)
-                * sweep_section2
-            ),
-            (
-                bd.Pos(0, p.Base.depth, -p.Hinge.height)
-                * bd.Rot(-90, -90, 0)
-                * sweep_section1
-            )
-        ]
-        sweep = bd.sweep(
-            sections=sweep_sections,
-            path=sweep_paths,
-            multisection=True
-        )
-        splitter = bd.Shell(
-            sweep.faces()
-            .filter_by(lambda f: f.normal_at().X > 0)
-            .sort_by(bd.SortBy.AREA)[-3:]
-        )
-        bottom = bd.split(
-            objects=bottom,
-            bisect_by=splitter,
-            keep=bd.Keep.TOP
-        )
-        top = bd.split(
-            objects=top,
-            bisect_by=splitter,
-            keep=bd.Keep.TOP
+        base = bd.Pos(Z=-p.Hinge.height) * bd.Rot(Y=-p.tent_angle) * base
+        # Inner wall
+        base += bd.Box(
+            length=p.Base.wall_thickness,
+            width=p.Base.depth,
+            height=BIG,
+            align=Align.RightFrontTop
         )
         # Add bosses to hold the hinges.
         hinge_locations = [
@@ -197,25 +106,117 @@ class Base(Component):
         base -= trackball_location * bd.Sphere(
             radius=p.Trackball.diameter/2 + p.Trackball.clearance
         )
-        opening_sketch = (
-            bd.Pos(
-                foot_position_x/2,
-                (p.Trackball.position_y - p.Trackball.diameter/2)/2,
-                -p.Base.height
-            )
-            * bd.RectangleRounded(
-                width=15,
-                height=45,
-                radius=7.5-EPS
-            )
-        )
-        base -= bd.extrude(
-            to_extrude=opening_sketch,
-            amount=p.Base.height - p.Hinge.height + p.Base.wall_thickness
-        )
         # Trim off everything extending outside the proper bounding volume.
-        # base &=
-        return base
+        trim_sketch = bd.Polygon(
+            (0, 0, 0),
+            (0, 0, -p.Hinge.height),
+            (-p.Base.width, 0, -p.Base.height),
+            (-p.Base.width - 10, 0, -p.Base.height),
+            # (-BIG, 0, -BIG*sind(p.tent_angle)),
+            BIG*bd.Vector(
+                -cosd(p.tent_angle),
+                0,
+                -sind(p.tent_angle)
+            ),
+        )
+        base &= bd.extrude(
+            to_extrude=trim_sketch,
+            amount=BIG,
+            both=True
+        )
+        # Fillet outside edges.
+        base = bd.fillet(
+            objects=(
+                base.faces()
+                .sort_by(bd.Axis.Z)[0]
+                .edges()
+                .sort_by(bd.SortBy.LENGTH)[-1]
+            ),
+            radius=p.Frame.fillet_radius
+        )
+        fillet_edges = (
+            base.faces()
+            .sort_by(bd.Axis.X)[0]
+            .edges()
+            .filter_by(bd.Axis.Y)
+        )
+        base = bd.fillet(
+            objects=fillet_edges,
+            radius=p.Frame.fillet_radius
+        )
+        # Subtract cutout for decorative eye.
+        eye_location = bd.Location(
+            position=(
+                bd.Vector(
+                    -p.Base.width,
+                    p.Trackball.position_y,
+                    -p.Base.height
+                )
+                + bd.Vector(p.Eye.position)
+            ),
+            orientation=(0, -90 - p.tent_angle, 0)
+        )
+        base -= eye_location * bd.Cylinder(
+            radius=p.Eye.size[0]/2,
+            height=BIG,
+            align=Align.Bottom
+        )
+        base.label = "Base"
+        base.color = self.color
+        # Add eye.
+        from components.eye import Eye
+        eye = eye_location * Eye(self.parameters)
+        return bd.Part(children=[base, eye])
+
+    def _sweep_paths(self) -> list[bd.Edge]:
+        p = self.parameters
+        hinge_boss_thickness = (p.Hinge.thickness + p.Insert.hole_depth)/cosd(p.tent_angle)
+        return [
+            bd.Line(
+                (hinge_boss_thickness, 0, 0),
+                (0, 0, 0)
+            ),
+            bd.EllipticalCenterArc(
+                center=(
+                    0,
+                    p.Trackball.position_y - p.Base.foot_length/2,
+                    0
+                ),
+                x_radius=p.Base.width,
+                y_radius=p.Trackball.position_y - p.Base.foot_length/2,
+                start_angle=-90,
+                arc_size=-90
+            ),
+            bd.Line(
+                (
+                    -p.Base.width,
+                    p.Trackball.position_y - p.Base.foot_length/2
+                ),
+                (
+                    -p.Base.width,
+                    p.Trackball.position_y + p.Base.foot_length/2
+                )
+            ),
+            bd.EllipticalCenterArc(
+                center=(
+                    0,
+                    p.Trackball.position_y + p.Base.foot_length/2,
+                    0
+                ),
+                x_radius=p.Base.width,
+                y_radius=(
+                    p.Base.depth
+                    - p.Trackball.position_y
+                    - p.Base.foot_length/2
+                ),
+                start_angle=180,
+                arc_size=-90
+            ),
+            bd.Line(
+                (0, p.Base.depth, 0),
+                (hinge_boss_thickness, p.Base.depth)
+            )
+        ]
 
 
 if __name__ == "__main__":

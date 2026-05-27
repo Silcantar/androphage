@@ -2,7 +2,7 @@ import typing
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
 from enum import Enum, StrEnum, auto
-from math import cos, sin, tan, radians
+from math import cos, sin, tan, acos, asin, atan, radians, degrees
 import copy as copy_module
 
 import build123d as bd
@@ -20,6 +20,15 @@ def sind(angle: float) -> float:
 
 def tand(angle: float) -> float:
     return tan(radians(angle))
+
+def acosd(x: float) -> float:
+    return degrees(acos(x))
+
+def asind(x: float) -> float:
+    return degrees(asin(x))
+
+def atand(x: float) -> float:
+    return degrees(atan(x))
 
 # Utility Functions
 def seq_to_color(color_seq: Sequence = []) -> bd.Color:

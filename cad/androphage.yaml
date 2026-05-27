@@ -151,7 +151,6 @@ Screws:
 Base:
   visible: true
   color: *black
-  cutout_size: []
   foot_width: 2
   foot_length: 10
   opening_clearance: 1
@@ -173,6 +172,12 @@ Desk:
   color: *clear
   size: [ 300, 200, 1 ]
   position: [ 0, 0, -40 ]
+Eye:
+  visible: true
+  color: *brass
+  pupil_size: [30, 8]
+  position: [-0.7, -5, 0]
+  size: [35, 2]
 Frame:
   visible: true
   color: *black

@@ -65,7 +65,6 @@ class BTU(Component):
 class CenterBlock(Component):
     btu_angles: vector[3]
     rib_size: vector[2]
-    # screw_count: int
     screw_offsets: list[vector[2]]
     wall_thickness: float
 
@@ -73,6 +72,12 @@ class CenterBlock(Component):
 class Desk(Component):
     size: vector[3]
     position: vector[3]
+
+@dataclass
+class Eye(Component):
+    pupil_size: vector[2]
+    position: vector[3]
+    size: vector[2]
 
 @dataclass
 class Frame(Component):
@@ -284,9 +289,10 @@ class Parameters(YAMLWizard):
     Base: Base
     Battery: Battery
     BTU: BTU
-    Frame: Frame
     CenterBlock: CenterBlock
     Desk: Desk
+    Eye: Eye
+    Frame: Frame
     Hinge: Hinge
     Insert: Insert
     Keycap: Keycap
