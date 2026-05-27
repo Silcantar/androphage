@@ -6,7 +6,7 @@ from common import *
 import layout
 from parameters import Parameters
 from components.fasteners import screw_boss_vertical
-import bd_keyboard.src.connectors.usb_c as usb_c #import USB_C_Port
+import bd_keyboard.src.connectors.usb_c as usb_c
 
 class Frame(Component):
     """"""
@@ -52,7 +52,6 @@ class Frame(Component):
             .edges()
             .sort_by(bd.SortBy.LENGTH)[-2]
         )
-        # fillet_edge = frame.edges(bd.Select.NEW).sort_by(bd.SortBy.LENGTH)[-2]
         frame = bd.fillet(
             objects=fillet_edge,
             radius=p.Frame.fillet_radius
@@ -100,7 +99,6 @@ class Frame(Component):
                 )
                 * bd.Pos(
                     0,
-                    # -p.Frame.thickness,
                     p.Plates.PCB.edge - p.Plates.Top.edge,
                     p.Plates.PCB.position_z + p.Plates.PCB.thickness
                 )
