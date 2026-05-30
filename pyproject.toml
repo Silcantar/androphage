@@ -7,6 +7,12 @@ authors = [
 description = "A small example package"
 readme = "README.md"
 requires-python = ">=3.12"
+dependencies = [
+  "bd_warehouse",
+  "build123d>=0.10.0",
+  "dataclass_wizard",
+  "ocp_vscode"
+]
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
