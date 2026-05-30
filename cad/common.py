@@ -198,10 +198,15 @@ class Component(bd.BasePartObject):
         color: bd.ColorLike = "CornflowerBlue",
         label: str = None,
         locate: bool = True,
+        mirror: bool = False,
+        about: bd.Plane = bd.Plane.YZ,
         **kwargs
     ):
         if build:
-            part = self._build()
+            if mirror:
+                part = bd.mirror(self._build(), about=about)
+            else:
+                part = self._build()
             super().__init__(
                 part=part,
                 **kwargs
