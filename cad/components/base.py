@@ -142,7 +142,7 @@ class Base(Component):
         )
         base = bd.fillet(
             objects=fillet_edges,
-            radius=p.Frame.fillet_radius
+            radius=p.Frame.fillet_radius - 0.01
         )
         # Subtract cutout for decorative eye.
         eye_location = bd.Location(

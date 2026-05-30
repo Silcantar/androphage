@@ -48,7 +48,7 @@ class Frame(Component):
         frame -= self._notch_cutter()
         fillet_edge = (
             frame.faces()
-            .filter_by(lambda f: f.center().Z == -p.Frame.notch_depth)
+            .filter_by(lambda f: approx_equal(f.center().Z, -p.Frame.notch_depth))
             .edges()
             .sort_by(bd.SortBy.LENGTH)[-2]
         )

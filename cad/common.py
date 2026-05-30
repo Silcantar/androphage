@@ -30,6 +30,13 @@ def asind(x: float) -> float:
 def atand(x: float) -> float:
     return degrees(atan(x))
 
+def approx_equal(
+    value1: float,
+    value2: float,
+    tolerance: float = EPS
+    ) -> bool:
+    return abs(value2 - value1) <= tolerance
+
 # Utility Functions
 def seq_to_color(color_seq: Sequence = []) -> bd.Color:
     if color_seq is None:
