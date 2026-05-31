@@ -88,7 +88,7 @@ class Androphage(bd.BasePartObject):
         # Trackball
         print("Building Trackball.")
         trackball = (
-            bd.Pos(Y=p.Trackball.position_y) 
+            bd.Pos(Y=p.Trackball.position_y)
             * bd.Sphere(
                 radius=p.Trackball.diameter/2
             )
@@ -98,31 +98,28 @@ class Androphage(bd.BasePartObject):
         # Base
         print("Building Base.")
         from components.base import Base
-        base_location = bd.Pos(Z=-p.Hinge.height)
-        base_left = base_location * Base(self.parameters, label="Left Base")
-        base_right = bd.mirror(objects=base_left, about=bd.Plane.YZ)
-        base_right.label = "Right Base"
-        base_right.color = seq_to_color(p.Base.color)
+        left_base = self._build_base(half=Half.LEFT)
+        right_base = self._build_base(half=Half.RIGHT)
+        # base_location = bd.Pos(Z=-p.Hinge.height)
+        # base_left = base_location * Base(self.parameters, label="Left Base")
+        # base_right = bd.mirror(objects=base_left, about=bd.Plane.YZ)
+        # base_right.label = "Right Base"
+        # base_right.color = seq_to_color(p.Base.color)
         return bd.Part(
             label="Androphage",
             children=[
                 left_half,
                 right_half,
-                base_left,
-                base_right,
+                left_base,
+                right_base,
                 # hinges,
                 trackball
             ]
         )
 
     def _build_base(self, half: Half.LEFT) -> bd.Part:
-        if half == Half.RIGHT:
-            mirror = True
-            label = "Right"
-        else:
-            mirror = False
-            label = "Left"
-        print(f"Building {label} Base.")
+        mirror = (half == Half.RIGHT)
+        print(f"    Building {half.capitalize()} Base.")
         p = self.parameters
         component_list: list[bd.Part] = []
         from components.base import Base
@@ -132,20 +129,17 @@ class Androphage(bd.BasePartObject):
             * Base(
                 self.parameters,
                 mirror=mirror,
-                label=f"{label} Base"
+                label=f"{half.capitalize()} Base"
             )
         )
         component_list.append(base)
-        return bd.Part(children=component_list)
+        assembly = bd.Part(children=component_list)
+        assembly.label = f"{half.capitalize()} Base"
+        return assembly
 
     def _build_half(self, half: Half = Half.LEFT) -> bd.Part:
-        if half == Half.RIGHT:
-            mirror = True
-            label = "Right"
-        else:
-            mirror = False
-            label = "Left"
-        print(f"Building {label} Half.")
+        mirror = (half == Half.RIGHT)
+        print(f"Building {half.capitalize()} Half.")
         p = self.parameters
         component_list: list[bd.Part] = []
         # Top Plate
@@ -222,10 +216,14 @@ class Androphage(bd.BasePartObject):
         print("    Building Trackball Sensor.")
         from components.trackball_sensor import TrackballSensor
         trackball_location = bd.Pos(Y=p.Trackball.position_y)
-        trackball_sensor = TrackballSensor(parameters=self.parameters).move(
+        trackball_sensor = (
             trackball_location
             * bd.Rot(Y=180 + p.TrackballSensor.angle)
             * bd.Pos(Z=p.Trackball.diameter/2)
+            * TrackballSensor(
+                parameters=self.parameters,
+                mirror=mirror
+            )
         )
         component_list.append(trackball_sensor)
         # BTUs
@@ -255,24 +253,29 @@ class Androphage(bd.BasePartObject):
         # Frame
         print("    Building Frame.")
         from components.frame import Frame
-        frame = Frame(parameters=self.parameters, usb_cutout=False)
+        frame = Frame(
+            parameters=self.parameters,
+            usb_cutout=(half==Half.RIGHT),
+            mirror=mirror
+        )
         component_list.append(frame)
         # USB-C Port
-        print("    Building USB-C Port.")
-        from bd_keyboard.src.connectors.usb_c import USB_C_Port
-        usb_c_port = (
-            layout.usb_c_port_location(
-                self.parameters,
-                outline=(
-                    # Select the top face of the PCB.
-                    pcb.faces()
-                    .group_by(bd.SortBy.AREA)[-1]
-                    .sort_by(bd.Axis.Z)[-1]
+        if half == Half.RIGHT:
+            print("    Building USB-C Port.")
+            from bd_keyboard.src.connectors.usb_c import USB_C_Port
+            usb_c_port = (
+                layout.usb_c_port_location(
+                    self.parameters,
+                    outline=(
+                        # Select the top face of the PCB.
+                        pcb.faces()
+                        .group_by(bd.SortBy.AREA)[-1]
+                        .sort_by(bd.Axis.Z)[-1]
+                    )
                 )
+                * USB_C_Port()
             )
-            * USB_C_Port()
-        )
-        component_list.append(usb_c_port)
+            component_list.append(usb_c_port)
         # Battery
         from components.battery import Battery
         # Key Switches
@@ -295,7 +298,10 @@ class Androphage(bd.BasePartObject):
         print("    Building Screws.")
         # Screws
         # from bd_warehouse.fastener import CounterSunkScrew, HeatSetNut, HexNut
-        return bd.Part(children=component_list)
+        assembly = bd.Part(children=component_list)
+        assembly.label = f"{half.capitalize()} Half"
+        return assembly
+
 
 
 
