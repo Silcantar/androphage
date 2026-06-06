@@ -258,10 +258,13 @@ class Androphage(bd.BasePartObject):
 
 if __name__ == "__main__":
     from ocp_vscode import show
-    count = 6
+    count = 1
     spacing = 150
     max_angle = 100
-    angle_step = max_angle / (count-1)
+    try:
+        angle_step = max_angle / (count-1)
+    except ZeroDivisionError:
+        angle_step = 0
     androphage = [
         (
             bd.Pos(Y=i*spacing - count*spacing/2) 
