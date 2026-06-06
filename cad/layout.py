@@ -522,17 +522,24 @@ def screw_locations(
 
 def usb_c_port_location(
     p: Parameters,
-    outline: bd.Sketch
+    outline: bd.Sketch,
+    mirror: bool = False
 ) -> bd.Location:
     return (
         bd.Location(
             outline.vertices()
-            .group_by(bd.Axis.X)[-1]
+            .group_by(bd.Axis.X)[0 if mirror else -1]
             .sort_by(bd.Axis.Y)[-1]
             .center()
         )
         * bd.Rot(outline.orientation)
-        * bd.Pos(p.USBPort.position)
+        * bd.Pos([
+            component * direction 
+            for (component, direction) in zip(
+                p.USBPort.position, 
+                ((-1 if mirror else 1), 1, 1)
+                )
+            ])
     )
 
 

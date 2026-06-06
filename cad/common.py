@@ -80,7 +80,7 @@ def mirror_preserve(
     mode: bd.Mode = bd.Mode.ADD,
 ) -> list[bd.MirrorType]:
     """Wrapper for build123d.mirror that preserves object metadata."""
-    mirrored: list[bd.MirrorType] = []
+    mirrored_objects: list[bd.MirrorType] = []
     for obj in objects:
         if len(obj.children) > 0:
             metadata = (obj.label, obj.color)
@@ -93,17 +93,17 @@ def mirror_preserve(
                 )
             )
             (mirrored_obj.label, mirrored_obj.color) = metadata
-            if mirrored_obj.label == "Trackball Sensor":
-                # Bodge the trackball sensor location.
-                mirrored_obj.location = location.mirror(bd.Plane.YZ) * bd.Rot(Z=180)
-            else:
-                mirrored_obj.location = location
+            # if mirrored_obj.label == "Trackball Sensor":
+            #     # Bodge the trackball sensor location.
+            #     mirrored_obj.location = location.mirror(bd.Plane.YZ) * bd.Rot(Z=180)
+            # else:
+            mirrored_obj.location = location
         else:
             metadata = (obj.label, obj.color)
             mirrored_obj = bd.mirror(obj, about=about, mode=mode)
             (mirrored_obj.label, mirrored_obj.color) = metadata
-        mirrored.append(mirrored_obj)
-    return mirrored
+        mirrored_objects.append(mirrored_obj)
+    return bd.Part(children=mirrored_objects)
 
 
 # Datatype Definitions
@@ -197,14 +197,13 @@ class Component(bd.BasePartObject):
         build: bool = True,
         color: bd.ColorLike = "CornflowerBlue",
         label: str = None,
-        locate: bool = True,
         mirror: bool = False,
         about: bd.Plane = bd.Plane.YZ,
         **kwargs
     ):
         if build:
             if mirror:
-                part = bd.mirror(self._build(), about=about)
+                part = self._build_mirrored()
             else:
                 part = self._build()
             super().__init__(
@@ -213,8 +212,6 @@ class Component(bd.BasePartObject):
             )
         else:
             part = None
-        if locate:
-            self._locate()
         if label is not None:
             self.label = label
         if color is not None:
@@ -223,8 +220,21 @@ class Component(bd.BasePartObject):
     def _build(self) -> bd.Part:
         raise NotImplementedError()
 
-    def _locate(self):
-        pass
+    def _build_mirrored(self, about: bd.Plane = bd.Plane.YZ) -> bd.Part:
+        part = self._build()
+        if len(part.children) > 0:
+            children: list[bd.Part] = []
+            for child in part.children:
+                metadata = (child.color, child.label)
+                child_mirrored = bd.mirror(child, about=about)
+                (child_mirrored.color, child_mirrored.label) = metadata
+                children.append(child_mirrored)
+            return bd.Part(children=children)
+        else:
+            metadata = (part.color, part.label)
+            part_mirrored = bd.mirror(part, about=about)
+            (part_mirrored.color, part_mirrored.label) = metadata
+            return part_mirrored
 
 
 class KeyLocation(bd.Location):

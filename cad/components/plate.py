@@ -113,27 +113,16 @@ class Plate(Component):
                     objects=fillet_edges,
                     radius=p.Frame.fillet_radius
                 )
-        return plate
-
-    def _locate(self):
-        p = self.parameters
-        self.orientation += (0, -p.tent_angle, 0)
-        # Align the front center corner to the origin.
-        self.position -= (
-            self.vertices()
-            .group_by(bd.Axis.X)[-1].vertices()
-            .group_by(bd.Axis.Y)[0].vertices()
-            .sort_by(bd.Axis.Z)[0].center()
-        )
-        if not self.plate_params.add_center:
-            self.position += (
-                (self.plate_params.center_width + p.center_width)
-                * bd.Vector(
-                    -cosd(p.tent_angle),
-                    0,
-                    -sind(p.tent_angle)
-                ) + (0, -sind(self.parameters.tent_angle), 0)
-            )
+        locating_outline = (
+            self.outline if self.plate_type == PlateType.TOP 
+            else self.generic_plate_outline)
+        front_center_location = bd.Pos(
+            -locating_outline.edges()
+            .sort_by(bd.Axis.X)[-1]
+            .vertices()
+            .sort_by(bd.Axis.Y)[0]
+            .center())
+        return front_center_location * plate
 
     def _hinge_cutouts(self, part: bd.Part) -> bd.Part:
         p = self.parameters
@@ -306,12 +295,13 @@ if __name__ == "__main__":
     }
     plates: list[bd.Part] = []
     for plate_type in PlateType:
-        plate = Plate(
+        plate = bd.Pos(0, 0, zpos[plate_type]) * Plate(
             p,
             plate_type=plate_type,
             draft_center=(plate_type == PlateType.TOP),
-            locate=False
-        ).move(bd.Pos(0, 0, zpos[plate_type]))
+            # locate=False,
+            mirror=False
+        )
         plates.append(plate)
         exporter = bd.ExportDXF()
         exporter.add_shape(

@@ -6,7 +6,6 @@ from common import *
 import layout
 from parameters import Parameters
 from components.fasteners import screw_boss_vertical
-import bd_keyboard.src.connectors.usb_c as usb_c
 
 class Frame(Component):
     """"""
@@ -20,7 +19,7 @@ class Frame(Component):
     ):
         self.parameters = parameters
         self.usb_cutout = usb_cutout
-        self.outline = layout.build_plate_outline(
+        outline = layout.build_plate_outline(
             self.parameters,
             edge=self.parameters.Plates.Top.edge,
             center_width=(
@@ -29,6 +28,14 @@ class Frame(Component):
             ),
             fillet_radius=self.parameters.Plates.Top.radius_outer
         )
+        front_center_location = bd.Pos(
+            -outline.edges()
+            .sort_by(bd.Axis.X)[-1]
+            .vertices()
+            .sort_by(bd.Axis.Y)[0]
+            .center()
+            )
+        self.outline = front_center_location * outline
         try:
             color
         except NameError:
@@ -89,35 +96,24 @@ class Frame(Component):
             rotation=(0, p.tent_angle, 0)
         )
         if self.usb_cutout:
+            from bd_keyboard.src.connectors.usb_c import USB_C_Port
             usb_face = bd.Face(bd.Wire(
                 self.outline.edges().sort_by(bd.Axis.X)[:-3]
             ).close())
             frame -= (
                 layout.usb_c_port_location(
                     self.parameters,
-                    outline=usb_face
+                    outline=usb_face,
+                    mirror=False
                 )
                 * bd.Pos(
                     0,
                     p.Plates.PCB.edge - p.Plates.Top.edge,
                     p.Plates.PCB.position_z + p.Plates.PCB.thickness
                 )
-                * usb_c.USB_C_Port(mode=bd.Mode.SUBTRACT)
+                * USB_C_Port(mode=bd.Mode.SUBTRACT)
             )
         return frame
-
-    def _locate(self):
-        p = self.parameters
-        # Move the part so that the center wall is vertical and the hinge
-        # pivot is along the Y axis.
-        self.orientation += (0, -p.tent_angle, 0)
-        self.position -= (
-            self.faces()
-            .group_by(bd.Axis.X)[-1].faces()
-            .sort_by(bd.Axis.Y)[0].vertices()
-            .group_by(bd.Axis.Z)[-1].vertices()
-            .sort_by(bd.Axis.Y)[-1].center()
-        )
 
     def _notch_cutter(self) -> bd.Part:
         p = self.parameters
@@ -162,7 +158,9 @@ class Frame(Component):
 
 if __name__ == "__main__":
     from ocp_vscode import show
-    from androphage import Androphage
-    androphage = Androphage(build=False)
-    frame = Frame(androphage.parameters, locate=False)
+    import layout, parameters
+    p = layout.set_derived_parameters(
+        parameters.load_parameters("cad/androphage.yaml")
+    )
+    frame = Frame(p)
     show(frame)

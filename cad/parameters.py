@@ -270,6 +270,7 @@ class TrackballSensor(Component):
 class USBPort(Component):
     cut_size: vector[3]
     cut_radius: float
+    right_half: bool
     inside_depth: float
     position: vector[3]
     radius: float

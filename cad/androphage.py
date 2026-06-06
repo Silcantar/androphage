@@ -32,59 +32,9 @@ class Androphage(bd.BasePartObject):
 
     def _build(self) -> bd.Part:
         p = self.parameters
+        print(f"Building Androphage at {self.angle}°.")
         left_half = self._build_half(half=Half.LEFT)
         right_half = self._build_half(half=Half.RIGHT)
-        # left_half = bd.Part(
-        #     label="Left Half",
-        #     children=component_list
-        # ).rotate(angle=self.angle, axis=bd.Axis.Y)
-        # print("Building Right Half.")
-        # right_half = bd.Part(
-        #     label="Right Half",
-        #     children=mirror_preserve(component_list, about=bd.Plane.YZ)
-        # ).rotate(angle=-self.angle, axis=bd.Axis.Y)
-        # Hinge
-        # print("Building Hinges.")
-        # from components.knife_hinge import KnifeHinge
-        # hinge_locations = [
-        #     bd.Pos(
-        #         (
-        #             top_plate.edges()
-        #             .group_by(bd.Axis.X)[-1]
-        #             .group_by(bd.Axis.Z)[-1]
-        #             .sort_by(bd.Axis.Y)[i]
-        #             .vertices()
-        #             .sort_by(bd.Axis.Y)[i]
-        #             .center()
-        #         )
-        #         + bd.Vector(
-        #             0,
-        #             (1 + 2*i)*(p.Hinge.width/2 + 2*p.Frame.lip_depth),
-        #             0
-        #         )
-        #     )
-        #     for i in [0, -1]
-        # ]
-        # hinge_list: list[bd.Part] = []
-        # orientations = (
-        #     (1, 0, -1, 0),
-        #     (0, 0, 1, -1),
-        #     (0, 0, -1, 1),
-        #     (-1, 0, 1, 0)
-        # )
-        # for i in range(len(hinge_locations)):
-        #     for j in range(4):
-        #         hinge_list.append(
-        #             hinge_locations[i]
-        #             * bd.Pos(Z=(-p.Hinge.height if (j > 1) else 0))
-        #             * KnifeHinge(
-        #                 parameters=self.parameters,
-        #                 knuckle_orientations=orientations[j],
-        #                 rotation=(90, 180*j + 180*i, 0)
-        #             )
-        #         )
-        # hinges = bd.Part(children=hinge_list)
-        # hinges.label = "Hinges"
         # Trackball
         print("Building Trackball.")
         trackball = (
@@ -100,11 +50,6 @@ class Androphage(bd.BasePartObject):
         from components.base import Base
         left_base = self._build_base(half=Half.LEFT)
         right_base = self._build_base(half=Half.RIGHT)
-        # base_location = bd.Pos(Z=-p.Hinge.height)
-        # base_left = base_location * Base(self.parameters, label="Left Base")
-        # base_right = bd.mirror(objects=base_left, about=bd.Plane.YZ)
-        # base_right.label = "Right Base"
-        # base_right.color = seq_to_color(p.Base.color)
         return bd.Part(
             label="Androphage",
             children=[
@@ -118,80 +63,94 @@ class Androphage(bd.BasePartObject):
         )
 
     def _build_base(self, half: Half.LEFT) -> bd.Part:
-        mirror = (half == Half.RIGHT)
-        print(f"    Building {half.capitalize()} Base.")
         p = self.parameters
+        mirror = (half == Half.RIGHT)
+        direction = (1 if mirror else -1)
+        angle = self.angle * direction
+        angle_limited = min(self.angle, 90 - p.tent_angle) * direction
+        print(f"    Building {half.capitalize()} Base.")
         component_list: list[bd.Part] = []
         from components.base import Base
-        base_location = bd.Pos(Z=-p.Hinge.height)
-        base = (
-            base_location
-            * Base(
-                self.parameters,
-                mirror=mirror,
-                label=f"{half.capitalize()} Base"
+        base = Base(
+            self.parameters,
+            mirror=mirror,
+            label=f"{half.capitalize()} Base"
             )
-        )
         component_list.append(base)
         assembly = bd.Part(children=component_list)
         assembly.label = f"{half.capitalize()} Base"
-        return assembly
+        base_location = bd.Pos(
+            p.Hinge.height*sind(angle_limited), 
+            0, 
+            -p.Hinge.height*cosd(angle)
+            )
+        rotation = bd.Rot(Y=angle_limited)
+        return base_location * rotation * assembly
 
     def _build_half(self, half: Half = Half.LEFT) -> bd.Part:
-        mirror = (half == Half.RIGHT)
-        print(f"Building {half.capitalize()} Half.")
         p = self.parameters
+        mirror = (half == Half.RIGHT)
+        tent_angle = p.tent_angle * (1 if mirror else -1)
+        print(f"Building {half.capitalize()} Half.")
         component_list: list[bd.Part] = []
-        # Top Plate
+        # Frame
+        print("    Building Frame.")
+        from components.frame import Frame
+        frame_location = bd.Rot(Y=tent_angle)
+        frame = frame_location * Frame(
+            parameters=self.parameters,
+            usb_cutout=(half==Half.RIGHT),
+            mirror=mirror
+        )
+        component_list.append(frame)
         from components.plate import Plate, PlateType
-        top_plate = Plate(
+        # Top Plate
+        top_plate_location = (
+            bd.Pos(Z=p.Plates.Top.position_z)
+            * bd.Rot(Y=tent_angle) 
+            )
+        top_plate = top_plate_location * Plate(
             parameters=self.parameters,
             plate_type=PlateType.TOP,
             draft_center=True,
             mirror=mirror
-        ).move(bd.Pos(Z=p.Plates.Top.position_z))
+        )
         component_list.append(top_plate)
         # Switch Plate
         print("    Building Switch Plate.")
-        switch_plate = Plate(
+        switch_plate_position = (
+            bd.Pos(Z=p.Plates.Switch.position_z)
+            * bd.Rot(Y=tent_angle)
+        )
+        switch_plate = switch_plate_position * Plate(
             parameters=self.parameters,
             plate_type=PlateType.SWITCH,
             mirror=mirror
-        ).move(bd.Pos(
-            0,
-            p.Plates.Top.edge - p.Plates.Switch.edge,
-            p.Plates.Switch.position_z
-        ))
+        )
         component_list.append(switch_plate)
         # PCB
         print("    Building PCB.")
-        pcb = Plate(
+        pcb_position = (
+            bd.Pos(Z=p.Plates.PCB.position_z)
+            * bd.Rot(Y=tent_angle)
+        )
+        pcb = pcb_position * Plate(
             parameters=self.parameters,
             plate_type=PlateType.PCB,
             mirror=mirror
-        ).move(bd.Pos(
-            0,
-            p.Plates.Top.edge - p.Plates.Switch.edge,
-            p.Plates.PCB.position_z
-        ))
+        )
         component_list.append(pcb)
         # Bottom Plate
         print("    Building Bottom Plate.")
-        bottom_plate = Plate(
+        bottom_plate_position = (
+            bd.Pos(Z=p.Plates.Bottom.position_z)
+            * bd.Rot(Y=tent_angle)
+        )
+        bottom_plate = bottom_plate_position * Plate(
             parameters=self.parameters,
             plate_type=PlateType.BOTTOM,
             mirror=mirror
-        ).move(bd.Pos(
-            0,
-            (
-                p.Plates.Top.edge
-                - p.Plates.Bottom.edge
-                + p.Hinge.width
-                + 2*p.Frame.lip_depth
-                - p.Plates.Bottom.clearance
-            ),
-            p.Plates.Bottom.position_z
-        ))
+        )
         component_list.append(bottom_plate)
         # Center Block
         print("    Building Center Block.")
@@ -218,7 +177,7 @@ class Androphage(bd.BasePartObject):
         trackball_location = bd.Pos(Y=p.Trackball.position_y)
         trackball_sensor = (
             trackball_location
-            * bd.Rot(Y=180 + p.TrackballSensor.angle)
+            * bd.Rot(Y=(180 + p.TrackballSensor.angle) * (-1 if mirror else 1))
             * bd.Pos(Z=p.Trackball.diameter/2)
             * TrackballSensor(
                 parameters=self.parameters,
@@ -233,7 +192,7 @@ class Androphage(bd.BasePartObject):
             trackball_location
             * bd.Rot(
                 0,
-                p.CenterBlock.btu_angles[1],
+                p.CenterBlock.btu_angles[1] * (-1 if mirror else 1),
                 i*p.CenterBlock.btu_angles[2],
                 ordering=bd.Extrinsic.XYZ
             )
@@ -250,17 +209,8 @@ class Androphage(bd.BasePartObject):
             btu.label = f"BTU {i+1}"
             btu_list.append(btu)
         component_list.append(bd.Part(children=btu_list, label="BTUs"))
-        # Frame
-        print("    Building Frame.")
-        from components.frame import Frame
-        frame = Frame(
-            parameters=self.parameters,
-            usb_cutout=(half==Half.RIGHT),
-            mirror=mirror
-        )
-        component_list.append(frame)
         # USB-C Port
-        if half == Half.RIGHT:
+        if half == (Half.RIGHT if p.USBPort.right_half else Half.LEFT):
             print("    Building USB-C Port.")
             from bd_keyboard.src.connectors.usb_c import USB_C_Port
             usb_c_port = (
@@ -271,7 +221,8 @@ class Androphage(bd.BasePartObject):
                         pcb.faces()
                         .group_by(bd.SortBy.AREA)[-1]
                         .sort_by(bd.Axis.Z)[-1]
-                    )
+                    ),
+                    mirror=p.USBPort.right_half
                 )
                 * USB_C_Port()
             )
@@ -300,16 +251,22 @@ class Androphage(bd.BasePartObject):
         # from bd_warehouse.fastener import CounterSunkScrew, HeatSetNut, HexNut
         assembly = bd.Part(children=component_list)
         assembly.label = f"{half.capitalize()} Half"
-        return assembly
+        return bd.Rot(Y=self.angle * (-1 if mirror else 1)) * assembly
 
 
 
 
 if __name__ == "__main__":
     from ocp_vscode import show
-    androphage = (
-        Androphage(angle=0)#.move(bd.Pos(Y=-200)),
-        # Androphage(angle=50),
-        # Androphage(angle=100).move(bd.Pos(Y=200))
-    )
+    count = 6
+    spacing = 150
+    max_angle = 100
+    angle_step = max_angle / (count-1)
+    androphage = [
+        (
+            bd.Pos(Y=i*spacing - count*spacing/2) 
+            * Androphage(angle=i*angle_step)
+        )
+        for i in range(count)
+    ]
     show(androphage)
