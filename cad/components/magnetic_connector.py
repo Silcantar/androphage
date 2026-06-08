@@ -29,52 +29,72 @@ class MagneticConnector(Component):
         lip = bd.Vector(p.lip)
         pcb_size = bd.Vector(p.pcb_size)
         components: list[bd.Part] = []
-        with bd.BuildPart() as mag_con:
-            with bd.BuildSketch(bd.Plane.YZ) as main_sketch:
-                bd.RectangleRounded(
-                    width=size.Y,
-                    height=size.Z,
-                    radius=size.Z/2 - EPS
-                )
-            bd.extrude(amount=size.X, dir=(-1, 0, 0))
-            lip_loc = bd.Location(
-                position=(
-                    mag_con.faces().sort_by(bd.Axis.X)[-1].center()
-                    - (p.lip_offset, 0, 0)
-                ),
-                orientation=(0, 90, 0)
+        connector_sketch = bd.Plane.YZ * bd.RectangleRounded(
+            width=size.Y,
+            height=size.Z,
+            radius=size.Z/2 - EPS
             )
-            with bd.BuildSketch(lip_loc) as lip_sketch:
-                bd.RectangleRounded(
-                    width=lip.Z,
-                    height=lip.Y,
-                    radius=lip.Z/2 - EPS
-                )
-            lip_thickness = (
-                lip.X if self.mode != bd.Mode.SUBTRACT
-                else size.Y - p.lip_offset
+        connector = bd.extrude(
+            to_extrude=connector_sketch,
+            amount=size.X, 
+            dir=(-1, 0, 0)
             )
-            bd.extrude(amount=lip_thickness, dir=(-1, 0, 0))
-        mag_con.part.color = self.color
-        mag_con.part.label = "Connector"
-        components.append(mag_con.part)
-        pcb_plane = bd.Plane(mag_con.part.faces().sort_by(bd.Axis.X)[0])
-        with bd.BuildPart() as pcb:
-            with bd.BuildSketch(pcb_plane):
-                bd.RectangleRounded(
-                    width=pcb_size.Y,
-                    height=pcb_size.Z,
-                    radius=self.parameters.Plates.PCB.radius_outer
+        lip_loc = bd.Location(
+            position=(
+                connector.faces().sort_by(bd.Axis.X)[-1].center()
+                - (p.lip_offset, 0, 0)
+            ),
+            orientation=(0, 90, 0)
+            )
+        lip_sketch = lip_loc * bd.RectangleRounded(
+            width=lip.Z,
+            height=lip.Y,
+            radius=lip.Z/2 - EPS
+            )
+        lip_thickness = (
+            lip.X if self.mode != bd.Mode.SUBTRACT
+            else size.Y - p.lip_offset
+            )
+        connector += bd.extrude(
+            to_extrude=lip_sketch,
+            amount=lip_thickness, 
+            dir=(-1, 0, 0)
+            )
+        bd.RigidJoint(
+            label="connector",
+            to_part=connector,
+            joint_location=bd.Pos(0, 0, 0)
+        )
+        connector.color = self.color
+        connector.label = "Connector"
+        components.append(connector)
+        pcb_plane = bd.Plane(connector.faces().sort_by(bd.Axis.X)[0])
+        pcb_sketch = pcb_plane * bd.RectangleRounded(
+            width=pcb_size.Y,
+            height=pcb_size.Z,
+            radius=self.parameters.Plates.PCB.radius_outer
+            )
+        hole_locations = pcb_plane * bd.Locations([
+            (i*p.screw_offset, 0, 0) 
+            for i in [1, -1]
+            ])
+        pcb_sketch -= hole_locations * bd.Circle(
+            radius=self.parameters.MagneticConnector.screw.hole_diameter/2,
+            )
+        pcb = bd.extrude(
+            to_extrude=pcb_sketch,
+            amount=pcb_size.X
+            )
+        for i in range(len(hole_locations)):
+            label = f"screw_hole_{i}"
+            bd.RigidJoint(
+                label=label,
+                to_part=pcb,
+                joint_location=bd.Pos(X=-pcb_size.X) * hole_locations[i]
                 )
-                with bd.Locations([(i*p.screw_offset, 0, 0) for i in [1, -1]]):
-                    bd.Circle(
-                        radius=self.parameters.MagneticConnector.screw.hole_diameter/2,
-                        mode=bd.Mode.SUBTRACT
-                    )
-            bd.extrude(amount=pcb_size.X)
-        pcb.part.color = seq_to_color(self.parameters.Plates.PCB.color)
-        pcb.part.label = "PCB"
-        components.append(pcb.part)
+        pcb.color = seq_to_color(self.parameters.Plates.PCB.color)
+        pcb.label = "PCB"
+        components.append(pcb)
         return bd.Part(children=components)
 
 
@@ -82,4 +102,4 @@ if __name__ == "__main__":
     from ocp_vscode import show
     from androphage import Androphage
     androphage = Androphage(build=False)
-    show(MagneticConnector(androphage.parameters))
+    show(MagneticConnector(androphage.parameters), render_joints=True)
