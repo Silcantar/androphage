@@ -113,15 +113,22 @@ class Plate(Component):
                     objects=fillet_edges,
                     radius=p.Frame.fillet_radius
                 )
-        locating_outline = (
-            self.outline if self.plate_type == PlateType.TOP 
-            else self.generic_plate_outline)
-        front_center_location = bd.Pos(
-            -locating_outline.edges()
-            .sort_by(bd.Axis.X)[-1]
-            .vertices()
-            .sort_by(bd.Axis.Y)[0]
-            .center())
+        # locating_outline = (
+        #     self.outline if self.plate_type == PlateType.TOP 
+        #     else self.generic_plate_outline)
+        front_center_location = (
+            bd.Pos(X=(
+                p.Plates.Bottom.center_width 
+                - self.plate_params.center_width
+                ))
+            * bd.Pos(
+                -self.generic_plate_outline.edges()
+                .sort_by(bd.Axis.X)[-1]
+                .vertices()
+                .sort_by(bd.Axis.Y)[0]
+                .center()
+                )
+            )
         return front_center_location * plate
 
     def _hinge_cutouts(self, part: bd.Part) -> bd.Part:

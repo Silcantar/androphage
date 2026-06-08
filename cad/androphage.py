@@ -254,8 +254,6 @@ class Androphage(bd.BasePartObject):
         return bd.Rot(Y=self.angle * (-1 if mirror else 1)) * assembly
 
 
-
-
 if __name__ == "__main__":
     from ocp_vscode import show
     count = 1
@@ -265,11 +263,12 @@ if __name__ == "__main__":
         angle_step = max_angle / (count-1)
     except ZeroDivisionError:
         angle_step = 0
-    androphage = [
-        (
+    boards: list[bd.Part] = []
+    for i in range(count):
+        board = (
             bd.Pos(Y=i*spacing - count*spacing/2) 
             * Androphage(angle=i*angle_step)
-        )
-        for i in range(count)
-    ]
-    show(androphage)
+            )
+        board.label = f"Androphage {i*angle_step}°"
+        boards.append(board)
+    show(boards)
