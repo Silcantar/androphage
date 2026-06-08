@@ -22,15 +22,19 @@ class Battery(Component):
 
     def _build(self) -> bd.Part:
         size = bd.Vector(self.parameters.Battery.size)
-        with bd.BuildPart() as battery:
-            with bd.BuildSketch() as sketch:
-                bd.RectangleRounded(
-                    size.X,
-                    size.Y,
-                    size.Y/2 - EPS
-                )
-            bd.extrude(amount=size.Z)
-        return battery.part
+        sketch = bd.Plane.XZ * bd.RectangleRounded(
+            size.X,
+            size.Y,
+            radius=1,
+            # size.Y/2 - EPS,
+            align=(bd.Align.CENTER, bd.Align.MIN)
+            )
+        battery = bd.extrude(
+            to_extrude=sketch,
+            amount=size.Z/2,
+            both=True
+            )
+        return battery
 
 
 if __name__ == "__main__":

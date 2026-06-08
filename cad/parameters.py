@@ -47,6 +47,8 @@ class Base(Component):
 
 @dataclass
 class Battery(Component):
+    position: vector[3]
+    right_half: bool
     size: vector[3]
 
 @dataclass

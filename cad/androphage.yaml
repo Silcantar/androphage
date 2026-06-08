@@ -65,10 +65,6 @@ Columns:
     skip: true
     keys: 2
     stagger: 0.75
-Battery:
-  visible: true
-  size: [ 34, 4.0, 50 ] #Dimensions of battery.
-  color: *silver
 
 # ---- BTU Options ----
 BTU_Options:
@@ -155,6 +151,13 @@ Base:
   foot_length: 10
   opening_clearance: 1
   wall_thickness: *wall_thickness
+Battery:
+  visible: true
+  color: *silver
+  position: [-2.5, 2.2, 9.05]
+  right_half: true
+  # size: [14, 4.0, 30] # 401430 150mAh
+  size: [12, 7.0, 30] # 701230 300mAh
 BTU: *VCN310
 CenterBlock:
   visible: true

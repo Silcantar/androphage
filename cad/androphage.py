@@ -175,16 +175,25 @@ class Androphage(bd.BasePartObject):
         print("    Building Trackball Sensor.")
         from components.trackball_sensor import TrackballSensor
         trackball_location = bd.Pos(Y=p.Trackball.position_y)
-        trackball_sensor = (
+        sensor_location = (
             trackball_location
             * bd.Rot(Y=(180 + p.TrackballSensor.angle) * (-1 if mirror else 1))
             * bd.Pos(Z=p.Trackball.diameter/2)
+            )
+        trackball_sensor = (
+            sensor_location
             * TrackballSensor(
                 parameters=self.parameters,
                 mirror=mirror
+                )
             )
-        )
         component_list.append(trackball_sensor)
+        # Battery
+        if half == (Half.RIGHT if p.Battery.right_half else Half.LEFT):
+            from components.battery import Battery
+            battery_location = sensor_location * bd.Pos(p.Battery.position)
+            battery = battery_location * Battery(p)
+            component_list.append(battery)
         # BTUs
         print("    Building BTUs.")
         from components.btu import BTU
@@ -227,8 +236,6 @@ class Androphage(bd.BasePartObject):
                 * USB_C_Port()
             )
             component_list.append(usb_c_port)
-        # Battery
-        from components.battery import Battery
         # Key Switches
         print("    Building Key Switches.")
         # from bd_keyboard.src.key_switch.choc_v2 import ChocV2
