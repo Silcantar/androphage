@@ -72,7 +72,23 @@
       "diff_pair_dimensions": [],
       "drc_exclusions": [
         [
-          "lib_footprint_mismatch|240000000|65730000|d59530d5-3475-41a5-9413-cc4f4c26005f|00000000-0000-0000-0000-000000000000",
+          "starved_thermal|152362500|84450000|d6f9d859-619c-4dbf-84a2-00b88fd5bc9f|1fc1db8e-a1c3-4377-898d-92479deb30e5|F.Cu",
+          ""
+        ],
+        [
+          "starved_thermal|156000000|104637500|d6f9d859-619c-4dbf-84a2-00b88fd5bc9f|b1c39a41-07ad-4ab7-a9a0-da8798285ede|F.Cu",
+          ""
+        ],
+        [
+          "starved_thermal|164000000|104637500|d6f9d859-619c-4dbf-84a2-00b88fd5bc9f|bf45855f-1bf7-455b-8da8-9aa735c3b541|F.Cu",
+          ""
+        ],
+        [
+          "starved_thermal|236000000|104637500|ea26f3ca-a5a9-43f1-8fd6-24b1077d05b1|028d66e1-4ab2-44ac-952e-914165a775b6|F.Cu",
+          ""
+        ],
+        [
+          "starved_thermal|244050000|104637500|ea26f3ca-a5a9-43f1-8fd6-24b1077d05b1|b0b301b9-9ce0-4d11-bf3a-ba6fe5df38c1|F.Cu",
           ""
         ]
       ],
@@ -105,7 +121,7 @@
         "item_on_disabled_layer": "error",
         "items_not_allowed": "error",
         "length_out_of_range": "error",
-        "lib_footprint_issues": "warning",
+        "lib_footprint_issues": "ignore",
         "lib_footprint_mismatch": "warning",
         "malformed_courtyard": "error",
         "microvia_drill_out_of_range": "error",
@@ -653,7 +669,7 @@
         "uuid": "b41c5c8d-a6b2-4633-9a6f-a9fc0b4f40ca"
       }
     ],
-    "used_designators": "",
+    "used_designators": "U_ESD_D4-6,U1-3",
     "variants": []
   },
   "sheets": [
