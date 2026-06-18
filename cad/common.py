@@ -7,6 +7,11 @@ import copy as copy_module
 
 import build123d as bd
 
+# Constants for indexing vector components.
+X = 0
+Y = 1
+Z = 2
+
 # Geometry Definitions
 BIG = 1000
 EPS = 0.001

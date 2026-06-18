@@ -331,7 +331,16 @@ Plates:
     radius_outer: 2
     thickness: *wall_thickness
     thumb_cutout_fillet: false
-
+Screen:
+  visible: true
+  color: *black
+  bezel: 1.6
+  chip_size: [10, 10, 1]
+  display_area: [10.8, 25.3]
+  fillet_radius: 1
+  pcb_size: [14, 36, 2]
+  position: 3
+  size: [13.8, 29.35, 0.9]
 # ---- Switch Options ----
 Switch_Color_Options:
   Aloe: &Aloe
