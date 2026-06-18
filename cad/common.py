@@ -1,7 +1,7 @@
 import typing
 from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
-from enum import Enum, StrEnum, auto
+from enum import Enum, IntFlag, StrEnum, auto
 from math import cos, sin, tan, acos, asin, atan, radians, degrees
 import copy as copy_module
 
@@ -139,7 +139,11 @@ class Finger(StrEnum):
     PINKY = auto()
     OUTER = auto()
 
-class Half(StrEnum):
+# class Half(StrEnum):
+#     LEFT = auto()
+#     RIGHT = auto()
+
+class Half(IntFlag):
     LEFT = auto()
     RIGHT = auto()
 

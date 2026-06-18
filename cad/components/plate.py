@@ -23,12 +23,14 @@ class Plate(Component):
         parameters: Parameters,
         plate_type: PlateType = PlateType.SWITCH,
         draft_center: bool = False,
+        half: Half = Half.LEFT,
         label: str = None,
         **kwargs
     ):
         self.parameters = parameters
         self.plate_type = plate_type
         self.draft_center = draft_center
+        self.half = half
         p = self.parameters
         match self.plate_type:
             case PlateType.BOTTOM:
@@ -102,23 +104,27 @@ class Plate(Component):
                     .group_by(bd.Axis.Z)[-1]
                     .filter_by(
                         lambda e:
+                        # Select edges that are the same width as a key cutout...
                         abs(
                             e.length
                             - p.spacing.X
                             + 2*p.Plates.Top.radius_inner
-                        ) < 0.001
+                        ) < EPS
+                        # ... or that are the same width as the screen cutout.
+                        or abs(
+                            e.length
+                            - p.Screen.display_area[X]
+                            + 2*p.Plates.Top.screen_radius
+                        ) < EPS
                     )
                 )
                 plate = bd.fillet(
                     objects=fillet_edges,
                     radius=p.Frame.fillet_radius
                 )
-        # locating_outline = (
-        #     self.outline if self.plate_type == PlateType.TOP 
-        #     else self.generic_plate_outline)
         front_center_location = (
             bd.Pos(X=(
-                p.Plates.Bottom.center_width 
+                p.Plates.Bottom.center_width
                 - self.plate_params.center_width
                 ))
             * bd.Pos(
@@ -266,7 +272,23 @@ class Plate(Component):
                 objects=part.edges().filter_by(bd.Axis.Z),
                 radius=self.plate_params.radius_inner
             )
-        return part.part
+        objs = [part.part]
+        if self.half in p.Screen.half:
+            screen_location = (
+                self.column_locations["inner"]
+                * bd.Pos(2*p.spacing.X, 3.5*p.spacing.Y)
+                )
+            screen_cutout = screen_location * bd.Box(
+                *p.Screen.display_area,
+                self.plate_params.thickness,
+                align=Align.BackBottom
+                )
+            screen_cutout = bd.fillet(
+                objects=screen_cutout.edges().filter_by(bd.Axis.Z),
+                radius=self.plate_params.screen_radius
+                )
+            objs.append(screen_cutout)
+        return bd.Part(objs)
 
     def _trackball_cutout(self, plate: bd.Part) -> bd.Part:
         """Generate and position a 3d cutout for the trackball."""

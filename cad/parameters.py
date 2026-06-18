@@ -37,7 +37,7 @@ class Base(Component):
 @dataclass
 class Battery(Component):
     position: vector[3]
-    right_half: bool
+    half: Half
     size: vector[3]
 
 @dataclass
@@ -114,16 +114,6 @@ class Keycap(Component):
     spacing: vector[2]
 
 @dataclass
-class LED(Component):
-    present: bool
-    count: int
-    hole_radius: float
-    hole_shape: str
-    hole_size: float
-    hole_spacing: vector[2]
-    position_y: float
-
-@dataclass
 class Magnet(Component):
     shape: str
     size: vector[3]
@@ -144,14 +134,6 @@ class MCU(Component):
     location: str
     radius: float
     size: vector[3]
-
-@dataclass
-class OLED(Component):
-    present: bool
-    hole_radius: float
-    pcb_size: vector[2]
-    position: vector[2]
-    screen_size: vector[2]
 
 @dataclass
 class Plate(Component):
@@ -176,6 +158,7 @@ class SwitchPlate(Plate):
 @dataclass
 class TopPlate(Plate):
     radius_inner: float
+    screen_radius: float
     thickness: float
     thumb_cutout_fillet: bool
 
@@ -198,6 +181,11 @@ class Screen(Component):
     chip_size: vector[3]
     display_area: vector[2]
     fillet_radius: float
+    half: Half
+    hole_count: int
+    hole_id: float
+    hole_od: float
+    hole_spacing: float
     pcb_size: vector[3]
     position: float
     size: vector[3]
@@ -282,7 +270,7 @@ class TrackballSensor(Component):
 class USBPort(Component):
     cut_size: vector[3]
     cut_radius: float
-    right_half: bool
+    half: Half
     inside_depth: float
     position: vector[3]
     radius: float
@@ -309,10 +297,8 @@ class Parameters(YAMLWizard):
     Hinge: Hinge
     Insert: Insert
     Keycap: Keycap
-    LED: LED
     MagneticConnector: MagneticConnector
     MCU: MCU
-    OLED: OLED
     Plates: Plates
     Screen: Screen
     Screws: Screws

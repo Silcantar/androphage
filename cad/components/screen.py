@@ -6,7 +6,7 @@ from common import *
 from parameters import Parameters
 
 class Screen(Component):
-    """OLED/LCD/ePaper display like Nice!View or similar """
+    """OLED/LCD/ePaper display like Nice!View or similar."""
     def __init__(
         self,
         parameters: Parameters,
@@ -35,6 +35,36 @@ class Screen(Component):
             objects=pcb.edges().filter_by(bd.Axis.Z),
             radius=p.Screen.fillet_radius
             )
+        hole_locations = [
+            bd.Pos(
+                i*p.Screen.hole_spacing,
+                -p.Screen.hole_spacing/2,
+                -p.Screen.size[Z]
+                )
+            for i in range(-(p.Screen.hole_count//2), p.Screen.hole_count//2+1)
+            ]
+        pcb -= (
+            hole_locations
+            * bd.Cylinder(
+                radius=p.Screen.hole_od/2,
+                height=BIG
+                )
+            )
+        hole = (
+            bd.Cylinder(
+                radius=p.Screen.hole_od/2,
+                height=p.Screen.pcb_size[Z],
+                align=Align.Top
+                )
+            - bd.Cylinder(
+                radius=p.Screen.hole_id/2,
+                height=BIG
+                )
+            )
+        holes = bd.Part(hole_locations * hole)
+        holes.label = "Holes"
+        holes.color = "Goldenrod"
+        children.append(holes)
         pcb.label = "PCB"
         pcb.color = seq_to_color(p.Screen.color)
         children.append(pcb)

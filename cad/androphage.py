@@ -9,6 +9,8 @@ from components.frame import Frame
 from common import *
 from parameters import *
 
+half_names = {Half.LEFT: "Left", Half.RIGHT: "Right"}
+
 class Androphage(bd.BasePartObject):
     """Build a model of an Androphage keyboard based on a parameter file."""
 
@@ -68,20 +70,20 @@ class Androphage(bd.BasePartObject):
         direction = (1 if mirror else -1)
         angle = self.angle * direction
         angle_limited = min(self.angle, 90 - p.tent_angle) * direction
-        print(f"    Building {half.capitalize()} Base.")
+        print(f"    Building {half_names[half]} Base.")
         component_list: list[bd.Part] = []
         from components.base import Base
         base = Base(
             self.parameters,
             mirror=mirror,
-            label=f"{half.capitalize()} Base"
+            label=f"{half_names[half]} Base"
             )
         component_list.append(base)
         assembly = bd.Part(children=component_list)
-        assembly.label = f"{half.capitalize()} Base"
+        assembly.label = f"{half_names[half]} Base"
         base_location = bd.Pos(
-            p.Hinge.height*sind(angle_limited), 
-            0, 
+            p.Hinge.height*sind(angle_limited),
+            0,
             -p.Hinge.height*cosd(angle)
             )
         rotation = bd.Rot(Y=angle_limited)
@@ -91,7 +93,7 @@ class Androphage(bd.BasePartObject):
         p = self.parameters
         mirror = (half == Half.RIGHT)
         tent_angle = p.tent_angle * (1 if mirror else -1)
-        print(f"Building {half.capitalize()} Half.")
+        print(f"Building {half_names[half]} Half.")
         component_list: list[bd.Part] = []
         # Frame
         print("    Building Frame.")
@@ -107,12 +109,13 @@ class Androphage(bd.BasePartObject):
         # Top Plate
         top_plate_location = (
             bd.Pos(Z=p.Plates.Top.position_z)
-            * bd.Rot(Y=tent_angle) 
+            * bd.Rot(Y=tent_angle)
             )
         top_plate = top_plate_location * Plate(
             parameters=self.parameters,
             plate_type=PlateType.TOP,
             draft_center=True,
+            half=half,
             mirror=mirror
         )
         component_list.append(top_plate)
@@ -189,7 +192,7 @@ class Androphage(bd.BasePartObject):
             )
         component_list.append(trackball_sensor)
         # Battery
-        if half == (Half.RIGHT if p.Battery.right_half else Half.LEFT):
+        if half in p.Battery.half:
             from components.battery import Battery
             battery_location = sensor_location * bd.Pos(p.Battery.position)
             battery = battery_location * Battery(p)
@@ -219,7 +222,7 @@ class Androphage(bd.BasePartObject):
             btu_list.append(btu)
         component_list.append(bd.Part(children=btu_list, label="BTUs"))
         # USB-C Port
-        if half == (Half.RIGHT if p.USBPort.right_half else Half.LEFT):
+        if half in p.USBPort.half:
             print("    Building USB-C Port.")
             from bd_keyboard.src.connectors.usb_c import USB_C_Port
             usb_c_port = (
@@ -231,7 +234,7 @@ class Androphage(bd.BasePartObject):
                         .group_by(bd.SortBy.AREA)[-1]
                         .sort_by(bd.Axis.Z)[-1]
                     ),
-                    mirror=p.USBPort.right_half
+                    mirror=p.USBPort.half == Half.RIGHT
                 )
                 * USB_C_Port()
             )
@@ -257,7 +260,7 @@ class Androphage(bd.BasePartObject):
         # Screws
         # from bd_warehouse.fastener import CounterSunkScrew, HeatSetNut, HexNut
         assembly = bd.Part(children=component_list)
-        assembly.label = f"{half.capitalize()} Half"
+        assembly.label = f"{half_names[half]} Half"
         return bd.Rot(Y=self.angle * (-1 if mirror else 1)) * assembly
 
 
@@ -273,7 +276,7 @@ if __name__ == "__main__":
     boards: list[bd.Part] = []
     for i in range(count):
         board = (
-            bd.Pos(Y=i*spacing - count*spacing/2) 
+            bd.Pos(Y=i*spacing - count*spacing/2)
             * Androphage(angle=i*angle_step)
             )
         board.label = f"Androphage {i*angle_step}°"
