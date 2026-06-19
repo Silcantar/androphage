@@ -537,10 +537,10 @@ Trackball:
 TrackballSensor:
   visible: true
   color:
-  angle: 53
+  angle: 51
   chip_size: [ 10.9, 16.2, 1.65 ]
   clearance: 2.4
-  holder_height: 15
+  holder_height: 16
   holder_thickness: 5
   hole_size: 5
   lens_size: [ 8.6, 16.96, 3.4 ]

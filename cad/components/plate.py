@@ -274,18 +274,33 @@ class Plate(Component):
             )
         objs = [part.part]
         if self.half in p.Screen.half:
-            screen_location = (
+            display_location = (
                 self.column_locations["inner"]
                 * bd.Pos(2*p.spacing.X, 3.5*p.spacing.Y)
                 )
-            screen_cutout = screen_location * bd.Box(
+            display_cutout = display_location * bd.Box(
                 *p.Screen.display_area,
                 self.plate_params.thickness,
                 align=Align.BackBottom
                 )
-            screen_cutout = bd.fillet(
-                objects=screen_cutout.edges().filter_by(bd.Axis.Z),
+            display_cutout = bd.fillet(
+                objects=display_cutout.edges().filter_by(bd.Axis.Z),
                 radius=self.plate_params.screen_radius
+                )
+            objs.append(display_cutout)
+            screen_location = (
+                display_location
+                * bd.Pos(
+                    0,
+                    p.Screen.bezel,
+                    p.Screen.size[Z]
+                    )
+                )
+            screen_cutout = (
+                screen_location
+                * bd.Box(
+                    *(bd.Vector(p.Screen.size) + bd.Vector(0.2, 0.2, 0)),
+                    align=Align.BackTop)
                 )
             objs.append(screen_cutout)
         return bd.Part(objs)

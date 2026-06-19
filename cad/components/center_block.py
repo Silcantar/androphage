@@ -17,6 +17,7 @@ class CenterBlock(Component):
         self,
         parameters: Parameters,
         label: str = "Center Block",
+        half: Half = Half.LEFT,
         **kwargs
     ):
         self.parameters = parameters
@@ -45,11 +46,11 @@ class CenterBlock(Component):
         # Eliminate some of the overhang of the sensor holder when it is
         # printed upside-down.
         sensor_holder = self._sensor_location() * self._sensor_holder()
-        sensor_holder += bd.extrude(
-            to_extrude=sensor_holder.faces().sort_by(bd.Axis.Z)[-1],
-            dir=(0, 0, 1),
-            amount=10
-        )
+        # sensor_holder += bd.extrude(
+        #     to_extrude=sensor_holder.faces().sort_by(bd.Axis.Z)[-1],
+        #     dir=(0, 0, 1),
+        #     amount=10
+        # )
         center_block += sensor_holder
         center_block += self._btu_locations() * self._btu_socket()
         # Clip off anything extending outside the proper height of the part.
@@ -153,6 +154,29 @@ class CenterBlock(Component):
                 align=Align.Bottom
             )
         )
+        screen_location = (
+            self._trackball_location()
+            * bd.Pos(Z=p.Plates.Top.position_z)
+            * bd.Rot(Y=-p.tent_angle)
+            * bd.Pos(
+                (
+                    -p.Trackball.diameter/2
+                    - p.Trackball.clearance
+                    - p.CenterBlock.wall_thickness
+                    ),
+                0,
+                (-p.Screen.pcb_size[Z] - p.Screen.chip_size[Z])
+                )
+            )
+        center_block -= (
+            screen_location
+            * bd.Box(
+                length=BIG,
+                width=BIG,
+                height=BIG,
+                align=Align.RightBottom
+                )
+            )
         return center_block
 
     def _btu_locations(self) -> bd.Locations:
@@ -291,28 +315,28 @@ class CenterBlock(Component):
             0,
             (
                 p.TrackballSensor.clearance
-                + p.TrackballSensor.lens_size[2]
-                + p.TrackballSensor.pcb_size[2]
+                + p.TrackballSensor.lens_size[Z]
+                + p.TrackballSensor.pcb_size[Z]
+                )
             )
-        )
         holder = bd.Box(
             length=(
-                p.TrackballSensor.pcb_size[0]
-                + 2*p.CenterBlock.wall_thickness
-            ),
+                p.TrackballSensor.pcb_size[X]/2
+                + 1*p.CenterBlock.wall_thickness
+                ),
             width=p.TrackballSensor.holder_thickness,
             height=p.TrackballSensor.holder_height,
-            align=Align.Top
-        )
+            align=Align.RightTop
+            )
         holder += bd.Box(
             length=p.TrackballSensor.holder_thickness,
             width=(
-                p.TrackballSensor.pcb_size[1]
+                p.TrackballSensor.pcb_size[Y]
                 + 2*p.CenterBlock.wall_thickness
-            ),
+                ),
             height=p.TrackballSensor.holder_height,
             align=Align.Top
-        )
+            )
         return holder_location * holder
 
     def _sensor_location(self) -> bd.Location:
@@ -351,4 +375,4 @@ if __name__ == "__main__":
     p = layout.set_derived_parameters(
         parameters.load_parameters("cad/androphage.yaml")
     )
-    show(CenterBlock(p))
+    show(bd.Rot(Y=180+p.tent_angle)*CenterBlock(p))

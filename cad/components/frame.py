@@ -96,7 +96,7 @@ class Frame(Component):
             rotation=(0, p.tent_angle, 0)
         )
         if self.usb_cutout:
-            from bd_keyboard.src.connectors.usb_c import USB_C_Port
+            from bd_keyboard.src.connector.usb_c import USB_C_Port
             usb_face = bd.Face(bd.Wire(
                 self.outline.edges().sort_by(bd.Axis.X)[:-3]
             ).close())

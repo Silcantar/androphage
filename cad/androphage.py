@@ -221,10 +221,29 @@ class Androphage(bd.BasePartObject):
             btu.label = f"BTU {i+1}"
             btu_list.append(btu)
         component_list.append(bd.Part(children=btu_list, label="BTUs"))
+        # Screen
+        if half in p.Screen.half:
+            print("    Building Screen.")
+            from bd_keyboard.src.display.nice_view import NiceView
+            screen_cutout_face = (
+                top_plate
+                .faces()
+                # Select faces whose normal is mostly down.
+                .filter_by(lambda f: f.normal_at().Z < -0.7)
+                # Select the smallest of these faces.
+                .sort_by(bd.SortBy.AREA)[0]
+                )
+            screen_location = (
+                bd.Locations(screen_cutout_face).locations[0]
+                * bd.Rot(Y=180)
+                * bd.Pos(Y=p.Screen.size[Y]/2 + 1.038)
+                )
+            screen = screen_location * NiceView()
+            component_list.append(screen)
         # USB-C Port
         if half in p.USBPort.half:
             print("    Building USB-C Port.")
-            from bd_keyboard.src.connectors.usb_c import USB_C_Port
+            from bd_keyboard.src.connector.usb_c import USB_C_Port
             usb_c_port = (
                 layout.usb_c_port_location(
                     self.parameters,
