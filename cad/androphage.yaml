@@ -177,7 +177,9 @@ Desk:
   position: [ 0, 0, -40 ]
 Eye:
   visible: true
-  color: *brass
+  # color: *brass
+  # color: LightGreen
+  color: *purple
   pupil_size: [30, 8]
   position: [-0.7, -5, 0]
   size: [35, 2]
@@ -193,7 +195,8 @@ Frame:
   thickness: 4
 Hinge:
   visible: true
-  color: *brass
+  # color: *brass
+  color: *steel
   offsets: [0, 0]
   diameter: 6
   fillet_radius: 1
@@ -299,7 +302,8 @@ Plates:
     radius_outer: 2
     screw: *M2
     # FR4 (PCB) bottom plate
-    color: *pcb_color
+    color: *black
+    # color: *pcb_color
     thickness: *pcb_thickness
     # Smoke-colored acrylic bottom plate
     # color: *smoke

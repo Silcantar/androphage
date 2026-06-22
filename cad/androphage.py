@@ -79,6 +79,7 @@ class Androphage(bd.BasePartObject):
             label=f"{half_names[half]} Base"
             )
         component_list.append(base)
+        component_list.extend(self._build_hinges(half=half, base=True))
         assembly = bd.Part(children=component_list)
         assembly.label = f"{half_names[half]} Base"
         base_location = bd.Pos(
@@ -275,6 +276,7 @@ class Androphage(bd.BasePartObject):
         # component_list.append(switches)
         print("    Building Keycaps.")
         print("    Building Hinge")
+        component_list.extend(self._build_hinges(half=half, base=False))
         print("    Building Screws.")
         # Screws
         # from bd_warehouse.fastener import CounterSunkScrew, HeatSetNut, HexNut
@@ -282,10 +284,48 @@ class Androphage(bd.BasePartObject):
         assembly.label = f"{half_names[half]} Half"
         return bd.Rot(Y=self.angle * (-1 if mirror else 1)) * assembly
 
+    def _build_hinges(
+        self,
+        half: Half,
+        base: bool
+        ) -> list[bd.Part]:
+        p = self.parameters
+        from components.knife_hinge import KnifeHinge
+        hinge_locations = [
+            bd.Pos(Y=(
+                i*p.Plates.depth
+                + (1-2*i)*(2*p.Frame.lip_depth + p.Hinge.width/2)
+                ))
+            * bd.Rot(X=90)
+            for i in range(2)
+            ]
+        if base:
+            front_orientation = (
+                (0, 0, 1, -1) if half == Half.LEFT
+                else (1, 0, -1, 0)
+                )
+        else:
+            front_orientation = (
+                (0, 1, 0, -1) if half == Half.LEFT
+                else (1, -1, 0, 0)
+                )
+        orientations = (
+            front_orientation,
+            front_orientation[::-1] # Reversed
+            )
+        return [
+            location
+            * KnifeHinge(
+                parameters=self.parameters,
+                laminated=False,
+                knuckle_orientations=orientation
+                )
+            for (location, orientation) in zip(hinge_locations, orientations)
+            ]
 
 if __name__ == "__main__":
     from ocp_vscode import show
-    count = 1
+    count = 2
     spacing = 150
     max_angle = 100
     try:
