@@ -1,5 +1,3 @@
-import typing
-
 import build123d as bd
 
 from common import *
@@ -27,7 +25,6 @@ class Base(Component):
         # Build main body.
         # Outer wall
         section = (
-            # bd.Pos(Z=p.height)
             bd.Rot(90, 90, 180)
             * layout.frame_section(
                 self.parameters,
@@ -35,10 +32,11 @@ class Base(Component):
                 fillet=False
             )
         )
+        path = self._sweep_paths()
         base = bd.sweep(
             sections=section,
-            path=self._sweep_paths(),
-        )
+            path=bd.Wire(path)
+            )
         # Top wall
         top_sketch = bd.make_hull(base.faces().sort_by(bd.Axis.Z)[-1].edges())
         base += bd.extrude(
@@ -112,7 +110,6 @@ class Base(Component):
             (0, 0, -p.Hinge.height),
             (-p.Base.width, 0, -p.Base.height),
             (-p.Base.width - 10, 0, -p.Base.height),
-            # (-BIG, 0, -BIG*sind(p.tent_angle)),
             BIG*bd.Vector(
                 -cosd(p.tent_angle),
                 0,
@@ -219,58 +216,57 @@ class Base(Component):
         p = self.parameters
         return pupil
 
-    def _sweep_paths(self) -> list[bd.Edge]:
+    def _sweep_paths(self) -> bd.Wire:
         p = self.parameters
         hinge_boss_thickness = (
-            p.Hinge.thickness 
+            p.Hinge.thickness
             + p.Insert.hole_depth
             )/cosd(p.tent_angle)
-        return [
-            bd.Line(
-                (hinge_boss_thickness, 0, 0),
-                (0, 0, 0)
-            ),
-            bd.EllipticalCenterArc(
-                center=(
-                    0,
-                    p.Trackball.position_y - p.Base.foot_length/2,
-                    0
-                ),
-                x_radius=p.Base.width,
-                y_radius=p.Trackball.position_y - p.Base.foot_length/2,
-                start_angle=-90,
-                arc_size=-90
-            ),
-            bd.Line(
-                (
-                    -p.Base.width,
-                    p.Trackball.position_y - p.Base.foot_length/2
-                ),
-                (
-                    -p.Base.width,
-                    p.Trackball.position_y + p.Base.foot_length/2
-                )
-            ),
-            bd.EllipticalCenterArc(
-                center=(
-                    0,
-                    p.Trackball.position_y + p.Base.foot_length/2,
-                    0
-                ),
-                x_radius=p.Base.width,
-                y_radius=(
-                    p.Base.depth
-                    - p.Trackball.position_y
-                    - p.Base.foot_length/2
-                ),
-                start_angle=180,
-                arc_size=-90
-            ),
-            bd.Line(
-                (0, p.Base.depth, 0),
-                (hinge_boss_thickness, p.Base.depth)
+        return (
+            bd.Rot(Y=180)
+            * bd.Wire([
+                bd.Line(
+                    (0, 0, 0),
+                    (hinge_boss_thickness, 0, 0)
+                    ),
+                bd.Spline(
+                    (hinge_boss_thickness, 0, 0),
+                    (p.Base.width, p.Base.width - hinge_boss_thickness, 0),
+                    p.Base.waist_point,
+                    (p.Base.width, p.Trackball.position_y, 0),
+                    tangents=(
+                        (1, 0, 0),
+                        (0, 1, 0),
+                        (0, 1, 0),
+                        (0, 1, 0)
+                    )
+                    ),
+                bd.Line(
+                    (p.Base.width, p.Trackball.position_y, 0),
+                    (
+                        p.Base.width,
+                        p.Base.depth - p.Base.width + hinge_boss_thickness,
+                        0
+                        )
+                    ),
+                bd.Spline(
+                    (
+                        p.Base.width,
+                        p.Base.depth - p.Base.width + hinge_boss_thickness,
+                        0
+                        ),
+                    (hinge_boss_thickness, p.Base.depth, 0),
+                    tangents=(
+                        (0, 1, 0),
+                        (-1, 0, 0)
+                        )
+                    ),
+                bd.Line(
+                    (hinge_boss_thickness, p.Base.depth, 0),
+                    (0, p.Base.depth, 0),
+                    )
+                ])
             )
-        ]
 
 
 if __name__ == "__main__":

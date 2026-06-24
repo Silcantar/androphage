@@ -150,6 +150,7 @@ Base:
   foot_width: 2
   foot_length: 10
   opening_clearance: 1
+  waist_point: [18, 35, 0]
   wall_thickness: *wall_thickness
 Battery:
   visible: true

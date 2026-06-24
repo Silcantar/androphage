@@ -32,6 +32,7 @@ class Base(Component):
     foot_length: float
     foot_width: float
     opening_clearance: float
+    waist_point: vector[3]
     wall_thickness: float
 
 @dataclass
