@@ -59,7 +59,6 @@ class Androphage(bd.BasePartObject):
                 right_half,
                 left_base,
                 right_base,
-                # hinges,
                 trackball
             ]
         )
@@ -194,9 +193,9 @@ class Androphage(bd.BasePartObject):
         component_list.append(trackball_sensor)
         # Battery
         if half in p.Battery.half:
-            from components.battery import Battery
+            from bd_keyboard.src.battery.battery import Battery
             battery_location = sensor_location * bd.Pos(p.Battery.position)
-            battery = battery_location * Battery(p)
+            battery = battery_location * Battery(size=p.Battery.size)
             component_list.append(battery)
         # BTUs
         print("    Building BTUs.")

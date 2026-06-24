@@ -154,10 +154,10 @@ Base:
 Battery:
   visible: true
   color: *silver
-  position: [-2.5, 2.2, 9.05]
+  position: [-2.5, 2.2, 12.55]
   half: 2 # 0 = neither, 1 = left, 2 = right, 3 = both
-  # size: [14, 4.0, 30] # 401430 150mAh
-  size: [12, 7.0, 30] # 701230 300mAh
+  # size: [14, 30, 4.0] # 401430 150mAh
+  size: [12, 30, 7.0] # 701230 300mAh
 BTU: *VCN310
 CenterBlock:
   visible: true
@@ -177,9 +177,9 @@ Desk:
   position: [ 0, 0, -40 ]
 Eye:
   visible: true
-  # color: *brass
+  color: *brass
   # color: LightGreen
-  color: *purple
+  # color: *purple
   pupil_size: [30, 8]
   position: [-0.7, -5, 0]
   size: [35, 2]
