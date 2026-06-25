@@ -12,6 +12,3 @@
 [submodule "cad/bd_keyboard"]
 	path = cad/bd_keyboard
 	url = https://github.com/Silcantar/bd_keyboard.git
-[submodule "cad/keycaps"]
-	path = cad/keycaps
-	url = https://github.com/heyitscassio/pseudomakemekeycapprofiles.git
