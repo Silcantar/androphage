@@ -24,6 +24,7 @@ class Base(Component):
         p = self.parameters
         # Build main body.
         # Outer wall
+        path = self._sweep_paths()
         section = (
             bd.Rot(90, 90, 180)
             * layout.frame_section(
@@ -32,17 +33,16 @@ class Base(Component):
                 fillet=False
             )
         )
-        path = self._sweep_paths()
         base = bd.sweep(
             sections=section,
             path=bd.Wire(path)
             )
         # Top wall
-        top_sketch = bd.make_hull(base.faces().sort_by(bd.Axis.Z)[-1].edges())
+        top_sketch = bd.Pos(Z=p.height) * bd.make_face(path.close())
         base += bd.extrude(
             to_extrude=top_sketch,
             amount=-p.Base.wall_thickness,
-            taper=20
+            # taper=20
         )
         base = bd.Pos(Z=-p.Hinge.height) * bd.Rot(Y=-p.tent_angle) * base
         # Inner wall
@@ -122,25 +122,30 @@ class Base(Component):
             both=True
         )
         # Fillet outside edges.
+        # This first fillet rounds the edges between the bottom faces so that
+        # their outsied edges are all tangential and can be rounded all at once
+        # with the second fillet.
+        fillet_edges = (
+            base.faces()
+            .group_by(bd.Axis.Z)[0]
+            .edges()
+            .filter_by(bd.GeomType.LINE)
+            .sort_by(bd.Axis.X)[-2:]
+            )
         base = bd.fillet(
-            objects=(
-                base.faces()
-                .sort_by(bd.Axis.Z)[0]
-                .edges()
-                .sort_by(bd.SortBy.LENGTH)[-1]
-            ),
+            objects=fillet_edges,
             radius=p.Frame.fillet_radius
-        )
+            )
         fillet_edges = (
             base.faces()
             .sort_by(bd.Axis.X)[0]
             .edges()
             .filter_by(bd.Axis.Y)
-        )
+            )
         base = bd.fillet(
             objects=fillet_edges,
-            radius=p.Frame.fillet_radius - 0.01
-        )
+            radius=p.Frame.fillet_radius
+            )
         # Subtract cutout for decorative eye.
         eye_location = bd.Location(
             position=(
@@ -222,51 +227,41 @@ class Base(Component):
             p.Hinge.thickness
             + p.Insert.hole_depth
             )/cosd(p.tent_angle)
-        return (
-            bd.Rot(Y=180)
-            * bd.Wire([
-                bd.Line(
-                    (0, 0, 0),
-                    (hinge_boss_thickness, 0, 0)
-                    ),
-                bd.Spline(
-                    (hinge_boss_thickness, 0, 0),
-                    (p.Base.width, p.Base.width - hinge_boss_thickness, 0),
-                    p.Base.waist_point,
-                    (p.Base.width, p.Trackball.position_y, 0),
-                    tangents=(
-                        (1, 0, 0),
-                        (0, 1, 0),
-                        (0, 1, 0),
-                        (0, 1, 0)
+        points = [
+            (hinge_boss_thickness, 0, 0),
+            (0, 0, 0),
+            (-p.Base.width, p.Base.width - hinge_boss_thickness, 0),
+            p.Base.waist_point,
+            (-p.Base.width, p.Trackball.position_y - p.Base.foot_length, 0),
+            (
+                -p.Base.width,
+                p.Base.depth - p.Base.width + hinge_boss_thickness,
+                0
+                ),
+            (0, p.Base.depth, 0),
+            (hinge_boss_thickness, p.Base.depth, 0),
+            ]
+        return bd.Wire([
+            bd.Line(points[0:2]),
+            bd.Spline(
+                *points[1:5],
+                tangents=(
+                    (-1, 0, 0),
+                    (0, 1, 0),
+                    (0, 1, 0),
+                    (0, 1, 0)
                     )
-                    ),
-                bd.Line(
-                    (p.Base.width, p.Trackball.position_y, 0),
-                    (
-                        p.Base.width,
-                        p.Base.depth - p.Base.width + hinge_boss_thickness,
-                        0
-                        )
-                    ),
-                bd.Spline(
-                    (
-                        p.Base.width,
-                        p.Base.depth - p.Base.width + hinge_boss_thickness,
-                        0
-                        ),
-                    (hinge_boss_thickness, p.Base.depth, 0),
-                    tangents=(
-                        (0, 1, 0),
-                        (-1, 0, 0)
-                        )
-                    ),
-                bd.Line(
-                    (hinge_boss_thickness, p.Base.depth, 0),
-                    (0, p.Base.depth, 0),
+                ),
+            bd.Line(points[4:6]),
+            bd.Spline(
+                points[5:7],
+                tangents=(
+                    (0, 1, 0),
+                    (1, 0, 0)
                     )
-                ])
-            )
+                ),
+            bd.Line(points[6:8])
+            ])
 
 
 if __name__ == "__main__":
@@ -275,4 +270,4 @@ if __name__ == "__main__":
     p = layout.set_derived_parameters(
         parameters.load_parameters("cad/androphage.yaml")
     )
-    show(Base(p, mirror=True))
+    show(Base(p, mirror=False))

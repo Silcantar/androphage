@@ -150,7 +150,7 @@ Base:
   foot_width: 2
   foot_length: 10
   opening_clearance: 1
-  waist_point: [18, 35, 0]
+  waist_point: [-18, 35, 0]
   wall_thickness: *wall_thickness
 Battery:
   visible: true
@@ -181,9 +181,9 @@ Eye:
   color: *brass
   # color: LightGreen
   # color: *purple
-  pupil_size: [30, 8]
-  position: [-0.7, -5, 0]
-  size: [35, 2]
+  pupil_size: [35, 8]
+  position: [-0.7, 0, 0]
+  size: [30, 2]
 Frame:
   visible: true
   color: *black
