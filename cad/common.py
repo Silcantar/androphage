@@ -210,8 +210,9 @@ class Component(bd.BasePartObject):
         about: bd.Plane = bd.Plane.YZ,
         **kwargs
     ):
+        self.mirror = mirror
         if build:
-            if mirror:
+            if self.mirror:
                 part = self._build_mirrored()
             else:
                 part = self._build()
@@ -225,9 +226,12 @@ class Component(bd.BasePartObject):
             self.label = label
         if color is not None:
             self.color = color
+        self._joints()
 
     def _build(self) -> bd.Part:
-        raise NotImplementedError()
+        raise NotImplementedError(
+            "The _build method has not been implemented for this component."
+            )
 
     def _build_mirrored(self, about: bd.Plane = bd.Plane.YZ) -> bd.Part:
         part = self._build()
@@ -244,6 +248,9 @@ class Component(bd.BasePartObject):
             part_mirrored = bd.mirror(part, about=about)
             (part_mirrored.color, part_mirrored.label) = metadata
             return part_mirrored
+
+    def _joints(self):
+        pass
 
 
 class KeyLocation(bd.Location):

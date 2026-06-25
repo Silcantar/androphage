@@ -122,7 +122,7 @@ class Plate(Component):
                     objects=fillet_edges,
                     radius=p.Frame.fillet_radius
                 )
-        front_center_location = (
+        self.front_center_location = (
             bd.Pos(X=(
                 p.Plates.Bottom.center_width
                 - self.plate_params.center_width
@@ -135,7 +135,35 @@ class Plate(Component):
                 .center()
                 )
             )
-        return front_center_location * plate
+        return self.front_center_location * plate
+
+    def _joints(self):
+        p = self.parameters
+        if self.plate_type == PlateType.SWITCH:
+            i = 1
+            plate_location = (
+                bd.Pos(self.front_center_location.mirror(bd.Plane.YZ).center()) if self.mirror
+                else self.front_center_location
+                )
+            joint_locations = (
+                [
+                    location.mirror(bd.Plane.YZ)
+                    for location in self.switch_locations.locations
+                    ] if self.mirror
+                else self.switch_locations.locations
+                )
+            rotation = (bd.Rot(Z=180) if self.mirror else bd.Rot(Z=0))
+            for location in joint_locations:
+                bd.RigidJoint(
+                    label=f"switch_{i}",
+                    to_part=self,
+                    joint_location=(
+                        plate_location
+                        * bd.Pos(Z=p.Plates.Switch.thickness)
+                        * location
+                        )
+                    )
+                i += 1
 
     def _hinge_cutouts(self, part: bd.Part) -> bd.Part:
         p = self.parameters
@@ -219,7 +247,7 @@ class Plate(Component):
     def _switch_plate_cutout(self) -> bd.Part:
         """Create a sketch for the cutouts in the switch plate."""
         p = self.parameters
-        switch_locations = bd.Locations(
+        self.switch_locations = bd.Locations(
             list(layout.build_key_locations(p).values())
         )
         switch_cutout_sketch = bd.RectangleRounded(
@@ -230,7 +258,7 @@ class Plate(Component):
             to_extrude=switch_cutout_sketch,
             amount=self.plate_params.thickness
         )
-        return switch_locations * switch_cutout
+        return self.switch_locations * switch_cutout
 
     def _top_plate_cutout(self) -> bd.Part:
         """Generate a sketch for the cutouts in the top plate."""
@@ -343,8 +371,7 @@ if __name__ == "__main__":
             p,
             plate_type=plate_type,
             draft_center=(plate_type == PlateType.TOP),
-            # locate=False,
-            mirror=False
+            mirror=True
         )
         plates.append(plate)
         exporter = bd.ExportDXF()
@@ -353,4 +380,4 @@ if __name__ == "__main__":
             .sort_by(bd.Axis.Z)[0]
         )
         exporter.write(f"cad/production/{plate_type}.dxf")
-    show(plates)
+    show(plates, render_joints=True)

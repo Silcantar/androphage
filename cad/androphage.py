@@ -1,6 +1,6 @@
 import typing
 from os import PathLike
-import copy
+from copy import copy
 
 import build123d as bd
 
@@ -260,19 +260,25 @@ class Androphage(bd.BasePartObject):
             component_list.append(usb_c_port)
         # Key Switches
         print("    Building Key Switches.")
-        # from bd_keyboard.src.key_switch.choc_v2 import ChocV2
-        # switch_locations = bd.Locations(
-        #     list(layout.build_key_locations(self.parameters).values())
-        # )
-        # switches = bd.Part(children=(
-        #     switch_locations
-        #     * ChocV2(
-        #         lower_color=seq_to_color(p.Switch.color.bottom),
-        #         stem_color=seq_to_color(p.Switch.color.stem),
-        #         upper_color=seq_to_color(p.Switch.color.top)
-        #     )
-        # ))
-        # component_list.append(switches)
+        from bd_keyboard.src.key_switch.choc_v2 import ChocV2
+        switch = ChocV2(
+            upper_color=seq_to_color(p.Switch.color.top),
+            lower_color=seq_to_color(p.Switch.color.bottom),
+            stem_color=seq_to_color(p.Switch.color.stem)
+            )
+        switches_list: list[bd.Part] = []
+        i = 1
+        for joint in [
+            joint
+            for joint in switch_plate.joints.values()
+            if "switch" in joint.label
+            ]:
+            switches_list.append(copy(switch))
+            switches_list[-1].label = f"Switch {i}"
+            joint.connect_to(switches_list[-1].joints["plate"])
+            i += 1
+        switches = bd.Part(children=switches_list)
+        component_list.append(switches)
         print("    Building Keycaps.")
         print("    Building Hinge")
         component_list.extend(self._build_hinges(half=half, base=False))
