@@ -69,13 +69,18 @@ class Base(Component):
         )
         # Add trackball case.
         trackball_location = bd.Pos(0, p.Trackball.position_y, -p.Hinge.height)
-        base += trackball_location * bd.Sphere(
-            radius=(
-                p.Trackball.diameter/2
-                + p.Trackball.clearance
-                + p.Base.wall_thickness
+        outer_radius = (
+            p.Trackball.diameter/2
+            + p.Trackball.clearance
+            + p.Base.wall_thickness
             )
-        )
+        if p.Base.trackball_case_round:
+            base += trackball_location * bd.Sphere(outer_radius)
+        else:
+            base += (
+                trackball_location
+                * bd.Box(2*outer_radius, 2*outer_radius, 2*outer_radius)
+                )
         # Subtract hinge cutouts.
         base -= hinge_locations * bd.Box(
             length=p.Hinge.thickness,
@@ -101,9 +106,19 @@ class Base(Component):
             rotation=(0, 90, 0)
         )
         # Subtract trackball cutout.
-        base -= trackball_location * bd.Sphere(
-            radius=p.Trackball.diameter/2 + p.Trackball.clearance
-        )
+        inner_radius = p.Trackball.diameter/2 + p.Trackball.clearance
+        if p.Base.trackball_case_round:
+            base -= trackball_location * bd.Sphere(inner_radius)
+        else:
+            profile = trackball_location * bd.Trapezoid(
+                width=2*inner_radius,
+                height=inner_radius,
+                left_side_angle=90-p.tent_angle,
+                # right_side_angle=90-p.tent_angle,
+                rotation=(90, 0, 90),
+                align=Align.Front
+                )
+            base -= bd.extrude(profile, amount=inner_radius, both=True)
         # Trim off everything extending outside the proper bounding volume.
         trim_sketch = bd.Polygon(
             (0, 0, 0),

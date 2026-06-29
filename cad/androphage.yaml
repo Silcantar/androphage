@@ -150,6 +150,7 @@ Base:
   foot_width: 2
   foot_length: 10
   opening_clearance: 1
+  trackball_case_round: false
   waist_point: [-18, 35, 0]
   wall_thickness: *wall_thickness
 Battery:
@@ -306,12 +307,6 @@ Plates:
     color: *black
     # color: *pcb_color
     thickness: *pcb_thickness
-    # Smoke-colored acrylic bottom plate
-    # color: *smoke
-    # thickness: 3
-    # Stainless steel bottom plate
-    # color: *steel
-    # thickness: 0.76
   PCB:
     visible: true
     add_center: false
