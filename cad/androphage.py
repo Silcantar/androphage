@@ -1,4 +1,4 @@
-import typing
+import os.path
 from os import PathLike
 from copy import copy
 
@@ -259,28 +259,51 @@ class Androphage(bd.BasePartObject):
             )
             component_list.append(usb_c_port)
         # Key Switches
-        print("    Building Key Switches.")
+        print("    Building Key Switches and Keycaps.")
         from bd_keyboard.src.key_switch.choc_v2 import ChocV2
         switch = ChocV2(
             upper_color=seq_to_color(p.Switch.color.top),
             lower_color=seq_to_color(p.Switch.color.bottom),
             stem_color=seq_to_color(p.Switch.color.stem)
             )
+        from components.keycap import KeycapSTL, KeycapRow
+        keycap_path = os.path.join(
+            os.path.dirname(__file__),
+            "components",
+            "keycaps"
+            )
+        keycap_rows = {
+            row: KeycapSTL(row=row, parameters=p)
+            for row in KeycapRow
+            }
         switches_list: list[bd.Part] = []
+        keycaps_list: list[bd.Part] = []
         i = 1
-        for joint in [
+        switch_joints = [
             joint
             for joint in switch_plate.joints.values()
             if "switch" in joint.label
-            ]:
+            ]
+        for (i, joint) in zip(range(len(switch_joints)), switch_joints):
             switches_list.append(copy(switch))
-            switches_list[-1].label = f"Switch {i}"
+            switches_list[-1].label = f"Switch {i+1}"
             joint.connect_to(switches_list[-1].joints["plate"])
-            i += 1
-        switches = bd.Part(children=switches_list)
+            row = min(p.Keycap.rows[i], 6 - p.Keycap.rows[i])
+            keycaps_list.append(
+                copy(
+                    bd.Rot(Z=0 if p.Keycap.rows[i] > 3 else 180)
+                    * keycap_rows[f"r{row}"]
+                    )
+                )
+            keycaps_list[-1].label = f"Keycap {i+1}"
+            switches_list[-1].joints["keycap"].connect_to(
+                keycaps_list[-1].joints["stem"]
+                )
+        switches = bd.Part(label="Switches", children=switches_list)
         component_list.append(switches)
-        print("    Building Keycaps.")
-        print("    Building Hinge")
+        keycaps = bd.Part(label="Keycaps", children=keycaps_list)
+        component_list.append(keycaps)
+        print("    Building Hinge.")
         component_list.extend(self._build_hinges(half=half, base=False))
         print("    Building Screws.")
         # Screws
@@ -330,7 +353,7 @@ class Androphage(bd.BasePartObject):
 
 if __name__ == "__main__":
     from ocp_vscode import show
-    count = 2
+    count = 1
     spacing = 150
     max_angle = 100
     try:
@@ -345,4 +368,4 @@ if __name__ == "__main__":
             )
         board.label = f"Androphage {i*angle_step}°"
         boards.append(board)
-    show(boards)
+    show(boards, render_joints=False)

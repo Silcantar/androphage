@@ -114,6 +114,7 @@ class KeycapProfile:
 class Keycap(Component):
     profile: KeycapProfile
     spacing: vector[2]
+    rows: list[int]
 
 @dataclass
 class Magnet(Component):

@@ -255,6 +255,16 @@ Keycap:
   color: *black
   profile: *Chicago_Steno
   spacing: *Choc
+  rows: [
+    2,              # Thumb inner column
+    2,  1,          # Thumb home column
+    2,              # Thumb outer
+        4,  3,  2,  # Index inner
+    2,  4,  3,  2,  # Index
+    5,  4,  3,  2,  # Middle
+    5,  4,  3,  2,  # Ring
+        4,  3,  2   # Pinky
+    ]
 LED:
   visible: true
   color:
