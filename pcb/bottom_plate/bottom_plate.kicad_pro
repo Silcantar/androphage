@@ -69,29 +69,14 @@
           "thermal_relief_spoke_width": 0.5
         }
       },
-      "diff_pair_dimensions": [],
-      "drc_exclusions": [
-        [
-          "starved_thermal|152362500|84450000|d6f9d859-619c-4dbf-84a2-00b88fd5bc9f|1fc1db8e-a1c3-4377-898d-92479deb30e5|F.Cu",
-          ""
-        ],
-        [
-          "starved_thermal|156000000|104637500|d6f9d859-619c-4dbf-84a2-00b88fd5bc9f|b1c39a41-07ad-4ab7-a9a0-da8798285ede|F.Cu",
-          ""
-        ],
-        [
-          "starved_thermal|164000000|104637500|d6f9d859-619c-4dbf-84a2-00b88fd5bc9f|bf45855f-1bf7-455b-8da8-9aa735c3b541|F.Cu",
-          ""
-        ],
-        [
-          "starved_thermal|236000000|104637500|ea26f3ca-a5a9-43f1-8fd6-24b1077d05b1|028d66e1-4ab2-44ac-952e-914165a775b6|F.Cu",
-          ""
-        ],
-        [
-          "starved_thermal|244050000|104637500|ea26f3ca-a5a9-43f1-8fd6-24b1077d05b1|b0b301b9-9ce0-4d11-bf3a-ba6fe5df38c1|F.Cu",
-          ""
-        ]
+      "diff_pair_dimensions": [
+        {
+          "gap": 0.0,
+          "via_gap": 0.0,
+          "width": 0.0
+        }
       ],
+      "drc_exclusions": [],
       "meta": {
         "version": 2
       },
@@ -224,7 +209,10 @@
           "td_width_to_size_filter_ratio": 0.9
         }
       ],
-      "track_widths": [],
+      "track_widths": [
+        0.0,
+        0.3
+      ],
       "tuning_pattern_settings": {
         "diff_pair_defaults": {
           "corner_radius_percentage": 80,
@@ -251,7 +239,12 @@
           "spacing": 0.6
         }
       },
-      "via_dimensions": [],
+      "via_dimensions": [
+        {
+          "diameter": 0.0,
+          "drill": 0.0
+        }
+      ],
       "zones_allow_external_fillets": false
     },
     "ipc2581": {
@@ -532,6 +525,14 @@
         "via_diameter": 0.6,
         "via_drill": 0.3,
         "wire_width": 6
+      },
+      {
+        "name": "Power",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 0,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.3,
+        "tuning_profile": ""
       }
     ],
     "meta": {
@@ -539,7 +540,28 @@
     },
     "net_colors": null,
     "netclass_assignments": null,
-    "netclass_patterns": []
+    "netclass_patterns": [
+      {
+        "netclass": "Power",
+        "pattern": "*GND"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "*VCC"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "*VDD"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "*VBAT"
+      },
+      {
+        "netclass": "Default",
+        "pattern": "*VUSB"
+      }
+    ]
   },
   "pcbnew": {
     "last_paths": {
@@ -669,7 +691,7 @@
         "uuid": "b41c5c8d-a6b2-4633-9a6f-a9fc0b4f40ca"
       }
     ],
-    "used_designators": "U_ESD_D4-6,U1-3",
+    "used_designators": "",
     "variants": []
   },
   "sheets": [

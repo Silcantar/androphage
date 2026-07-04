@@ -400,13 +400,9 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Mechanical:MountingHole_Pad"
-			(pin_numbers
-				(hide yes)
-			)
+		(symbol "Mechanical:MountingHole"
 			(pin_names
 				(offset 1.016)
-				(hide yes)
 			)
 			(exclude_from_sim no)
 			(in_bom no)
@@ -414,7 +410,7 @@
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "H"
-				(at 0 6.35 0)
+				(at 0 5.08 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -423,8 +419,8 @@
 					)
 				)
 			)
-			(property "Value" "MountingHole_Pad"
-				(at 0 4.445 0)
+			(property "Value" "MountingHole"
+				(at 0 3.175 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -455,7 +451,7 @@
 					)
 				)
 			)
-			(property "Description" "Mounting Hole with connection"
+			(property "Description" "Mounting Hole without connection"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -477,7 +473,7 @@
 					)
 				)
 			)
-			(property "ki_fp_filters" "MountingHole*Pad*"
+			(property "ki_fp_filters" "MountingHole*"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -488,9 +484,9 @@
 					)
 				)
 			)
-			(symbol "MountingHole_Pad_0_1"
+			(symbol "MountingHole_0_1"
 				(circle
-					(center 0 1.27)
+					(center 0 0)
 					(radius 1.27)
 					(stroke
 						(width 1.27)
@@ -498,26 +494,6 @@
 					)
 					(fill
 						(type none)
-					)
-				)
-			)
-			(symbol "MountingHole_Pad_1_1"
-				(pin input line
-					(at 0 -2.54 90)
-					(length 2.54)
-					(name "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
 					)
 				)
 			)
@@ -3071,7 +3047,7 @@
 		(uuid "1d60845e-bac7-4d71-91ec-b4226aa2d389")
 	)
 	(label "SCL"
-		(at 170.18 184.15 0)
+		(at 170.18 189.23 0)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3099,16 +3075,6 @@
 			(justify right bottom)
 		)
 		(uuid "2354a249-f3c4-4f6b-a70b-1684ad25cc71")
-	)
-	(label "GND"
-		(at 50.8 181.61 270)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "2a2a9857-da1a-4a25-8c11-5c916369c483")
 	)
 	(label "CS_DIS1"
 		(at 77.47 48.26 0)
@@ -3151,7 +3117,7 @@
 		(uuid "323f74ce-5415-453d-b657-3d9c61525750")
 	)
 	(label "SDA"
-		(at 170.18 189.23 0)
+		(at 170.18 184.15 0)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3179,16 +3145,6 @@
 			(justify right bottom)
 		)
 		(uuid "3befb250-c420-44bd-b74b-217eedcb64df")
-	)
-	(label "GND"
-		(at 50.8 207.01 270)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "3fa8eeaf-6bbd-44b7-90bf-7e04aa740e49")
 	)
 	(label "CS_PMW1"
 		(at 171.45 57.15 180)
@@ -3260,26 +3216,6 @@
 		)
 		(uuid "4521310f-6da2-4e66-90e3-2d44e76205a1")
 	)
-	(label "SCLK"
-		(at 144.78 227.33 180)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "453b2c99-860b-4764-b94e-1fa5f29c0f69")
-	)
-	(label "MOSI"
-		(at 170.18 227.33 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "456799af-cdc4-478c-9323-8abf0d84225a")
-	)
 	(label "VCC"
 		(at 228.6 91.44 180)
 		(effects
@@ -3310,16 +3246,6 @@
 		)
 		(uuid "4ec9ed9d-f976-4da0-9fcb-70f72ce449f0")
 	)
-	(label "GND"
-		(at 76.2 181.61 270)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "5041d20c-c9da-469f-b464-dedc5a2bc4c0")
-	)
 	(label "SCL"
 		(at 125.73 99.06 180)
 		(effects
@@ -3339,16 +3265,6 @@
 			(justify left bottom)
 		)
 		(uuid "5721635c-6b9d-43df-a1c9-6ea474f05007")
-	)
-	(label "MISO"
-		(at 170.18 222.25 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "5854684a-67b0-42d9-a64e-affe2e2e60ff")
 	)
 	(label "SCLK"
 		(at 171.45 119.38 180)
@@ -3390,6 +3306,16 @@
 		)
 		(uuid "5def54e1-30a7-417e-adb5-92b39670a154")
 	)
+	(label "SCLK"
+		(at 170.18 227.33 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left bottom)
+		)
+		(uuid "6099051c-8ec4-4482-a164-80d69872cde4")
+	)
 	(label "D-"
 		(at 68.58 87.63 270)
 		(effects
@@ -3401,7 +3327,7 @@
 		(uuid "60fe3ebb-9387-464c-a9b1-01ccb84e3baa")
 	)
 	(label "CS_PMW2"
-		(at 144.78 189.23 180)
+		(at 144.78 184.15 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3600,16 +3526,6 @@
 		)
 		(uuid "aa9522e2-b847-4613-bdad-813239856005")
 	)
-	(label "GND"
-		(at 25.4 207.01 270)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "ab9ed352-493d-46fc-b4ac-f68e6562d3a8")
-	)
 	(label "CS_PMW2"
 		(at 77.47 45.72 0)
 		(effects
@@ -3680,16 +3596,6 @@
 		)
 		(uuid "bb474281-a683-42e1-8237-ea81829ac9b0")
 	)
-	(label "GND"
-		(at 25.4 181.61 270)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "c1e399d2-6813-41fe-8716-7a7d8f6f89bb")
-	)
 	(label "SDA"
 		(at 125.73 39.37 180)
 		(effects
@@ -3729,16 +3635,6 @@
 			(justify right bottom)
 		)
 		(uuid "c51b7d9a-b1ca-4e36-a977-34f5dd3df3b3")
-	)
-	(label "GND"
-		(at 76.2 207.01 270)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "c57eba07-b6a6-4fd9-ad70-0c7493c81675")
 	)
 	(label "SWD"
 		(at 129.54 149.86 180)
@@ -3850,8 +3746,18 @@
 		)
 		(uuid "ed60be6f-eeda-4bf3-99d2-a60db54df57f")
 	)
+	(label "MOSI"
+		(at 144.78 227.33 180)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "efe1e0ca-825d-4ecd-a0e7-2962e9b5ef85")
+	)
 	(label "CS_DIS2"
-		(at 144.78 184.15 180)
+		(at 144.78 189.23 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3900,6 +3806,16 @@
 		)
 		(uuid "f914a6b6-98a9-4bdb-9d00-13d7a4336860")
 	)
+	(label "MISO"
+		(at 170.18 222.25 0)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left bottom)
+		)
+		(uuid "fd1c02ad-52bc-4cba-a173-ea285e8b6bee")
+	)
 	(label "GND"
 		(at 185.42 127 270)
 		(effects
@@ -3941,7 +3857,7 @@
 		(uuid "feaa5e1d-0a27-4759-a33f-e7b6fa7f3551")
 	)
 	(symbol
-		(lib_id "Mechanical:MountingHole_Pad")
+		(lib_id "Mechanical:MountingHole")
 		(at 50.8 179.07 0)
 		(unit 1)
 		(body_style 1)
@@ -3953,7 +3869,7 @@
 		(fields_autoplaced yes)
 		(uuid "0004e120-40c4-4e6a-83f3-f8db315de2b7")
 		(property "Reference" "H2"
-			(at 53.34 176.5299 0)
+			(at 53.34 177.7999 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3964,7 +3880,7 @@
 			)
 		)
 		(property "Value" "MountingHole_Pad"
-			(at 53.34 179.0699 0)
+			(at 53.34 180.3399 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3974,7 +3890,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
 			(at 50.8 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -3996,7 +3912,7 @@
 				)
 			)
 		)
-		(property "Description" "Mounting Hole with connection"
+		(property "Description" "Mounting Hole without connection"
 			(at 50.8 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -4006,9 +3922,6 @@
 					(size 1.27 1.27)
 				)
 			)
-		)
-		(pin "1"
-			(uuid "7237f9b9-e985-4ba5-8a92-37fe37f47b62")
 		)
 		(instances
 			(project "bottom_plate"
@@ -4020,7 +3933,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Mechanical:MountingHole_Pad")
+		(lib_id "Mechanical:MountingHole")
 		(at 50.8 204.47 0)
 		(unit 1)
 		(body_style 1)
@@ -4032,7 +3945,7 @@
 		(fields_autoplaced yes)
 		(uuid "1aff2bdd-1598-4875-8349-b010d2b146ff")
 		(property "Reference" "H5"
-			(at 53.34 201.9299 0)
+			(at 53.34 203.1999 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4043,7 +3956,7 @@
 			)
 		)
 		(property "Value" "MountingHole_Pad"
-			(at 53.34 204.4699 0)
+			(at 53.34 205.7399 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4053,7 +3966,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
 			(at 50.8 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -4075,7 +3988,7 @@
 				)
 			)
 		)
-		(property "Description" "Mounting Hole with connection"
+		(property "Description" "Mounting Hole without connection"
 			(at 50.8 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -4085,9 +3998,6 @@
 					(size 1.27 1.27)
 				)
 			)
-		)
-		(pin "1"
-			(uuid "7a0a437d-6938-4c31-bff4-54ee9d0d5f24")
 		)
 		(instances
 			(project "bottom_plate"
@@ -4297,7 +4207,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Mechanical:MountingHole_Pad")
+		(lib_id "Mechanical:MountingHole")
 		(at 76.2 179.07 0)
 		(unit 1)
 		(body_style 1)
@@ -4309,7 +4219,7 @@
 		(fields_autoplaced yes)
 		(uuid "41972186-0b97-4aa4-b8f9-ceb9d24e6f62")
 		(property "Reference" "H3"
-			(at 78.74 176.5299 0)
+			(at 78.74 177.7999 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4320,7 +4230,7 @@
 			)
 		)
 		(property "Value" "MountingHole_Pad"
-			(at 78.74 179.0699 0)
+			(at 78.74 180.3399 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4330,7 +4240,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
 			(at 76.2 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -4352,7 +4262,7 @@
 				)
 			)
 		)
-		(property "Description" "Mounting Hole with connection"
+		(property "Description" "Mounting Hole without connection"
 			(at 76.2 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -4362,9 +4272,6 @@
 					(size 1.27 1.27)
 				)
 			)
-		)
-		(pin "1"
-			(uuid "6a9c461a-3b84-4fb1-859a-147cf282494b")
 		)
 		(instances
 			(project "bottom_plate"
@@ -4494,7 +4401,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Mechanical:MountingHole_Pad")
+		(lib_id "Mechanical:MountingHole")
 		(at 76.2 204.47 0)
 		(unit 1)
 		(body_style 1)
@@ -4506,7 +4413,7 @@
 		(fields_autoplaced yes)
 		(uuid "5d137879-7396-4675-9b9d-461c3a430039")
 		(property "Reference" "H6"
-			(at 78.74 201.9299 0)
+			(at 78.74 203.1999 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4517,7 +4424,7 @@
 			)
 		)
 		(property "Value" "MountingHole_Pad"
-			(at 78.74 204.4699 0)
+			(at 78.74 205.7399 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4527,7 +4434,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
 			(at 76.2 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -4549,7 +4456,7 @@
 				)
 			)
 		)
-		(property "Description" "Mounting Hole with connection"
+		(property "Description" "Mounting Hole without connection"
 			(at 76.2 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -4559,9 +4466,6 @@
 					(size 1.27 1.27)
 				)
 			)
-		)
-		(pin "1"
-			(uuid "8e5ac143-9e2b-49f6-ba93-b31288811b4a")
 		)
 		(instances
 			(project "bottom_plate"
@@ -4573,7 +4477,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Mechanical:MountingHole_Pad")
+		(lib_id "Mechanical:MountingHole")
 		(at 25.4 204.47 0)
 		(unit 1)
 		(body_style 1)
@@ -4585,7 +4489,7 @@
 		(fields_autoplaced yes)
 		(uuid "6c86a218-b498-4998-8280-74630d3fe75b")
 		(property "Reference" "H4"
-			(at 27.94 201.9299 0)
+			(at 27.94 203.1999 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4596,7 +4500,7 @@
 			)
 		)
 		(property "Value" "MountingHole_Pad"
-			(at 27.94 204.4699 0)
+			(at 27.94 205.7399 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4606,7 +4510,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
 			(at 25.4 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -4628,7 +4532,7 @@
 				)
 			)
 		)
-		(property "Description" "Mounting Hole with connection"
+		(property "Description" "Mounting Hole without connection"
 			(at 25.4 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -4638,9 +4542,6 @@
 					(size 1.27 1.27)
 				)
 			)
-		)
-		(pin "1"
-			(uuid "e27cadd4-3287-4308-adba-6ee23262f340")
 		)
 		(instances
 			(project "bottom_plate"
@@ -5429,7 +5330,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Mechanical:MountingHole_Pad")
+		(lib_id "Mechanical:MountingHole")
 		(at 25.4 179.07 0)
 		(unit 1)
 		(body_style 1)
@@ -5441,7 +5342,7 @@
 		(fields_autoplaced yes)
 		(uuid "f30412a1-1127-4f64-b877-3d48c2e6e968")
 		(property "Reference" "H1"
-			(at 27.94 176.5299 0)
+			(at 27.94 177.7999 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5452,7 +5353,7 @@
 			)
 		)
 		(property "Value" "MountingHole_Pad"
-			(at 27.94 179.0699 0)
+			(at 27.94 180.3399 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5462,7 +5363,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
 			(at 25.4 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -5484,7 +5385,7 @@
 				)
 			)
 		)
-		(property "Description" "Mounting Hole with connection"
+		(property "Description" "Mounting Hole without connection"
 			(at 25.4 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -5494,9 +5395,6 @@
 					(size 1.27 1.27)
 				)
 			)
-		)
-		(pin "1"
-			(uuid "6c568666-592c-40e3-be97-9d387dbd82eb")
 		)
 		(instances
 			(project "bottom_plate"
