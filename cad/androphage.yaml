@@ -151,7 +151,7 @@ Base:
   foot_length: 10
   opening_clearance: 1
   trackball_case_round: false
-  waist_point: [-18, 35, 0]
+  waist_point: [-25, 35, 0]
   wall_thickness: *wall_thickness
 Battery:
   visible: true
