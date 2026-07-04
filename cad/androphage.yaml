@@ -156,7 +156,7 @@ Base:
 Battery:
   visible: true
   color: *silver
-  position: [-2.5, 2.2, 12.55]
+  position: [-3.0, 2.2, 12.55]
   half: 2 # 0 = neither, 1 = left, 2 = right, 3 = both
   # size: [14, 30, 4.0] # 401430 150mAh
   size: [12, 30, 7.0] # 701230 300mAh
@@ -322,7 +322,7 @@ Plates:
     add_center: false
     color: *pcb_color
     # This ensures clearance between the PCB and bottom plate
-    clearance: 3
+    clearance: 2.2
     radius_outer: 2
     thickness: *pcb_thickness
   Switch:
@@ -547,15 +547,17 @@ Trackball:
 TrackballSensor:
   visible: true
   color:
-  angle: 51
+  angle: 52
+  bottom_chip_size: [ 13, 4, 1 ]
   chip_size: [ 10.9, 16.2, 1.65 ]
   clearance: 2.4
   holder_height: 16
   holder_thickness: 5
+  hole_offset: 2.5
   hole_size: 5
   lens_size: [ 8.6, 16.96, 3.4 ]
   optical_center: 2.52 # Distance from center of lens to optical center.
-  pcb_size: [ 16, 32, *pcb_thickness ]
+  pcb_size: [ 15, 32, *pcb_thickness ]
   screw: *M2
   screw_position: [0, -13, 0]
 USBPort:

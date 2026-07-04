@@ -258,6 +258,7 @@ class Trackball(Component):
 @dataclass
 class TrackballSensor(Component):
     angle: float
+    bottom_chip_size: vector[3]
     chip_size: vector[3]
     clearance: float
     holder_height: float
