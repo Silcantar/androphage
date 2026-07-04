@@ -100,6 +100,15 @@ class Frame(Component):
             usb_face = bd.Face(bd.Wire(
                 self.outline.edges().sort_by(bd.Axis.X)[:-3]
             ).close())
+            usb_c_port = bd.extrude(
+                to_extrude=bd.RectangleRounded(
+                    width=p.USBPort.cut_size[X],
+                    height=p.USBPort.cut_size[Z],
+                    radius=p.USBPort.cut_radius
+                    ),
+                    amount=p.USBPort.cut_size[Y],
+                    both=True
+                )
             frame -= (
                 layout.usb_c_port_location(
                     self.parameters,
@@ -109,9 +118,11 @@ class Frame(Component):
                 * bd.Pos(
                     0,
                     p.Plates.PCB.edge - p.Plates.Top.edge,
-                    p.Plates.PCB.position_z + p.Plates.PCB.thickness
+                    p.Plates.PCB.position_z + p.Plates.PCB.thickness + p.USBPort.size[Z]/2
                 )
-                * USB_C_Port(mode=bd.Mode.SUBTRACT)
+                * bd.Rot(X=90)
+                # * USB_C_Port(mode=bd.Mode.SUBTRACT)
+                * usb_c_port
             )
         return frame
 
@@ -162,5 +173,5 @@ if __name__ == "__main__":
     p = layout.set_derived_parameters(
         parameters.load_parameters("cad/androphage.yaml")
     )
-    frame = Frame(p)
+    frame = Frame(p, usb_cutout=True)
     show(frame)
