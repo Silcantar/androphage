@@ -20,12 +20,14 @@ class Androphage(bd.BasePartObject):
         build: bool = True,
         parameter_path: PathLike = "cad/androphage.yaml",
         main_half: Half = Half.LEFT,
+        render_keycaps: bool = False,
         **kwargs
     ):
         self.main_half = main_half
         self.parameters = layout.set_derived_parameters(
             load_parameters(parameter_path)
         )
+        self.render_keycaps = render_keycaps
         self.angle = max(0, min(angle, 90 + self.parameters.tent_angle))
         self.column_locations = layout.build_column_locations(self.parameters)
         if build:
@@ -302,7 +304,8 @@ class Androphage(bd.BasePartObject):
         switches = bd.Part(label="Switches", children=switches_list)
         component_list.append(switches)
         keycaps = bd.Part(label="Keycaps", children=keycaps_list)
-        component_list.append(keycaps)
+        if self.render_keycaps:
+            component_list.append(keycaps)
         print("    Building Hinge.")
         component_list.extend(self._build_hinges(half=half, base=False))
         print("    Building Screws.")
