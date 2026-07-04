@@ -27,7 +27,7 @@ def set_derived_parameters(p: Parameters) -> Parameters:
         p.Trackball.diameter/2
         + p.Trackball.clearance
         + p.Plates.Bottom.thickness
-        + p.Print.min_wall_thickness
+        # + p.Print.min_wall_thickness
     )
     print(f"key height: {key_height} --- trackball height: {trackball_height}")
     p.height = max(key_height, trackball_height)
@@ -42,7 +42,7 @@ def set_derived_parameters(p: Parameters) -> Parameters:
     ) / cosd(p.tent_angle)
     p.Plates.PCB.position_z = p.Plates.Switch.position_z + (
         - p.Switch.model.height.lower
-        - p.Plates.PCB.thickness
+        # - p.Plates.PCB.thickness
     ) / cosd(p.tent_angle)
     p.Plates.Bottom.position_z = -p.height / cosd(p.tent_angle)
     p.Plates.Top.center_width = (
@@ -534,9 +534,9 @@ def usb_c_port_location(
         )
         * bd.Rot(outline.orientation)
         * bd.Pos([
-            component * direction 
+            component * direction
             for (component, direction) in zip(
-                p.USBPort.position, 
+                p.USBPort.position,
                 ((-1 if mirror else 1), 1, 1)
                 )
             ])

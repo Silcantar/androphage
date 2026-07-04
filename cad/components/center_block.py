@@ -127,9 +127,19 @@ class CenterBlock(Component):
             mode=bd.Mode.SUBTRACT
         )
         # Subtract trackball clearance.
-        center_block -= self._trackball_location() * bd.Sphere(
-            radius=p.Trackball.diameter/2 + p.Trackball.clearance
-        )
+        center_block -= (
+            self._trackball_location()
+            * bd.Sphere(
+                radius=p.Trackball.diameter/2 + p.Trackball.clearance
+                )
+            )
+        center_block -= (
+            self._trackball_location()
+            * bd.Cylinder(
+                radius=5,
+                height=BIG,
+                )
+            )
         # Subtract cutout for magnetic connector.
         magnetic_connector_location = bd.Pos(p.MagneticConnector.position)
         center_block -= magnetic_connector_location * MagneticConnector(
@@ -375,4 +385,7 @@ if __name__ == "__main__":
     p = layout.set_derived_parameters(
         parameters.load_parameters("cad/androphage.yaml")
     )
-    show(bd.Rot(Y=180+p.tent_angle)*CenterBlock(p))
+    show(
+        # bd.Rot(Y=180+p.tent_angle) *
+        CenterBlock(p)
+        )
