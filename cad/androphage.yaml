@@ -555,6 +555,8 @@ TrackballSensor:
   holder_thickness: 5
   hole_offset: 2.5
   hole_size: 5
+  hook_angle: 10
+  hook_thickness: 1
   lens_size: [ 8.6, 16.96, 3.4 ]
   optical_center: 2.52 # Distance from center of lens to optical center.
   pcb_size: [ 15, 32, *pcb_thickness ]

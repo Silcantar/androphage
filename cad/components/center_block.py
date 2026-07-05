@@ -46,11 +46,34 @@ class CenterBlock(Component):
         # Eliminate some of the overhang of the sensor holder when it is
         # printed upside-down.
         sensor_holder = self._sensor_location() * self._sensor_holder()
-        # sensor_holder += bd.extrude(
-        #     to_extrude=sensor_holder.faces().sort_by(bd.Axis.Z)[-1],
-        #     dir=(0, 0, 1),
-        #     amount=10
-        # )
+        sensor_hook_location = (
+            bd.Pos(
+                sensor_holder
+                .vertices()
+                .group_by(bd.Axis.Y)[-1]
+                .sort_by(bd.Axis.X)[0]
+                .center()
+                )
+            * bd.Rot(Y=p.TrackballSensor.angle - 90)
+            )
+        sensor_hook = bd.Box(
+            length=p.TrackballSensor.hook_thickness,
+            width=p.CenterBlock.wall_thickness + p.TrackballSensor.hook_thickness,
+            height=p.TrackballSensor.holder_thickness,
+            align=Align.RightBackTop
+            )
+        sensor_hook = bd.chamfer(
+            objects=(
+                sensor_hook
+                .edges()
+                .group_by(bd.Axis.Y)[0]
+                .group_by(bd.SortBy.LENGTH)[-1]
+                .sort_by(bd.Axis.X)[-1]
+                ),
+            length=p.TrackballSensor.hook_thickness,
+            angle=p.TrackballSensor.hook_angle
+            )
+        sensor_holder += sensor_hook_location * sensor_hook
         center_block += sensor_holder
         center_block += self._btu_locations() * self._btu_socket()
         # Clip off anything extending outside the proper height of the part.

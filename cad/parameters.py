@@ -264,6 +264,8 @@ class TrackballSensor(Component):
     holder_height: float
     holder_thickness: float
     hole_size: float
+    hook_angle: float
+    hook_thickness: float
     lens_size: vector[3]
     optical_center: float
     pcb_size: vector[3]

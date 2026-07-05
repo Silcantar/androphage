@@ -356,7 +356,7 @@ class Androphage(bd.BasePartObject):
 
 if __name__ == "__main__":
     from ocp_vscode import show
-    count = 1
+    count = 3
     spacing = 150
     max_angle = 100
     try:
@@ -367,7 +367,10 @@ if __name__ == "__main__":
     for i in range(count):
         board = (
             bd.Pos(Y=i*spacing - count*spacing/2)
-            * Androphage(angle=i*angle_step)
+            * Androphage(
+                angle=i*angle_step,
+                render_keycaps=False
+                )
             )
         board.label = f"Androphage {i*angle_step}°"
         boards.append(board)
