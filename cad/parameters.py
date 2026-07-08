@@ -133,13 +133,6 @@ class MagneticConnector(Component):
     size: vector[3]
 
 @dataclass
-class MCU(Component):
-    chip_size: vector[3]
-    location: str
-    radius: float
-    size: vector[3]
-
-@dataclass
 class Plate(Component):
     radius_outer: float
     add_center: bool
@@ -293,7 +286,7 @@ class Parameters(YAMLWizard):
     Insert: Insert
     Keycap: Keycap
     MagneticConnector: MagneticConnector
-    MCU: MCU
+    # MCU: MCU
     Plates: Plates
     Screen: Screen
     Screws: Screws
