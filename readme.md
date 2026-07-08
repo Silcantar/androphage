@@ -56,13 +56,13 @@ ANSI/ISO keyboard.
 ## Additional Renders
 
 ![Front
-View](https://github.com/Silcantar/androphage/blob/main/assets/renders/front.png?raw=true)
+View](assets/renders/front.png)
 
 ![Top
-View](https://github.com/Silcantar/androphage/blob/main/assets/renders/top.png?raw=true)
+View](assets/renders/top.png)
 
 ![Key
-Layout](https://github.com/Silcantar/androphage/blob/main/kle/androphage_kle.png?raw=true)
+Layout](kle/androphage_kle.png)
 
 ## Open Source
 
