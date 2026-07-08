@@ -161,6 +161,7 @@ class Plate(Component):
                         plate_location
                         * bd.Pos(Z=p.Plates.Switch.thickness)
                         * location
+                        * rotation
                         )
                     )
                 i += 1

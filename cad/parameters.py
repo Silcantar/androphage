@@ -112,9 +112,10 @@ class KeycapProfile:
 
 @dataclass
 class Keycap(Component):
+    offset: vector[3]
     profile: KeycapProfile
-    spacing: vector[2]
     rows: list[int]
+    spacing: vector[2]
 
 @dataclass
 class Magnet(Component):
@@ -203,18 +204,6 @@ class Screw(Component):
     head_angle: float
     hole_diameter: float
     minor_diameter: float
-
-# @dataclass
-# class M2(Screw):
-#     pass
-
-# @dataclass
-# class M3(Screw):
-#     pass
-
-# @dataclass
-# class M4(Screw):
-#     pass
 
 @dataclass
 class Screws:

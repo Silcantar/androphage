@@ -260,7 +260,7 @@ class Androphage(bd.BasePartObject):
                 * USB_C_Port()
             )
             component_list.append(usb_c_port)
-        # Key Switches
+        # Switches & Keycaps
         print("    Building Key Switches and Keycaps.")
         from bd_keyboard.src.key_switch.choc_v2 import ChocV2
         switch = ChocV2(
@@ -290,13 +290,8 @@ class Androphage(bd.BasePartObject):
             switches_list.append(copy(switch))
             switches_list[-1].label = f"Switch {i+1}"
             joint.connect_to(switches_list[-1].joints["plate"])
-            row = min(p.Keycap.rows[i], 6 - p.Keycap.rows[i])
-            keycaps_list.append(
-                copy(
-                    bd.Rot(Z=0 if p.Keycap.rows[i] > 3 else 180)
-                    * keycap_rows[f"r{row}"]
-                    )
-                )
+            row = p.Keycap.rows[i]
+            keycaps_list.append(copy(keycap_rows[row]))
             keycaps_list[-1].label = f"Keycap {i+1}"
             switches_list[-1].joints["keycap"].connect_to(
                 keycaps_list[-1].joints["stem"]
@@ -356,7 +351,7 @@ class Androphage(bd.BasePartObject):
 
 if __name__ == "__main__":
     from ocp_vscode import show
-    count = 3
+    count = 1
     spacing = 150
     max_angle = 100
     try:
@@ -369,7 +364,7 @@ if __name__ == "__main__":
             bd.Pos(Y=i*spacing - count*spacing/2)
             * Androphage(
                 angle=i*angle_step,
-                render_keycaps=False
+                render_keycaps=True
                 )
             )
         board.label = f"Androphage {i*angle_step}°"
