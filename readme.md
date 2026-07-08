@@ -1,5 +1,5 @@
 
-![androphage banner](assets/renders/quarter.png)
+![androphage banner](assets/renders/open_quarter.png)
 
 # Androphage
 
@@ -55,19 +55,24 @@ ANSI/ISO keyboard.
 
 ## Additional Renders
 
-![Front
-View](assets/renders/front.png)
+![Opened Top View](assets/renders/open_top.png)
 
-![Top
-View](assets/renders/top.png)
+![Opened Right Profile](assets/renders/open_right.png)
 
-![Key
-Layout](kle/androphage_kle.png)
+![Opened Back View](assets/renders/open_back.png)
+
+![Closed Quarter View](assets/renders/closed_quarter.png)
+
+![Closed Below View](assets/renders/closed_below.png)
+
+![Suggested Key Layout](assets/kle.png)
 
 ## Open Source
 
 This project is licensed under the CERN Open Hardware License, Strongly
 Reciprocal 2.0.
+
+---
 
 > *Well, I saw the thing comin' out of the sky*
 >
