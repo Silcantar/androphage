@@ -1,19 +1,14 @@
+# Lengths are in millimeters and angles in degrees unless otherwise noted.
 
-# Androphage Parameters
+#-------------------------------------#
+#         General Parameters          #
+#-------------------------------------#
+
 main_half: 1 # 1 = Left, 2 = Right
 tent_angle: 10
 center_width: 7
 pcb_thickness: &pcb_thickness 1.6
 pivot_depth: 80
-colors:
-  black: &black [0x202020, 1]
-  brass: &brass [DarkGoldenrod, 1]
-  clear: &clear [White, 0.3]
-  pcb_color: &pcb_color [MediumPurple, 1]
-  purple: &purple [MediumPurple, 1]
-  silver: &silver [Silver, 1]
-  smoke: &smoke [Black, 0.5]
-  steel: &steel [DarkGray, 1]
 Print:
   # Angle for overhangs on 3d-printed parts.
   overhang_angle: 45
@@ -21,9 +16,9 @@ Print:
   wall_thickness: &wall_thickness 2
   min_wall_thickness: 1
 Columns:
+# Spread and Stagger are measured in key spacing units (u).
   # Thumb columns
   reach:
-    # connect: 1
     cutout: true
     splay: -45
     spread: 0.5
@@ -65,6 +60,22 @@ Columns:
     skip: true
     keys: 2
     stagger: 0.75
+
+#-------------------------------------#
+#         Option Definitions          #
+#-------------------------------------#
+
+# ---- Color Definitions ----
+colors:
+  black: &black [0x202020, 1]
+  brass: &brass [DarkGoldenrod, 1]
+  clear: &clear [White, 0.3]
+  purple: &purple [MediumPurple, 1]
+  silver: &silver [Silver, 1]
+  smoke: &smoke [Black, 0.5]
+  steel: &steel [DarkGray, 1]
+  # Note: CSS 'DarkGray' is more of a light-medium gray.
+  pcb_color: &pcb_color [0x202020, 1]
 
 # ---- BTU Options ----
 BTU_Options:
@@ -108,118 +119,7 @@ BTU_Options:
     housing_height: 14.8
     model: VCN319
 
-# ---- Screw Options ----
-Screws:
-  M2: &M2
-    visible: true
-    color: *brass
-    counter_sink_diameter: 4.4
-    diameter: 2
-    drive_depth: 1
-    drive_width: 1.3
-    head_diameter: 4
-    head_angle: 90
-    hole_diameter: 2.4
-    minor_diameter: 1.6
-  M3: &M3
-    visible: true
-    color: *brass
-    counter_sink_diameter: 6.6
-    diameter: 3
-    drive_depth: 1.1
-    drive_width: 2
-    head_diameter: 6
-    head_angle: 90
-    hole_diameter: 3.6
-    minor_diameter: 2.5
-  M4: &M4
-    visible: true
-    color: *brass
-    counter_sink_diameter: 8.8
-    diameter: 4
-    drive_depth: 1.5
-    drive_width: 2.5
-    head_diameter: 8
-    head_angle: 90
-    hole_diameter: 4.8
-    minor_diameter: 3.3
-# ---------------------
-Base:
-  visible: true
-  color: *black
-  foot_width: 2
-  foot_length: 10
-  opening_clearance: 1
-  trackball_case_round: false
-  waist_point: [-25, 35, 0]
-  wall_thickness: *wall_thickness
-Battery:
-  visible: true
-  color: *silver
-  position: [-3.0, 2.2, 12.55]
-  half: 2 # 0 = neither, 1 = left, 2 = right, 3 = both
-  # size: [14, 30, 4.0] # 401430 150mAh
-  size: [12, 30, 7.0] # 701230 300mAh
-BTU: *VCN310
-CenterBlock:
-  visible: true
-  # 47 degrees for the BTU Z angle adds a bit of clearance for the sensor
-  # without significantly affecting the stability of the trackball.
-  btu_angles: [ 0, 60, 47 ]
-  color: *black
-  rib_size: [ 2, 2 ]
-  screw_offsets: [
-    [7, 0],
-  ]
-  wall_thickness: *wall_thickness
-Desk:
-  visible: true
-  color: *clear
-  size: [ 300, 200, 1 ]
-  position: [ 0, 0, -40 ]
-Eye:
-  visible: true
-  color: *brass
-  # color: LightGreen
-  # color: *purple
-  pupil_size: [35, 8]
-  position: [-0.7, 0, 0]
-  size: [30, 2]
-Frame:
-  visible: true
-  color: *black
-  chord_angle: 4 # Angle between the chord of the main arc and vertical.
-  fillet_radius: 1
-  lip_depth: 1
-  main_radius: 50
-  notch_depth: 6
-  screw_count: 5
-  thickness: 4
-Hinge:
-  visible: true
-  # color: *brass
-  color: *steel
-  offsets: [0, 0]
-  diameter: 6
-  fillet_radius: 1
-  multi_connector_width: 2
-  multi_spacing: 1
-  pin_diameter: 2
-  plate_count: 4
-  plate_thickness: 1.5875
-  screw: *M2
-  screw_position: 3.5
-  taper_pin_diameter: 1.55194
-  taper_pin_position: 6
-  thickness: 3
-Insert:
-  visible: true
-  color: *brass
-  diameter: 3
-  height: 3
-  hole_diameter: 2.8
-  hole_depth: 4
-  wall_thickness: 1.6
+# ---- Keycap Options ----
 Keycap_Profile_Options:
   # Options and heights are from 3dKeycap.com's keycap models.
   Cherry: &Cherry
@@ -246,119 +146,99 @@ Keycap_Profile_Options:
     height: 7
   XDA: &XDA
     height: 9.5
+
 Keycap_Spacing_Options:
   Choc: &Choc [18, 17]
   MX: &MX_Metric [19, 19]
   MX_Inch: &MX_Inch [19.05, 19.05]
-Keycap:
-  visible: true
-  color: *black
-  profile: *Chicago_Steno
-  spacing: *Choc
-  rows: [
-    2,              # Thumb inner column
-    2,  1,          # Thumb home column
-    2,              # Thumb outer
-        4,  3,  2,  # Index inner
-    2,  4,  3,  2,  # Index
-    5,  4,  3,  2,  # Middle
-    5,  4,  3,  2,  # Ring
-        4,  3,  2   # Pinky
-    ]
-LED:
-  visible: true
-  color:
-  present: true
-  count: 4
-  hole_radius: 0.2
-  hole_shape: square #[ square, circle ]
-  hole_size: 3
-  hole_spacing: [ 4.5, 0 ]
-  position_y: -13
-Magnet:
-  visible: true
-  color: *silver
-  shape: bar
-  size: [8, 50, 3]
-MagneticConnector:
-  visible: true
-  color: *black
-  lip: [ 1.0, 28.5, 8.0 ]
-  lip_offset: 1.0
-  pcb_position: 10
-  pcb_size: [*pcb_thickness, 42, 12]
-  position: [0, 30.5, -9.5]
-  size: [ 4.7, 26.5, 6.0 ]
-  screw: *M2
-  screw_offset: 18.5 # VIK small module
-MCU:
-  visible: true
-  color:
-  chip_size: [ 12, 10, 1.5 ]
-  location: main PCB #[ trackball sensor, magnetic connector, main PCB ]
-  radius: 2
-  size: [ 17.8, 21, 1.2 ]
-OLED:
-  visible: true
-  color:
-  present: false
-  hole_radius: 0.5
-  pcb_size: [ 15.5, 13 ]
-  position: [ 0, 0 ]
-  screen_size: [ 12.58, 6.98 ]
-Plates:
-  Bottom:
+
+# ---- Screw Options ----
+Screws:
+  M2: &M2
     visible: true
-    add_center: true
-    clearance: 0.2
-    radius_outer: 2
-    screw: *M2
-    # FR4 (PCB) bottom plate
-    color: *black
-    # color: *pcb_color
-    thickness: *pcb_thickness
-  PCB:
+    color: *steel
+    counter_sink_diameter: 4.4
+    diameter: 2
+    drive_depth: 1
+    drive_width: 1.3
+    head_diameter: 4
+    head_angle: 90
+    hole_diameter: 2.4
+    minor_diameter: 1.6
+  M3: &M3
     visible: true
-    add_center: false
-    color: *pcb_color
-    # This ensures clearance between the PCB and bottom plate
-    clearance: 2.2
-    radius_outer: 2
-    thickness: *pcb_thickness
-  Switch:
+    color: *steel
+    counter_sink_diameter: 6.6
+    diameter: 3
+    drive_depth: 1.1
+    drive_width: 2
+    head_diameter: 6
+    head_angle: 90
+    hole_diameter: 3.6
+    minor_diameter: 2.5
+  M4: &M4
     visible: true
-    add_center: false
-    clearance: 0.5 # Must be less than Frame.lip_depth
-    color: *pcb_color
-    edge: 4.5
-    radius_outer: 2
-    # thickness: *pcb_thickness
-  Top:
-    visible: true
-    add_center: true
-    color: *black
-    radius_inner: 2
-    radius_outer: 2
-    screen_cutout: true
-    screen_radius: 1
-    thickness: *wall_thickness
-    thumb_cutout_fillet: false
-Screen:
-  visible: true
-  color: *black
-  bezel: 1.6
-  chip_size: [10, 10, 1]
-  display_area: [10.8, 25.3]
-  fillet_radius: 1
-  half: 1 # 0 = neither, 1 = left, 2 = right, 3 = both
-  hole_count: 5
-  hole_id: 1
-  hole_od: 2
-  hole_spacing: 2.54
-  pcb_size: [14, 36, 1]
-  position: 3
-  size: [13.8, 29.35, 0.9]
+    color: *steel
+    counter_sink_diameter: 8.8
+    diameter: 4
+    drive_depth: 1.5
+    drive_width: 2.5
+    head_diameter: 8
+    head_angle: 90
+    hole_diameter: 4.8
+    minor_diameter: 3.3
+
 # ---- Switch Options ----
+Switch_Options:
+  ChocV1: &ChocV1
+    cutout: [14, 14]
+    height: # overall: 11.0
+      stem: 0
+      upper: 5.8
+      lower: 2.2
+      legs: 3
+    max_travel: 3.0
+    name: ChocV1
+    plate_thickness: 1.2
+    radius: 0.5
+    spacing: [18, 17]
+  ChocV2: &ChocV2
+    cutout: [14, 14]
+    height: # overall: 11.9
+      stem: 3.3
+      upper: 3.1
+      lower: 2.2
+      legs: 3.3
+    max_travel: 3.2
+    name: ChocV2
+    plate_thickness: 1.6
+    radius: 0.5
+    spacing: [18, 17]
+  GLP: &GLP
+    cutout: [14, 14]
+    height: # overall: 12.1
+      stem: 3.2
+      upper: 3.4
+      lower: 2.5
+      legs: 3
+    max_travel: 3.0
+    name: GLP
+    plate_thickness: 1.2
+    radius: 0.5
+    spacing: [18, 17]
+  MX: &MX
+    cutout: [14, 14]
+    height: # overall: 18.5
+      stem: 3.6
+      upper: 6.6
+      lower: 5
+      legs: 3.3
+    max_travel: 4.0
+    name: MX
+    plate_thickness: 1.6
+    radius: 0.5
+    spacing: [19, 19]
+
 Switch_Color_Options:
   Aloe: &Aloe
     bottom: GreenYellow
@@ -484,59 +364,198 @@ Switch_Color_Options:
     bottom: *black
     stem: Yellow
     top: *clear
-Switch_Options:
-  ChocV1: &ChocV1
-    cutout: [14, 14]
-    height: # overall: 11.0
-      stem: 0
-      upper: 5.8
-      lower: 2.2
-      legs: 3
-    max_travel: 3.0
-    name: ChocV1
-    plate_thickness: 1.2
-    radius: 0.5
-    spacing: [18, 17]
-  ChocV2: &ChocV2
-    cutout: [14, 14]
-    height: # overall: 11.9
-      stem: 3.3
-      upper: 3.1
-      lower: 2.2
-      legs: 3.3
-    max_travel: 3.2
-    name: ChocV2
-    plate_thickness: 1.6
-    radius: 0.5
-    spacing: [18, 17]
-  GLP: &GLP
-    cutout: [14, 14]
-    height: # overall: 12.1
-      stem: 3.2
-      upper: 3.4
-      lower: 2.5
-      legs: 3
-    max_travel: 3.0
-    name: GLP
-    plate_thickness: 1.2
-    radius: 0.5
-    spacing: [18, 17]
-  MX: &MX
-    cutout: [14, 14]
-    height: # overall: 18.5
-      stem: 3.6
-      upper: 6.6
-      lower: 5
-      legs: 3.3
-    max_travel: 4.0
-    name: MX
-    plate_thickness: 1.6
-    radius: 0.5
-    spacing: [19, 19]
-# ------------------------
+
+#-------------------------------------#
+#        Component Parameters         #
+#-------------------------------------#
+
+Base:
+  visible: true
+  color: *black
+  foot_width: 2
+  foot_length: 10
+  opening_clearance: 1
+  trackball_case_round: false
+  waist_point: [-25, 35, 0]
+  wall_thickness: *wall_thickness
+Battery:
+  visible: true
+  color: *silver
+  position: [-3.0, 2.2, 12.55]
+  half: 2 # 0 = neither, 1 = left, 2 = right, 3 = both
+  # size: [14, 30, 4.0] # 401430 150mAh
+  size: [12, 30, 7.0] # 701230 300mAh
+BTU: *VCN310
+CenterBlock:
+  visible: true
+  # 47 degrees for the BTU Z angle adds a bit of clearance for the sensor
+  # without significantly affecting the stability of the trackball.
+  btu_angles: [ 0, 60, 47 ]
+  color: *black
+  rib_size: [ 2, 2 ]
+  screw_offsets: [
+    [7, 0],
+  ]
+  wall_thickness: *wall_thickness
+Desk:
+  visible: true
+  color: *clear
+  size: [ 300, 200, 1 ]
+  position: [ 0, 0, -40 ]
+Eye:
+  visible: true
+  color: *brass
+  # color: LightGreen
+  # color: *purple
+  pupil_size: [35, 8]
+  position: [-0.7, 0, 0]
+  size: [30, 2]
+Frame:
+  visible: true
+  color: *black
+  chord_angle: 4 # Angle between the chord of the main arc and vertical.
+  fillet_radius: 1
+  lip_depth: 1
+  main_radius: 50
+  notch_depth: 6
+  screw_count: 5
+  thickness: 4
+Hinge:
+  visible: true
+  # color: *brass
+  color: *steel
+  offsets: [0, 0]
+  diameter: 6
+  fillet_radius: 1
+  multi_connector_width: 2
+  multi_spacing: 1
+  pin_diameter: 2
+  plate_count: 4
+  plate_thickness: 1.5875
+  screw: *M2
+  screw_position: 3.5
+  taper_pin_diameter: 1.55194
+  taper_pin_position: 6
+  thickness: 3
+Insert:
+  visible: true
+  color: *brass
+  diameter: 3
+  height: 3
+  hole_diameter: 2.8
+  hole_depth: 4
+  wall_thickness: 1.6
+Keycap:
+  visible: true
+  color: *black
+  offset: [0, 0, 3]
+  profile: *Chicago_Steno
+  rows: [
+    2,              # Thumb inner column
+    2,  1,          # Thumb home column
+    2,              # Thumb outer
+        4,  3,  2,  # Index inner
+    2,  4,  3,  2,  # Index
+    5,  4,  3,  2,  # Middle
+    5,  4,  3,  2,  # Ring
+        4,  3,  2   # Pinky
+    ]
+  spacing: *Choc
+LED:
+  visible: true
+  color:
+  present: true
+  count: 4
+  hole_radius: 0.2
+  hole_shape: square #[ square, circle ]
+  hole_size: 3
+  hole_spacing: [ 4.5, 0 ]
+  position_y: -13
+Magnet:
+  visible: true
+  color: *silver
+  shape: bar
+  size: [8, 50, 3]
+MagneticConnector:
+  visible: true
+  color: *black
+  lip: [ 1.0, 28.5, 8.0 ]
+  lip_offset: 1.0
+  pcb_position: 10
+  pcb_size: [*pcb_thickness, 42, 12]
+  position: [0, 30.5, -9.5]
+  size: [ 4.7, 26.5, 6.0 ]
+  screw: *M2
+  screw_offset: 18.5 # VIK small module
+MCU:
+  visible: true
+  color:
+  chip_size: [ 12, 10, 1.5 ]
+  location: main PCB #[ trackball sensor, magnetic connector, main PCB ]
+  radius: 2
+  size: [ 17.8, 21, 1.2 ]
+OLED:
+  visible: true
+  color:
+  present: false
+  hole_radius: 0.5
+  pcb_size: [ 15.5, 13 ]
+  position: [ 0, 0 ]
+  screen_size: [ 12.58, 6.98 ]
+Plates:
+  Bottom:
+    visible: true
+    add_center: true
+    clearance: 0.2
+    radius_outer: 2
+    screw: *M2
+    # FR4 (PCB) bottom plate
+    color: *pcb_color
+    thickness: *pcb_thickness
+  PCB:
+    visible: true
+    add_center: false
+    color: *pcb_color
+    # This ensures clearance between the PCB and bottom plate
+    clearance: 2.2
+    radius_outer: 2
+    thickness: *pcb_thickness
+  Switch:
+    visible: true
+    add_center: false
+    clearance: 0.5 # Must be less than Frame.lip_depth
+    color: *pcb_color
+    edge: 4.5
+    radius_outer: 2
+    # thickness: *pcb_thickness
+  Top:
+    visible: true
+    add_center: true
+    color: *black
+    radius_inner: 2
+    radius_outer: 2
+    screen_cutout: true
+    screen_radius: 1
+    thickness: *wall_thickness
+    thumb_cutout_fillet: false
+Screen:
+  visible: true
+  color: *black
+  bezel: 1.6
+  chip_size: [10, 10, 1]
+  display_area: [10.8, 25.3]
+  fillet_radius: 1
+  half: 1 # 0 = neither, 1 = left, 2 = right, 3 = both
+  hole_count: 5
+  hole_id: 1
+  hole_od: 2
+  hole_spacing: 2.54
+  pcb_size: [14, 36, 1]
+  position: 3
+  size: [13.8, 29.35, 0.9]
 Switch:
   visible: true
-  color: *Whale
+  color: *Moss
   model: *ChocV2
 Trackball:
   visible: true
