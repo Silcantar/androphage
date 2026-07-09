@@ -54,15 +54,15 @@ def seq_to_color(color_seq: Sequence = []) -> bd.Color:
         case 1:
             return bd.Color(color_seq[0])
         case 2:
-            if isinstance(color_seq[0], str):
+            if isinstance(color_seq[0], str) and not color_seq[0].isnumeric():
                 return bd.Color(
                     name=color_seq[0],
-                    alpha=color_seq[1]
+                    alpha=float(color_seq[1])
                 )
             else:
                 return bd.Color(
-                    color_code=color_seq[0],
-                    alpha=color_seq[1]
+                    color_code=int(color_seq[0]),
+                    alpha=float(color_seq[1])
                 )
         case 3:
             return bd.Color(

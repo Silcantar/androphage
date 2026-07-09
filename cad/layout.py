@@ -26,8 +26,8 @@ def set_derived_parameters(p: Parameters) -> Parameters:
     trackball_height = (
         p.Trackball.diameter/2
         + p.Trackball.clearance
-        + p.Plates.Bottom.thickness
-        # + p.Print.min_wall_thickness
+        + p.Plates.PCB.thickness
+        # + p.Plates.Bottom.thickness
     )
     print(f"key height: {key_height} --- trackball height: {trackball_height}")
     p.height = max(key_height, trackball_height)
@@ -42,7 +42,6 @@ def set_derived_parameters(p: Parameters) -> Parameters:
     ) / cosd(p.tent_angle)
     p.Plates.PCB.position_z = p.Plates.Switch.position_z + (
         - p.Switch.model.height.lower
-        # - p.Plates.PCB.thickness
     ) / cosd(p.tent_angle)
     p.Plates.Bottom.position_z = -p.height / cosd(p.tent_angle)
     p.Plates.Top.center_width = (
@@ -74,30 +73,24 @@ def set_derived_parameters(p: Parameters) -> Parameters:
         center_width=p.Plates.Bottom.center_width,
         fillet_radius=p.Plates.Bottom.radius_outer,
         sensor_cutout=CutoutType.NONE
-    )
+        )
     p.Plates.depth = plate_outline.edges().sort_by(bd.Axis.X)[-1].length
     p.Frame.width = (
         frame_section(parameters=p)
         .edges()
         .sort_by(bd.Axis.Z)[0]
         .length
-    )
+        )
     p.Base.height = sind(p.tent_angle) * (
         plate_outline.length
         + p.Frame.width
-    )
+        )
     p.Base.depth = p.Plates.depth
     # Width of the base exclusive of the width of frame_section.
     p.Base.width = (
         (p.Base.height - p.Hinge.height)/tand(p.tent_angle)
-        # + p.Base.foot_width
-    )
-    # p.Base.offset = 0 # 2*p.Frame.lip_depth
-    # p.Base.angled_height = (
-    #     p.Base.width*tand(p.tent_angle)/2
-    #     - p.Base.foot_width*tand(p.tent_angle)
-    # )
-    # p.Base.vertical_height = p.Base.height - p.Base.angled_height
+        + p.Base.foot_width
+        )
     p.Hinge.width = p.Hinge.plate_count * p.Hinge.plate_thickness
     return p
 
@@ -332,8 +325,6 @@ def build_plate_outline(
                             front_center_arc.start_point().Y
                             + p.Trackball.position_y
                             + p.Trackball.diameter/2
-                            # + p.Trackball.clearance
-                            # + p.CenterBlock.wall_thickness
                             - p.Plates.Switch.edge
                         )
                     )

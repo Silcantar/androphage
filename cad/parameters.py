@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from os import PathLike
 
 import build123d as bd
-from dataclass_wizard import YAMLWizard
+from dataclass_wizard.mixins.yaml import YAMLWizard
 
 from common import Half, vector, cosd, tand
 
@@ -59,6 +59,7 @@ class CenterBlock(Component):
     btu_angles: vector[3]
     rib_size: vector[2]
     screw_offsets: list[vector[2]]
+    trackball_cutout_radius: float
     wall_thickness: float
 
 @dataclass

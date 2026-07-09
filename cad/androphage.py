@@ -364,7 +364,7 @@ if __name__ == "__main__":
             bd.Pos(Y=i*spacing - count*spacing/2)
             * Androphage(
                 angle=i*angle_step,
-                render_keycaps=True
+                render_keycaps=False
                 )
             )
         board.label = f"Androphage {i*angle_step}°"

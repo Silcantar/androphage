@@ -123,7 +123,7 @@ class Base(Component):
         trim_sketch = bd.Polygon(
             (0, 0, 0),
             (0, 0, -p.Hinge.height),
-            (-p.Base.width, 0, -p.Base.height),
+            (-p.Base.width + p.Base.foot_width, 0, -p.Base.height),
             (-p.Base.width - 10, 0, -p.Base.height),
             BIG*bd.Vector(
                 -cosd(p.tent_angle),
@@ -143,9 +143,10 @@ class Base(Component):
         fillet_edges = (
             base.faces()
             .group_by(bd.Axis.Z)[0]
+            .filter_by(lambda f: f.area > 10)
             .edges()
             .filter_by(bd.GeomType.LINE)
-            .sort_by(bd.Axis.X)[-2:]
+            .group_by(bd.Axis.X)[-1]
             )
         base = bd.fillet(
             objects=fillet_edges,

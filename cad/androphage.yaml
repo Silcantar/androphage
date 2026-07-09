@@ -372,11 +372,11 @@ Switch_Color_Options:
 Base:
   visible: true
   color: *black
-  foot_width: 2
+  foot_width: 4
   foot_length: 10
   opening_clearance: 1
   trackball_case_round: false
-  waist_point: [-25, 35, 0]
+  waist_point: [-22, 35, 0]
   wall_thickness: *wall_thickness
 Battery:
   visible: true
@@ -396,6 +396,7 @@ CenterBlock:
   screw_offsets: [
     [7, 0],
   ]
+  trackball_cutout_radius: 5
   wall_thickness: *wall_thickness
 Desk:
   visible: true
@@ -496,12 +497,13 @@ Plates:
     screw: *M2
     # FR4 (PCB) bottom plate
     color: *pcb_color
-    thickness: *pcb_thickness
+    thickness: 3.2 #*pcb_thickness
   PCB:
     visible: true
     add_center: false
     color: *pcb_color
-    # This ensures clearance between the PCB and bottom plate
+    # *Minimum* clearance between the PCB and bottom plate. Actual clearance may
+    # be greater depending on other parameters.
     clearance: 2.2
     radius_outer: 2
     thickness: *pcb_thickness
@@ -520,6 +522,7 @@ Plates:
     radius_outer: 2
     screen_cutout: true
     screen_radius: 1
+    skirt: true
     thickness: *wall_thickness
     thumb_cutout_fillet: false
 Screen:

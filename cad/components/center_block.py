@@ -159,7 +159,7 @@ class CenterBlock(Component):
         center_block -= (
             self._trackball_location()
             * bd.Cylinder(
-                radius=5,
+                radius=p.CenterBlock.trackball_cutout_radius,
                 height=BIG,
                 )
             )
