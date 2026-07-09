@@ -400,9 +400,13 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "Mechanical:MountingHole"
+		(symbol "Mechanical:MountingHole_Pad"
+			(pin_numbers
+				(hide yes)
+			)
 			(pin_names
 				(offset 1.016)
+				(hide yes)
 			)
 			(exclude_from_sim no)
 			(in_bom no)
@@ -410,7 +414,7 @@
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "H"
-				(at 0 5.08 0)
+				(at 0 6.35 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -419,8 +423,8 @@
 					)
 				)
 			)
-			(property "Value" "MountingHole"
-				(at 0 3.175 0)
+			(property "Value" "MountingHole_Pad"
+				(at 0 4.445 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -451,7 +455,7 @@
 					)
 				)
 			)
-			(property "Description" "Mounting Hole without connection"
+			(property "Description" "Mounting Hole with connection"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -473,7 +477,7 @@
 					)
 				)
 			)
-			(property "ki_fp_filters" "MountingHole*"
+			(property "ki_fp_filters" "MountingHole*Pad*"
 				(at 0 0 0)
 				(show_name no)
 				(do_not_autoplace no)
@@ -484,9 +488,9 @@
 					)
 				)
 			)
-			(symbol "MountingHole_0_1"
+			(symbol "MountingHole_Pad_0_1"
 				(circle
-					(center 0 0)
+					(center 0 1.27)
 					(radius 1.27)
 					(stroke
 						(width 1.27)
@@ -497,535 +501,11 @@
 					)
 				)
 			)
-			(embedded_fonts no)
-		)
-		(symbol "Power_Protection:SRV05-4"
-			(pin_names
-				(offset 0)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "U"
-				(at -5.08 11.43 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify right)
-				)
-			)
-			(property "Value" "SRV05-4"
-				(at 2.54 11.43 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(justify left)
-				)
-			)
-			(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
-				(at 17.78 -11.43 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" "http://www.onsemi.com/pub/Collateral/SRV05-4-D.PDF"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "ESD Protection Diodes with Low Clamping Voltage, SOT-23-6"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "ESD protection diodes"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_fp_filters" "SOT?23*"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "SRV05-4_0_0"
-				(rectangle
-					(start -5.715 6.477)
-					(end 5.715 -6.604)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -3.175 -6.604) (xy -3.175 6.477)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 3.175 6.477) (xy 3.175 -6.604)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "SRV05-4_0_1"
-				(polyline
-					(pts
-						(xy -7.747 2.54) (xy -3.175 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(rectangle
-					(start -7.62 10.16)
-					(end 7.62 -10.16)
-					(stroke
-						(width 0.254)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-				(polyline
-					(pts
-						(xy -7.62 -2.54) (xy -5.715 -2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(circle
-					(center -5.715 -2.54)
-					(radius 0.2794)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(polyline
-					(pts
-						(xy -5.08 5.08) (xy -6.35 5.08)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -5.08 3.81) (xy -6.35 3.81) (xy -5.715 5.08) (xy -5.08 3.81)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -5.08 -3.81) (xy -6.35 -3.81)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -5.08 -5.08) (xy -6.35 -5.08) (xy -5.715 -3.81) (xy -5.08 -5.08)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(circle
-					(center -3.175 6.477)
-					(radius 0.2794)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(circle
-					(center -3.175 2.54)
-					(radius 0.2794)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(circle
-					(center -3.175 -6.604)
-					(radius 0.2794)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(polyline
-					(pts
-						(xy -2.54 5.08) (xy -3.81 5.08)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -2.54 3.81) (xy -3.81 3.81) (xy -3.175 5.08) (xy -2.54 3.81)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -2.54 -3.81) (xy -3.81 -3.81)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -2.54 -5.08) (xy -3.81 -5.08) (xy -3.175 -3.81) (xy -2.54 -5.08)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 10.16) (xy 0 -10.16)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(circle
-					(center 0 6.477)
-					(radius 0.2794)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(circle
-					(center 0 -6.604)
-					(radius 0.2794)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0.635 0.889) (xy -0.635 0.889) (xy -0.635 0.635)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0.635 -0.381) (xy -0.635 -0.381) (xy 0 0.889) (xy 0.635 -0.381)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(circle
-					(center 3.175 6.477)
-					(radius 0.2794)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(circle
-					(center 3.175 -2.54)
-					(radius 0.2794)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(circle
-					(center 3.175 -6.604)
-					(radius 0.2794)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(polyline
-					(pts
-						(xy 3.81 5.08) (xy 2.54 5.08)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 3.81 3.81) (xy 2.54 3.81) (xy 3.175 5.08) (xy 3.81 3.81)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 3.81 -3.81) (xy 2.54 -3.81)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 3.81 -5.08) (xy 2.54 -5.08) (xy 3.175 -3.81) (xy 3.81 -5.08)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(circle
-					(center 5.715 2.54)
-					(radius 0.2794)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type outline)
-					)
-				)
-				(polyline
-					(pts
-						(xy 6.35 5.08) (xy 5.08 5.08)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 6.35 3.81) (xy 5.08 3.81) (xy 5.715 5.08) (xy 6.35 3.81)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 6.35 -3.81) (xy 5.08 -3.81)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 6.35 -5.08) (xy 5.08 -5.08) (xy 5.715 -3.81) (xy 6.35 -5.08)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 7.62 2.54) (xy 5.715 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 7.62 -2.54) (xy 3.175 -2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "SRV05-4_1_1"
-				(pin passive line
-					(at -12.7 2.54 0)
-					(length 5.08)
-					(name "IO1"
+			(symbol "MountingHole_Pad_1_1"
+				(pin input line
+					(at 0 -2.54 90)
+					(length 2.54)
+					(name "1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1033,96 +513,6 @@
 						)
 					)
 					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 -12.7 90)
-					(length 2.54)
-					(name "VN"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at -12.7 -2.54 0)
-					(length 5.08)
-					(name "IO2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 12.7 2.54 180)
-					(length 5.08)
-					(name "IO3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 0 12.7 270)
-					(length 2.54)
-					(name "VP"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 12.7 -2.54 180)
-					(length 5.08)
-					(name "IO4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2566,7 +1956,7 @@
 	)
 	(text "Battery Monitor"
 		(exclude_from_sim no)
-		(at 230.505 32.385 0)
+		(at 226.695 31.115 0)
 		(effects
 			(font
 				(size 2.54 2.54)
@@ -2610,7 +2000,7 @@
 	)
 	(text_box "Voltage Divider - Rescale VBAT from 0-5V to 0-3.5V"
 		(exclude_from_sim no)
-		(at 256.54 49.53 0)
+		(at 252.73 48.26 0)
 		(size 24.13 10.16)
 		(margins 0.9525 0.9525 0.9525 0.9525)
 		(stroke
@@ -2630,7 +2020,7 @@
 	)
 	(text_box "Convert 3.7-5V power to 3.3V for MCU."
 		(exclude_from_sim no)
-		(at 252.73 91.44 0)
+		(at 248.92 90.17 0)
 		(size 24.13 10.16)
 		(margins 0.9525 0.9525 0.9525 0.9525)
 		(stroke
@@ -2647,26 +2037,6 @@
 			(justify left top)
 		)
 		(uuid "290036fb-d09f-4371-97f9-fded1b8b46cf")
-	)
-	(text_box "ESD Protection"
-		(exclude_from_sim no)
-		(at 109.22 163.83 0)
-		(size 93.98 119.38)
-		(margins 0.9525 0.9525 0.9525 0.9525)
-		(stroke
-			(width 0)
-			(type solid)
-		)
-		(fill
-			(type none)
-		)
-		(effects
-			(font
-				(size 5.08 5.08)
-			)
-			(justify left top)
-		)
-		(uuid "7fe3cb16-f7ea-487c-b210-e442001cadd3")
 	)
 	(text_box "MCU Module"
 		(exclude_from_sim no)
@@ -2749,7 +2119,7 @@
 		(uuid "c75b12c7-4a0c-4ff1-861b-29bb6b41dd5b")
 	)
 	(junction
-		(at 245.11 53.34)
+		(at 241.3 52.07)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "9f57fb39-4746-48b2-b87d-5e00dc916702")
@@ -2757,10 +2127,6 @@
 	(no_connect
 		(at 39.37 66.04)
 		(uuid "003861a0-d33e-4de1-81f4-517eb7adbbc4")
-	)
-	(no_connect
-		(at 144.78 259.08)
-		(uuid "00aa360f-6d28-4b5d-823c-5cadc3198edf")
 	)
 	(no_connect
 		(at 39.37 43.18)
@@ -2799,10 +2165,6 @@
 		(uuid "51b5fcdc-66f8-4061-a884-116cc28695d1")
 	)
 	(no_connect
-		(at 144.78 222.25)
-		(uuid "522e97d9-3168-44ed-9bc8-225505f1724b")
-	)
-	(no_connect
 		(at 125.73 101.6)
 		(uuid "5e4f5021-3b03-4c9f-867c-0fed9243f37b")
 	)
@@ -2825,10 +2187,6 @@
 	(no_connect
 		(at 39.37 50.8)
 		(uuid "95b29cf6-cda3-4536-8735-83bf628c924a")
-	)
-	(no_connect
-		(at 144.78 264.16)
-		(uuid "974c1eca-f235-4d48-a171-547bd7a6b43e")
 	)
 	(no_connect
 		(at 39.37 45.72)
@@ -2868,7 +2226,7 @@
 	)
 	(wire
 		(pts
-			(xy 245.11 40.64) (xy 245.11 43.18)
+			(xy 241.3 39.37) (xy 241.3 41.91)
 		)
 		(stroke
 			(width 0)
@@ -2878,7 +2236,7 @@
 	)
 	(wire
 		(pts
-			(xy 238.76 53.34) (xy 245.11 53.34)
+			(xy 234.95 52.07) (xy 241.3 52.07)
 		)
 		(stroke
 			(width 0)
@@ -2888,7 +2246,7 @@
 	)
 	(polyline
 		(pts
-			(xy 252.73 91.44) (xy 241.3 88.9)
+			(xy 248.92 90.17) (xy 237.49 87.63)
 		)
 		(stroke
 			(width 0)
@@ -2898,7 +2256,7 @@
 	)
 	(wire
 		(pts
-			(xy 245.11 50.8) (xy 245.11 53.34)
+			(xy 241.3 49.53) (xy 241.3 52.07)
 		)
 		(stroke
 			(width 0)
@@ -2908,7 +2266,7 @@
 	)
 	(wire
 		(pts
-			(xy 245.11 53.34) (xy 245.11 55.88)
+			(xy 241.3 52.07) (xy 241.3 54.61)
 		)
 		(stroke
 			(width 0)
@@ -2918,7 +2276,7 @@
 	)
 	(wire
 		(pts
-			(xy 245.11 63.5) (xy 245.11 66.04)
+			(xy 241.3 62.23) (xy 241.3 64.77)
 		)
 		(stroke
 			(width 0)
@@ -2947,7 +2305,7 @@
 		(uuid "0556c3d6-76af-4ba1-b03a-a5fc4ef4f1d6")
 	)
 	(label "BATT_MON"
-		(at 238.76 53.34 180)
+		(at 234.95 52.07 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -2957,7 +2315,7 @@
 		(uuid "0644fa0f-24af-4e29-9de9-85ced0a466b2")
 	)
 	(label "VCC"
-		(at 245.11 40.64 90)
+		(at 241.3 39.37 90)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -2965,16 +2323,6 @@
 			(justify left bottom)
 		)
 		(uuid "065b017a-3583-49b7-98b3-521c97b3a2d4")
-	)
-	(label "VDD"
-		(at 157.48 173.99 90)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "0fb8278c-17b6-4bf6-bb39-3d00431bc6ff")
 	)
 	(label "MISO"
 		(at 125.73 59.69 180)
@@ -2985,26 +2333,6 @@
 			(justify right bottom)
 		)
 		(uuid "105d75f2-a0e0-42e1-b460-6606ab0d874f")
-	)
-	(label "D-"
-		(at 170.18 264.16 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "11ae93af-947d-4f24-9f68-e351e6593daa")
-	)
-	(label "GND"
-		(at 157.48 199.39 270)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "13c313a0-1785-445c-9177-a1c0d0cc1378")
 	)
 	(label "VDD"
 		(at 171.45 34.29 180)
@@ -3046,16 +2374,6 @@
 		)
 		(uuid "1d60845e-bac7-4d71-91ec-b4226aa2d389")
 	)
-	(label "SCL"
-		(at 170.18 189.23 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "1e140ecf-4104-4cb5-9e4e-024b3489bcf6")
-	)
 	(label "CS_DIS1"
 		(at 125.73 114.3 180)
 		(effects
@@ -3075,6 +2393,26 @@
 			(justify right bottom)
 		)
 		(uuid "2354a249-f3c4-4f6b-a70b-1684ad25cc71")
+	)
+	(label "GND"
+		(at 25.4 181.61 270)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "249d8aef-5768-46b3-994f-286fc60b6008")
+	)
+	(label "GND"
+		(at 50.8 207.01 270)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "29819b42-a71e-4fb8-8757-5db9a420951a")
 	)
 	(label "CS_DIS1"
 		(at 77.47 48.26 0)
@@ -3106,6 +2444,16 @@
 		)
 		(uuid "2f4a9449-8492-4b66-a28b-5f28cda2c6ff")
 	)
+	(label "GND"
+		(at 76.2 181.61 270)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "30ae90f0-f4fc-485f-b324-666a88be26d0")
+	)
 	(label "VDD"
 		(at 125.73 91.44 180)
 		(effects
@@ -3115,16 +2463,6 @@
 			(justify right bottom)
 		)
 		(uuid "323f74ce-5415-453d-b657-3d9c61525750")
-	)
-	(label "SDA"
-		(at 170.18 184.15 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "35e02a82-cafc-49cb-ba6f-004196cc1610")
 	)
 	(label "SCLK"
 		(at 125.73 119.38 180)
@@ -3217,7 +2555,7 @@
 		(uuid "4521310f-6da2-4e66-90e3-2d44e76205a1")
 	)
 	(label "VCC"
-		(at 228.6 91.44 180)
+		(at 224.79 90.17 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3256,16 +2594,6 @@
 		)
 		(uuid "551289ee-2c44-4fb2-b16d-3f0a1d058baf")
 	)
-	(label "D+"
-		(at 170.18 259.08 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "5721635c-6b9d-43df-a1c9-6ea474f05007")
-	)
 	(label "SCLK"
 		(at 171.45 119.38 180)
 		(effects
@@ -3287,7 +2615,7 @@
 		(uuid "5bff88b2-4d40-4fb3-a448-24ff07299761")
 	)
 	(label "VDD"
-		(at 254 86.36 0)
+		(at 250.19 85.09 0)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3306,16 +2634,6 @@
 		)
 		(uuid "5def54e1-30a7-417e-adb5-92b39670a154")
 	)
-	(label "SCLK"
-		(at 170.18 227.33 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "6099051c-8ec4-4482-a164-80d69872cde4")
-	)
 	(label "D-"
 		(at 68.58 87.63 270)
 		(effects
@@ -3325,16 +2643,6 @@
 			(justify right bottom)
 		)
 		(uuid "60fe3ebb-9387-464c-a9b1-01ccb84e3baa")
-	)
-	(label "CS_PMW2"
-		(at 144.78 184.15 180)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "65dbe7a5-802a-448d-8475-b33f5105b3df")
 	)
 	(label "INT_PMW1"
 		(at 171.45 49.53 180)
@@ -3496,15 +2804,15 @@
 		)
 		(uuid "a296708b-b654-4c15-8e94-f8af5a8d0335")
 	)
-	(label "VDD"
-		(at 157.48 212.09 90)
+	(label "GND"
+		(at 25.4 207.01 270)
 		(effects
 			(font
 				(size 1.524 1.524)
 			)
-			(justify left bottom)
+			(justify right bottom)
 		)
-		(uuid "a2cf2ac3-4c95-4c8e-81df-f5442f42aca8")
+		(uuid "a72b6151-adef-42e5-9e46-bf9f2eb993f3")
 	)
 	(label "SCLK"
 		(at 125.73 62.23 180)
@@ -3516,15 +2824,15 @@
 		)
 		(uuid "a90cf2fb-d540-47e8-ac4e-2a8aab801952")
 	)
-	(label "VCC"
-		(at 157.48 248.92 90)
+	(label "GND"
+		(at 50.8 181.61 270)
 		(effects
 			(font
 				(size 1.524 1.524)
 			)
-			(justify left bottom)
+			(justify right bottom)
 		)
-		(uuid "aa9522e2-b847-4613-bdad-813239856005")
+		(uuid "ae947fd8-ab5a-46d2-bfca-038c788eef20")
 	)
 	(label "CS_PMW2"
 		(at 77.47 45.72 0)
@@ -3557,7 +2865,7 @@
 		(uuid "b1778018-cd28-4853-9648-b0f76c56309c")
 	)
 	(label "VCC"
-		(at 228.6 86.36 180)
+		(at 224.79 85.09 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3565,16 +2873,6 @@
 			(justify right bottom)
 		)
 		(uuid "b2dca8eb-4e3e-4218-83f9-20810b225d96")
-	)
-	(label "GND"
-		(at 157.48 237.49 270)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "b4cdf37f-94cb-48e1-b849-36aa052a665d")
 	)
 	(label "MISO"
 		(at 125.73 116.84 180)
@@ -3617,7 +2915,7 @@
 		(uuid "c3956db8-fbcc-4e5c-a046-7ff16df09f8c")
 	)
 	(label "GND"
-		(at 245.11 66.04 270)
+		(at 241.3 64.77 270)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3665,6 +2963,16 @@
 			(justify right bottom)
 		)
 		(uuid "ce756f1e-14d9-41ba-8fc4-cf00efbef488")
+	)
+	(label "GND"
+		(at 76.2 207.01 270)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "d3de2493-1a4e-486c-a699-d24413f2e138")
 	)
 	(label "VCC"
 		(at 171.45 104.14 180)
@@ -3746,28 +3054,8 @@
 		)
 		(uuid "ed60be6f-eeda-4bf3-99d2-a60db54df57f")
 	)
-	(label "MOSI"
-		(at 144.78 227.33 180)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "efe1e0ca-825d-4ecd-a0e7-2962e9b5ef85")
-	)
-	(label "CS_DIS2"
-		(at 144.78 189.23 180)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "f2b2ae38-4c67-4381-8fca-426ce5c05bff")
-	)
 	(label "GND"
-		(at 241.3 99.06 270)
+		(at 237.49 97.79 270)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3806,16 +3094,6 @@
 		)
 		(uuid "f914a6b6-98a9-4bdb-9d00-13d7a4336860")
 	)
-	(label "MISO"
-		(at 170.18 222.25 0)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify left bottom)
-		)
-		(uuid "fd1c02ad-52bc-4cba-a173-ea285e8b6bee")
-	)
 	(label "GND"
 		(at 185.42 127 270)
 		(effects
@@ -3825,16 +3103,6 @@
 			(justify right bottom)
 		)
 		(uuid "fda61c4f-cf38-4192-95d6-597aedacbb3a")
-	)
-	(label "GND"
-		(at 157.48 274.32 270)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "fe75e156-82ea-456b-8f07-3cb08028776f")
 	)
 	(label "MISO"
 		(at 171.45 59.69 180)
@@ -3857,7 +3125,7 @@
 		(uuid "feaa5e1d-0a27-4759-a33f-e7b6fa7f3551")
 	)
 	(symbol
-		(lib_id "Mechanical:MountingHole")
+		(lib_id "Mechanical:MountingHole_Pad")
 		(at 50.8 179.07 0)
 		(unit 1)
 		(body_style 1)
@@ -3869,7 +3137,7 @@
 		(fields_autoplaced yes)
 		(uuid "0004e120-40c4-4e6a-83f3-f8db315de2b7")
 		(property "Reference" "H2"
-			(at 53.34 177.7999 0)
+			(at 53.34 176.5299 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3880,7 +3148,7 @@
 			)
 		)
 		(property "Value" "MountingHole_Pad"
-			(at 53.34 180.3399 0)
+			(at 53.34 179.0699 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3890,7 +3158,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
 			(at 50.8 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -3912,7 +3180,7 @@
 				)
 			)
 		)
-		(property "Description" "Mounting Hole without connection"
+		(property "Description" "Mounting Hole with connection"
 			(at 50.8 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -3922,6 +3190,9 @@
 					(size 1.27 1.27)
 				)
 			)
+		)
+		(pin "1"
+			(uuid "003a31a7-bac2-47a1-be2e-e80c3ed1cc9f")
 		)
 		(instances
 			(project "bottom_plate"
@@ -3933,7 +3204,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Mechanical:MountingHole")
+		(lib_id "Mechanical:MountingHole_Pad")
 		(at 50.8 204.47 0)
 		(unit 1)
 		(body_style 1)
@@ -3945,7 +3216,7 @@
 		(fields_autoplaced yes)
 		(uuid "1aff2bdd-1598-4875-8349-b010d2b146ff")
 		(property "Reference" "H5"
-			(at 53.34 203.1999 0)
+			(at 53.34 201.9299 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3956,7 +3227,7 @@
 			)
 		)
 		(property "Value" "MountingHole_Pad"
-			(at 53.34 205.7399 0)
+			(at 53.34 204.4699 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3966,7 +3237,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
 			(at 50.8 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -3988,7 +3259,7 @@
 				)
 			)
 		)
-		(property "Description" "Mounting Hole without connection"
+		(property "Description" "Mounting Hole with connection"
 			(at 50.8 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -3998,6 +3269,9 @@
 					(size 1.27 1.27)
 				)
 			)
+		)
+		(pin "1"
+			(uuid "09dcfbcb-d4b6-4589-aa74-a62301a37ff9")
 		)
 		(instances
 			(project "bottom_plate"
@@ -4010,7 +3284,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 245.11 46.99 0)
+		(at 241.3 45.72 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4020,7 +3294,7 @@
 		(dnp no)
 		(uuid "2e4836ef-f6d3-485c-a241-937eb859caed")
 		(property "Reference" "R_MON_1"
-			(at 246.888 45.8216 0)
+			(at 243.078 44.5516 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4031,7 +3305,7 @@
 			)
 		)
 		(property "Value" "820K"
-			(at 246.888 48.133 0)
+			(at 243.078 46.863 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4042,7 +3316,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 243.332 46.99 90)
+			(at 239.522 45.72 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4053,7 +3327,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 245.11 46.99 0)
+			(at 241.3 45.72 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4064,7 +3338,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 245.11 46.99 0)
+			(at 241.3 45.72 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4207,7 +3481,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Mechanical:MountingHole")
+		(lib_id "Mechanical:MountingHole_Pad")
 		(at 76.2 179.07 0)
 		(unit 1)
 		(body_style 1)
@@ -4219,7 +3493,7 @@
 		(fields_autoplaced yes)
 		(uuid "41972186-0b97-4aa4-b8f9-ceb9d24e6f62")
 		(property "Reference" "H3"
-			(at 78.74 177.7999 0)
+			(at 78.74 176.5299 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4230,7 +3504,7 @@
 			)
 		)
 		(property "Value" "MountingHole_Pad"
-			(at 78.74 180.3399 0)
+			(at 78.74 179.0699 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4240,7 +3514,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
 			(at 76.2 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -4262,7 +3536,7 @@
 				)
 			)
 		)
-		(property "Description" "Mounting Hole without connection"
+		(property "Description" "Mounting Hole with connection"
 			(at 76.2 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -4272,6 +3546,9 @@
 					(size 1.27 1.27)
 				)
 			)
+		)
+		(pin "1"
+			(uuid "cd2f7857-de8b-45cb-b614-a664cd240345")
 		)
 		(instances
 			(project "bottom_plate"
@@ -4401,7 +3678,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Mechanical:MountingHole")
+		(lib_id "Mechanical:MountingHole_Pad")
 		(at 76.2 204.47 0)
 		(unit 1)
 		(body_style 1)
@@ -4413,7 +3690,7 @@
 		(fields_autoplaced yes)
 		(uuid "5d137879-7396-4675-9b9d-461c3a430039")
 		(property "Reference" "H6"
-			(at 78.74 203.1999 0)
+			(at 78.74 201.9299 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4424,7 +3701,7 @@
 			)
 		)
 		(property "Value" "MountingHole_Pad"
-			(at 78.74 205.7399 0)
+			(at 78.74 204.4699 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4434,7 +3711,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
 			(at 76.2 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -4456,7 +3733,7 @@
 				)
 			)
 		)
-		(property "Description" "Mounting Hole without connection"
+		(property "Description" "Mounting Hole with connection"
 			(at 76.2 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -4466,6 +3743,9 @@
 					(size 1.27 1.27)
 				)
 			)
+		)
+		(pin "1"
+			(uuid "51749295-ec75-4261-95d7-c1f01104dd38")
 		)
 		(instances
 			(project "bottom_plate"
@@ -4477,7 +3757,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Mechanical:MountingHole")
+		(lib_id "Mechanical:MountingHole_Pad")
 		(at 25.4 204.47 0)
 		(unit 1)
 		(body_style 1)
@@ -4489,7 +3769,7 @@
 		(fields_autoplaced yes)
 		(uuid "6c86a218-b498-4998-8280-74630d3fe75b")
 		(property "Reference" "H4"
-			(at 27.94 203.1999 0)
+			(at 27.94 201.9299 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4500,7 +3780,7 @@
 			)
 		)
 		(property "Value" "MountingHole_Pad"
-			(at 27.94 205.7399 0)
+			(at 27.94 204.4699 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4510,7 +3790,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
 			(at 25.4 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -4532,7 +3812,7 @@
 				)
 			)
 		)
-		(property "Description" "Mounting Hole without connection"
+		(property "Description" "Mounting Hole with connection"
 			(at 25.4 204.47 0)
 			(hide yes)
 			(show_name no)
@@ -4543,104 +3823,13 @@
 				)
 			)
 		)
+		(pin "1"
+			(uuid "8e2709e4-aa71-4d64-9b8a-6bcf06554dae")
+		)
 		(instances
 			(project "bottom_plate"
 				(path "/b41c5c8d-a6b2-4633-9a6f-a9fc0b4f40ca/ebd9436f-55ad-414e-b8cc-8a07a71cfe92"
 					(reference "H4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Power_Protection:SRV05-4")
-		(at 157.48 224.79 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "78edf7d7-80b4-4aa4-bcad-3b19cb9d404a")
-		(property "Reference" "U_ESD_D2"
-			(at 160.5981 209.55 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "CM1293A"
-			(at 160.5981 212.09 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
-			(at 175.26 236.22 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "http://www.onsemi.com/pub/Collateral/SRV05-4-D.PDF"
-			(at 157.48 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "ESD Protection Diodes with Low Clamping Voltage, SOT-23-6"
-			(at 157.48 224.79 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "6"
-			(uuid "6d4cab59-fd14-4808-b2c6-77cb8bb8d97e")
-		)
-		(pin "3"
-			(uuid "e2e5baca-8cac-4cb5-88eb-4ff73377cab2")
-		)
-		(pin "5"
-			(uuid "006c8119-df55-4d36-a472-254b44fa6e15")
-		)
-		(pin "2"
-			(uuid "00f029d8-329b-40a8-833c-1c33e5b988cf")
-		)
-		(pin "1"
-			(uuid "ac108682-1557-49ed-9c3d-d1fad5126b3b")
-		)
-		(pin "4"
-			(uuid "d3ce73e5-c78f-4c5c-8238-17c514c67daf")
-		)
-		(instances
-			(project "bottom_plate"
-				(path "/b41c5c8d-a6b2-4633-9a6f-a9fc0b4f40ca/ebd9436f-55ad-414e-b8cc-8a07a71cfe92"
-					(reference "U_ESD_D2")
 					(unit 1)
 				)
 			)
@@ -4883,7 +4072,7 @@
 	)
 	(symbol
 		(lib_id "Regulator_Linear:XC6220B331MR")
-		(at 241.3 88.9 0)
+		(at 237.49 87.63 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4894,7 +4083,7 @@
 		(fields_autoplaced yes)
 		(uuid "abf6c0d7-b4bb-457c-8292-dc72386510fd")
 		(property "Reference" "U_POW_1"
-			(at 241.3 78.74 0)
+			(at 237.49 77.47 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4904,7 +4093,7 @@
 			)
 		)
 		(property "Value" "XC6220B331MR"
-			(at 241.3 81.28 0)
+			(at 237.49 80.01 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4914,7 +4103,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
-			(at 241.3 88.9 0)
+			(at 237.49 87.63 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4925,7 +4114,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.torexsemi.com/file/xc6220/XC6220.pdf"
-			(at 260.35 114.3 0)
+			(at 256.54 113.03 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4936,7 +4125,7 @@
 			)
 		)
 		(property "Description" "1A, Low Drop-out Voltage Regulator, Fixed Output 3.3V, SOT-23-5"
-			(at 241.3 88.9 0)
+			(at 237.49 87.63 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5157,7 +4346,7 @@
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 245.11 59.69 0)
+		(at 241.3 58.42 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -5167,7 +4356,7 @@
 		(dnp no)
 		(uuid "d98315c1-62f5-47e8-9e25-8000d98dda8d")
 		(property "Reference" "R_MON_2"
-			(at 246.888 58.5216 0)
+			(at 243.078 57.2516 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5178,7 +4367,7 @@
 			)
 		)
 		(property "Value" "2M"
-			(at 246.888 60.833 0)
+			(at 243.078 59.563 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5189,7 +4378,7 @@
 			)
 		)
 		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
-			(at 243.332 59.69 90)
+			(at 239.522 58.42 90)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5200,7 +4389,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 245.11 59.69 0)
+			(at 241.3 58.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5211,7 +4400,7 @@
 			)
 		)
 		(property "Description" "Resistor"
-			(at 245.11 59.69 0)
+			(at 241.3 58.42 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5236,101 +4425,7 @@
 		)
 	)
 	(symbol
-		(lib_id "Power_Protection:SRV05-4")
-		(at 157.48 186.69 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "e3fc613a-45e7-467c-b1bb-61d66632010a")
-		(property "Reference" "U_ESD_D1"
-			(at 160.5981 171.45 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "CM1293A"
-			(at 160.5981 173.99 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
-			(at 175.26 198.12 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "http://www.onsemi.com/pub/Collateral/SRV05-4-D.PDF"
-			(at 157.48 186.69 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "ESD Protection Diodes with Low Clamping Voltage, SOT-23-6"
-			(at 157.48 186.69 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "6"
-			(uuid "5f0b2115-7003-44fc-bdbf-fbcb036831f2")
-		)
-		(pin "3"
-			(uuid "0d6bd4f2-e8fd-46f2-a908-42b54acd7374")
-		)
-		(pin "5"
-			(uuid "085296b7-69ba-4373-9ebc-3048561ddaab")
-		)
-		(pin "2"
-			(uuid "a1dab5a4-512a-445d-bff4-8734699461cc")
-		)
-		(pin "1"
-			(uuid "ce1ec6dc-9190-4816-8d90-204c35a5f0ce")
-		)
-		(pin "4"
-			(uuid "ba34d670-78ad-46c1-b8e3-8a145ae9f07a")
-		)
-		(instances
-			(project "bottom_plate"
-				(path "/b41c5c8d-a6b2-4633-9a6f-a9fc0b4f40ca/ebd9436f-55ad-414e-b8cc-8a07a71cfe92"
-					(reference "U_ESD_D1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Mechanical:MountingHole")
+		(lib_id "Mechanical:MountingHole_Pad")
 		(at 25.4 179.07 0)
 		(unit 1)
 		(body_style 1)
@@ -5342,7 +4437,7 @@
 		(fields_autoplaced yes)
 		(uuid "f30412a1-1127-4f64-b877-3d48c2e6e968")
 		(property "Reference" "H1"
-			(at 27.94 177.7999 0)
+			(at 27.94 176.5299 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5353,7 +4448,7 @@
 			)
 		)
 		(property "Value" "MountingHole_Pad"
-			(at 27.94 180.3399 0)
+			(at 27.94 179.0699 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5363,7 +4458,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2"
+		(property "Footprint" "MountingHole:MountingHole_2.2mm_M2_Pad"
 			(at 25.4 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -5385,7 +4480,7 @@
 				)
 			)
 		)
-		(property "Description" "Mounting Hole without connection"
+		(property "Description" "Mounting Hole with connection"
 			(at 25.4 179.07 0)
 			(hide yes)
 			(show_name no)
@@ -5396,104 +4491,13 @@
 				)
 			)
 		)
+		(pin "1"
+			(uuid "49e2ecce-33a8-4275-816e-bcbc57d406e7")
+		)
 		(instances
 			(project "bottom_plate"
 				(path "/b41c5c8d-a6b2-4633-9a6f-a9fc0b4f40ca/ebd9436f-55ad-414e-b8cc-8a07a71cfe92"
 					(reference "H1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Power_Protection:SRV05-4")
-		(at 157.48 261.62 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "f740fa8b-def3-4876-b180-b2baf02b55b1")
-		(property "Reference" "U_ESD_D3"
-			(at 160.5981 246.38 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Value" "CM1293A"
-			(at 160.5981 248.92 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
-			(at 175.26 273.05 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" "http://www.onsemi.com/pub/Collateral/SRV05-4-D.PDF"
-			(at 157.48 261.62 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "ESD Protection Diodes with Low Clamping Voltage, SOT-23-6"
-			(at 157.48 261.62 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "6"
-			(uuid "e5daf4b9-11f6-4f26-9ee0-99b0b1dbbd94")
-		)
-		(pin "3"
-			(uuid "21a7a810-5555-4451-a13a-f0c85d5c1a7c")
-		)
-		(pin "5"
-			(uuid "ee0f4661-d528-4959-a49f-5e615c71b6c6")
-		)
-		(pin "2"
-			(uuid "d1ccf78f-6c24-4ab6-b922-a1ff923c6e5a")
-		)
-		(pin "1"
-			(uuid "5c3f6fa3-5c5a-4ba6-93f0-761d593828ee")
-		)
-		(pin "4"
-			(uuid "19511f7d-a0b8-4bad-a5cd-d556582a452f")
-		)
-		(instances
-			(project "bottom_plate"
-				(path "/b41c5c8d-a6b2-4633-9a6f-a9fc0b4f40ca/ebd9436f-55ad-414e-b8cc-8a07a71cfe92"
-					(reference "U_ESD_D3")
 					(unit 1)
 				)
 			)
