@@ -14,7 +14,6 @@ p = layout.set_derived_parameters(
     parameters.load_parameters("cad/androphage.yaml")
     )
 
-# with bd.BuildPart() as case:
 case_left = (
     bd.Pos(
         -p.Plates.Top.thickness*tand(p.tent_angle),
@@ -40,11 +39,9 @@ case_left += (
         )
     )
 
-case_left = case_left
+case_left = bd.Rot(X=180) * case_left
 
 case_right = bd.mirror(case_left, about=bd.Plane.YZ).move(bd.Pos(X=2))
-
-# (case_left, case_right) = bd.pack((case_left, case_right), padding=2)
 
 bd.export_stl(
     to_export=case_left,

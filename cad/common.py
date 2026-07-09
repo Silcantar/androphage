@@ -8,6 +8,8 @@ import copy as copy_module
 import build123d as bd
 
 # Constants for indexing vector components.
+R = 0       # Cylinder Radius
+H = L = 1   # Cylinder Height/Length
 X = 0
 Y = 1
 Z = 2
@@ -109,10 +111,6 @@ def mirror_preserve(
             (mirrored_obj.label, mirrored_obj.color) = metadata
         mirrored_objects.append(mirrored_obj)
     return bd.Part(children=mirrored_objects)
-
-def index(seq: Sequence) -> Iterable[tuple]:
-    return zip(range(len(seq)), seq)
-
 
 # Datatype Definitions
 vector = {

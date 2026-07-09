@@ -95,6 +95,29 @@ class Frame(Component):
             align=Align.Left,
             rotation=(0, p.tent_angle, 0)
         )
+        if p.Plates.Top.center_radius != 0:
+            cutter_location = bd.Location(
+                position=(
+                    frame
+                    .vertices()
+                    .group_by(bd.Axis.Z)[-1]
+                    .group_by(bd.Axis.X)[-1]
+                    .sort_by(bd.Axis.Y)[0]
+                    ),
+                orientation=(90, 0, 0)
+                )
+            cutter = (
+                cutter_location
+                * layout.center_cutter(
+                    radius=p.Plates.Top.center_radius,
+                    angle=p.tent_angle
+                    )
+                )
+            frame -= bd.extrude(
+                to_extrude=cutter,
+                amount=BIG,
+                both=True
+                )
         if self.usb_cutout:
             from bd_keyboard.src.connector.usb_c import USB_C_Port
             usb_face = bd.Face(bd.Wire(

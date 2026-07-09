@@ -1,5 +1,6 @@
 import typing
 from enum import StrEnum, auto
+from math import pi
 
 import build123d as bd
 
@@ -97,31 +98,81 @@ class Plate(Component):
                 plate -= self._hinge_cutouts(plate)
                 plate -= self._trackball_cutout(plate)
                 top_plate_cutout = self._top_plate_cutout()
+                old_plate = plate
                 plate -= top_plate_cutout
-                # Select the horizontal cutout edges based on their length.
-                fillet_edges = (
-                    plate.edges()
-                    .group_by(bd.Axis.Z)[-1]
-                    .filter_by(
-                        lambda e:
-                        # Select edges that are the same width as a key cutout...
-                        abs(
-                            e.length
-                            - p.spacing.X
-                            + 2*p.Plates.Top.radius_inner
-                        ) < EPS
-                        # ... or that are the same width as the screen cutout.
-                        or abs(
-                            e.length
-                            - p.Screen.display_area[X]
-                            + 2*p.Plates.Top.screen_radius
-                        ) < EPS
+                new_edges = bd.new_edges(
+                    old_plate,
+                    combined=plate
                     )
-                )
+                fillet_edges = new_edges.group_by(bd.Axis.Z)[-1]
                 plate = bd.fillet(
                     objects=fillet_edges,
                     radius=p.Frame.fillet_radius
-                )
+                    )
+                if p.Plates.Top.center_radius != 0:
+                    cutter_location = bd.Location(
+                        position=(
+                            plate
+                            .vertices()
+                            .group_by(bd.Axis.Z)[-1]
+                            .group_by(bd.Axis.X)[-1]
+                            .sort_by(bd.Axis.Y)[0]
+                            ),
+                        orientation=(90, 0, 0)
+                        )
+                    cutter = (
+                        cutter_location
+                        * layout.center_cutter(
+                            radius=p.Plates.Top.center_radius,
+                            angle=p.tent_angle
+                            )
+                        )
+                    plate -= bd.extrude(
+                        to_extrude=cutter,
+                        amount=BIG,
+                        both=True
+                        )
+                if p.Plates.Top.skirt:
+                    exclude_lengths = [
+                        p.Screen.size[X] + 2*p.Screen.clearance,
+                        p.Screen.size[Y] + 2*p.Screen.clearance,
+                        2*pi*p.Magnet.size[R],
+                        p.Magnet.size[X],
+                        p.Magnet.size[Y]
+                        ]
+                    skirt_edges = (
+                        new_edges
+                        .group_by(bd.Axis.Z)[0]
+                        .filter_by(
+                            lambda e:
+                            all(
+                                abs(e.length - length) > EPS
+                                for length in exclude_lengths
+                                )
+                            )
+                        )
+                    skirt_wires = bd.Wire.combine(skirt_edges)
+                    skirt_wires_offset = [
+                        bd.offset(
+                            objects=wire.close(),
+                            amount=p.Plates.Top.skirt_thickness/2,
+                            )
+                        for wire in skirt_wires
+                        ]
+                    skirt_sketch = bd.make_face(bd.trace(
+                        lines=skirt_wires_offset,
+                        line_width=p.Plates.Top.skirt_thickness
+                        ))
+                    skirt_sketch &= plate.faces().sort_by(bd.Axis.Z)[0]
+                    skirt = bd.extrude(
+                        to_extrude=skirt_sketch,
+                        amount=(
+                            -p.Switch.model.height.upper
+                            - p.Keycap.profile.height
+                            + p.Plates.Top.thickness
+                            )
+                        )
+                    plate += skirt
         self.front_center_location = (
             bd.Pos(X=(
                 p.Plates.Bottom.center_width
@@ -169,22 +220,24 @@ class Plate(Component):
                         )
                     i += 1
             case PlateType.TOP:
-                magnet_origin = bd.Pos(
-                    self
-                    .edges()
-                    .filter_by(bd.GeomType.LINE)
-                    .group_by(bd.Axis.Z)[0]
-                    .sort_by(bd.Axis.X)[1]
-                    .center()
-                    )
-                i = 1
-                for pos in p.Magnet.positions:
+                magnet_locations = [
+                    bd.Pos(face.center() - (0, 0, p.Magnet.size[H]/2))
+                    for face in (
+                        self
+                        .faces()
+                        .filter_by(-bd.Axis.Z)
+                        .filter_by(
+                            lambda f:
+                            abs(f.area - pi*p.Magnet.size[R]**2) < EPS
+                            )
+                        )
+                    ]
+                for (i, location) in enumerate(magnet_locations):
                     bd.RigidJoint(
                         label=f"magnet_{i}",
                         to_part=self,
-                        joint_location=magnet_origin * bd.Pos(pos)
+                        joint_location=location
                         )
-                    i += 1
 
     def _hinge_cutouts(self, part: bd.Part) -> bd.Part:
         p = self.parameters
@@ -360,7 +413,10 @@ class Plate(Component):
             screen_cutout = (
                 screen_location
                 * bd.Box(
-                    *(bd.Vector(p.Screen.size) + bd.Vector(0.2, 0.2, 0)),
+                    *(
+                        bd.Vector(p.Screen.size)
+                        + bd.Vector(*[2*p.Screen.clearance]*2, 0)
+                        ),
                     align=Align.BackTop)
                 )
             objs.append(screen_cutout)
@@ -402,7 +458,7 @@ if __name__ == "__main__":
         PlateType.BOTTOM: -1,
         PlateType.PCB: 0,
         PlateType.SWITCH: 0,
-        PlateType.TOP: 0
+        PlateType.TOP: -1
         }
     plates: list[bd.Part] = []
     for plate_type in PlateType:

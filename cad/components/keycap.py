@@ -58,6 +58,6 @@ if __name__ == "__main__":
     )
     keycaps = [
         bd.Pos(Y=30*i) * KeycapSTL(row=row, parameters=p)
-        for (row, i) in zip(KeycapRow, range(len(KeycapRow)))
+        for (i, row) in enumerate(KeycapRow)
         ]
     show(keycaps, render_joints=True)

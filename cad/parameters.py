@@ -157,8 +157,11 @@ class SwitchPlate(Plate):
 
 @dataclass
 class TopPlate(Plate):
+    center_radius: float
     radius_inner: float
     screen_radius: float
+    skirt: bool
+    skirt_thickness: float
     thickness: float
     thumb_cutout_fillet: bool
 
@@ -179,6 +182,7 @@ class PrintParameters:
 class Screen(Component):
     bezel: float
     chip_size: vector[3]
+    clearance: float
     display_area: vector[2]
     fillet_radius: float
     half: Half

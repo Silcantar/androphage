@@ -476,7 +476,7 @@ Magnet:
   visible: true
   color: *silver
   fillet_radius: 0.2
-  positions: [[14, -30, 0], [14, 30, 0]]
+  positions: [[14, -31, 0], [14, 31, 0]]
   shape: round
   size: [3, 2]
 MagneticConnector:
@@ -521,12 +521,14 @@ Plates:
   Top:
     visible: true
     add_center: true
+    center_radius: 10
     color: *black
     radius_inner: 2
     radius_outer: 2
     screen_cutout: true
     screen_radius: 1
     skirt: true
+    skirt_thickness: *wall_thickness
     thickness: *wall_thickness
     thumb_cutout_fillet: false
 Screen:
@@ -534,6 +536,7 @@ Screen:
   color: *black
   bezel: 1.6
   chip_size: [10, 10, 1]
+  clearance: 0.11
   display_area: [10.8, 25.3]
   fillet_radius: 1
   half: 1 # 0 = neither, 1 = left, 2 = right, 3 = both

@@ -351,6 +351,21 @@ def build_plate_outline(
             bd.make_face(mode=bd.Mode.SUBTRACT)
     return sketch.face()
 
+def center_cutter(radius: float, angle: float) -> bd.Sketch:
+    arc = bd.CenterArc(
+        center=(-radius*tand(angle), -radius),
+        radius=radius,
+        start_angle=90-angle,
+        arc_size=angle
+        )
+    pl = bd.Polyline(
+        arc.start_point(),
+        (0, 0),
+        arc.end_point()
+        )
+    wire = bd.Wire()
+    return bd.make_face([arc, *pl.edges()])
+
 def frame_section(
     parameters: Parameters,
     do_lips: bool = True,

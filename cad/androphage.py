@@ -286,7 +286,7 @@ class Androphage(bd.BasePartObject):
             for joint in switch_plate.joints.values()
             if "switch" in joint.label
             ]
-        for (i, joint) in zip(range(len(switch_joints)), switch_joints):
+        for (i, joint) in enumerate(switch_joints):
             switches_list.append(copy(switch))
             switches_list[-1].label = f"Switch {i+1}"
             joint.connect_to(switches_list[-1].joints["plate"])
@@ -325,7 +325,7 @@ class Androphage(bd.BasePartObject):
             if "magnet" in joint.label
             ]
         magnets: list[bd.Part] = []
-        for (i, joint) in index(magnet_joints):
+        for (i, joint) in enumerate(magnet_joints):
             magnets.append(copy(magnet))
             magnets[-1].label = f"Magnet {i}"
             joint.connect_to(magnets[-1].joints["center"])
