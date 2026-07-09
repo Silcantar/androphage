@@ -5,7 +5,7 @@ from os import PathLike
 import build123d as bd
 from dataclass_wizard.mixins.yaml import YAMLWizard
 
-from common import Half, vector, cosd, tand
+from common import Half, MagnetShape, vector, cosd, tand
 
 Color = int | str | list[str, float] | list[int, float] | None
 
@@ -120,8 +120,10 @@ class Keycap(Component):
 
 @dataclass
 class Magnet(Component):
-    shape: str
-    size: vector[3]
+    fillet_radius: float
+    positions: list[vector[3]]
+    shape: MagnetShape
+    size: vector[3] | vector[2]
 
 @dataclass
 class MagneticConnector(Component):
@@ -286,8 +288,8 @@ class Parameters(YAMLWizard):
     Hinge: Hinge
     Insert: Insert
     Keycap: Keycap
+    Magnet: Magnet
     MagneticConnector: MagneticConnector
-    # MCU: MCU
     Plates: Plates
     Screen: Screen
     Screws: Screws

@@ -110,6 +110,9 @@ def mirror_preserve(
         mirrored_objects.append(mirrored_obj)
     return bd.Part(children=mirrored_objects)
 
+def index(seq: Sequence) -> Iterable[tuple]:
+    return zip(range(len(seq)), seq)
+
 
 # Datatype Definitions
 vector = {
@@ -139,13 +142,13 @@ class Finger(StrEnum):
     PINKY = auto()
     OUTER = auto()
 
-# class Half(StrEnum):
-#     LEFT = auto()
-#     RIGHT = auto()
-
 class Half(IntFlag):
     LEFT = auto()
     RIGHT = auto()
+
+class MagnetShape(StrEnum):
+    BAR = auto()
+    ROUND = auto()
 
 class SpacingType(StrEnum):
     CHOC = auto()

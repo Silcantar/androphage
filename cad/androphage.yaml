@@ -475,8 +475,10 @@ LED:
 Magnet:
   visible: true
   color: *silver
-  shape: bar
-  size: [8, 50, 3]
+  fillet_radius: 0.2
+  positions: [[14, -30, 0], [14, 30, 0]]
+  shape: round
+  size: [3, 2]
 MagneticConnector:
   visible: true
   color: *black
@@ -511,7 +513,9 @@ Plates:
     visible: true
     add_center: false
     clearance: 0.5 # Must be less than Frame.lip_depth
-    color: *pcb_color
+    # color: *black     # Anodized aluminum
+    color: *clear     # Acrylic
+    # color: *pcb_color # FR4
     edge: 4.5
     radius_outer: 2
   Top:

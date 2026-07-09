@@ -139,32 +139,52 @@ class Plate(Component):
 
     def _joints(self):
         p = self.parameters
-        if self.plate_type == PlateType.SWITCH:
-            i = 1
-            plate_location = (
-                bd.Pos(self.front_center_location.mirror(bd.Plane.YZ).center()) if self.mirror
-                else self.front_center_location
-                )
-            joint_locations = (
-                [
-                    location.mirror(bd.Plane.YZ)
-                    for location in self.switch_locations.locations
-                    ] if self.mirror
-                else self.switch_locations.locations
-                )
-            rotation = (bd.Rot(Z=180) if self.mirror else bd.Rot(Z=0))
-            for location in joint_locations:
-                bd.RigidJoint(
-                    label=f"switch_{i}",
-                    to_part=self,
-                    joint_location=(
-                        plate_location
-                        * bd.Pos(Z=p.Plates.Switch.thickness)
-                        * location
-                        * rotation
-                        )
+        match self.plate_type:
+            case PlateType.SWITCH:
+                i = 1
+                plate_location = (
+                    bd.Pos(
+                        self.front_center_location.mirror(bd.Plane.YZ).center()
+                        ) if self.mirror
+                        else self.front_center_location
                     )
-                i += 1
+                joint_locations = (
+                    [
+                        location.mirror(bd.Plane.YZ)
+                        for location in self.switch_locations.locations
+                        ] if self.mirror
+                    else self.switch_locations.locations
+                    )
+                rotation = (bd.Rot(Z=180) if self.mirror else bd.Rot(Z=0))
+                for location in joint_locations:
+                    bd.RigidJoint(
+                        label=f"switch_{i}",
+                        to_part=self,
+                        joint_location=(
+                            plate_location
+                            * bd.Pos(Z=p.Plates.Switch.thickness)
+                            * location
+                            * rotation
+                            )
+                        )
+                    i += 1
+            case PlateType.TOP:
+                magnet_origin = bd.Pos(
+                    self
+                    .edges()
+                    .filter_by(bd.GeomType.LINE)
+                    .group_by(bd.Axis.Z)[0]
+                    .sort_by(bd.Axis.X)[1]
+                    .center()
+                    )
+                i = 1
+                for pos in p.Magnet.positions:
+                    bd.RigidJoint(
+                        label=f"magnet_{i}",
+                        to_part=self,
+                        joint_location=magnet_origin * bd.Pos(pos)
+                        )
+                    i += 1
 
     def _hinge_cutouts(self, part: bd.Part) -> bd.Part:
         p = self.parameters
@@ -302,6 +322,18 @@ class Plate(Component):
                 radius=self.plate_params.radius_inner
             )
         objs = [part.part]
+        magnet_origin = bd.Pos(part.part.edges().sort_by(bd.Axis.X)[0].center())
+        magnet_locations = [
+            magnet_origin
+            * bd.Pos(pos)
+            for pos in p.Magnet.positions
+            ]
+        if p.Magnet.shape == MagnetShape.BAR:
+            magnet = bd.Box(*p.Magnet.size)
+        else:
+            magnet = bd.Cylinder(*p.Magnet.size)
+        magnets = magnet_locations * magnet
+        objs.extend(magnets)
         if self.half in p.Screen.half:
             display_location = (
                 self.column_locations["inner"]

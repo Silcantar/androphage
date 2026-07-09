@@ -20,14 +20,14 @@ class Androphage(bd.BasePartObject):
         build: bool = True,
         parameter_path: PathLike = "cad/androphage.yaml",
         main_half: Half = Half.LEFT,
-        render_keycaps: bool = False,
+        render_keys: bool = False,
         **kwargs
     ):
         self.main_half = main_half
         self.parameters = layout.set_derived_parameters(
             load_parameters(parameter_path)
         )
-        self.render_keycaps = render_keycaps
+        self.render_keys = render_keys
         self.angle = max(0, min(angle, 90 + self.parameters.tent_angle))
         self.column_locations = layout.build_column_locations(self.parameters)
         if build:
@@ -233,7 +233,7 @@ class Androphage(bd.BasePartObject):
                 # Select faces whose normal is mostly down.
                 .filter_by(lambda f: f.normal_at().Z < -0.7)
                 # Select the smallest of these faces.
-                .sort_by(bd.SortBy.AREA)[0]
+                .filter_by(lambda f: 100 < f.area < 200)
                 )
             screen_location = (
                 bd.Locations(screen_cutout_face).locations[0]
@@ -297,13 +297,39 @@ class Androphage(bd.BasePartObject):
                 keycaps_list[-1].joints["stem"]
                 )
         switches = bd.Part(label="Switches", children=switches_list)
-        component_list.append(switches)
         keycaps = bd.Part(label="Keycaps", children=keycaps_list)
-        if self.render_keycaps:
+        if self.render_keys:
+            component_list.append(switches)
             component_list.append(keycaps)
         print("    Building Hinge.")
         component_list.extend(self._build_hinges(half=half, base=False))
         print("    Building Screws.")
+        # Magnets
+        if p.Magnet.shape == MagnetShape.BAR:
+            magnet = bd.Box(*p.Magnet.size)
+        else:
+            magnet = bd.Cylinder(*p.Magnet.size)
+        magnet = bd.fillet(
+            objects=magnet.edges(),
+            radius=p.Magnet.fillet_radius
+            )
+        magnet.color = seq_to_color(p.Magnet.color)
+        bd.RigidJoint(
+            label="center",
+            to_part=magnet,
+            joint_location=bd.Pos(0, 0, 0)
+            )
+        magnet_joints = [
+            joint
+            for joint in top_plate.joints.values()
+            if "magnet" in joint.label
+            ]
+        magnets: list[bd.Part] = []
+        for (i, joint) in index(magnet_joints):
+            magnets.append(copy(magnet))
+            magnets[-1].label = f"Magnet {i}"
+            joint.connect_to(magnets[-1].joints["center"])
+        component_list.extend(magnets)
         # Screws
         # from bd_warehouse.fastener import CounterSunkScrew, HeatSetNut, HexNut
         assembly = bd.Part(children=component_list)
@@ -364,7 +390,7 @@ if __name__ == "__main__":
             bd.Pos(Y=i*spacing - count*spacing/2)
             * Androphage(
                 angle=i*angle_step,
-                render_keycaps=False
+                render_keys=False
                 )
             )
         board.label = f"Androphage {i*angle_step}°"
