@@ -1719,6 +1719,12 @@
 		(uuid "441669b2-cae2-431a-8b0d-6e205708aca8")
 	)
 	(junction
+		(at 49.53 35.56)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "469f4a32-d8b3-4083-910c-23a52414831b")
+	)
+	(junction
 		(at 212.09 54.61)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -1777,6 +1783,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "96437731-ab16-414e-938b-380b018943f0")
+	)
+	(junction
+		(at 49.53 38.1)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9968e858-88ed-4180-a1ec-07a32e721cb0")
 	)
 	(junction
 		(at 58.42 76.2)
@@ -1930,6 +1942,16 @@
 	)
 	(wire
 		(pts
+			(xy 49.53 27.94) (xy 49.53 26.67)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "012fdb09-5445-4810-b39f-2192cd93f8e3")
+	)
+	(wire
+		(pts
 			(xy 158.75 71.12) (xy 176.53 71.12)
 		)
 		(stroke
@@ -2000,6 +2022,16 @@
 	)
 	(wire
 		(pts
+			(xy 49.53 38.1) (xy 62.23 38.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "37a45bdb-32d0-4856-9da3-2d4df59a7f69")
+	)
+	(wire
+		(pts
 			(xy 207.01 66.04) (xy 207.01 81.28)
 		)
 		(stroke
@@ -2067,6 +2099,16 @@
 			(type default)
 		)
 		(uuid "549b4db2-6493-43f5-98ac-be8bbf7806f9")
+	)
+	(wire
+		(pts
+			(xy 38.1 35.56) (xy 49.53 35.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "57fecf0e-64fd-4f7b-b979-2d71ae818da0")
 	)
 	(wire
 		(pts
@@ -2157,6 +2199,26 @@
 			(type default)
 		)
 		(uuid "6bdeb7d3-4438-4b53-aa01-1330a1b0f2c7")
+	)
+	(wire
+		(pts
+			(xy 49.53 35.56) (xy 62.23 35.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6c440e21-da28-449f-9483-4996328d4b29")
+	)
+	(wire
+		(pts
+			(xy 38.1 38.1) (xy 49.53 38.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6d4455cf-3e8e-493a-a396-34ee761ed485")
 	)
 	(wire
 		(pts
@@ -2538,6 +2600,16 @@
 		)
 		(uuid "2945f6d9-8c63-4e80-a82e-16700aeed328")
 	)
+	(label "VDD"
+		(at 49.53 45.72 270)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "29c37bad-b663-4c04-87b3-55819a516583")
+	)
 	(label "R3"
 		(at 259.08 86.36 0)
 		(effects
@@ -2659,7 +2731,7 @@
 		(uuid "72570386-34b5-4ace-8a94-58e138c38393")
 	)
 	(label "SDA"
-		(at 62.23 35.56 180)
+		(at 38.1 35.56 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -2759,7 +2831,7 @@
 		(uuid "a43fafbb-1031-43e8-960f-eaf8b9b27faa")
 	)
 	(label "SCL"
-		(at 62.23 38.1 180)
+		(at 38.1 38.1 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -2877,6 +2949,16 @@
 			(justify right bottom)
 		)
 		(uuid "f4709d0d-27e0-483e-be7c-5780dcc56c27")
+	)
+	(label "VDD"
+		(at 49.53 26.67 90)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left bottom)
+		)
+		(uuid "fa3b2069-6707-4ba9-9dee-cfd35fa254b2")
 	)
 	(symbol
 		(lib_id "Device:R")
@@ -4754,6 +4836,164 @@
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/417aa41b-7daf-492f-bffc-85846200bac5"
 					(reference "S_MAT_L02")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 49.53 31.75 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "bb554e12-59c4-4565-859e-b8a0937dd011")
+		(property "Reference" "R_MAT_34"
+			(at 44.45 33.02 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "10K"
+			(at 44.45 30.48 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 51.308 31.75 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 49.53 31.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 49.53 31.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "16f98786-3c51-4581-b7ee-59206017f6f3")
+		)
+		(pin "1"
+			(uuid "b2e04a88-052e-4982-8295-b2945e8bbc56")
+		)
+		(instances
+			(project "matrix_plate"
+				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/417aa41b-7daf-492f-bffc-85846200bac5"
+					(reference "R_MAT_34")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 49.53 41.91 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "c18eb4d9-959d-4dd7-8f08-18f857f3dce0")
+		(property "Reference" "R_MAT_35"
+			(at 44.45 43.18 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "10K"
+			(at 44.45 40.64 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 51.308 41.91 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 49.53 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 49.53 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "09c5573b-66c4-4ae3-a3d3-cf1543133d24")
+		)
+		(pin "1"
+			(uuid "7fb14f00-6656-43fd-a9fc-bc9ce4fa2cbf")
+		)
+		(instances
+			(project "matrix_plate"
+				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/417aa41b-7daf-492f-bffc-85846200bac5"
+					(reference "R_MAT_35")
 					(unit 1)
 				)
 			)

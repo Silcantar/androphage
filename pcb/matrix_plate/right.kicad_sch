@@ -3124,6 +3124,12 @@
 		(uuid "16a1d188-61e1-445d-ada8-7c6bdf2fdf87")
 	)
 	(junction
+		(at 49.53 35.56)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "2622c84b-6209-4ee2-abff-20c19f2606a8")
+	)
+	(junction
 		(at 227.33 87.63)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3182,6 +3188,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "522923f2-0f9b-4f73-a1e3-4a4dd7c5bc82")
+	)
+	(junction
+		(at 49.53 38.1)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "56dd8772-55f1-4230-9d53-8788a6ce62a0")
 	)
 	(junction
 		(at 204.47 67.31)
@@ -3402,6 +3414,16 @@
 			(type default)
 		)
 		(uuid "0cc8c6d0-e189-4f8a-ba6b-af224bc47ab6")
+	)
+	(wire
+		(pts
+			(xy 38.1 38.1) (xy 49.53 38.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0e410795-7841-4a45-80a8-bf7bb5fe2b2f")
 	)
 	(wire
 		(pts
@@ -3635,6 +3657,16 @@
 	)
 	(wire
 		(pts
+			(xy 38.1 35.56) (xy 49.53 35.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5b1d9c32-2e91-44ba-9edf-ba3f044c253d")
+	)
+	(wire
+		(pts
 			(xy 245.11 87.63) (xy 256.54 87.63)
 		)
 		(stroke
@@ -3652,6 +3684,16 @@
 			(type default)
 		)
 		(uuid "5e3e69ee-1c76-4a30-8955-03183c1404f6")
+	)
+	(wire
+		(pts
+			(xy 49.53 38.1) (xy 62.23 38.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5edf5b35-3397-4dfe-9391-b1c7af0cc263")
 	)
 	(wire
 		(pts
@@ -3752,6 +3794,16 @@
 			(type default)
 		)
 		(uuid "999f285b-ce70-41d7-b046-99e5f94bc193")
+	)
+	(wire
+		(pts
+			(xy 49.53 35.56) (xy 62.23 35.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9db242d1-5c24-4e6e-a96d-6c478f92d601")
 	)
 	(wire
 		(pts
@@ -3912,6 +3964,16 @@
 			(type default)
 		)
 		(uuid "dcfbc57a-1110-45ef-9056-35dde3400f04")
+	)
+	(wire
+		(pts
+			(xy 49.53 27.94) (xy 49.53 26.67)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "df557b45-edc9-418e-a627-9c4b31a89d41")
 	)
 	(wire
 		(pts
@@ -4404,24 +4466,34 @@
 		(uuid "9abf97a9-deef-43f2-94bd-d87101cd4cba")
 	)
 	(label "SDA"
-		(at 62.23 35.56 180)
+		(at 38.1 35.56 180)
 		(effects
 			(font
 				(size 1.524 1.524)
 			)
 			(justify right bottom)
 		)
-		(uuid "aa1b6e05-c627-410b-9e23-6669a9128e01")
+		(uuid "b01ccda2-090a-4acf-be7c-969e067bd636")
+	)
+	(label "VDD"
+		(at 49.53 26.67 90)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify left bottom)
+		)
+		(uuid "b06f38bb-5461-4ad5-bfdf-34c040fd166b")
 	)
 	(label "SCL"
-		(at 62.23 38.1 180)
+		(at 38.1 38.1 180)
 		(effects
 			(font
 				(size 1.524 1.524)
 			)
 			(justify right bottom)
 		)
-		(uuid "aa1f5cde-2729-4452-9098-71942640c4f3")
+		(uuid "b1aba6a1-ca6f-4506-b588-ceff6c998c8e")
 	)
 	(label "SH"
 		(at 341.63 53.34 90)
@@ -4572,6 +4644,16 @@
 			(justify right bottom)
 		)
 		(uuid "fa812916-3e5b-4b85-964f-437ff295df15")
+	)
+	(label "VDD"
+		(at 49.53 45.72 270)
+		(effects
+			(font
+				(size 1.524 1.524)
+			)
+			(justify right bottom)
+		)
+		(uuid "fdba514d-733d-4f8e-92af-45060ad9af84")
 	)
 	(symbol
 		(lib_id "Switch:SW_Push_45deg")
@@ -5050,6 +5132,85 @@
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/4386d739-3b56-4538-90bf-5938d3c74d96"
 					(reference "J_USB_1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 49.53 41.91 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "484c8db0-53d1-40f4-ac83-5ac6dd2fa5d2")
+		(property "Reference" "R_MAT_37"
+			(at 44.45 43.18 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "10K"
+			(at 44.45 40.64 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 51.308 41.91 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 49.53 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 49.53 41.91 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "773ea97f-9656-438c-a743-9694c4c3322d")
+		)
+		(pin "1"
+			(uuid "8af26a96-fa2a-4e78-993d-1cbf397a8e0a")
+		)
+		(instances
+			(project "matrix_plate"
+				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/4386d739-3b56-4538-90bf-5938d3c74d96"
+					(reference "R_MAT_37")
 					(unit 1)
 				)
 			)
@@ -6505,6 +6666,85 @@
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/4386d739-3b56-4538-90bf-5938d3c74d96"
 					(reference "S_MAT_R32")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 49.53 31.75 180)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "9ca5b03d-ee80-4b44-80a1-028aba9c4d56")
+		(property "Reference" "R_MAT_36"
+			(at 44.45 33.02 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "10K"
+			(at 44.45 30.48 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_1206_3216Metric_Pad1.30x1.75mm_HandSolder"
+			(at 51.308 31.75 90)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 49.53 31.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 49.53 31.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "0aad6331-0441-40b9-9f69-d4a1f3df5207")
+		)
+		(pin "1"
+			(uuid "c09ee26c-8fcc-4077-a065-ddceb2d3a451")
+		)
+		(instances
+			(project "matrix_plate"
+				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/4386d739-3b56-4538-90bf-5938d3c74d96"
+					(reference "R_MAT_36")
 					(unit 1)
 				)
 			)

@@ -653,7 +653,7 @@
         "uuid": "ff6e9c14-03d1-4298-be5c-ff86cb590acc"
       }
     ],
-    "used_designators": "R1-4,D1-2,SW1",
+    "used_designators": "R1-4,D1-2,SW1,R_MAT_34-37",
     "variants": []
   },
   "sheets": [
