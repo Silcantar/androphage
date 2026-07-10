@@ -4092,7 +4092,7 @@
 				)
 			)
 		)
-		(property "Value" "XC6220B331MR"
+		(property "Value" "TLV75733PDYDR"
 			(at 237.49 80.01 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4125,6 +4125,17 @@
 			)
 		)
 		(property "Description" "1A, Low Drop-out Voltage Regulator, Fixed Output 3.3V, SOT-23-5"
+			(at 237.49 87.63 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "LCSC" "C22399950"
 			(at 237.49 87.63 0)
 			(hide yes)
 			(show_name no)
