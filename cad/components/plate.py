@@ -454,12 +454,12 @@ if __name__ == "__main__":
         PlateType.SWITCH: 40,
         PlateType.TOP: 60
         }
-    export_face = {
-        PlateType.BOTTOM: -1,
-        PlateType.PCB: 0,
-        PlateType.SWITCH: 0,
-        PlateType.TOP: -1
-        }
+    # export_face = {
+    #     PlateType.BOTTOM: -1,
+    #     PlateType.PCB: 0,
+    #     PlateType.SWITCH: 0,
+    #     PlateType.TOP: -1
+    #     }
     plates: list[bd.Part] = []
     for plate_type in PlateType:
         plate = bd.Pos(0, 0, zpos[plate_type]) * Plate(
@@ -469,10 +469,12 @@ if __name__ == "__main__":
             # mirror=True
         )
         plates.append(plate)
+        export_face = plate.faces().sort_by(bd.Axis.Z)[-1]
         exporter = bd.ExportDXF()
-        exporter.add_shape(
-            plate.faces()
-            .sort_by(bd.Axis.Z)[export_face[plate_type]]
-        )
+        exporter.add_shape(export_face)
         exporter.write(f"cad/production/{plate_type}.dxf")
+        bd.export_stl(
+            to_export=bd.extrude(export_face, amount=p.Plates.Switch.thickness),
+            file_path=f"cad/production/{plate_type}.stl"
+            )
     show(plates, render_joints=True)

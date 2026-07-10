@@ -485,9 +485,9 @@ Magnet:
   visible: true
   color: *silver
   fillet_radius: 0.2
-  positions: [[14, -31, 0], [14, 31, 0]]
+  positions: [[14, -30, 0], [14, 32, 0]]
   shape: round
-  size: [3, 2]
+  size: [2, 2]
 MagneticConnector:
   visible: true
   color: *black
