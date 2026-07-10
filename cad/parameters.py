@@ -3,7 +3,10 @@ from dataclasses import dataclass
 from os import PathLike
 
 import build123d as bd
-from dataclass_wizard.mixins.yaml import YAMLWizard
+try:
+    from dataclass_wizard import YAMLWizard
+except ImportError:
+    from dataclass_wizard.mixins.yaml import YAMLWizard
 
 from common import Half, MagnetShape, vector, cosd, tand
 
@@ -38,8 +41,9 @@ class Base(Component):
 
 @dataclass
 class Battery(Component):
-    position: vector[3]
+    fillet_radius: float
     half: Half
+    position: vector[3]
     size: vector[3]
 
 @dataclass
@@ -123,7 +127,7 @@ class Magnet(Component):
     fillet_radius: float
     positions: list[vector[3]]
     shape: MagnetShape
-    size: vector[3] | vector[2]
+    size: vector[2]
 
 @dataclass
 class MagneticConnector(Component):

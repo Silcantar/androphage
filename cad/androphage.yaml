@@ -381,10 +381,19 @@ Base:
 Battery:
   visible: true
   color: *silver
-  position: [-3.0, 2.2, 12.55]
   half: 2 # 0 = neither, 1 = left, 2 = right, 3 = both
-  # size: [14, 30, 4.0] # 401430 150mAh
-  size: [12, 30, 7.0] # 701230 300mAh
+# 401430 LiPo 150mAh
+  fillet_radius: 1
+  position: [-3.0, 2.2, 11.05]
+  size: [14, 30, 4.0]
+# 701230 LiPo 300mAh
+  # fillet_radius: 1
+  # position: [-3.0, 2.2, 12.55]
+  # size: [12, 30, 7.0]
+# 10440 Li-ion 600mAh
+  # fillet_radius: 4.999
+  # position: [-3.0, 2.2, 12.55]
+  # size: [10, 44, 10]
 BTU: *VCN310
 CenterBlock:
   visible: true

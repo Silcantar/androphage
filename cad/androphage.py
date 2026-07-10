@@ -197,7 +197,13 @@ class Androphage(bd.BasePartObject):
         if half in p.Battery.half:
             from bd_keyboard.src.battery.battery import Battery
             battery_location = sensor_location * bd.Pos(p.Battery.position)
-            battery = battery_location * Battery(size=p.Battery.size)
+            battery = (
+                battery_location
+                * Battery(
+                    size=p.Battery.size,
+                    fillet_radius=p.Battery.fillet_radius
+                    )
+                )
             component_list.append(battery)
         # BTUs
         print("    Building BTUs.")
