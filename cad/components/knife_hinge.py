@@ -147,7 +147,7 @@ if __name__ == "__main__":
     )
     knife_hinge = KnifeHinge(
         p,
-        # laminated=False
+        laminated=False
     )
     count = 4
     hinge_multi = bd.Part()
