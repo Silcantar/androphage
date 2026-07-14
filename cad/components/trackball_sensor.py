@@ -57,20 +57,20 @@ class TrackballSensor(Component):
         chip.color = Color.black.value
         chip.label = "PMW3610"
         components.append(chip)
-        bottom_component_location = bd.Pos(
-            lens
-            .edges()
-            .group_by(bd.Axis.Y)[-1]
-            .sort_by(bd.Axis.Z)[-1]
-            .center()
-            )
-        bottom_component = (
-            bottom_component_location
-            * bd.Box(*ps.bottom_chip_size, align=Align.FrontTop)
-            )
-        bottom_component.color = Color.black.value
-        bottom_component.label = "Bottom Components"
-        components.append(bottom_component)
+        # bottom_component_location = bd.Pos(
+        #     lens
+        #     .edges()
+        #     .group_by(bd.Axis.Y)[-1]
+        #     .sort_by(bd.Axis.Z)[-1]
+        #     .center()
+        #     )
+        # bottom_component = (
+        #     bottom_component_location
+        #     * bd.Box(*ps.bottom_chip_size, align=Align.FrontTop)
+        #     )
+        # bottom_component.color = Color.black.value
+        # bottom_component.label = "Bottom Components"
+        # components.append(bottom_component)
         if self.mode == bd.Mode.SUBTRACT:
             cutter = bd.Cylinder(
                 radius=ps.hole_size/2,
