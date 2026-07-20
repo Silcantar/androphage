@@ -687,7 +687,7 @@
         "uuid": "ff6e9c14-03d1-4298-be5c-ff86cb590acc"
       }
     ],
-    "used_designators": "R_R_SCK1,R_R_SDA1,SW_RST1,U_R_EXT1,D_CHG1,R_R_RST1,R_L_SDA1,R_R_USB1,F_USB1,J_L_VIK1,U_L_EXT1,FB_USB1,R_L_RST1,J_USB1,R_L_SCL1",
+    "used_designators": "",
     "variants": []
   },
   "sheets": [
