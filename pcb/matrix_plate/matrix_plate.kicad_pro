@@ -69,7 +69,13 @@
           "thermal_relief_spoke_width": 0.5
         }
       },
-      "diff_pair_dimensions": [],
+      "diff_pair_dimensions": [
+        {
+          "gap": 0.0,
+          "via_gap": 0.0,
+          "width": 0.0
+        }
+      ],
       "drc_exclusions": [
         [
           "copper_edge_clearance|19395938|62796427|dde74200-ba91-49fd-b00e-3937de583f9b|36053c31-8afc-42c4-a343-9eec0b7eb9ad",
@@ -208,7 +214,9 @@
           "td_width_to_size_filter_ratio": 0.9
         }
       ],
-      "track_widths": [],
+      "track_widths": [
+        0.0
+      ],
       "tuning_pattern_settings": {
         "diff_pair_defaults": {
           "corner_radius_percentage": 80,
@@ -235,7 +243,12 @@
           "spacing": 0.6
         }
       },
-      "via_dimensions": [],
+      "via_dimensions": [
+        {
+          "diameter": 0.0,
+          "drill": 0.0
+        }
+      ],
       "zones_allow_external_fillets": false
     },
     "ipc2581": {
@@ -516,6 +529,14 @@
         "via_diameter": 0.6,
         "via_drill": 0.3,
         "wire_width": 6
+      },
+      {
+        "name": "Power",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 0,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "track_width": 0.3,
+        "tuning_profile": ""
       }
     ],
     "meta": {
@@ -523,7 +544,20 @@
     },
     "net_colors": null,
     "netclass_assignments": null,
-    "netclass_patterns": []
+    "netclass_patterns": [
+      {
+        "netclass": "Power",
+        "pattern": "*VDD"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "*VUSB"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "*GND"
+      }
+    ]
   },
   "pcbnew": {
     "last_paths": {
@@ -653,7 +687,7 @@
         "uuid": "ff6e9c14-03d1-4298-be5c-ff86cb590acc"
       }
     ],
-    "used_designators": "",
+    "used_designators": "R_R_SCK1,R_R_SDA1,SW_RST1,U_R_EXT1,D_CHG1,R_R_RST1,R_L_SDA1,R_R_USB1,F_USB1,J_L_VIK1,U_L_EXT1,FB_USB1,R_L_RST1,J_USB1,R_L_SCL1",
     "variants": []
   },
   "sheets": [

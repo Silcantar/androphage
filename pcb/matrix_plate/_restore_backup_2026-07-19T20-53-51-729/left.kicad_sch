@@ -2904,7 +2904,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0a585b17-0bf3-4ba0-9d6e-3f20a5f50bde")
-		(property "Reference" "SW_RST_1"
+		(property "Reference" "SW_RST1"
 			(at 342.9 27.94 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2965,7 +2965,7 @@
 		(instances
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/417aa41b-7daf-492f-bffc-85846200bac5"
-					(reference "SW_RST_1")
+					(reference "SW_RST1")
 					(unit 1)
 				)
 			)
@@ -3223,7 +3223,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "43ccb734-5b2c-4e29-9e6a-a8bd34753dec")
-		(property "Reference" "U_L_EXT_1"
+		(property "Reference" "U_L_EXT1"
 			(at 77.0733 27.94 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3367,7 +3367,7 @@
 		(instances
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/417aa41b-7daf-492f-bffc-85846200bac5"
-					(reference "U_L_EXT_1")
+					(reference "U_L_EXT1")
 					(unit 1)
 				)
 			)
@@ -3384,7 +3384,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "4e035871-d25a-4f3c-80b1-c505965ec839")
-		(property "Reference" "R_L_RST_1"
+		(property "Reference" "R_L_RST1"
 			(at 55.88 52.07 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3446,7 +3446,7 @@
 		(instances
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/417aa41b-7daf-492f-bffc-85846200bac5"
-					(reference "R_L_RST_1")
+					(reference "R_L_RST1")
 					(unit 1)
 				)
 			)
@@ -4103,7 +4103,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "857fe709-6acf-4e91-9d1e-6ed0c8df7b38")
-		(property "Reference" "J_L_VIK_1"
+		(property "Reference" "J_L_VIK1"
 			(at 313.182 42.926 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4203,7 +4203,7 @@
 		(instances
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/417aa41b-7daf-492f-bffc-85846200bac5"
-					(reference "J_L_VIK_1")
+					(reference "J_L_VIK1")
 					(unit 1)
 				)
 			)
@@ -4460,7 +4460,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "bb554e12-59c4-4565-859e-b8a0937dd011")
-		(property "Reference" "R_L_SDA_1"
+		(property "Reference" "R_L_SDA1"
 			(at 44.45 33.02 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4522,7 +4522,7 @@
 		(instances
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/417aa41b-7daf-492f-bffc-85846200bac5"
-					(reference "R_L_SDA_1")
+					(reference "R_L_SDA1")
 					(unit 1)
 				)
 			)
@@ -4539,7 +4539,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "c18eb4d9-959d-4dd7-8f08-18f857f3dce0")
-		(property "Reference" "R_L_SCL_1"
+		(property "Reference" "R_L_SCL1"
 			(at 44.45 43.18 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4601,7 +4601,7 @@
 		(instances
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/417aa41b-7daf-492f-bffc-85846200bac5"
-					(reference "R_L_SCL_1")
+					(reference "R_L_SCL1")
 					(unit 1)
 				)
 			)

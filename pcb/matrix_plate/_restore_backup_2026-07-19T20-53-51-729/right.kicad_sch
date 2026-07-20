@@ -4758,7 +4758,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "36efff6c-8481-4640-94b2-822fc1f55b9c")
-		(property "Reference" "J_R_VIK_1"
+		(property "Reference" "J_VIK_IN_SW_2"
 			(at 45.72 193.0399 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4858,7 +4858,7 @@
 		(instances
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/4386d739-3b56-4538-90bf-5938d3c74d96"
-					(reference "J_R_VIK_1")
+					(reference "J_VIK_IN_SW_2")
 					(unit 1)
 				)
 			)
@@ -4876,7 +4876,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "476892ad-db6d-44dd-94ed-1c58eaa1263e")
-		(property "Reference" "J_USB_1"
+		(property "Reference" "J_USB1"
 			(at 293.37 25.4 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4983,7 +4983,7 @@
 		(instances
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/4386d739-3b56-4538-90bf-5938d3c74d96"
-					(reference "J_USB_1")
+					(reference "J_USB1")
 					(unit 1)
 				)
 			)
@@ -5000,7 +5000,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "484c8db0-53d1-40f4-ac83-5ac6dd2fa5d2")
-		(property "Reference" "R_R_SCL_1"
+		(property "Reference" "R_R_SCK1"
 			(at 44.45 43.18 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5062,7 +5062,7 @@
 		(instances
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/4386d739-3b56-4538-90bf-5938d3c74d96"
-					(reference "R_R_SCL_1")
+					(reference "R_R_SCK1")
 					(unit 1)
 				)
 			)
@@ -5320,7 +5320,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "5539a83b-c106-4fdc-85a0-1c72acbbaaf8")
-		(property "Reference" "F_USB_1"
+		(property "Reference" "F_USB1"
 			(at 336.55 109.22 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5425,7 +5425,7 @@
 		(instances
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/4386d739-3b56-4538-90bf-5938d3c74d96"
-					(reference "F_USB_1")
+					(reference "F_USB1")
 					(unit 1)
 				)
 			)
@@ -5443,7 +5443,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "5614c8aa-a9e8-4998-9421-dd1557068dd0")
-		(property "Reference" "R_USB_2"
+		(property "Reference" "R_R_USB1"
 			(at 330.2 46.99 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5505,7 +5505,7 @@
 		(instances
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/4386d739-3b56-4538-90bf-5938d3c74d96"
-					(reference "R_USB_2")
+					(reference "R_R_USB1")
 					(unit 1)
 				)
 			)
@@ -5605,7 +5605,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "69ae1365-a3bf-43ec-9e85-b9da086090e4")
-		(property "Reference" "U_R_EXT_1"
+		(property "Reference" "U_R_EXT1"
 			(at 77.0733 27.94 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5749,7 +5749,7 @@
 		(instances
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/4386d739-3b56-4538-90bf-5938d3c74d96"
-					(reference "U_R_EXT_1")
+					(reference "U_R_EXT1")
 					(unit 1)
 				)
 			)
@@ -6250,7 +6250,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "91b648ce-5c84-4877-b51e-50214a2546d1")
-		(property "Reference" "FB_USB_1"
+		(property "Reference" "FB_USB1"
 			(at 346.075 55.8291 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6357,7 +6357,7 @@
 		(instances
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/4386d739-3b56-4538-90bf-5938d3c74d96"
-					(reference "FB_USB_1")
+					(reference "FB_USB1")
 					(unit 1)
 				)
 			)
@@ -6454,7 +6454,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "9ca5b03d-ee80-4b44-80a1-028aba9c4d56")
-		(property "Reference" "R_R_SDA_1"
+		(property "Reference" "R_R_SDA1"
 			(at 44.45 33.02 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6516,7 +6516,7 @@
 		(instances
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/4386d739-3b56-4538-90bf-5938d3c74d96"
-					(reference "R_R_SDA_1")
+					(reference "R_R_SDA1")
 					(unit 1)
 				)
 			)
@@ -6853,7 +6853,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "b416d811-ca45-4c86-90c2-45e11d61c33c")
-		(property "Reference" "R_R_RST_1"
+		(property "Reference" "R_R_RST1"
 			(at 58.42 52.07 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6915,7 +6915,7 @@
 		(instances
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/4386d739-3b56-4538-90bf-5938d3c74d96"
-					(reference "R_R_RST_1")
+					(reference "R_R_RST1")
 					(unit 1)
 				)
 			)
@@ -7013,7 +7013,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "bd599a9b-90ee-4d4b-8dc4-506ff53da406")
-		(property "Reference" "R_USB_1"
+		(property "Reference" "R_R_USB_1"
 			(at 330.2 31.75 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7075,7 +7075,7 @@
 		(instances
 			(project "matrix_plate"
 				(path "/ff6e9c14-03d1-4298-be5c-ff86cb590acc/4386d739-3b56-4538-90bf-5938d3c74d96"
-					(reference "R_USB_1")
+					(reference "R_R_USB_1")
 					(unit 1)
 				)
 			)
