@@ -143,30 +143,34 @@ class MagneticConnector(Component):
 class Plate(Component):
     radius_outer: float
     add_center: bool
+    thickness: float
 
 @dataclass
 class PCB(Plate):
     clearance: float
-    thickness: float
 
 @dataclass
 class BottomPlate(Plate):
     clearance: float
-    thickness: float
 
 @dataclass
 class SwitchPlate(Plate):
+    button_position: vector[2]
+    button_rotation: float
+    button_size: vector[2]
+    chip_position: vector[2]
+    chip_width: float
     clearance: float
     edge: float
+    skirt_thickness: float
 
 @dataclass
 class TopPlate(Plate):
     center_radius: float
     radius_inner: float
     screen_radius: float
-    skirt: bool
+    skirt_height: float
     skirt_thickness: float
-    thickness: float
     thumb_cutout_fillet: bool
 
 @dataclass

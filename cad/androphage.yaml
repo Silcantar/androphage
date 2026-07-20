@@ -14,7 +14,7 @@ Print:
   overhang_angle: 45
   # Default thickness for 3d-printed parts.
   wall_thickness: &wall_thickness 2
-  min_wall_thickness: 1
+  min_wall_thickness: &min_wall_thickness 1
 Columns:
 # Spread and Stagger are measured in key spacing units (u).
   # Thumb columns
@@ -521,12 +521,17 @@ Plates:
   Switch:
     visible: true
     add_center: false
+    button_position: [-0.5, -9]
+    button_rotation: 10
+    button_size: [8, 8]
+    chip_position: [0, 2]
+    chip_width: 28
     clearance: 0.5 # Must be less than Frame.lip_depth
-    # color: *black     # Anodized aluminum
-    color: *clear     # Acrylic
-    # color: *pcb_color # FR4
+    color: *black     # Nylon
     edge: 4.5
     radius_outer: 2
+    skirt_thickness: *min_wall_thickness
+    thickness: *min_wall_thickness
   Top:
     visible: true
     add_center: true
@@ -536,7 +541,7 @@ Plates:
     radius_outer: 2
     screen_cutout: true
     screen_radius: 1
-    skirt: true
+    skirt_height: 5
     skirt_thickness: *wall_thickness
     thickness: *wall_thickness
     thumb_cutout_fillet: false

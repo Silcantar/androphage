@@ -37,15 +37,19 @@ class Plate(Component):
             case PlateType.BOTTOM:
                 self.plate_params = p.Plates.Bottom
                 self.sensor_cutout = CutoutType.NONE
+                self.chip_cutout = False
             case PlateType.PCB:
                 self.plate_params = p.Plates.PCB
                 self.sensor_cutout = CutoutType.SMALL
+                self.chip_cutout = False
             case PlateType.SWITCH:
                 self.plate_params = p.Plates.Switch
                 self.sensor_cutout = CutoutType.BIG
+                self.chip_cutout = True
             case PlateType.TOP:
                 self.plate_params = p.Plates.Top
                 self.sensor_cutout = CutoutType.NONE
+                self.chip_cutout = False
         self.column_locations = layout.build_column_locations(self.parameters)
         self.outline = layout.build_plate_outline(
             self.parameters,
@@ -53,7 +57,8 @@ class Plate(Component):
             add_center=self.plate_params.add_center,
             center_width=self.plate_params.center_width,
             fillet_radius=self.plate_params.radius_outer,
-            sensor_cutout=self.sensor_cutout
+            sensor_cutout=self.sensor_cutout,
+            chip_cutout=self.chip_cutout
         )
         self.generic_plate_outline = layout.build_plate_outline(
             self.parameters,
@@ -94,6 +99,36 @@ class Plate(Component):
             case PlateType.SWITCH:
                 plate -= self._screw_boss_cutouts()
                 plate -= self._switch_plate_cutout()
+                top_face = plate.faces().sort_by(bd.Axis.Z)[-1]
+                skirt_outline = (
+                    bd.Wire.combine(top_face.edges())
+                    .sort_by(bd.SortBy.LENGTH, reverse=True)
+                    )
+                skirt_sketch = bd.Sketch()
+                for (i, wire) in enumerate(skirt_outline):
+                    if i == 0:
+                        wire_offset = bd.Wire(bd.offset(
+                            objects=wire,
+                            amount=-p.Plates.Switch.skirt_thickness
+                            ))
+                        wire_traced = bd.Face(
+                            outer_wire=wire,
+                            inner_wires=[wire_offset]
+                            )
+                    else:
+                        wire_offset = bd.Wire(bd.offset(
+                            objects=wire,
+                            amount=p.Plates.Switch.skirt_thickness
+                            ))
+                        wire_traced = bd.Face(
+                            outer_wire=wire_offset,
+                            inner_wires=[wire]
+                            )
+                    skirt_sketch += wire_traced
+                plate += bd.extrude(
+                    to_extrude=skirt_sketch,
+                    amount=-p.Switch.model.plate_thickness
+                    )
             case PlateType.TOP:
                 plate -= self._hinge_cutouts(plate)
                 plate -= self._trackball_cutout(plate)
@@ -132,7 +167,7 @@ class Plate(Component):
                         amount=BIG,
                         both=True
                         )
-                if p.Plates.Top.skirt:
+                if p.Plates.Top.skirt_height > 0:
                     exclude_lengths = [
                         p.Screen.size[X] + 2*p.Screen.clearance,
                         p.Screen.size[Y] + 2*p.Screen.clearance,
@@ -166,11 +201,7 @@ class Plate(Component):
                     skirt_sketch &= plate.faces().sort_by(bd.Axis.Z)[0]
                     skirt = bd.extrude(
                         to_extrude=skirt_sketch,
-                        amount=(
-                            -p.Switch.model.height.upper
-                            - p.Keycap.profile.height
-                            + p.Plates.Top.thickness
-                            )
+                        amount=-p.Plates.Top.skirt_height
                         )
                     plate += skirt
         self.front_center_location = (

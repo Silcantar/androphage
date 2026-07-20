@@ -33,7 +33,7 @@ def set_derived_parameters(p: Parameters) -> Parameters:
     p.height = max(key_height, trackball_height)
     p.Hinge.height = p.height/cosd(p.tent_angle)
     # Plate Parameters
-    p.Plates.Switch.thickness = p.Switch.model.plate_thickness
+    p.Plates.Switch.skirt_height = p.Switch.model.plate_thickness
     p.Plates.Top.position_z = -p.Plates.Top.thickness / cosd(p.tent_angle)
     p.Plates.Switch.position_z = (
         - p.Keycap.profile.height
@@ -150,6 +150,7 @@ def build_plate_outline(
     center_width: float = 0,
     fillet_radius: float = 0,
     sensor_cutout: CutoutType = CutoutType.NONE,
+    chip_cutout: bool = False
 ) -> bd.Face:
     """Define the geometry of the plate outline."""
     spc = p.spacing
@@ -349,6 +350,29 @@ def build_plate_outline(
                     sensor_front_line.end_point()
                 )
             bd.make_face(mode=bd.Mode.SUBTRACT)
+        if chip_cutout:
+            with bd.Locations(
+                pinky_back_loc
+                * bd.Pos(
+                    -BIG + p.Plates.Switch.chip_position[X],
+                    p.Plates.Switch.chip_position[Y]
+                    )
+                ):
+                mcp_cutout = bd.Rectangle(
+                    width=BIG + p.Plates.Switch.chip_width,
+                    height=BIG,
+                    align=Align.LeftFront,
+                    mode=bd.Mode.SUBTRACT
+                    )
+            with bd.Locations(
+                home_back_loc
+                * bd.Pos(p.Plates.Switch.button_position)
+                ):
+                reset_cutout = bd.Rectangle(
+                    *p.Plates.Switch.button_size,
+                    rotation=p.Plates.Switch.button_rotation,
+                    mode=bd.Mode.SUBTRACT
+                    )
     return sketch.face()
 
 def center_cutter(radius: float, angle: float) -> bd.Sketch:
