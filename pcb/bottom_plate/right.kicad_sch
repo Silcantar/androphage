@@ -4470,7 +4470,7 @@
 				)
 			)
 		)
-		(property "Footprint" "Diode_SMD:D_SOD-323"
+		(property "Footprint" "Diode_SMD:D_SOD-123"
 			(at 62.23 203.835 0)
 			(hide yes)
 			(show_name no)
