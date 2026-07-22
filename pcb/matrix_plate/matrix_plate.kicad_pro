@@ -78,7 +78,11 @@
       ],
       "drc_exclusions": [
         [
-          "copper_edge_clearance|19395938|62796427|dde74200-ba91-49fd-b00e-3937de583f9b|36053c31-8afc-42c4-a343-9eec0b7eb9ad",
+          "copper_edge_clearance|127187113|44727475|afaf118a-344a-4bf3-85d5-e18011793681|a4b68c5d-da67-43a6-a2a4-fc12bf9e9ec4",
+          ""
+        ],
+        [
+          "copper_edge_clearance|19395938|62796427|ff066df8-7f6b-4f4e-940b-b6b79a0f7bb1|36053c31-8afc-42c4-a343-9eec0b7eb9ad",
           ""
         ]
       ],
@@ -551,7 +555,7 @@
       },
       {
         "netclass": "Power",
-        "pattern": "*VUSB"
+        "pattern": "*VUSB*"
       },
       {
         "netclass": "Power",
