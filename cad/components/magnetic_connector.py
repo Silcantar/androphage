@@ -36,7 +36,7 @@ class MagneticConnector(Component):
             )
         connector = bd.extrude(
             to_extrude=connector_sketch,
-            amount=size.X, 
+            amount=size.X,
             dir=(-1, 0, 0)
             )
         lip_loc = bd.Location(
@@ -57,14 +57,9 @@ class MagneticConnector(Component):
             )
         connector += bd.extrude(
             to_extrude=lip_sketch,
-            amount=lip_thickness, 
+            amount=lip_thickness,
             dir=(-1, 0, 0)
             )
-        bd.RigidJoint(
-            label="connector",
-            to_part=connector,
-            joint_location=bd.Pos(0, 0, 0)
-        )
         connector.color = self.color
         connector.label = "Connector"
         components.append(connector)
@@ -74,28 +69,38 @@ class MagneticConnector(Component):
             height=pcb_size.Z,
             radius=self.parameters.Plates.PCB.radius_outer
             )
-        hole_locations = pcb_plane * bd.Locations([
-            (i*p.screw_offset, 0, 0) 
+        self.hole_locations = [
+            pcb_plane
+            * bd.Pos(X=i*p.screw_offset)
             for i in [1, -1]
-            ])
-        pcb_sketch -= hole_locations * bd.Circle(
+            ]
+        pcb_sketch -= self.hole_locations * bd.Circle(
             radius=self.parameters.MagneticConnector.screw.hole_diameter/2,
             )
         pcb = bd.extrude(
             to_extrude=pcb_sketch,
             amount=pcb_size.X
             )
-        for i in range(len(hole_locations)):
-            label = f"screw_hole_{i}"
-            bd.RigidJoint(
-                label=label,
-                to_part=pcb,
-                joint_location=bd.Pos(X=-pcb_size.X) * hole_locations[i]
-                )
         pcb.color = seq_to_color(self.parameters.Plates.PCB.color)
         pcb.label = "PCB"
         components.append(pcb)
         return bd.Part(children=components)
+
+    def _joints(self):
+        bd.RigidJoint(
+            label="connector",
+            to_part=self,
+            joint_location=bd.Pos(0, 0, 0)
+            )
+        for (i, location) in enumerate(self.hole_locations):
+            bd.RigidJoint(
+                label=f"panhead_{i}",
+                to_part=self,
+                joint_location=(
+                    bd.Pos(X=-self.parameters.TrackballSensor.pcb_size[Z])
+                    * location
+                    )
+                )
 
 
 if __name__ == "__main__":

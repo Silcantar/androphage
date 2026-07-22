@@ -212,6 +212,7 @@ class Component(bd.BasePartObject):
         **kwargs
     ):
         self.mirror = mirror
+        self.about = about
         if build:
             if self.mirror:
                 part = self._build_mirrored()
@@ -228,30 +229,36 @@ class Component(bd.BasePartObject):
         if color is not None:
             self.color = color
         self._joints()
+        # if self.mirror:
+        #     self._mirror_joints()
 
     def _build(self) -> bd.Part:
         raise NotImplementedError(
             "The _build method has not been implemented for this component."
             )
 
-    def _build_mirrored(self, about: bd.Plane = bd.Plane.YZ) -> bd.Part:
+    def _build_mirrored(self) -> bd.Part:
         part = self._build()
         if len(part.children) > 0:
             children: list[bd.Part] = []
             for child in part.children:
                 metadata = (child.color, child.label)
-                child_mirrored = bd.mirror(child, about=about)
+                child_mirrored = bd.mirror(child, about=self.about)
                 (child_mirrored.color, child_mirrored.label) = metadata
                 children.append(child_mirrored)
             return bd.Part(children=children)
         else:
             metadata = (part.color, part.label)
-            part_mirrored = bd.mirror(part, about=about)
+            part_mirrored = bd.mirror(part, about=self.about)
             (part_mirrored.color, part_mirrored.label) = metadata
             return part_mirrored
 
     def _joints(self):
         pass
+
+    # def _mirror_joints(self):
+    #     for joint in self.joints.values():
+    #         joint.location = joint.location.mirror(self.about)
 
 
 class KeyLocation(bd.Location):
@@ -265,8 +272,7 @@ class KeyLocation(bd.Location):
         connect: int = 0,
         cutout: bool = False,
         **kwargs
-    ):
-        # self.location = location
+        ):
         self.row = row
         self.connect = connect
         self.cutout = cutout

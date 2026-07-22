@@ -131,7 +131,8 @@ class Plate(Component):
                     )
             case PlateType.TOP:
                 plate -= self._hinge_cutouts(plate)
-                plate -= self._trackball_cutout(plate)
+                trackball_cutout = self._trackball_cutout(plate)
+                plate -= trackball_cutout
                 top_plate_cutout = self._top_plate_cutout()
                 old_plate = plate
                 plate -= top_plate_cutout
@@ -222,6 +223,24 @@ class Plate(Component):
     def _joints(self):
         p = self.parameters
         match self.plate_type:
+            case PlateType.BOTTOM:
+                screw_locations = [
+                    self.front_center_location * location * bd.Rot(X=180)
+                    for location in layout.screw_locations(
+                        outline=self.generic_plate_outline,
+                        default_offset=(0, p.Screws.M2.offset),
+                        center_offsets=p.CenterBlock.screw_offsets
+                        )
+                    ]
+                for (i, location) in enumerate(screw_locations):
+                    bd.RigidJoint(
+                        label=f"countersunk_{i}",
+                        to_part=self,
+                        joint_location=(
+                            location.mirror(self.about) if self.mirror
+                            else location
+                            )
+                        )
             case PlateType.SWITCH:
                 i = 1
                 plate_location = (
@@ -456,21 +475,38 @@ class Plate(Component):
     def _trackball_cutout(self, plate: bd.Part) -> bd.Part:
         """Generate and position a 3d cutout for the trackball."""
         p = self.parameters
-        origin = (
+        origin = bd.Pos(
             plate.vertices()
             .group_by(bd.Axis.Z)[-1].vertices()
             .group_by(bd.Axis.X)[-1].vertices()
             .sort_by(bd.Axis.Y)[0].center()
-        )
+            )
         # Subtract the trackball cutout.
-        trackball_locations = bd.Locations(
+        trackball_location = (
             origin
-            + (0, p.Trackball.position_y, 0)
-        )
-        trackball_cutout = bd.Sphere(
-            radius=p.Trackball.diameter/2 + p.Trackball.clearance
-        )
-        return trackball_locations * trackball_cutout
+            * bd.Pos(Y=p.Trackball.position_y)
+            )
+        trackball_cutout = (
+            trackball_location
+            * bd.Sphere(
+                radius=p.Trackball.diameter/2 + p.Trackball.clearance
+                )
+            )
+        from components.btu import BTU
+        btu = BTU(p, subtract=True, rotation=(180, 0, 0))
+        btu_locations = [
+            trackball_location
+            * bd.Rot(
+                0,
+                180 + p.CenterBlock.btu_angles[Y] + p.tent_angle,
+                i*p.CenterBlock.btu_angles[Z],
+                ordering=bd.Extrinsic.XYZ
+                )
+            * bd.Pos(0, 0, p.Trackball.diameter/2)
+            for i in (1, -1)
+            ]
+        trackball_cutout += btu_locations * btu
+        return trackball_cutout
 
 
 if __name__ == "__main__":
@@ -485,14 +521,8 @@ if __name__ == "__main__":
         PlateType.SWITCH: 40,
         PlateType.TOP: 60
         }
-    # export_face = {
-    #     PlateType.BOTTOM: -1,
-    #     PlateType.PCB: 0,
-    #     PlateType.SWITCH: 0,
-    #     PlateType.TOP: -1
-    #     }
     plates: list[bd.Part] = []
-    for plate_type in PlateType:
+    for plate_type in [PlateType.TOP]: #PlateType:
         plate = bd.Pos(0, 0, zpos[plate_type]) * Plate(
             p,
             plate_type=plate_type,

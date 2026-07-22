@@ -46,17 +46,15 @@ class KnifeHinge(Component):
                     * bd.Rot(X=90 - 90*self.knuckle_orientations[i])
                     * self.knuckle_plate()
                 )
-        hinge -= (
-            bd.Locations([
-                bd.Location(
-                    position=(
-                        0,
-                        i*p.Hinge.screw_position,
-                        0
-                    ),
-                    orientation=(0, 90, 0)
-                ) for i in [-1, 1]
+        self.screw_locations = bd.Locations([
+            bd.Location(
+                position=(0, i*p.Hinge.screw_position, 0),
+                orientation=(0, 90, 0)
+                )
+                for i in [-1, 1]
             ])
+        hinge -= (
+            self.screw_locations
             * bd.CounterSinkHole(
                 radius=p.Hinge.screw.diameter/2,
                 depth=BIG,
@@ -66,6 +64,17 @@ class KnifeHinge(Component):
         )
         hinge.position -= (0, self.parameters.Hinge.height/2, 0)
         return hinge
+
+    def _joints(self):
+        for (i, location) in enumerate(self.screw_locations):
+            bd.RigidJoint(
+                label=f"countersunk_{i}",
+                to_part=self,
+                joint_location=(
+                    bd.Pos(Y=-self.parameters.Hinge.height/2)
+                    * location
+                    )
+                )
 
     def plate(self) -> bd.Part:
         p = self.parameters
@@ -176,7 +185,7 @@ if __name__ == "__main__":
         objects=hinge_multi.edges().filter_by(bd.Axis.X).group_by(bd.Axis.Y)[2:4],
         radius=0.5-EPS
     )
-    show(knife_hinge, hinge_multi)
+    show(knife_hinge, hinge_multi, render_joints=True)
     bd.export_step(
         to_export=knife_hinge,
         file_path="cad/production/knife_hinge.step"

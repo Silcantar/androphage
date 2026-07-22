@@ -63,20 +63,20 @@ class Frame(Component):
             objects=fillet_edge,
             radius=p.Frame.fillet_radius
         )
-        screw_locations = (
+        self.screw_locations = (
             bd.Pos(Z=-p.height + p.Plates.Bottom.thickness)
             * layout.frame_screw_locations(
                 outline=self.outline,
                 offset=(0, p.Screws.M2.offset)
             )
         )
-        frame += screw_locations * screw_boss_vertical(
+        frame += self.screw_locations * screw_boss_vertical(
             hole_depth=p.Insert.hole_depth,
             hole_diameter=p.Insert.hole_diameter,
             overhang_angle=p.Print.overhang_angle,
             wall_thickness=p.Insert.wall_thickness
         )
-        frame -= screw_locations * bd.Cylinder(
+        frame -= self.screw_locations * bd.Cylinder(
             radius=p.Insert.hole_diameter/2,
             height=p.Insert.hole_depth,
             align=Align.Bottom
@@ -137,17 +137,31 @@ class Frame(Component):
                     self.parameters,
                     outline=usb_face,
                     mirror=False
-                )
+                    )
                 * bd.Pos(
                     0,
                     p.Plates.PCB.edge - p.Plates.Top.edge,
-                    p.Plates.PCB.position_z + p.Plates.PCB.thickness + p.USBPort.size[Z]/2
-                )
+                    (
+                        p.Plates.PCB.position_z
+                        + p.Plates.PCB.thickness
+                        + p.USBPort.size[Z]/2
+                        )
+                    )
                 * bd.Rot(X=90)
-                # * USB_C_Port(mode=bd.Mode.SUBTRACT)
                 * usb_c_port
             )
         return frame
+
+    def _joints(self):
+        for (i, location) in enumerate(self.screw_locations):
+            bd.RigidJoint(
+                label=f"insert_{i}",
+                to_part=self,
+                joint_location=(
+                    location.mirror(self.about)*bd.Rot(X=180) if self.mirror
+                    else location*bd.Rot(X=180)
+                    )
+                )
 
     def _notch_cutter(self) -> bd.Part:
         p = self.parameters
@@ -197,4 +211,4 @@ if __name__ == "__main__":
         parameters.load_parameters("cad/androphage.yaml")
     )
     frame = Frame(p, usb_cutout=True)
-    show(frame)
+    show(frame, render_joints=True)

@@ -14,7 +14,7 @@ class TrackballSensor(Component):
         label: str = "Trackball Sensor",
         mode: bd.Mode = bd.Mode.ADD,
         **kwargs
-    ):
+        ):
         self.parameters = parameters
         self.mode = mode
         super().__init__(label=label, color=None, mode=mode, **kwargs)
@@ -27,7 +27,7 @@ class TrackballSensor(Component):
         lens =(
             lens_location
             * bd.Box(*ps.lens_size, align=Align.Bottom)
-        )
+            )
         lens.color = ("White", 0.3)
         lens.label = "Lens"
         components.append(lens)
@@ -35,15 +35,18 @@ class TrackballSensor(Component):
         pcb = (
             pcb_location
             * bd.Box(*ps.pcb_size, align=Align.Bottom)
-        )
-        pcb -= (
+            )
+        self.screw_location = (
             pcb_location
-            * bd.Pos(*p.TrackballSensor.screw_position)
+            * bd.Pos(*p.TrackballSensor.screw_position, ps.pcb_size[Z])
+            )
+        pcb -= (
+            self.screw_location
             * bd.Hole(
                 radius=p.TrackballSensor.screw.hole_diameter/2,
                 depth=BIG
+                )
             )
-        )
         pcb.color = seq_to_color(p.Plates.PCB.color)
         pcb.label = "PCB"
         components.append(pcb)
@@ -51,32 +54,18 @@ class TrackballSensor(Component):
             bd.Pos(
                 lens.faces().sort_by(bd.Axis.Z)[-1].center()
                 + (0, 0, ps.pcb_size[2])
-            )
+                )
             * bd.Box(*ps.chip_size, align=Align.Bottom)
-        )
+            )
         chip.color = Color.black.value
         chip.label = "PMW3610"
         components.append(chip)
-        # bottom_component_location = bd.Pos(
-        #     lens
-        #     .edges()
-        #     .group_by(bd.Axis.Y)[-1]
-        #     .sort_by(bd.Axis.Z)[-1]
-        #     .center()
-        #     )
-        # bottom_component = (
-        #     bottom_component_location
-        #     * bd.Box(*ps.bottom_chip_size, align=Align.FrontTop)
-        #     )
-        # bottom_component.color = Color.black.value
-        # bottom_component.label = "Bottom Components"
-        # components.append(bottom_component)
         if self.mode == bd.Mode.SUBTRACT:
             cutter = bd.Cylinder(
                 radius=ps.hole_size/2,
                 height=ps.clearance,
                 align=Align.Bottom
-            )
+                )
             cutter += (
                 pcb_location
                 * bd.Pos(Z=p.TrackballSensor.pcb_size[2])
@@ -85,8 +74,8 @@ class TrackballSensor(Component):
                     radius=p.Insert.hole_diameter/2,
                     height=p.Insert.hole_depth + p.TrackballSensor.pcb_size[2],
                     align=Align.Top
+                    )
                 )
-            )
             cutter += (
                 lens_location
                 * bd.Pos(Z=ps.lens_size[Z])
@@ -102,9 +91,19 @@ class TrackballSensor(Component):
             components.append(cutter)
         return bd.Part(children=components)
 
+    def _joints(self):
+        bd.RigidJoint(
+            label="panhead",
+            to_part=self,
+            joint_location=self.screw_location
+            )
+
 
 if __name__ == "__main__":
     from ocp_vscode import show
     from androphage import Androphage
     androphage = Androphage(build=False)
-    show(TrackballSensor(androphage.parameters, mode=bd.Mode.SUBTRACT))
+    show(
+        TrackballSensor(androphage.parameters, mode=bd.Mode.SUBTRACT),
+        render_joints=True
+        )

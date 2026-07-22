@@ -5,14 +5,14 @@ import layout
 from parameters import Parameters
 
 class Base(Component):
-    """"""
+    """Base of Androphage keyboard."""
 
     def __init__(
         self,
         parameters: Parameters,
         label: str = "Base",
         **kwargs
-    ):
+        ):
         self.parameters = parameters
         try:
             self.color = color
@@ -31,8 +31,8 @@ class Base(Component):
                 self.parameters,
                 do_lips=False,
                 fillet=False
+                )
             )
-        )
         base = bd.sweep(
             sections=section,
             path=bd.Wire(path)
@@ -41,9 +41,8 @@ class Base(Component):
         top_sketch = bd.Pos(Z=p.height) * bd.make_face(path.close())
         base += bd.extrude(
             to_extrude=top_sketch,
-            amount=-p.Base.wall_thickness,
-            # taper=20
-        )
+            amount=-p.Base.wall_thickness
+            )
         base = bd.Pos(Z=-p.Hinge.height) * bd.Rot(Y=-p.tent_angle) * base
         # Inner wall
         base += bd.Box(
@@ -51,22 +50,22 @@ class Base(Component):
             width=p.Base.depth,
             height=BIG,
             align=Align.RightFrontTop
-        )
+            )
         # Add bosses to hold the hinges.
         hinge_locations = [
             bd.Pos(Y=(
                 i*p.Plates.depth
                 + (1 - 2*i)*(2*p.Frame.lip_depth + p.Hinge.width/2)
                 + p.Hinge.offsets[i]
-            ))
+                ))
             for i in range(len(p.Hinge.offsets))
-        ]
+            ]
         base += hinge_locations * bd.Box(
             length=p.Hinge.thickness + p.Insert.hole_depth,
             width=p.Hinge.width + 2*p.Base.wall_thickness,
             height=BIG,
             align=Align.Right
-        )
+            )
         # Add trackball case.
         trackball_location = bd.Pos(0, p.Trackball.position_y, -p.Hinge.height)
         outer_radius = (
@@ -87,24 +86,24 @@ class Base(Component):
             width=p.Hinge.width,
             height=BIG,
             align=Align.Right
-        )
+            )
         # Subtract holes for hinge screw threaded inserts.
-        hinge_screw_locations = [
+        self.hinge_screw_locations = [
             hinge_location
             * bd.Pos(
                 -p.Hinge.thickness,
                 0,
                 -p.Hinge.height/2 + i*p.Hinge.screw_position
-            )
+                )
+            * bd.Rot(Y=90)
             for i in [-1, 1]
             for hinge_location in hinge_locations
-        ]
-        base -= hinge_screw_locations * bd.Cylinder(
+            ]
+        base -= self.hinge_screw_locations * bd.Cylinder(
             radius=p.Insert.hole_diameter/2,
             height=p.Insert.hole_depth,
             align=Align.Top,
-            rotation=(0, 90, 0)
-        )
+            )
         # Subtract trackball cutout.
         inner_radius = p.Trackball.diameter/2 + p.Trackball.clearance
         if p.Base.trackball_case_round:
@@ -114,7 +113,6 @@ class Base(Component):
                 width=2*inner_radius,
                 height=inner_radius,
                 left_side_angle=90-p.tent_angle,
-                # right_side_angle=90-p.tent_angle,
                 rotation=(90, 0, 90),
                 align=Align.Front
                 )
@@ -129,13 +127,13 @@ class Base(Component):
                 -cosd(p.tent_angle),
                 0,
                 -sind(p.tent_angle)
-            ),
-        )
+                ),
+            )
         base &= bd.extrude(
             to_extrude=trim_sketch,
             amount=BIG,
             both=True
-        )
+            )
         # Fillet outside edges.
         # This first fillet rounds the edges between the bottom faces so that
         # their outsied edges are all tangential and can be rounded all at once
@@ -169,21 +167,33 @@ class Base(Component):
                     -p.Base.width,
                     p.Trackball.position_y,
                     -p.Base.height
-                )
+                    )
                 + bd.Vector(p.Eye.position)
-            ),
+                ),
             orientation=(0, -90 - p.tent_angle, 0)
-        )
+            )
         base -= eye_location * bd.Cylinder(
             radius=p.Eye.size[0]/2,
             height=BIG,
             align=Align.Bottom
-        )
+            )
         base.label = "Base"
         base.color = self.color
         # Add eye.
         (iris, pupil) = (eye_location * part for part in self._eye())
         return bd.Part(children=[base, iris, pupil])
+
+    def _joints(self):
+        p = self.parameters
+        for (i, location) in enumerate(self.hinge_screw_locations):
+            bd.RigidJoint(
+                label=f"insert_{i}",
+                to_part=self,
+                joint_location=(
+                    location.mirror(self.about) if self.mirror
+                    else location
+                    )
+                )
 
     def _eye(self) -> tuple[bd.Part]:
         p = self.parameters
@@ -192,18 +202,18 @@ class Base(Component):
             start_point=(-iris_size.X/2, 0, 0),
             end_point=(iris_size.X/2, 0, 0),
             sagitta=iris_size.Y
-        )
+            )
         iris_sketch = bd.make_face(bd.Wire(iris_arc).close())
         iris_sketch = bd.split(
             objects=iris_sketch,
             bisect_by=bd.Plane.XZ,
             keep=bd.Keep.TOP
-        )
+            )
         iris = bd.revolve(
             profiles=iris_sketch,
             axis=bd.Axis.Z,
             revolution_arc=180
-        )
+            )
         iris.label = "Iris"
         iris.color = seq_to_color(p.Eye.color)
         pupil_size = bd.Vector(p.Eye.pupil_size)
@@ -211,13 +221,13 @@ class Base(Component):
             start_point=(0, -pupil_size.X/2, 0),
             end_point=(0, pupil_size.X/2, 0),
             sagitta=-pupil_size.Y/2
-        )
+            )
         pupil_sketch = bd.make_face(bd.Wire(pupil_arc).close())
         pupil = bd.extrude(
             to_extrude=pupil_sketch,
             target=iris,
             until=bd.Until.LAST
-        )
+            )
         pupil.label = "Pupil"
         pupil.color = "Black"
         iris -= pupil
@@ -228,7 +238,7 @@ class Base(Component):
             height=BIG,
             rotation=(0, p.tent_angle, 0),
             align=Align.Right
-        )
+            )
         iris -= draft_cutter
         pupil -= draft_cutter
         return (iris, pupil)
@@ -285,5 +295,5 @@ if __name__ == "__main__":
     import layout, parameters
     p = layout.set_derived_parameters(
         parameters.load_parameters("cad/androphage.yaml")
-    )
-    show(Base(p, mirror=False))
+        )
+    show(Base(p, mirror=False), render_joints=True)

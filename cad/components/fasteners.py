@@ -32,3 +32,27 @@ def screw_boss_vertical(
             angle=-overhang_angle
         )
     return boss.part
+
+if __name__ == "__main__":
+    # Test fasteners
+    from bd_warehouse.fastener import (
+        PanHeadScrew,
+        CounterSunkScrew,
+        HeatSetNut
+        )
+    from ocp_vscode import show
+
+    panhead_screw = bd.Pos(X=-10) * PanHeadScrew("M2-0.4", 4)
+    countersunk_screw = CounterSunkScrew(
+        "M2-0.4",
+        length=6,
+        fastener_type="iso14581"
+        )
+    insert = bd.Pos(X=10) * HeatSetNut("M2-0.4-Standard")
+
+    show(
+        panhead_screw,
+        countersunk_screw,
+        insert,
+        render_joints=True
+        )

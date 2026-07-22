@@ -382,24 +382,16 @@ Battery:
   visible: true
   color: *silver
   half: 2 # 0 = neither, 1 = left, 2 = right, 3 = both
-# 401430 LiPo 150mAh
+# 401230 LiPo 120mAh
   fillet_radius: 1
   position: [-2.0, 2.2, 11.05]
   size: [12, 30, 4.0]
-# 701230 LiPo 300mAh
-  # fillet_radius: 1
-  # position: [-3.0, 2.2, 12.55]
-  # size: [12, 30, 7.0]
-# 10440 Li-ion 600mAh
-  # fillet_radius: 4.999
-  # position: [-3.0, 2.2, 12.55]
-  # size: [10, 44, 10]
 BTU: *VCN310
 CenterBlock:
   visible: true
   # 47 degrees for the BTU Z angle adds a bit of clearance for the sensor
   # without significantly affecting the stability of the trackball.
-  btu_angles: [ 0, 60, 47 ]
+  btu_angles: [ 0, 63, 47 ]
   color: *black
   rib_size: [ 2, 2 ]
   screw_offsets: [
@@ -588,7 +580,7 @@ TrackballSensor:
   optical_center: 2.52 # Distance from center of lens to optical center.
   pcb_size: [ 15, 32, *pcb_thickness ]
   screw: *M2
-  screw_position: [0, -13, 0]
+  screw_position: [0, -13]
 USBPort:
   visible: true
   color: *silver

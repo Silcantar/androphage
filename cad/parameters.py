@@ -267,7 +267,7 @@ class TrackballSensor(Component):
     optical_center: float
     pcb_size: vector[3]
     screw: Screw
-    screw_position: vector[3]
+    screw_position: vector[2]
 
 @dataclass
 class USBPort(Component):

@@ -3,6 +3,11 @@ from os import PathLike
 from copy import copy
 
 import build123d as bd
+from bd_warehouse.fastener import (
+    PanHeadScrew,
+    CounterSunkScrew,
+    HeatSetNut
+    )
 
 import layout
 from components.frame import Frame
@@ -81,6 +86,7 @@ class Androphage(bd.BasePartObject):
             )
         component_list.append(base)
         component_list.extend(self._build_hinges(half=half, base=True))
+        component_list.extend(self._build_fasteners(component_list))
         assembly = bd.Part(children=component_list)
         assembly.label = f"{half_names[half]} Base"
         base_location = bd.Pos(
@@ -307,10 +313,11 @@ class Androphage(bd.BasePartObject):
         if self.render_keys:
             component_list.append(switches)
             component_list.append(keycaps)
+        # Hinges
         print("    Building Hinge.")
         component_list.extend(self._build_hinges(half=half, base=False))
-        print("    Building Screws.")
         # Magnets
+        print("    Building Magnets.")
         if p.Magnet.shape == MagnetShape.BAR:
             magnet = bd.Box(*p.Magnet.size)
         else:
@@ -336,8 +343,9 @@ class Androphage(bd.BasePartObject):
             magnets[-1].label = f"Magnet {i}"
             joint.connect_to(magnets[-1].joints["center"])
         component_list.extend(magnets)
-        # Screws
-        # from bd_warehouse.fastener import CounterSunkScrew, HeatSetNut, HexNut
+        # Fasteners
+        print("    Building Fasteners.")
+        component_list.extend(self._build_fasteners(component_list))
         assembly = bd.Part(children=component_list)
         assembly.label = f"{half_names[half]} Half"
         return bd.Rot(Y=self.angle * (-1 if mirror else 1)) * assembly
@@ -354,32 +362,68 @@ class Androphage(bd.BasePartObject):
                 i*p.Plates.depth
                 + (1-2*i)*(2*p.Frame.lip_depth + p.Hinge.width/2)
                 ))
-            * bd.Rot(X=90)
+            * bd.Rot(X=90 if half == Half.LEFT else -90)
             for i in range(2)
             ]
         if base:
             front_orientation = (
                 (0, 0, 1, -1) if half == Half.LEFT
-                else (1, 0, -1, 0)
+                else (0, -1, 0, 1)
                 )
         else:
             front_orientation = (
                 (0, 1, 0, -1) if half == Half.LEFT
-                else (1, -1, 0, 0)
+                else (0, 0, -1, 1)
                 )
         orientations = (
             front_orientation,
             front_orientation[::-1] # Reversed
             )
         return [
-            location
+            (
+                location  if half == Half.LEFT
+                else location.mirror(bd.Plane.YZ)
+                )
             * KnifeHinge(
                 parameters=self.parameters,
                 laminated=False,
-                knuckle_orientations=orientation
+                knuckle_orientations=orientation,
+                label=f"Knife Hinge {i}"
                 )
-            for (location, orientation) in zip(hinge_locations, orientations)
+            for (i, (location, orientation)) in enumerate(zip(hinge_locations, orientations))
             ]
+
+    def _build_fasteners(
+        self,
+        component_list: list[bd.Part]
+        ) -> list[bd.Part]:
+        panhead_screw = PanHeadScrew(size="M2-0.4", length=4)
+        countersunk_screw = CounterSunkScrew(
+            size="M2-0.4",
+            length=6,
+            fastener_type="iso14581"
+            )
+        insert = HeatSetNut(size="M2-0.4-Standard")
+        insert.color = seq_to_color(self.parameters.Insert.color)
+        insert_joints: list[bd.Joint] = []
+        panhead_joints: list[bd.Joint] = []
+        countersunk_joints: list[bd.Joint] = []
+        fasteners: list[bd.Part] = []
+        for (i, component) in enumerate(component_list):
+            for (j, joint) in enumerate(component.joints.values()):
+                if "insert" in joint.label:
+                    fasteners.append(copy(insert))
+                    fasteners[-1].label = f"Heat Set Nut {i}-{j}"
+                    joint.connect_to(fasteners[-1].joints["b"])
+                if "panhead" in joint.label:
+                    fasteners.append(copy(panhead_screw))
+                    fasteners[-1].label = f"Pan Head Screw {i}-{j}"
+                    joint.connect_to(fasteners[-1].joints["a"])
+                if "countersunk" in joint.label:
+                    fasteners.append(copy(countersunk_screw))
+                    fasteners[-1].label = f"Countersunk Screw {i}-{j}"
+                    joint.connect_to(fasteners[-1].joints["a"])
+        return fasteners
 
 if __name__ == "__main__":
     from ocp_vscode import show
