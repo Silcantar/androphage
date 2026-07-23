@@ -426,23 +426,54 @@ class Androphage(bd.BasePartObject):
         return fasteners
 
 if __name__ == "__main__":
+    from argparse import ArgumentParser
     from ocp_vscode import show
-    count = 1
-    spacing = 150
-    max_angle = 100
+    parser = ArgumentParser()
+    parser.add_argument(
+        "--angle",
+        "--max-angle",
+        "-a",
+        nargs=1,
+        default=100
+        )
+    parser.add_argument(
+        "--count",
+        "-c",
+        nargs=1,
+        default=1
+        )
+    parser.add_argument(
+        "--spacing",
+        "-s",
+        nargs=1,
+        default=150
+        )
+    parser.add_argument(
+        "--joints",
+        "--render-joints",
+        "-j",
+        action="store_true"
+        )
+    parser.add_argument(
+        "--keys",
+        "--render-keys",
+        "-k",
+        action="store_true"
+        )
+    args = parser.parse_args()
     try:
-        angle_step = max_angle / (count-1)
+        angle_step = args.angle / (args.count-1)
     except ZeroDivisionError:
         angle_step = 0
     boards: list[bd.Part] = []
-    for i in range(count):
+    for i in range(args.count):
         board = (
-            bd.Pos(Y=i*spacing - count*spacing/2)
+            bd.Pos(Y=i*args.spacing - args.count*args.spacing/2)
             * Androphage(
                 angle=i*angle_step,
-                render_keys=False
+                render_keys=args.keys
                 )
             )
         board.label = f"Androphage {i*angle_step}°"
         boards.append(board)
-    show(boards, render_joints=False)
+    show(boards, render_joints=args.joints)
