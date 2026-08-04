@@ -1,8 +1,8 @@
 # VSCode
 .vscode
 
-# Proprietary information about the trackball sensor.
-PMW3610DM-SUDU.pdf
+# KiCAD library.
+pcb/library
 
 # KiCAD Backup files.
 pcb/androphage-backups

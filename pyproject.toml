@@ -2,14 +2,15 @@
 name = "androphage"
 version = "0.0.1"
 authors = [
-  { name="Joshua Lucas", email="joshdlucas@gmail.com" },
+  { name="Androphage Keyboards", email="admin@androphage.com" },
 ]
 description = "A small example package"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
   "bd_warehouse",
-  "build123d>=0.10.0",
+  "build123d @ git+https://github.com/gumyr/build123d",
+  "bd_keyboard @ git+https://github.com/Silcantar/bd_keyboard",
   "dataclass_wizard",
   "ocp_vscode"
 ]
@@ -21,8 +22,8 @@ license = "LicenseRef-CERN-OHL-v2-S"
 license-files = ["LICEN[CS]E*"]
 
 [project.urls]
-Homepage = "https://github.com/Silcantar/androphage"
-Issues = "https://github.com/Silcantar/androphage/issues"
+Homepage = "https://androphage.com"
+Issues = "https://github.com/AndrophageKB/androphage/issues"
 
 [tool.setuptools.packages.find]
 where = ["cad"]
