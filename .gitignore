@@ -2,7 +2,8 @@
 .vscode
 
 # KiCAD library.
-pcb/library
+*.kicad_mod
+*.kicad_sym
 
 # KiCAD Backup files.
 pcb/androphage-backups
