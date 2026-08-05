@@ -2498,7 +2498,7 @@
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "J"
-				(at 0 23.876 0)
+				(at 0 19.05 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -2508,7 +2508,7 @@
 				)
 			)
 			(property "Value" "vik-module-connector"
-				(at -0.254 21.844 0)
+				(at 4.826 0 90)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -2519,7 +2519,7 @@
 				)
 			)
 			(property "Footprint" ""
-				(at 0 6.35 0)
+				(at -1.27 10.16 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -2530,7 +2530,7 @@
 				)
 			)
 			(property "Datasheet" ""
-				(at 0 6.35 0)
+				(at -1.27 10.16 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -2541,7 +2541,7 @@
 				)
 			)
 			(property "Description" ""
-				(at 0 0 0)
+				(at -1.27 3.81 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -2553,8 +2553,8 @@
 			)
 			(symbol "vik-module-connector_1_1"
 				(rectangle
-					(start -7.62 20.32)
-					(end 7.62 -20.32)
+					(start -6.35 17.78)
+					(end 6.35 -17.78)
 					(stroke
 						(width 0)
 						(type default)
@@ -2564,8 +2564,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 14.097)
-					(end -6.731 13.843)
+					(start -6.3246 16.637)
+					(end -5.461 16.383)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2575,8 +2575,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 11.557)
-					(end -6.731 11.303)
+					(start -6.3246 14.097)
+					(end -5.461 13.843)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2586,8 +2586,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 9.017)
-					(end -6.731 8.763)
+					(start -6.3246 11.557)
+					(end -5.461 11.303)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2597,8 +2597,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 6.477)
-					(end -6.731 6.223)
+					(start -6.3246 9.017)
+					(end -5.461 8.763)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2608,8 +2608,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 3.937)
-					(end -6.731 3.683)
+					(start -6.3246 6.477)
+					(end -5.461 6.223)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2619,8 +2619,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 1.397)
-					(end -6.731 1.143)
+					(start -6.3246 3.937)
+					(end -5.461 3.683)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2630,8 +2630,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -1.143)
-					(end -6.731 -1.397)
+					(start -6.3246 1.397)
+					(end -5.461 1.143)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2641,8 +2641,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -3.683)
-					(end -6.731 -3.937)
+					(start -6.3246 -1.143)
+					(end -5.461 -1.397)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2652,8 +2652,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -6.223)
-					(end -6.731 -6.477)
+					(start -6.3246 -3.683)
+					(end -5.461 -3.937)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2663,8 +2663,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -8.763)
-					(end -6.731 -9.017)
+					(start -6.3246 -6.223)
+					(end -5.461 -6.477)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2674,8 +2674,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -11.303)
-					(end -6.731 -11.557)
+					(start -6.3246 -8.763)
+					(end -5.461 -9.017)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2685,8 +2685,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -13.843)
-					(end -6.731 -14.097)
+					(start -6.3246 -11.303)
+					(end -5.461 -11.557)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2696,7 +2696,7 @@
 					)
 				)
 				(pin output line
-					(at -10.16 13.97 0)
+					(at -8.89 16.51 0)
 					(length 2.54)
 					(name "SCLK"
 						(effects
@@ -2714,7 +2714,7 @@
 					)
 				)
 				(pin tri_state line
-					(at -10.16 11.43 0)
+					(at -8.89 13.97 0)
 					(length 2.54)
 					(name "MISO"
 						(effects
@@ -2732,7 +2732,7 @@
 					)
 				)
 				(pin output line
-					(at -10.16 8.89 0)
+					(at -8.89 11.43 0)
 					(length 2.54)
 					(name "SPI_CS"
 						(effects
@@ -2750,7 +2750,7 @@
 					)
 				)
 				(pin bidirectional line
-					(at -10.16 6.35 0)
+					(at -8.89 8.89 0)
 					(length 2.54)
 					(name "GP_AD2"
 						(effects
@@ -2768,7 +2768,7 @@
 					)
 				)
 				(pin output line
-					(at -10.16 3.81 0)
+					(at -8.89 6.35 0)
 					(length 2.54)
 					(name "MOSI"
 						(effects
@@ -2786,7 +2786,7 @@
 					)
 				)
 				(pin bidirectional line
-					(at -10.16 1.27 0)
+					(at -8.89 3.81 0)
 					(length 2.54)
 					(name "GP_AD1"
 						(effects
@@ -2804,7 +2804,7 @@
 					)
 				)
 				(pin power_out line
-					(at -10.16 -1.27 0)
+					(at -8.89 1.27 0)
 					(length 2.54)
 					(name "5V"
 						(effects
@@ -2822,7 +2822,7 @@
 					)
 				)
 				(pin output line
-					(at -10.16 -3.81 0)
+					(at -8.89 -1.27 0)
 					(length 2.54)
 					(name "RGB_DO"
 						(effects
@@ -2840,7 +2840,7 @@
 					)
 				)
 				(pin bidirectional line
-					(at -10.16 -6.35 0)
+					(at -8.89 -3.81 0)
 					(length 2.54)
 					(name "SCL"
 						(effects
@@ -2858,7 +2858,7 @@
 					)
 				)
 				(pin bidirectional line
-					(at -10.16 -8.89 0)
+					(at -8.89 -6.35 0)
 					(length 2.54)
 					(name "SDA"
 						(effects
@@ -2876,7 +2876,7 @@
 					)
 				)
 				(pin power_out line
-					(at -10.16 -11.43 0)
+					(at -8.89 -8.89 0)
 					(length 2.54)
 					(name "GND"
 						(effects
@@ -2894,7 +2894,7 @@
 					)
 				)
 				(pin power_out line
-					(at -10.16 -13.97 0)
+					(at -8.89 -11.43 0)
 					(length 2.54)
 					(name "3V3"
 						(effects
@@ -2911,10 +2911,10 @@
 						)
 					)
 				)
-				(pin power_in line
-					(at -3.81 -22.86 90)
+				(pin passive line
+					(at 0 -20.32 90)
 					(length 2.54)
-					(name "MP"
+					(name "MNT"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2922,24 +2922,6 @@
 						)
 					)
 					(number "13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 3.81 -22.86 90)
-					(length 2.54)
-					(name "MP"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "14"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -3296,7 +3278,7 @@
 		(uuid "e9e05cd7-0434-44d3-8306-054a25fee50a")
 	)
 	(no_connect
-		(at 29.21 180.34)
+		(at 30.48 177.8)
 		(uuid "0ed6371f-6f83-4e90-b8c9-0ce5f8dd2bf0")
 	)
 	(no_connect
@@ -3312,7 +3294,7 @@
 		(uuid "5e826579-21bb-4667-b9c6-4730f52a4d4a")
 	)
 	(no_connect
-		(at 29.21 187.96)
+		(at 30.48 185.42)
 		(uuid "84a1287b-2f4c-42c0-a834-6e051256c160")
 	)
 	(no_connect
@@ -3328,7 +3310,7 @@
 		(uuid "951d692d-d714-47cd-a193-334044fa1ed4")
 	)
 	(no_connect
-		(at 29.21 177.8)
+		(at 30.48 175.26)
 		(uuid "9ce0830e-8b2f-4e8a-ba19-a86535b3b8cf")
 	)
 	(no_connect
@@ -3344,7 +3326,7 @@
 		(uuid "f1c59d15-625c-4692-a892-94e4a07d13b1")
 	)
 	(no_connect
-		(at 29.21 182.88)
+		(at 30.48 180.34)
 		(uuid "febc1bd0-8caa-4ec0-821d-b398730cffc6")
 	)
 	(wire
@@ -3948,7 +3930,7 @@
 		(uuid "fd8c7f9e-b244-4ada-bbb7-ee2af65beedf")
 	)
 	(label "D+"
-		(at 29.21 185.42 180)
+		(at 30.48 182.88 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -4008,7 +3990,7 @@
 		(uuid "270f2bb6-a136-4ad9-b714-05d22198d08e")
 	)
 	(label "CHG_STAT"
-		(at 29.21 195.58 180)
+		(at 30.48 193.04 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -4108,7 +4090,7 @@
 		(uuid "576feb2b-b621-4919-9b63-7f0a1236e378")
 	)
 	(label "SDA"
-		(at 29.21 200.66 180)
+		(at 30.48 198.12 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -4148,7 +4130,7 @@
 		(uuid "6141f1de-3c21-42f4-9084-4113c8bd63a8")
 	)
 	(label "VUSB"
-		(at 29.21 193.04 180)
+		(at 30.48 190.5 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -4178,7 +4160,7 @@
 		(uuid "7592f355-1824-485f-ac1a-a6b5c960a268")
 	)
 	(label "GND"
-		(at 29.21 203.2 180)
+		(at 30.48 200.66 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -4228,7 +4210,7 @@
 		(uuid "7a9641d3-be2a-4d4e-a758-51e3bfdf7685")
 	)
 	(label "GND"
-		(at 35.56 214.63 270)
+		(at 39.37 212.09 270)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -4257,16 +4239,6 @@
 		)
 		(uuid "837e1f7c-bd30-46c2-8ad4-833911f822a9")
 	)
-	(label "GND"
-		(at 43.18 214.63 270)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "85bf718b-78b3-4215-8d5d-69cb7f05eb2c")
-	)
 	(label "D-"
 		(at 308.61 45.72 0)
 		(effects
@@ -4278,7 +4250,7 @@
 		(uuid "871efb55-0c74-416a-8738-6eea7eab9648")
 	)
 	(label "VDD"
-		(at 29.21 205.74 180)
+		(at 30.48 203.2 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -4398,7 +4370,7 @@
 		(uuid "ca5d2849-c045-4417-ab6c-2af02308d33d")
 	)
 	(label "SCL"
-		(at 29.21 198.12 180)
+		(at 30.48 195.58 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -4458,7 +4430,7 @@
 		(uuid "dbeb91fb-3809-4763-82db-aae18b2d35fd")
 	)
 	(label "D-"
-		(at 29.21 190.5 180)
+		(at 30.48 187.96 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -4539,7 +4511,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 207.01 69.85 0)
 			(hide yes)
 			(show_name no)
@@ -4619,7 +4591,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 189.23 38.1 0)
 			(hide yes)
 			(show_name no)
@@ -4699,7 +4671,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 242.57 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -4780,8 +4752,8 @@
 				)
 			)
 		)
-		(property "Footprint" "vik:vik-module-connector-horizontal"
-			(at 39.37 185.42 0)
+		(property "Footprint" "footprints:vik-module-connector-horizontal"
+			(at 38.1 181.61 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4792,7 +4764,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 39.37 185.42 0)
+			(at 38.1 181.61 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4803,7 +4775,7 @@
 			)
 		)
 		(property "Description" "VIK_IN_INTC"
-			(at 50.8 195.834 0)
+			(at 38.1 187.96 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4851,9 +4823,6 @@
 		)
 		(pin "13"
 			(uuid "4093c0a7-d751-44d8-a1f2-748e78c1dc19")
-		)
-		(pin "14"
-			(uuid "92d9f994-f7a8-4d0e-883f-4a54d5baac44")
 		)
 		(instances
 			(project "matrix_plate"
@@ -5100,7 +5069,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 242.57 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -5180,7 +5149,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 189.23 69.85 0)
 			(hide yes)
 			(show_name no)
@@ -5260,7 +5229,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 189.23 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -5787,7 +5756,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 207.01 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -5949,7 +5918,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 171.45 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -6111,7 +6080,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 171.45 69.85 0)
 			(hide yes)
 			(show_name no)
@@ -6395,7 +6364,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 189.23 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -6554,7 +6523,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 224.79 69.85 0)
 			(hide yes)
 			(show_name no)
@@ -6634,7 +6603,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 224.79 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -6714,7 +6683,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 153.67 53.34 0)
 			(hide yes)
 			(show_name no)
@@ -6794,7 +6763,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 207.01 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -6953,7 +6922,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 153.67 69.85 0)
 			(hide yes)
 			(show_name no)
@@ -7201,7 +7170,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 224.79 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -7281,7 +7250,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 171.45 38.1 0)
 			(hide yes)
 			(show_name no)
@@ -7443,7 +7412,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 207.01 38.1 0)
 			(hide yes)
 			(show_name no)
@@ -7523,7 +7492,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 224.79 38.1 0)
 			(hide yes)
 			(show_name no)
@@ -7603,7 +7572,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 153.67 38.1 0)
 			(hide yes)
 			(show_name no)
@@ -7765,7 +7734,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 242.57 69.85 0)
 			(hide yes)
 			(show_name no)
@@ -7845,7 +7814,7 @@
 				)
 			)
 		)
-		(property "Footprint" "key-switches:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
+		(property "Footprint" "footprints:SW_GLP_Kailh_Choc_V1V2_HotSwap_PTH"
 			(at 171.45 85.09 0)
 			(hide yes)
 			(show_name no)

@@ -1480,7 +1480,7 @@
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "J"
-				(at 0 23.368 0)
+				(at 0 19.05 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -1490,9 +1490,10 @@
 				)
 			)
 			(property "Value" "vik-keyboard-connector"
-				(at 0 21.336 0)
+				(at 4.826 0 90)
 				(show_name no)
 				(do_not_autoplace no)
+				(hide yes)
 				(effects
 					(font
 						(size 1.27 1.27)
@@ -1534,8 +1535,8 @@
 			)
 			(symbol "vik-keyboard-connector_1_1"
 				(rectangle
-					(start -7.62 20.32)
-					(end 7.62 -20.32)
+					(start -6.35 17.78)
+					(end 6.35 -17.78)
 					(stroke
 						(width 0)
 						(type default)
@@ -1545,8 +1546,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 12.827)
-					(end -6.731 12.573)
+					(start -6.3246 16.637)
+					(end -5.461 16.383)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -1556,8 +1557,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 10.287)
-					(end -6.731 10.033)
+					(start -6.3246 14.097)
+					(end -5.461 13.843)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -1567,8 +1568,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 7.747)
-					(end -6.731 7.493)
+					(start -6.3246 11.557)
+					(end -5.461 11.303)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -1578,8 +1579,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 5.207)
-					(end -6.731 4.953)
+					(start -6.3246 9.017)
+					(end -5.461 8.763)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -1589,8 +1590,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 2.667)
-					(end -6.731 2.413)
+					(start -6.3246 6.477)
+					(end -5.461 6.223)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -1600,8 +1601,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 0.127)
-					(end -6.731 -0.127)
+					(start -6.3246 3.937)
+					(end -5.461 3.683)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -1611,8 +1612,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -2.413)
-					(end -6.731 -2.667)
+					(start -6.3246 1.397)
+					(end -5.461 1.143)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -1622,8 +1623,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -4.953)
-					(end -6.731 -5.207)
+					(start -6.3246 -1.143)
+					(end -5.461 -1.397)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -1633,8 +1634,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -7.493)
-					(end -6.731 -7.747)
+					(start -6.3246 -3.683)
+					(end -5.461 -3.937)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -1644,8 +1645,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -10.033)
-					(end -6.731 -10.287)
+					(start -6.3246 -6.223)
+					(end -5.461 -6.477)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -1655,8 +1656,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -12.573)
-					(end -6.731 -12.827)
+					(start -6.3246 -8.763)
+					(end -5.461 -9.017)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -1666,8 +1667,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -15.113)
-					(end -6.731 -15.367)
+					(start -6.3246 -11.303)
+					(end -5.461 -11.557)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -1677,7 +1678,7 @@
 					)
 				)
 				(pin power_in line
-					(at -10.16 12.7 0)
+					(at -8.89 16.51 0)
 					(length 2.54)
 					(name "3V3"
 						(effects
@@ -1695,7 +1696,7 @@
 					)
 				)
 				(pin power_in line
-					(at -10.16 10.16 0)
+					(at -8.89 13.97 0)
 					(length 2.54)
 					(name "GND"
 						(effects
@@ -1713,7 +1714,7 @@
 					)
 				)
 				(pin bidirectional line
-					(at -10.16 7.62 0)
+					(at -8.89 11.43 0)
 					(length 2.54)
 					(name "SDA"
 						(effects
@@ -1731,7 +1732,7 @@
 					)
 				)
 				(pin bidirectional line
-					(at -10.16 5.08 0)
+					(at -8.89 8.89 0)
 					(length 2.54)
 					(name "SCL"
 						(effects
@@ -1749,7 +1750,7 @@
 					)
 				)
 				(pin input line
-					(at -10.16 2.54 0)
+					(at -8.89 6.35 0)
 					(length 2.54)
 					(name "RGB_DO"
 						(effects
@@ -1767,7 +1768,7 @@
 					)
 				)
 				(pin power_in line
-					(at -10.16 0 0)
+					(at -8.89 3.81 0)
 					(length 2.54)
 					(name "5V"
 						(effects
@@ -1785,7 +1786,7 @@
 					)
 				)
 				(pin bidirectional line
-					(at -10.16 -2.54 0)
+					(at -8.89 1.27 0)
 					(length 2.54)
 					(name "GP_AD1"
 						(effects
@@ -1803,7 +1804,7 @@
 					)
 				)
 				(pin input line
-					(at -10.16 -5.08 0)
+					(at -8.89 -1.27 0)
 					(length 2.54)
 					(name "MOSI"
 						(effects
@@ -1821,7 +1822,7 @@
 					)
 				)
 				(pin bidirectional line
-					(at -10.16 -7.62 0)
+					(at -8.89 -3.81 0)
 					(length 2.54)
 					(name "GP_AD2"
 						(effects
@@ -1839,7 +1840,7 @@
 					)
 				)
 				(pin input line
-					(at -10.16 -10.16 0)
+					(at -8.89 -6.35 0)
 					(length 2.54)
 					(name "SPI_CS"
 						(effects
@@ -1857,7 +1858,7 @@
 					)
 				)
 				(pin tri_state line
-					(at -10.16 -12.7 0)
+					(at -8.89 -8.89 0)
 					(length 2.54)
 					(name "MISO"
 						(effects
@@ -1875,7 +1876,7 @@
 					)
 				)
 				(pin input line
-					(at -10.16 -15.24 0)
+					(at -8.89 -11.43 0)
 					(length 2.54)
 					(name "SCLK"
 						(effects
@@ -1892,10 +1893,10 @@
 						)
 					)
 				)
-				(pin power_in line
-					(at -3.81 -22.86 90)
+				(pin passive line
+					(at 0 -20.32 90)
 					(length 2.54)
-					(name "MP"
+					(name "MNT"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1903,24 +1904,6 @@
 						)
 					)
 					(number "13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 3.81 -22.86 90)
-					(length 2.54)
-					(name "MP"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "14"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1941,7 +1924,7 @@
 			(in_pos_files yes)
 			(duplicate_pin_numbers_are_jumpers no)
 			(property "Reference" "J"
-				(at 0 23.876 0)
+				(at 0 19.05 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(effects
@@ -1951,7 +1934,7 @@
 				)
 			)
 			(property "Value" "vik-module-connector"
-				(at -0.254 21.844 0)
+				(at 4.826 0 90)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -1962,7 +1945,7 @@
 				)
 			)
 			(property "Footprint" ""
-				(at 0 6.35 0)
+				(at -1.27 10.16 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -1973,7 +1956,7 @@
 				)
 			)
 			(property "Datasheet" ""
-				(at 0 6.35 0)
+				(at -1.27 10.16 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -1984,7 +1967,7 @@
 				)
 			)
 			(property "Description" ""
-				(at 0 0 0)
+				(at -1.27 3.81 0)
 				(show_name no)
 				(do_not_autoplace no)
 				(hide yes)
@@ -1996,8 +1979,8 @@
 			)
 			(symbol "vik-module-connector_1_1"
 				(rectangle
-					(start -7.62 20.32)
-					(end 7.62 -20.32)
+					(start -6.35 17.78)
+					(end 6.35 -17.78)
 					(stroke
 						(width 0)
 						(type default)
@@ -2007,8 +1990,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 14.097)
-					(end -6.731 13.843)
+					(start -6.3246 16.637)
+					(end -5.461 16.383)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2018,8 +2001,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 11.557)
-					(end -6.731 11.303)
+					(start -6.3246 14.097)
+					(end -5.461 13.843)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2029,8 +2012,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 9.017)
-					(end -6.731 8.763)
+					(start -6.3246 11.557)
+					(end -5.461 11.303)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2040,8 +2023,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 6.477)
-					(end -6.731 6.223)
+					(start -6.3246 9.017)
+					(end -5.461 8.763)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2051,8 +2034,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 3.937)
-					(end -6.731 3.683)
+					(start -6.3246 6.477)
+					(end -5.461 6.223)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2062,8 +2045,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 1.397)
-					(end -6.731 1.143)
+					(start -6.3246 3.937)
+					(end -5.461 3.683)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2073,8 +2056,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -1.143)
-					(end -6.731 -1.397)
+					(start -6.3246 1.397)
+					(end -5.461 1.143)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2084,8 +2067,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -3.683)
-					(end -6.731 -3.937)
+					(start -6.3246 -1.143)
+					(end -5.461 -1.397)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2095,8 +2078,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -6.223)
-					(end -6.731 -6.477)
+					(start -6.3246 -3.683)
+					(end -5.461 -3.937)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2106,8 +2089,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -8.763)
-					(end -6.731 -9.017)
+					(start -6.3246 -6.223)
+					(end -5.461 -6.477)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2117,8 +2100,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -11.303)
-					(end -6.731 -11.557)
+					(start -6.3246 -8.763)
+					(end -5.461 -9.017)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2128,8 +2111,8 @@
 					)
 				)
 				(rectangle
-					(start -7.5946 -13.843)
-					(end -6.731 -14.097)
+					(start -6.3246 -11.303)
+					(end -5.461 -11.557)
 					(stroke
 						(width 0.1)
 						(type default)
@@ -2139,7 +2122,7 @@
 					)
 				)
 				(pin output line
-					(at -10.16 13.97 0)
+					(at -8.89 16.51 0)
 					(length 2.54)
 					(name "SCLK"
 						(effects
@@ -2157,7 +2140,7 @@
 					)
 				)
 				(pin tri_state line
-					(at -10.16 11.43 0)
+					(at -8.89 13.97 0)
 					(length 2.54)
 					(name "MISO"
 						(effects
@@ -2175,7 +2158,7 @@
 					)
 				)
 				(pin output line
-					(at -10.16 8.89 0)
+					(at -8.89 11.43 0)
 					(length 2.54)
 					(name "SPI_CS"
 						(effects
@@ -2193,7 +2176,7 @@
 					)
 				)
 				(pin bidirectional line
-					(at -10.16 6.35 0)
+					(at -8.89 8.89 0)
 					(length 2.54)
 					(name "GP_AD2"
 						(effects
@@ -2211,7 +2194,7 @@
 					)
 				)
 				(pin output line
-					(at -10.16 3.81 0)
+					(at -8.89 6.35 0)
 					(length 2.54)
 					(name "MOSI"
 						(effects
@@ -2229,7 +2212,7 @@
 					)
 				)
 				(pin bidirectional line
-					(at -10.16 1.27 0)
+					(at -8.89 3.81 0)
 					(length 2.54)
 					(name "GP_AD1"
 						(effects
@@ -2247,7 +2230,7 @@
 					)
 				)
 				(pin power_out line
-					(at -10.16 -1.27 0)
+					(at -8.89 1.27 0)
 					(length 2.54)
 					(name "5V"
 						(effects
@@ -2265,7 +2248,7 @@
 					)
 				)
 				(pin output line
-					(at -10.16 -3.81 0)
+					(at -8.89 -1.27 0)
 					(length 2.54)
 					(name "RGB_DO"
 						(effects
@@ -2283,7 +2266,7 @@
 					)
 				)
 				(pin bidirectional line
-					(at -10.16 -6.35 0)
+					(at -8.89 -3.81 0)
 					(length 2.54)
 					(name "SCL"
 						(effects
@@ -2301,7 +2284,7 @@
 					)
 				)
 				(pin bidirectional line
-					(at -10.16 -8.89 0)
+					(at -8.89 -6.35 0)
 					(length 2.54)
 					(name "SDA"
 						(effects
@@ -2319,7 +2302,7 @@
 					)
 				)
 				(pin power_out line
-					(at -10.16 -11.43 0)
+					(at -8.89 -8.89 0)
 					(length 2.54)
 					(name "GND"
 						(effects
@@ -2337,7 +2320,7 @@
 					)
 				)
 				(pin power_out line
-					(at -10.16 -13.97 0)
+					(at -8.89 -11.43 0)
 					(length 2.54)
 					(name "3V3"
 						(effects
@@ -2354,10 +2337,10 @@
 						)
 					)
 				)
-				(pin power_in line
-					(at -3.81 -22.86 90)
+				(pin passive line
+					(at 0 -20.32 90)
 					(length 2.54)
-					(name "MP"
+					(name "MNT"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2365,24 +2348,6 @@
 						)
 					)
 					(number "13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 3.81 -22.86 90)
-					(length 2.54)
-					(name "MP"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "14"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -2674,27 +2639,27 @@
 		(uuid "f28ca5a9-43d4-4e61-9f38-e71ed63470d8")
 	)
 	(no_connect
-		(at 262.89 45.72)
+		(at 264.16 41.91)
 		(uuid "08531008-d9c7-4c9d-9f5f-b6cf5f32da0c")
 	)
 	(no_connect
-		(at 218.44 104.14)
+		(at 219.71 100.33)
 		(uuid "24aeedd4-c273-41d3-b466-a7a04612c4a5")
 	)
 	(no_connect
-		(at 218.44 109.22)
+		(at 219.71 105.41)
 		(uuid "61f5fd7a-01e7-4515-bd9a-3f74e3534b1d")
 	)
 	(no_connect
-		(at 218.44 114.3)
+		(at 219.71 110.49)
 		(uuid "6964264a-920c-4b5e-aec7-df2b0d3e3f2b")
 	)
 	(no_connect
-		(at 262.89 55.88)
+		(at 264.16 52.07)
 		(uuid "9d03c58f-e32d-4093-832b-46fe63356663")
 	)
 	(no_connect
-		(at 264.16 116.84)
+		(at 265.43 113.03)
 		(uuid "d972ea24-75de-4ab1-a825-1faa9acea010")
 	)
 	(wire
@@ -2958,7 +2923,7 @@
 		(uuid "f478f920-0597-4ee6-a689-a6e9a2ba0cd9")
 	)
 	(label "VCC"
-		(at 218.44 106.68 180)
+		(at 219.71 102.87 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -2978,7 +2943,7 @@
 		(uuid "045bc704-81ba-4c32-82a3-821208a5391c")
 	)
 	(label "MOSI"
-		(at 262.89 53.34 180)
+		(at 264.16 49.53 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -2988,7 +2953,7 @@
 		(uuid "12f71e96-82f5-489f-a4da-56fabf5bbb1a")
 	)
 	(label "MOSI"
-		(at 218.44 44.45 180)
+		(at 219.71 41.91 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -2998,7 +2963,7 @@
 		(uuid "16ec6c7e-2b08-4353-87aa-e17e12169dc4")
 	)
 	(label "GND"
-		(at 218.44 59.69 180)
+		(at 219.71 57.15 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3008,7 +2973,7 @@
 		(uuid "175b9c7b-e153-4fee-b3c7-d4a3d75701a4")
 	)
 	(label "GND"
-		(at 264.16 96.52 180)
+		(at 265.43 92.71 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3018,7 +2983,7 @@
 		(uuid "1aca01b7-1279-4431-a198-223f99d5f775")
 	)
 	(label "CS_PMW2"
-		(at 262.89 58.42 180)
+		(at 264.16 54.61 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3028,7 +2993,7 @@
 		(uuid "1e689546-9b8c-48eb-992f-d0bf8b7b688e")
 	)
 	(label "GND"
-		(at 270.51 129.54 270)
+		(at 274.32 127 270)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3038,7 +3003,7 @@
 		(uuid "1e95e5de-7cf0-41a0-a644-ef7d8b82732c")
 	)
 	(label "SCL"
-		(at 218.44 54.61 180)
+		(at 219.71 52.07 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3048,7 +3013,7 @@
 		(uuid "2073fa95-1973-4a75-a648-1467f4bf960b")
 	)
 	(label "SDA"
-		(at 218.44 99.06 180)
+		(at 219.71 95.25 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3058,7 +3023,7 @@
 		(uuid "20ce2be7-f623-4692-ab64-8d4ac00e8de8")
 	)
 	(label "GND"
-		(at 224.79 129.54 270)
+		(at 228.6 127 270)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3068,7 +3033,7 @@
 		(uuid "23f07912-eb79-48af-a3f4-d63298c80a4c")
 	)
 	(label "GND"
-		(at 218.44 96.52 180)
+		(at 219.71 92.71 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3078,7 +3043,7 @@
 		(uuid "240d203d-91c7-47f3-b795-a9e461e843a9")
 	)
 	(label "SCL"
-		(at 264.16 101.6 180)
+		(at 265.43 97.79 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3088,7 +3053,7 @@
 		(uuid "293efab5-9cc4-4c1c-bb81-59a74f742b55")
 	)
 	(label "GND"
-		(at 262.89 38.1 180)
+		(at 264.16 34.29 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3108,7 +3073,7 @@
 		(uuid "2a43cd14-2657-4918-8629-07d79de59135")
 	)
 	(label "VDD"
-		(at 218.44 62.23 180)
+		(at 219.71 59.69 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3116,16 +3081,6 @@
 			(justify right bottom)
 		)
 		(uuid "2c4cd1ca-c381-48d5-9bf1-3dfffd0cb888")
-	)
-	(label "GND"
-		(at 276.86 71.12 270)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "32db5d48-2a81-428c-96cd-f9a9fa76f880")
 	)
 	(label "GND"
 		(at 259.08 210.82 270)
@@ -3138,7 +3093,7 @@
 		(uuid "3783cc1e-2445-4edf-b174-37315c7d1276")
 	)
 	(label "SCL"
-		(at 218.44 101.6 180)
+		(at 219.71 97.79 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3148,7 +3103,7 @@
 		(uuid "37a53d10-25f7-485e-966d-625b9a7aff9d")
 	)
 	(label "VCC"
-		(at 262.89 48.26 180)
+		(at 264.16 44.45 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3158,7 +3113,7 @@
 		(uuid "396ee79c-4ef7-4ab5-a31c-c5703df8a5c1")
 	)
 	(label "SCLK"
-		(at 218.44 34.29 180)
+		(at 219.71 31.75 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3166,16 +3121,6 @@
 			(justify right bottom)
 		)
 		(uuid "3f25f645-757b-432a-9032-6fd8a26352ae")
-	)
-	(label "GND"
-		(at 278.13 129.54 270)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "4214ce2e-baf7-4fbb-9357-46b6a725846a")
 	)
 	(label "GND"
 		(at 54.61 222.25 270)
@@ -3198,7 +3143,7 @@
 		(uuid "43bd44ca-186a-4e6d-83aa-5ae077ecc83d")
 	)
 	(label "D-"
-		(at 218.44 46.99 180)
+		(at 219.71 44.45 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3218,16 +3163,6 @@
 		(uuid "4f5bf604-7051-46d0-bcae-887205e3f536")
 	)
 	(label "GND"
-		(at 232.41 71.12 270)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "50e19fae-62c8-45d1-9af8-c32676cd8309")
-	)
-	(label "GND"
 		(at 208.28 210.82 270)
 		(effects
 			(font
@@ -3238,7 +3173,7 @@
 		(uuid "57281e55-ce04-4ca8-85a9-14b3dd0ce28b")
 	)
 	(label "D+"
-		(at 264.16 114.3 180)
+		(at 265.43 110.49 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3248,7 +3183,7 @@
 		(uuid "5df5e27a-29b9-4c2d-9cb9-ec6c453f6bd6")
 	)
 	(label "MISO"
-		(at 262.89 60.96 180)
+		(at 264.16 57.15 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3258,7 +3193,7 @@
 		(uuid "5f68ed3b-28b1-4eea-bff2-2b35e4fd85fa")
 	)
 	(label "SCL"
-		(at 262.89 43.18 180)
+		(at 264.16 39.37 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3268,7 +3203,7 @@
 		(uuid "5fab7c0e-1bbd-421b-b771-8e850f132ecf")
 	)
 	(label "SDA"
-		(at 262.89 40.64 180)
+		(at 264.16 36.83 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3278,7 +3213,7 @@
 		(uuid "6155c258-db36-4ce6-85c2-03d07b823434")
 	)
 	(label "SCLK"
-		(at 262.89 63.5 180)
+		(at 264.16 59.69 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3308,7 +3243,7 @@
 		(uuid "6aa1e265-8494-4deb-9a85-687de3f177c7")
 	)
 	(label "MISO"
-		(at 218.44 36.83 180)
+		(at 219.71 34.29 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3318,7 +3253,7 @@
 		(uuid "6ba16960-ef73-4f8a-8dd0-7fa401a941d4")
 	)
 	(label "MISO"
-		(at 218.44 119.38 180)
+		(at 219.71 115.57 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3326,16 +3261,6 @@
 			(justify right bottom)
 		)
 		(uuid "6d983889-d671-4505-84a5-42de2734851b")
-	)
-	(label "GND"
-		(at 232.41 129.54 270)
-		(effects
-			(font
-				(size 1.524 1.524)
-			)
-			(justify right bottom)
-		)
-		(uuid "722f783f-963d-4909-9bff-4527cf5c8c14")
 	)
 	(label "VBAT"
 		(at 71.12 194.31 90)
@@ -3348,7 +3273,7 @@
 		(uuid "758c8d3c-f04c-4f72-8124-7619e19e4db0")
 	)
 	(label "CS_DIS2"
-		(at 218.44 52.07 180)
+		(at 219.71 49.53 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3378,7 +3303,7 @@
 		(uuid "8075b57d-6755-436d-8fb6-f0be4aafae06")
 	)
 	(label "MOSI"
-		(at 218.44 111.76 180)
+		(at 219.71 107.95 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3388,7 +3313,7 @@
 		(uuid "84647106-9e5b-44b4-8788-58a890fbd74c")
 	)
 	(label "GND"
-		(at 224.79 71.12 270)
+		(at 228.6 68.58 270)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3398,7 +3323,7 @@
 		(uuid "84cf1ec2-5d4e-4a70-97af-f265bc2d44b3")
 	)
 	(label "SCLK"
-		(at 218.44 121.92 180)
+		(at 219.71 118.11 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3408,7 +3333,7 @@
 		(uuid "87a4ffb0-6e32-4034-bed6-59abd73863c5")
 	)
 	(label "CS_DIS2"
-		(at 218.44 116.84 180)
+		(at 219.71 113.03 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3418,7 +3343,7 @@
 		(uuid "90481028-1f58-4f73-a058-4803937230c6")
 	)
 	(label "MOSI"
-		(at 264.16 111.76 180)
+		(at 265.43 107.95 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3438,7 +3363,7 @@
 		(uuid "a4c4ba7f-6f91-4bb3-8caf-76d4893d10e6")
 	)
 	(label "SDA"
-		(at 218.44 57.15 180)
+		(at 219.71 54.61 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3448,7 +3373,7 @@
 		(uuid "ad15a859-961a-43e3-a50c-a3913a4f0f3f")
 	)
 	(label "VDD"
-		(at 264.16 93.98 180)
+		(at 265.43 90.17 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3458,7 +3383,7 @@
 		(uuid "af2792de-b513-4818-ac2f-1a681b37e81f")
 	)
 	(label "VUSB"
-		(at 264.16 106.68 180)
+		(at 265.43 102.87 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3468,7 +3393,7 @@
 		(uuid "af3966a3-0c07-435f-bd25-e074c2c93f33")
 	)
 	(label "SCLK"
-		(at 264.16 121.92 180)
+		(at 265.43 118.11 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3488,7 +3413,7 @@
 		(uuid "b420150c-c44e-4973-a736-55ab26200195")
 	)
 	(label "MISO"
-		(at 264.16 119.38 180)
+		(at 265.43 115.57 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3508,7 +3433,7 @@
 		(uuid "c14f8bda-3e04-48ab-b8a1-1d6704d1cab3")
 	)
 	(label "VCC"
-		(at 218.44 49.53 180)
+		(at 219.71 46.99 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3518,7 +3443,7 @@
 		(uuid "c2cccd8f-fd0c-48a3-87e4-3e3ba8af4ccd")
 	)
 	(label "CHG_STAT"
-		(at 264.16 104.14 180)
+		(at 265.43 100.33 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3528,7 +3453,7 @@
 		(uuid "c8b398a8-949d-4fbc-acba-92a8a8c9828d")
 	)
 	(label "VDD"
-		(at 262.89 35.56 180)
+		(at 264.16 31.75 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3548,7 +3473,7 @@
 		(uuid "d0f4c0ec-2379-48c7-9006-d0e7d8867d62")
 	)
 	(label "GND"
-		(at 269.24 71.12 270)
+		(at 273.05 68.58 270)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3568,7 +3493,7 @@
 		(uuid "d8b28a9d-14e5-4719-8981-a652947ebf4b")
 	)
 	(label "D-"
-		(at 264.16 109.22 180)
+		(at 265.43 105.41 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3578,7 +3503,7 @@
 		(uuid "e412f872-8031-440e-936c-381e2033cc07")
 	)
 	(label "INT_PMW2"
-		(at 262.89 50.8 180)
+		(at 264.16 46.99 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3588,7 +3513,7 @@
 		(uuid "e6917059-e5f1-4cad-9d3a-3ffb40271a7a")
 	)
 	(label "CS_PMW2"
-		(at 218.44 39.37 180)
+		(at 219.71 36.83 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3598,7 +3523,7 @@
 		(uuid "ec08c525-f00a-47eb-9819-ebe427bc85a2")
 	)
 	(label "D+"
-		(at 218.44 41.91 180)
+		(at 219.71 39.37 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3608,7 +3533,7 @@
 		(uuid "ed890fd2-745b-45f9-a247-8062459b6304")
 	)
 	(label "VDD"
-		(at 218.44 93.98 180)
+		(at 219.71 90.17 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -3618,7 +3543,7 @@
 		(uuid "f52f61be-193d-430c-998d-b8e4b572a8f0")
 	)
 	(label "SDA"
-		(at 264.16 99.06 180)
+		(at 265.43 95.25 180)
 		(effects
 			(font
 				(size 1.524 1.524)
@@ -4333,7 +4258,7 @@
 		(fields_autoplaced yes)
 		(uuid "575e8c61-a2e6-47b8-9ea1-e7ac2be72be4")
 		(property "Reference" "J_VIK_OUT_SENS_2"
-			(at 279.4 48.2599 0)
+			(at 280.67 46.9899 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4344,7 +4269,7 @@
 			)
 		)
 		(property "Value" "VIK_OUT_SENS"
-			(at 279.4 50.7999 0)
+			(at 280.67 49.5299 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4354,7 +4279,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "vik:vik-keyboard-connector-horizontal"
+		(property "Footprint" "footprints:vik-keyboard-connector-horizontal"
 			(at 273.05 41.91 0)
 			(hide yes)
 			(show_name no)
@@ -4422,9 +4347,6 @@
 		)
 		(pin "6"
 			(uuid "452ba44c-6525-490e-8649-9bbc957231c6")
-		)
-		(pin "14"
-			(uuid "1d4c4b72-bec9-4de1-9dc2-977d55883593")
 		)
 		(pin "13"
 			(uuid "82e573a3-c644-41a4-b245-80872217d83e")
@@ -4610,7 +4532,7 @@
 		(fields_autoplaced yes)
 		(uuid "a713f75e-9e8a-4926-8c71-7af053fb0339")
 		(property "Reference" "J_VIK_OUT_SW_2"
-			(at 280.67 106.6799 0)
+			(at 281.94 105.4099 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4621,7 +4543,7 @@
 			)
 		)
 		(property "Value" "VIK_OUT_SW"
-			(at 280.67 109.2199 0)
+			(at 281.94 107.9499 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4631,7 +4553,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "vik:vik-keyboard-connector-horizontal"
+		(property "Footprint" "footprints:vik-keyboard-connector-horizontal"
 			(at 274.32 100.33 0)
 			(hide yes)
 			(show_name no)
@@ -4699,9 +4621,6 @@
 		)
 		(pin "6"
 			(uuid "80f83399-66d6-4fad-a4c8-1eb86669507e")
-		)
-		(pin "14"
-			(uuid "17a02735-363a-49e9-bf67-a28f170fd63c")
 		)
 		(pin "13"
 			(uuid "ac5d6b70-bac1-4d8d-80cc-1a31febac03d")
@@ -5074,8 +4993,8 @@
 				)
 			)
 		)
-		(property "Footprint" "vik:vik-module-connector-horizontal"
-			(at 228.6 41.91 0)
+		(property "Footprint" "footprints:vik-module-connector-horizontal"
+			(at 227.33 38.1 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5086,7 +5005,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 228.6 41.91 0)
+			(at 227.33 38.1 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5097,7 +5016,8 @@
 			)
 		)
 		(property "Description" "VIK_IN_INTC"
-			(at 240.03 52.324 0)
+			(at 227.33 44.45 0)
+			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5142,9 +5062,6 @@
 		(pin "12"
 			(uuid "cf88dff8-abbb-448d-97b0-84cd133425ac")
 		)
-		(pin "14"
-			(uuid "4a69f841-97f6-4f85-a9be-80c918ddaf54")
-		)
 		(pin "13"
 			(uuid "8752ea14-bedd-4e7f-9e55-f4e7010dd56e")
 		)
@@ -5170,7 +5087,7 @@
 		(fields_autoplaced yes)
 		(uuid "dc3e049e-2e16-4365-84a7-afc72a5f96ef")
 		(property "Reference" "J_VIK_OUT_DISP_2"
-			(at 234.95 106.6799 0)
+			(at 236.22 105.4099 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5181,7 +5098,7 @@
 			)
 		)
 		(property "Value" "VIK_OUT_DISP"
-			(at 234.95 109.2199 0)
+			(at 236.22 107.9499 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -5191,7 +5108,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" "vik:vik-keyboard-connector-horizontal"
+		(property "Footprint" "footprints:vik-keyboard-connector-horizontal"
 			(at 228.6 100.33 0)
 			(hide yes)
 			(show_name no)
@@ -5262,9 +5179,6 @@
 		)
 		(pin "13"
 			(uuid "032f5d8e-7431-41f2-8868-7eeb198149b2")
-		)
-		(pin "14"
-			(uuid "026b0bff-8a49-4f93-b95f-3e752ce77f72")
 		)
 		(instances
 			(project "bottom_plate"
